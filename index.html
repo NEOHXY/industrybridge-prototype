@@ -1423,11 +1423,14 @@ function lookKey(t){
   return JSON.stringify(k);
 }
 const CHAR={reg:new Map(),taken:new Map(),cache:new Map(),bump:{}};
+/* Hand-picked looks that override the rolled ones */
+const CHAR_FIXED={'Kai Li':{species:'cat',bg:'#f6e2cd'}};
 try{CHAR.bump=JSON.parse(localStorage.getItem('ib-char-bump')||'{}')||{}}catch(e){}
 function character(name){
   let c=CHAR.reg.get(name);if(c)return c;
   let attempt=CHAR.bump[name]||0,t,key;
   for(;;attempt++){t=rollTraits(name+'#'+attempt);key=lookKey(t);if(!CHAR.taken.has(key))break}
+  if(CHAR_FIXED[name]){t={...t,...CHAR_FIXED[name]};key='fixed:'+name}
   c={name,t,key,attempt,no:CHAR.reg.size+1};
   CHAR.reg.set(name,c);CHAR.taken.set(key,name);return c;
 }
@@ -1441,6 +1444,7 @@ function drawCharacter(t){
   const set=(x,y,c)=>{x++;y++;if(x>=0&&x<W&&y>=0&&y<H)g[y][x]=c};
   const rect=(x0,y0,x1,y1,c)=>{for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)set(x,y,c)};
   const dk=(c,a=.2)=>shade(c,-a),lt=(c,a=.3)=>shade(c,a);
+  if(t.species==='cat'){drawCat(set,rect,dk);return outline(g)}
   const hood=t.head.startsWith('hood')?HOODS[t.head.slice(5)]:null;
   const sk=t.skin,hc=t.hairColor;
   let tc=t.topColor,lc=t.legColor,sc=t.shoe,top=t.top,legs=t.legs;
@@ -1528,10 +1532,36 @@ function drawCharacter(t){
     lanyard:()=>{rect(7,13,7,14,'#3d64b8');rect(10,13,10,14,'#3d64b8');rect(8,15,9,16,WHITE);rect(8,15,9,15,'#5c7a2c')},
     bowtie:()=>{set(7,13,a);set(10,13,a);rect(8,13,9,13,dk(a))},
     blush:()=>{set(6,9,'#f09090');set(11,9,'#f09090')}})[t.acc]?.();
-  // thick dark outline around every shape, like hand-drawn pixel sprites
+  return outline(g);
+}
+/* Thick dark outline around every shape, like hand-drawn pixel sprites */
+function outline(g){
   const out=g.map(r=>r.slice());
-  for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(!g[y][x]&&(g[y-1]?.[x]||g[y+1]?.[x]||g[y][x-1]||g[y][x+1]))out[y][x]=OUTLINE;
+  for(let y=0;y<g.length;y++)for(let x=0;x<g[y].length;x++)if(!g[y][x]&&(g[y-1]?.[x]||g[y+1]?.[x]||g[y][x-1]||g[y][x+1]))out[y][x]=OUTLINE;
   return out;
+}
+/* A whole cat instead of a person: orange tabby with a red collar and a gold bell */
+function drawCat(set,rect,dk){
+  const fur='#f3a650',st=dk(fur,.16),cream='#fdebd2',pink='#f4a9b8',mouth=dk(fur,.6);
+  // tail, curling up behind the right side, with a darker tip
+  rect(14,19,16,19,fur);rect(16,14,17,18,fur);rect(16,12,17,13,st);
+  // legs and paws
+  rect(5,18,7,20,fur);rect(10,18,12,20,fur);rect(5,21,7,21,cream);rect(10,21,12,21,cream);
+  // body with a cream belly, arms with cream paws
+  rect(5,13,12,17,fur);rect(7,14,10,17,cream);
+  rect(3,13,4,16,fur);rect(13,13,14,16,fur);rect(3,17,4,17,cream);rect(13,17,14,17,cream);
+  // collar and bell
+  rect(6,12,11,12,'#d9475a');rect(8,13,9,13,'#f2c230');
+  // ears
+  set(3,0,fur);rect(3,1,5,1,fur);rect(3,2,6,2,fur);set(4,1,pink);rect(4,2,5,2,pink);
+  set(14,0,fur);rect(12,1,14,1,fur);rect(11,2,14,2,fur);set(13,1,pink);rect(12,2,13,2,pink);
+  // round head with three soft forehead stripes and one cheek stripe each side
+  rect(4,3,13,3,fur);rect(3,4,14,10,fur);rect(4,11,13,11,fur);
+  [7,10].forEach(x=>set(x,3,st));rect(8,3,9,4,st);set(3,8,st);set(14,8,st);
+  // big tall eyes with shine, tiny pink nose, cat smile, rosy cheeks
+  rect(6,5,7,7,EYE);set(6,5,WHITE);rect(10,5,11,7,EYE);set(10,5,WHITE);
+  rect(8,8,9,8,'#e46a86');set(7,9,mouth);set(10,9,mouth);rect(8,10,9,10,mouth);
+  rect(4,8,5,8,'#f5978f');rect(12,8,13,8,'#f5978f');
 }
 function charSVG(name,{size=32,mode='bust',bg=true,round=false}={}){
   const ck=`${name}|${size}|${mode}|${bg}|${round}`;if(CHAR.cache.has(ck))return CHAR.cache.get(ck);
@@ -1552,6 +1582,7 @@ function describeCharacter(t){
   const TOPN={tee:'T-shirt',hoodie:'Hoodie',jacket:'Open jacket',sweater:'Sweater',labcoat:'Lab coat',overalls:'Overalls',dress:'Dress',trench:'Trench coat'};
   const ACCN={glasses:'Glasses',sunglasses:'Sunglasses',coffee:'Coffee to go',tablet:'Tablet',scarf:'Scarf',wrench:'Wrench',lanyard:'Lanyard',bowtie:'Bow tie',blush:'Rosy cheeks'};
   const p=[];
+  if(t.species==='cat')return ['Orange tabby cat','Red collar with a bell'];
   if(t.head.startsWith('hood'))p.push(HOODS[t.head.slice(5)].n+' onesie');
   else{p.push(HAIRN[t.hairStyle]);if(HEADN[t.head])p.push(HEADN[t.head]);p.push(TOPN[t.top])}
   if(ACCN[t.acc])p.push(ACCN[t.acc]);return p;
