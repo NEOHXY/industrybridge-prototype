@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>IndustryBridge Prototype</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1217,12 +1218,12 @@ ul{list-style:none;margin:0;padding:0}
     <div class="plan-grid">
       <form class="card panel brief" id="brief-form">
         <h2 style="font-size:18px">Your brief</h2>
-        <div class="field"><label for="b-objective">Objective</label><select class="field-select" id="b-objective"><option>Reduce manufacturing defects</option><option>Cut campus energy use</option><option>Widen access to finance</option><option>Speed up patient triage</option><option>Protect SMEs from phishing</option><option>Improve public services with open data</option></select></div>
-        <div class="field"><label for="b-track">Track</label><select class="field-select" id="b-track"><option>AI + Manufacturing</option><option>Climate + Sustainability</option><option>Finance + No-code</option><option>Health + AI</option><option>Cybersecurity + AI</option><option>Data Science + Public sector</option></select></div>
+        <div class="field"><label for="b-objective">Objective</label><select class="field-select" id="b-objective"><option>Cut delivery emissions</option><option>Reduce manufacturing defects</option><option>Cut campus energy use</option><option>Widen access to finance</option><option>Speed up patient triage</option><option>Protect SMEs from phishing</option><option>Improve public services with open data</option></select></div>
+        <div class="field"><label for="b-track">Track</label><select class="field-select" id="b-track"><option>Logistics + Sustainability</option><option>AI + Manufacturing</option><option>Climate + Sustainability</option><option>Finance + No-code</option><option>Health + AI</option><option>Cybersecurity + AI</option><option>Data Science + Public sector</option></select></div>
         <div class="field"><label for="b-audience">Audience</label><select class="field-select" id="b-audience"><option>University students</option><option>Polytechnic students</option><option>Young professionals</option></select></div>
         <div class="field"><label for="b-format">Format</label><select class="field-select" id="b-format"><option>Hybrid</option><option>Online</option><option>In person</option></select></div>
         <div class="field"><label for="b-duration">Duration</label><select class="field-select" id="b-duration"><option>2 weeks</option><option selected>4 weeks</option><option>6 weeks</option></select></div>
-        <div class="field"><label for="b-prize">Cash prize pool</label><select class="field-select" id="b-prize"><option>RM5,000</option><option>RM8,000</option><option selected>RM10,000</option><option>RM12,000</option><option>RM15,000</option></select></div>
+        <div class="field"><label for="b-prize">Cash prize pool</label><select class="field-select" id="b-prize"><option>RM5,000</option><option selected>RM8,000</option><option>RM10,000</option><option>RM12,000</option><option>RM15,000</option></select></div>
         <button class="btn primary block lg" type="submit" id="gen-plan"><svg class="i"><use href="#i-sparkle"/></svg>Generate plan</button>
       </form>
       <div class="card panel rec" id="rec"></div>
@@ -2255,6 +2256,7 @@ function renderBoard(){
 
 /* ===== 5. Organizer · Program plan ===== */
 const TRACKS={
+  'Logistics + Sustainability':{title:'Green Logistics Challenge',tag:'Cut emissions from last-mile delivery across Johor Bahru.',steps:[['Map the routes','Find where trucks idle and run empty.'],['Design a greener route','Prototype a low-emission delivery plan.'],['Pilot with a fleet','Test with a partner and measure savings.']]},
   'AI + Manufacturing':{title:'Smart Factory Challenge',tag:'Help build safer, smarter and more efficient manufacturing through AI.',steps:[['Understand the problem','Industry context, data and framing.'],['Research your users','Interview operators and identify pain points.'],['Build your prototype','Apply AI tools to develop a working solution.']]},
   'Climate + Sustainability':{title:'Green Campus Innovation',tag:'Cut energy, water and waste across university campuses.',steps:[['Audit the campus','Measure where energy and water go.'],['Design an intervention','Prototype a low-cost fix.'],['Pilot and measure','Run a two-week trial and report savings.']]},
   'Finance + No-code':{title:'FinTech for Inclusion',tag:'Widen access to savings, credit and insurance with no-code tools.',steps:[['Meet the users','Interview underserved customers.'],['Build without code','Assemble a working app flow.'],['Prove the impact','Test with real users and refine.']]},
@@ -2262,7 +2264,7 @@ const TRACKS={
   'Cybersecurity + AI':{title:'CyberShield Challenge',tag:'Find weaknesses before attackers do, and help SMEs spot phishing.',steps:[['Threat modelling','Map assets, attackers and risks.'],['Capture the flag','Find and fix flaws in a mock app.'],['Build a detector','Use AI to flag phishing and report.']]},
   'Data Science + Public sector':{title:'Data for Good Sprint',tag:'Turn open government data into decisions about public services.',steps:[['Find the question','Pick a service gap worth measuring.'],['Clean and explore','Prepare open datasets and find patterns.'],['Tell the story','Build a dashboard and brief officials.']]}
 };
-const WEIGHTS={'Reduce manufacturing defects':[40,30,30],'Cut campus energy use':[50,25,25],'Widen access to finance':[45,30,25],'Speed up patient triage':[40,25,35],'Protect SMEs from phishing':[35,30,35],'Improve public services with open data':[45,25,30]};
+const WEIGHTS={'Cut delivery emissions':[45,30,25],'Reduce manufacturing defects':[40,30,30],'Cut campus energy use':[50,25,25],'Widen access to finance':[45,30,25],'Speed up patient triage':[40,25,35],'Protect SMEs from phishing':[35,30,35],'Improve public services with open data':[45,25,30]};
 let planEditing=false;
 function renderPlan(){
   const track=$('#b-track').value,t=TRACKS[track],w=WEIGHTS[$('#b-objective').value],weeks=parseInt($('#b-duration').value);
@@ -2282,7 +2284,7 @@ function renderPlan(){
     <div class="rsec inline-row"><span class="rsec-ico">${I('bars')}</span><b>Assessment<small class="muted" style="display:block;font-weight:400;font-size:12px">How submissions will be evaluated.</small></b><div class="weights"><span>${I('trophy','sm')}Impact <b>${w[0]}%</b></span><span>${I('bulb','sm')}Innovation <b>${w[1]}%</b></span><span>${I('users','sm')}Execution <b>${w[2]}%</b></span></div></div>
     <div class="rsec budget"><span class="rsec-ico">${I('database')}</span><b style="flex:1;min-width:100px">Prize budget</b><b>${$('#b-prize').value}</b><span class="sep"></span>${I('calc')}<span>Operating costs</span><b>To confirm</b></div>
     <div class="rec-foot"><p>${I('info','sm')}Review all requirements before publishing.</p><button class="btn ghost" type="button" id="edit-plan">${planEditing?'Done editing':'Edit plan'}</button><a class="btn primary" href="#studio-design">Continue to design ${I('arrow','sm')}</a></div>`;
-  draft.prize=$('#b-prize').value;draft.format=$('#b-format').value;draft.track=track.replace('Climate + Sustainability','Climate + Campus').replace('+','+');
+  draft.prize=$('#b-prize').value;draft.format=$('#b-format').value;draft.track=track.replace('Climate + Sustainability','Climate + Campus');
   renderDesign();
 }
 $('#brief-form').addEventListener('submit',e=>{
@@ -2312,7 +2314,7 @@ const longDate=s=>{const m={Jan:'January',Feb:'February',Mar:'March',Apr:'April'
 function renderDesign(){
   const p=$('#studio-poster');p.dataset.style=draft.style;p.dataset.art=draft.art;p.style.setProperty('--brand',draft.color);
   const words=esc(draft.title).split(/\s+/);
-  p.innerHTML=`<div class="sp-tag">INNOVATE<br>BUILD<br>SOLVE<br>FOR A SMARTER<br>TOMORROW</div><div class="sp-title">${words.join('<br>')}<em>2026</em></div><div class="sp-sub">${esc(draft.track.toUpperCase())}</div><div class="sp-prize">${esc(draft.prize)}<small>CASH PRIZES</small></div><div class="sp-meta"><span>${I('calendar')}<span>Apply by<br><b>${esc(longDate(draft.closes))}</b></span></span><span>${I('pin')}<span>${esc(draft.format)} · ${esc(draft.location)}</span></span></div><div class="sp-art"></div>`;
+  p.innerHTML=`<div class="sp-tag">INNOVATE<br>BUILD<br>SOLVE<br>FOR A SMARTER<br>TOMORROW</div><div class="sp-title">${words.join('<br>')}<em>${esc((draft.closes.match(/\d{4}/)||['2026'])[0])}</em></div><div class="sp-sub">${esc(draft.track.toUpperCase())}</div><div class="sp-prize">${esc(draft.prize)}<small>CASH PRIZES</small></div><div class="sp-meta"><span>${I('calendar')}<span>Apply by<br><b>${esc(longDate(draft.closes))}</b></span></span><span>${I('pin')}<span>${esc(draft.format)} · ${esc(draft.location)}</span></span></div><div class="sp-art"></div>`;
   const ready=[['Poster approved',!!draft.title],['Registration configured',!!draft.closes],['Learning modules ready',true],['Submission requirements set',true]];
   $('#ready-list').innerHTML=ready.map(([t,ok])=>`<li><span class="tick${ok?'':' no'}">${I(ok?'check':'info')}</span>${t}</li>`).join('');
   const all=ready.every(r=>r[1]);$('#ready-badge').className='badge '+(all?'ok':'warn');$('#ready-badge').innerHTML=all?`${I('check-circle')}All set`:`${I('info')}Needs details`;
@@ -2366,7 +2368,7 @@ const manage={awaiting:6,sortDesc:true,
 const STATUS={review:['warn','alert','Needs review','Review','primary'],sent:['ok','check-circle','Feedback sent','View feedback','ghost'],revision:['bad','refresh','Revision requested','View revision','ghost']};
 function renderManage(){
   const q=$('#sub-search').value.trim().toLowerCase(),f=$('#sub-status').value;
-  const rows=manage.rows.filter(r=>(f==='all'||r.status===f)&&(!q||(r.team+' problem proposal module 3').toLowerCase().includes(q))).sort((a,b)=>manage.sortDesc?b.ts-a.ts:a.ts-b.ts);
+  const rows=manage.rows.filter(r=>(f==='all'||r.status===f)&&(!q||(r.team+' problem proposal module 2').toLowerCase().includes(q))).sort((a,b)=>manage.sortDesc?b.ts-a.ts:a.ts-b.ts);
   $('#sub-rows').innerHTML=rows.length?rows.map(r=>{const s=STATUS[r.status];return `<tr>
     <td><div class="team-cell">${avatar(r.team,36)}<div><b>${r.team}</b><small>${r.members} members</small></div></div></td>
     <td><div class="asg-cell">${I('file')}<div>Problem proposal<small>Module 2</small></div></div></td>
@@ -2391,7 +2393,7 @@ $('#ptasks').addEventListener('click',e=>{
 function openReview(team){
   const r=manage.rows.find(x=>x.team===team);
   if(r.status!=='review'){openModal(`<h2 id="modal-title">${r.team} · Problem proposal</h2><span class="badge ${STATUS[r.status][0]}" style="justify-self:start">${I(STATUS[r.status][1])}${STATUS[r.status][2]}</span><div class="msg">${avatar(PEOPLE.organizer.name,36)}<div class="msg-body"><header><b>Your feedback</b><span>${r.when}</span></header><p>${esc(r.feedback)}</p></div></div><div class="modal-actions"><button class="btn primary" data-close>Close</button></div>`);return}
-  openModal(`<div><div class="eyebrow">Module 3 · Problem proposal</div><h2 id="modal-title">Review ${r.team}</h2><div class="muted" style="font-size:12.5px">Submitted ${r.when} · ${r.members} members</div></div>
+  openModal(`<div><div class="eyebrow">Module 2 · Problem proposal</div><h2 id="modal-title">Review ${r.team}</h2><div class="muted" style="font-size:12.5px">Submitted ${r.when} · ${r.members} members</div></div>
     <div class="assign"><p style="font-size:13px">Line operators at mid-sized electronics plants in Selangor find surface defects only at final inspection, after 6–8 hours of production. We propose a camera-based check at station 3 that flags defects within seconds.</p></div>
     <form id="review-form" style="display:grid;gap:16px">
       <div class="rubric">
