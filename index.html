@@ -424,6 +424,12 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .pcard-banner.p-smart{background:radial-gradient(circle at 90% 140%,#6f8a3a 0,transparent 55%),linear-gradient(120deg,#3a3d30,#15170f)}
 .pcard-mark{position:relative;z-index:1;max-width:78%;font-family:var(--font-display);font-weight:800;font-size:19px;line-height:1.05;letter-spacing:-.01em;text-transform:uppercase;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .pcard-mark em{font-style:normal}
+/* Organizer logo: mark + name on a white badge, readable on any banner colour */
+.pcard-org{position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px;max-width:calc(100% - 44px);padding:6px 11px 6px 8px;border-radius:10px;background:rgba(255,255,255,.95);box-shadow:0 1px 4px rgba(0,0,0,.14);color:var(--org)}
+.pcard-org svg{width:24px;height:24px;flex:none;color:var(--org)}
+.pcard-org>span{display:flex;flex-direction:column;min-width:0;line-height:1.05}
+.pcard-org b{font-family:var(--font-display);font-size:15px;font-weight:800;letter-spacing:-.02em;color:#15170f;white-space:nowrap}
+.pcard-org small{font:600 9px/1.2 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--org);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pcard-date{position:relative;z-index:1;align-self:flex-end;padding:5px 10px;border-radius:7px;background:rgba(255,255,255,.92);color:#15170f;font:600 12.5px/1.2 var(--font-body);box-shadow:0 1px 3px rgba(0,0,0,.12);white-space:nowrap}
 .pcard-body{flex:1;display:flex;flex-direction:column;gap:12px;padding:16px 20px 18px;min-width:0}
 .pcard-titles{min-width:0}
@@ -1699,6 +1705,27 @@ function metaFor(p){
 }
 const blurbFor=p=>p.status==='past'&&p.result?`<span class="result">${p.result}.</span> ${p.blurb}`:p.blurb;
 const bmBtn=p=>`<button class="bm ${p.saved?'on':''}" type="button" data-bookmark="${p.id}" aria-label="${p.saved?'Remove from saved':'Save'} ${p.title}" aria-pressed="${!!p.saved}">${I('bookmark')}</button>`;
+/* Organizers. All names and marks are invented for the prototype; none stand for a real company. */
+const ORGS={
+  mesinara:{n:'Mesinara',s:'Manufacturing',c:'#4d6625',mark:'<circle cx="12" cy="12" r="5.2" fill="none" stroke="currentColor" stroke-width="3"/><g fill="currentColor"><rect x="10.4" y="1.5" width="3.2" height="4" rx="1"/><rect x="10.4" y="18.5" width="3.2" height="4" rx="1"/><rect x="1.5" y="10.4" width="4" height="3.2" rx="1"/><rect x="18.5" y="10.4" width="4" height="3.2" rx="1"/><rect x="10.4" y="1.5" width="3.2" height="4" rx="1" transform="rotate(45 12 12)"/><rect x="10.4" y="18.5" width="3.2" height="4" rx="1" transform="rotate(45 12 12)"/><rect x="1.5" y="10.4" width="4" height="3.2" rx="1" transform="rotate(45 12 12)"/><rect x="18.5" y="10.4" width="4" height="3.2" rx="1" transform="rotate(45 12 12)"/></g>'},
+  lestaria:{n:'Lestaria',s:'Campus Sustainability',c:'#2e7a45',mark:'<path d="M4 20C4 10 10 4 20 4c0 10-6 16-16 16Z" fill="currentColor"/><path d="M4.5 19.5 13 11" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>'},
+  tabungo:{n:'Tabungo',s:'Digital Bank',c:'#1d45c6',mark:'<rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor"/><g fill="#fff"><rect x="6" y="12" width="3" height="6" rx="1"/><rect x="10.5" y="9" width="3" height="9" rx="1"/><rect x="15" y="6" width="3" height="12" rx="1"/></g>'},
+  sihatura:{n:'Sihatura',s:'Health Network',c:'#0f8a7c',mark:'<circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 7v10M7 12h10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>'},
+  gerakota:{n:'Gerakota',s:'Urban Mobility',c:'#d9622a',mark:'<circle cx="6" cy="17" r="3.2" fill="currentColor"/><circle cx="18" cy="7" r="3.2" fill="currentColor"/><path d="M6 17c0-6 12-4 12-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-dasharray="2.6 2.2" stroke-linecap="round"/>'},
+  padiverse:{n:'Padiverse',s:'Agri Co-op',c:'#6b8b22',mark:'<path d="M12 22V9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><g fill="currentColor"><ellipse cx="12" cy="5" rx="2.4" ry="3.6"/><ellipse cx="7.6" cy="10" rx="2.2" ry="3.4" transform="rotate(-35 7.6 10)"/><ellipse cx="16.4" cy="10" rx="2.2" ry="3.4" transform="rotate(35 16.4 10)"/><ellipse cx="8" cy="15.6" rx="2" ry="3" transform="rotate(-40 8 15.6)"/><ellipse cx="16" cy="15.6" rx="2" ry="3" transform="rotate(40 16 15.6)"/></g>'},
+  bentengo:{n:'Bentengo',s:'Security Labs',c:'#16794c',mark:'<path d="M12 2 20.5 5.5v6c0 5.2-3.6 9.2-8.5 10.5C7.1 20.7 3.5 16.7 3.5 11.5v-6Z" fill="currentColor"/><path d="m8.2 12 2.6 2.6 5-5.2" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'},
+  datara:{n:'Datara',s:'Data Institute',c:'#3f5f9a',mark:'<g fill="currentColor"><circle cx="6" cy="6" r="3.4"/><circle cx="18" cy="6" r="2.4" opacity=".55"/><circle cx="6" cy="18" r="2.4" opacity=".55"/><circle cx="17" cy="17" r="4.6"/></g>'},
+  kedaio:{n:'Kedaio',s:'Retail Group',c:'#b2653a',mark:'<path d="M5 8h14l-1.2 12.2a1.5 1.5 0 0 1-1.5 1.3H7.7a1.5 1.5 0 0 1-1.5-1.3Z" fill="currentColor"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" fill="none" stroke="currentColor" stroke-width="2"/>'},
+  jagakampus:{n:'Jagakampus',s:'Campus Safety',c:'#7a4fa0',mark:'<path d="M12 3a9 9 0 1 0 9 9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="12" cy="12" r="3.6" fill="currentColor"/><circle cx="19.5" cy="4.5" r="2.2" fill="currentColor"/>'},
+  academy:{n:'IndustryBridge',s:'Academy',c:'#121210',mark:null}
+};
+const ORG_OF={smart:'mesinara',green:'lestaria',fintech:'tabungo',health:'sihatura',mobility:'gerakota',agri:'padiverse',cyber:'bentengo',data:'datara',
+  retail:'kedaio',campus:'jagakampus','w-prompt':'academy','w-pitch':'tabungo','w-ctf':'bentengo','w-nocode':'academy','w-iot':'mesinara'};
+function orgLogo(p){
+  const o=ORGS[ORG_OF[p.id]]||ORGS.academy;
+  const mark=o.mark?`<svg viewBox="0 0 24 24" aria-hidden="true">${o.mark}</svg>`:I('bridge');
+  return `<span class="pcard-org" style="--org:${o.c}" title="Organized by ${o.n} ${o.s}">${mark}<span><b>${o.n}</b><small>${o.s}</small></span></span>`;
+}
 /* The key date shown on the card banner */
 function bannerDate(p){
   if(isWS(p))return p.status==='past'?`Ended ${shortDate(p.starts)}`:p.status==='live'?'Live now':`Live on ${shortDate(p.starts)}`;
@@ -1709,7 +1736,7 @@ function bannerDate(p){
 function cardHTML(p){
   const tag=tagFor(p),topic=p.tags.filter(t=>t!=='Workshop').join(' · ');
   return `<article class="pcard">${bmBtn(p)}
-    <div class="pcard-banner ${p.poster}" aria-hidden="true"><div class="pcard-mark">${p.lines.join(' ')}</div><span class="pcard-date">${bannerDate(p)}</span></div>
+    <div class="pcard-banner ${p.poster}" aria-hidden="true">${orgLogo(p)}<span class="pcard-date">${bannerDate(p)}</span></div>
     <div class="pcard-body">
       <div class="pcard-titles"><h3 title="${p.title}">${p.title}</h3><div class="pcard-topic"><span>${topic}</span><span class="pcard-tag ${tag[0]}">${tag[1]}</span></div></div>
     <p class="pcard-blurb">${blurbFor(p)}</p>
@@ -1887,8 +1914,8 @@ function matches(p,cat=disc.cat){
 /* One status at a time (Open now / In progress / Past), then a category filter; counts follow the other filters */
 const inStatus=(p,key)=>key==='open'?p.open:p.status===key;
 function renderToolbar(){
-  $('#st-tabs').innerHTML=SECTIONS.map(([key,label,hint])=>{const n=ALL.filter(p=>matches(p)&&inStatus(p,key)).length,on=disc.status===key;
-    return `<button type="button" role="tab" data-status="${key}" class="${on?'on':''}" aria-selected="${on}">${label}<small>${n}</small></button>`}).join('')
+  $('#st-tabs').innerHTML=SECTIONS.map(([key,label])=>{const on=disc.status===key;
+    return `<button type="button" role="tab" data-status="${key}" class="${on?'on':''}" aria-selected="${on}">${label}</button>`}).join('')
     +`<span class="st-hint">${SECTIONS.find(s=>s[0]===disc.status)[2]()}</span>`;
   $('#cat-tabs').innerHTML=CATS.map(([k,l])=>`<button type="button" data-cat="${k}" class="${disc.cat===k?'on':''}" aria-pressed="${disc.cat===k}">${l}<small>${ALL.filter(p=>matches(p,k)&&inStatus(p,disc.status)).length}</small></button>`).join('');
   const f=filterVals(),n=(f.th!=='all')+(f.ind!=='all');
