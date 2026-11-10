@@ -848,8 +848,8 @@ ul{list-style:none;margin:0;padding:0}
       <a href="#studio-manage" data-nav="studio-manage" data-role="organizer" hidden>Manage programs</a>
     </nav>
     <div class="top-actions">
-      <button class="icon-btn" data-toast="Discord community opens in a new tab" aria-label="Discord community"><svg class="i"><use href="#i-game"/></svg></button>
-      <button class="icon-btn" data-toast="LinkedIn profile connected" aria-label="LinkedIn"><svg class="i"><use href="#i-linkedin"/></svg></button>
+      <button class="icon-btn" title="Join Discord community" data-toast="Discord community opens in a new tab" aria-label="Discord community"><svg class="i"><use href="#i-game"/></svg></button>
+      <button class="icon-btn" title="Connect LinkedIn" id="linkedin-btn" aria-label="Connect LinkedIn profile"><svg class="i"><use href="#i-linkedin"/></svg></button>
       <span class="vsep"></span>
       <button class="icon-btn has-dot" id="bell" aria-label="Notifications"><svg class="i"><use href="#i-bell"/></svg></button>
       <button class="me" id="me-btn" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">XN</button>
@@ -861,6 +861,7 @@ ul{list-style:none;margin:0;padding:0}
   <button class="dd-item" id="my-char">My character<small>Unique to your account</small></button>
   <button class="dd-item" id="all-chars">Character gallery<small>No two accounts look the same</small></button>
   <button class="dd-item" id="switch-role">Switch to organizer view<small>Plan, publish and manage programs</small></button>
+  <p style="font-size:11px;color:var(--dim);padding:2px 12px 8px;margin:0">⚠️ Demo only — role switching is for prototype review</p>
   <a class="dd-item" href="#signin" id="sign-out">Sign out</a>
 </div>
 
@@ -1037,7 +1038,7 @@ ul{list-style:none;margin:0;padding:0}
       <h1 class="page-title" style="font-size:clamp(30px,4.4vw,44px)">Smart Factory Challenge</h1>
       <div class="title-tags"><span class="mtag ink">Enrolled</span><span class="mtag">Team AI Forge</span><span class="mtag">Challenge</span><span class="mtag">Hybrid · Kuala Lumpur</span></div>
     </div>
-    <div class="phead-aside"><a class="btn primary" href="#programs" data-set-tab="programs:submissions">Continue submission <svg class="i sm"><use href="#i-arrow"/></svg></a></div></header>
+    <div class="phead-aside"><span id="phead-submit-btn"></span></div></header>
     <div class="statrow">
       <div class="stat-c"><b><span class="js-progress">40</span><small>%</small></b><span>Complete</span><div class="bar"><i class="js-progress-bar" style="width:40%"></i></div></div>
       <div class="stat-c"><b>2<small>/ 4</small></b><span>Week</span></div>
@@ -1205,12 +1206,12 @@ ul{list-style:none;margin:0;padding:0}
   <div class="wrap">
     <header class="phead"><div class="phead-main">
       <span class="eyebrow"><span><a href="#studio-manage">Studio</a> / 01 Program plan</span></span>
-      <h1 class="page-title"><span class="soft">Design a complete</span> learning challenge</h1>
+      <h1 class="page-title"><span class="soft">Create a new</span> learning challenge</h1>
     </div></header>
     <div class="stepper">
       <button class="step done" data-step="1"><span class="dot">1</span><span>Brief</span></button><span class="step-line"></span>
       <button class="step on" data-step="2"><span class="dot">2</span><span>Plan</span></button><span class="step-line"></span>
-      <button class="step" data-step="3"><span class="dot">3</span><span>Review</span></button><span class="step-line"></span>
+      <button class="step" data-step="3"><span class="dot">3</span><span>Design</span></button><span class="step-line"></span>
       <button class="step" data-step="4"><span class="dot">4</span><span>Publish</span></button>
     </div>
     <div class="plan-grid">
@@ -1236,6 +1237,12 @@ ul{list-style:none;margin:0;padding:0}
       <span class="eyebrow"><span><a href="#studio-plan">Studio</a> / 02 Design &amp; publish</span></span>
       <h1 class="page-title"><span class="soft">Prepare</span> your program page</h1>
     </div></header>
+    <div class="stepper">
+      <button class="step done" data-step="1"><span class="dot">1</span><span>Brief</span></button><span class="step-line"></span>
+      <button class="step done" data-step="2"><span class="dot">2</span><span>Plan</span></button><span class="step-line"></span>
+      <button class="step on" data-step="3"><span class="dot">3</span><span>Design</span></button><span class="step-line"></span>
+      <button class="step" data-step="4"><span class="dot">4</span><span>Publish</span></button>
+    </div>
     <div class="design-grid">
       <div class="card panel" style="display:grid;gap:12px">
         <h2 style="font-size:17px">Design style</h2>
@@ -1308,6 +1315,7 @@ ul{list-style:none;margin:0;padding:0}
               <label class="search"><svg class="i"><use href="#i-search"/></svg><input id="sub-search" type="search" placeholder="Search teams or assignments..." aria-label="Search submissions"></label>
               <select class="field-select" id="sub-status" aria-label="Status"><option value="all">All statuses</option><option value="review">Needs review</option><option value="sent">Feedback sent</option><option value="revision">Revision requested</option></select>
             </div>
+            <p class="muted" style="font-size:12.5px;margin:0 0 4px" id="sub-count-note">Showing 3 of 24 submissions · <button class="link-btn" style="padding:0;font-size:12.5px" data-toast="Loading all 24 submissions…">View all</button></p>
             <div class="table-scroll" style="border:1px solid var(--line);border-radius:10px">
               <table class="stable">
                 <thead><tr><th>Team</th><th>Assignment</th><th><button id="sort-sub">Submitted <svg class="i sm"><use href="#i-chev-down"/></svg></button></th><th>Status</th><th>Action</th></tr></thead>
@@ -1323,6 +1331,7 @@ ul{list-style:none;margin:0;padding:0}
         <aside class="side-col">
           <div class="card panel">
             <div class="panel-title"><svg class="i" style="width:26px;height:26px;color:var(--accent-hi)"><use href="#i-check-circle"/></svg><div><div>Review checklist</div><div class="muted" style="font-size:12.5px;font-weight:400">Complete these for each submission.</div></div></div>
+            <p class="muted" id="rev-cl-hint" style="font-size:12.5px;margin:8px 0 4px">Open a submission first to start reviewing.</p>
             <div id="rev-checklist" style="margin:10px 0 14px"></div>
             <button class="btn primary block lg" id="open-next"><svg class="i"><use href="#i-file"/></svg>Open next submission <svg class="i sm"><use href="#i-arrow"/></svg></button>
           </div>
@@ -1692,7 +1701,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeD
 
 const NOTES={
   student:[['Dr. Sara','Today','Left feedback on your problem proposal draft.'],['Celine','2 hours ago','Interview notes are ready for review.'],['IndustryBridge','Yesterday','Proposal document is due 12 Nov, 5:00 pm MYT.']],
-  organizer:[['AI Forge','Today','Submitted Problem proposal for Module 3.'],['Team Meridian','2 hours ago','Asked about the proposal page limit.'],['IndustryBridge','Yesterday','1 reminder email failed to send. Retry it from Manage programs.']]
+  organizer:[['AI Forge','Today','Submitted Problem proposal for Module 2.'],['Team Meridian','2 hours ago','Asked about the proposal page limit.'],['IndustryBridge','Yesterday','1 reminder email failed to send. Retry it from Manage programs.']]
 };
 $('#bell').addEventListener('click',()=>openModal(`<h2 id="modal-title">Notifications</h2>
   <div class="thread">${NOTES[role||'student'].map(([w,t,m])=>`<div class="msg">${avatar(w,36)}<div class="msg-body"><header><b>${w}</b><span>${t}</span></header><p>${m}</p></div></div>`).join('')}</div>
@@ -1806,9 +1815,14 @@ function nextTarget(){
       actions:`<a class="btn primary" href="#studio-manage">Manage program ${I('arrow','sm')}</a><button class="btn ghost" type="button" data-view-program="${s.id}">View as students see it</button>${share(s.id)}`};
     return null;
   }
+  const propDue=parseDay('12 Nov','5:00 PM');
+  const enrolled=programs.find(p=>p.enrolled&&p.status!=='past');
+  if(enrolled&&propDue>new Date())return{id:enrolled.id,at:propDue,label:'Your next deadline',title:'Problem proposal · Smart Factory Challenge',
+    meta:`Due ${fmtDate(propDue)}, 5:00 PM MYT · Module 2 · Team AI Forge`,
+    actions:`<a class="btn primary" href="#programs" data-set-tab="programs:submissions">Continue submission ${I('arrow','sm')}</a><a class="btn ghost" href="#programs" data-set-tab="programs:learning">View learning path</a>${share(enrolled.id)}`};
   const c=programs.filter(p=>p.status==='open'&&!p.enrolled).sort((a,b)=>a.closes-b.closes)[0];
   if(!c)return null;
-  return{id:c.id,at:c.closes,label:'Next deadline',title:c.title,
+  return{id:c.id,at:c.closes,label:'Next registration deadline',title:c.title,
     meta:`Registration closes ${fmtDate(c.closes)}, 11:59 PM MYT · ${c.format} · ${c.prize}`,
     actions:`<button class="btn primary" type="button" data-register="${c.id}">Register team ${I('arrow','sm')}</button><button class="btn ghost" type="button" data-view-program="${c.id}">View program</button>${share(c.id)}`};
 }
@@ -2070,7 +2084,7 @@ const planner={week:0,view:'week',baseHours:8,nextId:10,
   events:[
     {id:1,week:0,day:0,start:9,dur:2,title:'Module 2: User research',who:'Celine',color:'purple'},
     {id:2,week:0,day:1,start:12.5,dur:3,title:'Prototype session',people:['Celine','Kai Li Chong','KL','+2'],color:'blue'},
-    {id:3,week:0,day:3,start:10,dur:2,title:'Mentor feedback',who:'Dr. Tan',color:'green'},
+    {id:3,week:0,day:3,start:10,dur:2,title:'Mentor feedback',who:'Dr. Sara',color:'green'},
     {id:4,week:0,day:3,start:14.5,dur:1,title:'Team review',people:['Hana','Kai Li Chong','+2'],color:'pink'},
     {id:5,week:0,day:4,start:16,dur:2,title:'Prepare submission',who:'Celine',color:'violet'}
   ],
@@ -2168,7 +2182,7 @@ function renderModules(){
     if(m.state==='done')body=m.lessons.map(l=>`<div class="lesson">${I('check-circle','sm')}${l}</div>`).join('');
     else if(m.state==='cur')body=`<p class="muted" style="font-size:13px">${m.desc}</p><div class="res-grid">${m.res.map(r=>`<button class="res" ${r.video?`data-lesson="${i}"`:`data-toast="Downloading: ${r.t.replace('Download ','')}"`}><span class="ico">${I(r.icon)}</span><div><b>${r.t}</b><small>${r.s}</small></div>${I('external','sm')}</button>`).join('')}</div>`;
     else body=`<p class="muted" style="font-size:13px">${m.desc} Finish Module ${i} to unlock it.</p>`;
-    return `<div class="module${m.open?' open':''}"><div class="module-head">${st}<span class="mnum">${i+1}</span><div class="mtitle"><b>${m.title}</b><small>${m.sub}</small></div>${action}<button class="icon-btn" data-mtoggle="${i}" aria-expanded="${!!m.open}" aria-label="Show module details">${I(m.open?'chev-up':'chev-down')}</button></div>${m.open?`<div class="module-body">${body}</div>`:''}</div>`;
+    return `<div class="module${m.open?' open':''}"><div class="module-head">${st}<span class="mnum" aria-hidden="true">${m.state==='done'?'':''}\u200b</span><div class="mtitle"><b>${m.title}</b><small>${m.sub}</small></div>${action}<button class="icon-btn" data-mtoggle="${i}" aria-expanded="${!!m.open}" aria-label="Show module details">${I(m.open?'chev-up':'chev-down')}</button></div>${m.open?`<div class="module-body">${body}</div>`:''}</div>`;
   }).join('');
   const cur=course.modules.findIndex(m=>m.state==='cur');
   $$('.js-progress').forEach(e=>e.textContent=course.progress);
@@ -2192,6 +2206,12 @@ $('#modal-body').addEventListener('click',e=>{
   course.progress=Math.min(100,course.progress+20);closeModal();renderModules();toast(`Module ${i+1} complete · ${course.progress}% of the challenge done`);
 });
 function renderAssignState(){
+  const pheadBtn=document.getElementById('phead-submit-btn');
+  if(pheadBtn){
+    pheadBtn.innerHTML=course.submitted
+      ?'<span class="badge ok" style="font-size:13px;height:36px;padding:0 14px"><svg class="i sm" aria-hidden="true"><use href="#i-check-circle"/></svg>Submitted · awaiting review</span>'
+      :'<a class="btn primary" href="#programs" data-set-tab="programs:submissions">Continue submission <svg class="i sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>';
+  }
   const b=course.submitted?`<span class="badge accent">${I('check-circle')}Submitted</span>`:`<span class="badge ok">${I('file')}Draft saved</span>`;
   $('#assign-badge').innerHTML=b;$('#submit-badge').innerHTML=b;
   $('#submit-proposal').disabled=course.submitted;$('#submit-proposal').innerHTML=course.submitted?'Submitted for review':`Submit for review ${I('arrow','sm')}`;
@@ -2222,13 +2242,20 @@ function renderBoard(){
   $('#lb-st-top').textContent=rows[0].x.toLocaleString('en-MY');$('#lb-st-proj').textContent=rows.reduce((a,r)=>a+r.p,0);
   $('#lb-st-team').textContent='#'+(teamRows.findIndex(r=>r.n==='AI Forge')+1);
   $('#lb-note').textContent=`Demo rankings · ${season}${field==='all'?'':' · '+field} · read ${fmtDate(new Date())}`;
-  $('#lb-rows').innerHTML=rows.slice(3).map((r,i)=>`<tr${r.n==='AI Forge'?' class="me-row"':''}><td class="r">${i+4}</td><td><div class="who">${avatar(r.n,30)}${esc(r.n)}</div></td><td class="c num">${r.p}</td><td class="x num">${r.x.toLocaleString('en-MY')} XP</td></tr>`).join('');
+  const meIdx=rows.findIndex(r=>r.n==='Xin Yi Neoh');
+  const meRow=rows.find(r=>r.n==='Xin Yi Neoh');
+  const meRank=meIdx>=0?meIdx+1:rows.length+3;
+  const meXp=meRow?meRow.x:4200;
+  const meProj=meRow?meRow.p:3;
+  const tableRows=rows.slice(3).map((r,i)=>`<tr${r.n==='AI Forge'?' class="me-row"':''}><td class="r">${i+4}</td><td><div class="who">${avatar(r.n,30)}${esc(r.n)}</div></td><td class="c num">${r.p}</td><td class="x num">${r.x.toLocaleString('en-MY')} XP</td></tr>`).join('');
+  const youRow=who==='students'&&meIdx<0?`<tr class="me-row" style="border-top:2px solid var(--accent-line)"><td class="r">${meRank}</td><td><div class="who">${avatar('Xin Yi Neoh',30)}<span>Xin Yi Neoh</span> <span class="mtag accent" style="font-size:10px;padding:1px 5px">You</span></div></td><td class="c num">${meProj}</td><td class="x num">${meXp.toLocaleString('en-MY')} XP</td></tr>`:'';
+  $('#lb-rows').innerHTML=tableRows+youRow;
 }
 ['#lb-season','#lb-field','#lb-who'].forEach(s=>$(s).addEventListener('change',renderBoard));
 
 /* ===== 5. Organizer · Program plan ===== */
 const TRACKS={
-  'AI + Manufacturing':{title:'Smart Factory Challenge',tag:'Help build safer, smarter and more efficient manufacturing through AI.',steps:[['Understand the problem','Industry context, data and framing.'],['Build a prototype','Apply AI tools to develop a solution.'],['Test and improve','Validate, iterate and prepare demo.']]},
+  'AI + Manufacturing':{title:'Smart Factory Challenge',tag:'Help build safer, smarter and more efficient manufacturing through AI.',steps:[['Understand the problem','Industry context, data and framing.'],['Research your users','Interview operators and identify pain points.'],['Build your prototype','Apply AI tools to develop a working solution.']]},
   'Climate + Sustainability':{title:'Green Campus Innovation',tag:'Cut energy, water and waste across university campuses.',steps:[['Audit the campus','Measure where energy and water go.'],['Design an intervention','Prototype a low-cost fix.'],['Pilot and measure','Run a two-week trial and report savings.']]},
   'Finance + No-code':{title:'FinTech for Inclusion',tag:'Widen access to savings, credit and insurance with no-code tools.',steps:[['Meet the users','Interview underserved customers.'],['Build without code','Assemble a working app flow.'],['Prove the impact','Test with real users and refine.']]},
   'Health + AI':{title:'Health Tech Sprint',tag:'Shorten waiting times in public clinics with practical AI.',steps:[['Map the patient journey','Find where time is lost.'],['Prototype triage support','Apply AI to sort cases safely.'],['Validate with clinicians','Test, iterate and prepare demo.']]},
@@ -2278,7 +2305,7 @@ $('#rec').addEventListener('click',e=>{
 $$('.step').forEach(s=>s.addEventListener('click',()=>{const n=+s.dataset.step;if(n>=3)go('studio-design');else{go('studio-plan');if(n===1)$('#b-objective').focus()}}));
 
 /* ===== 6. Organizer · Design & publish ===== */
-const draft={title:'Smart Factory Challenge',track:'AI + Manufacturing',prize:'RM10,000',format:'Hybrid',location:'Kuala Lumpur',closes:'5 Nov 2026',style:'corporate',color:'#5C7A2C',art:0};
+const draft={title:'Green Logistics Challenge',track:'Climate + Sustainability',prize:'RM8,000',format:'Hybrid',location:'Johor Bahru',closes:'15 Jan 2027',style:'corporate',color:'#3F7A6A',art:0};
 const SWATCHES=['#5C7A2C','#3F5F9A','#AD7A3F','#2B2B27','#8A3A48','#3F7A6A'];
 let editingDetails=false;
 const longDate=s=>{const m={Jan:'January',Feb:'February',Mar:'March',Apr:'April',May:'May',Jun:'June',Jul:'July',Aug:'August',Sep:'September',Oct:'October',Nov:'November',Dec:'December'};return s.replace(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/,x=>m[x])};
@@ -2336,13 +2363,13 @@ const manage={awaiting:6,sortDesc:true,
     {who:'Faiz',team:'RiverMind Lab',text:'Will the partner factory share production data before the pilot?'}
   ]
 };
-const STATUS={review:['warn','alert','Needs review','Review','primary'],sent:['ok','check-circle','Feedback sent','View feedback','ghost'],revision:['bad','refresh','Revision requested','Open','ghost']};
+const STATUS={review:['warn','alert','Needs review','Review','primary'],sent:['ok','check-circle','Feedback sent','View feedback','ghost'],revision:['bad','refresh','Revision requested','View revision','ghost']};
 function renderManage(){
   const q=$('#sub-search').value.trim().toLowerCase(),f=$('#sub-status').value;
   const rows=manage.rows.filter(r=>(f==='all'||r.status===f)&&(!q||(r.team+' problem proposal module 3').toLowerCase().includes(q))).sort((a,b)=>manage.sortDesc?b.ts-a.ts:a.ts-b.ts);
   $('#sub-rows').innerHTML=rows.length?rows.map(r=>{const s=STATUS[r.status];return `<tr>
     <td><div class="team-cell">${avatar(r.team,36)}<div><b>${r.team}</b><small>${r.members} members</small></div></div></td>
-    <td><div class="asg-cell">${I('file')}<div>Problem proposal<small>Module 3</small></div></div></td>
+    <td><div class="asg-cell">${I('file')}<div>Problem proposal<small>Module 2</small></div></div></td>
     <td class="num">${r.when}</td>
     <td><span class="badge ${s[0]}">${I(s[1])}${s[2]}</span></td>
     <td><div class="act-cell"><button class="btn ${s[4]==='primary'?'primary':'outline'} sm" data-row="${r.team}">${s[3]}</button><button class="icon-btn" data-toast="More actions for ${r.team}: download files, message team" aria-label="More actions">${I('more')}</button></div></td>
@@ -2377,6 +2404,7 @@ function openReview(team){
     </form>`,true);
   const upd=()=>{let s=0;$$('.rubric input').forEach(i=>{$('#o-'+i.id.slice(3)).textContent=i.value;s+=i.value*i.dataset.w/100});$('#w-score').textContent=s.toFixed(1)+' / 5'};
   $$('.rubric input').forEach(i=>i.addEventListener('input',upd));
+  const rvHint=document.getElementById('rev-cl-hint');if(rvHint)rvHint.style.display='none';
   $('#review-form').addEventListener('submit',e=>{e.preventDefault();const o=$('input[name=outcome]:checked').value;r.status=o;r.feedback=$('#rv-comment').value.trim()||'No comments added.';manage.awaiting=Math.max(0,manage.awaiting-1);manage.checklist.forEach(c=>c.on=true);closeModal();renderManage();toast(o==='sent'?`Feedback sent to ${r.team}`:`Revision requested from ${r.team}`)});
 }
 $('#sub-rows').addEventListener('click',e=>{const b=e.target.closest('[data-row]');if(b)openReview(b.dataset.row)});
@@ -2397,8 +2425,16 @@ $('#org-questions').addEventListener('submit',e=>{
   renderManageExtras();renderManage();toast('Reply sent');
 });
 
+/* LinkedIn confirmation */
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#linkedin-btn'))return;
+  openModal('<h2 id="modal-title">Connect LinkedIn profile?</h2><p class="muted">IndustryBridge will be authorised to post your verified achievements to your LinkedIn profile. You can disconnect at any time from your profile settings.</p><div class="modal-actions"><button class="btn ghost" data-close>Not now</button><button class="btn primary" id="confirm-li" autofocus>Connect LinkedIn</button></div>');
+});
+document.getElementById('modal-body').addEventListener('click',e=>{if(e.target.id==='confirm-li'){closeModal();toast('LinkedIn connected · achievements ready to share')}},true);
+
 /* ===== Boot ===== */
 /* Register every account up front, in a fixed order, so each keeps the same character between visits */
 ['Xin Yi Neoh','Innovation Office',...STUDENTS.map(s=>s[0]),...TEAMS.map(s=>s[0]),'Celine','Kai Li Chong','Hana','Arif','Dr. Sara','Dr. Tan','Priya','Faiz'].forEach(character);
 hydrateAvatars();renderCards();renderPlanner();renderModules();renderAssignState();renderThread();renderBoard();renderPlan();renderManage();renderManageExtras();if(role)setRole(role);route();
 </script>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="921c10dc-850b-4f6e-9047-2cd5169e2efb" data-app-host="app.netlify.com" data-account-tier="free"></script>
