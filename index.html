@@ -293,27 +293,39 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .cal-legend .lg-workshop{background:var(--surface);border-color:var(--line-2)}
 @media (max-width:700px){.dcal{gap:3px}.dcal-c{min-height:56px;padding:3px;border-radius:6px}.dn{font-size:11px;padding:3px 4px}.dcal:not(.week) .chip-ev{font-size:0;height:6px;padding:0;border-radius:3px}.dcal:not(.week) .chip-more{display:none}.dcal.week{grid-template-columns:1fr}.dcal.week .dcal-h{display:none}.dcal.week .dcal-c{min-height:0}}
 /* Coming up: a swipeable banner of the next few events */
-.adv{max-width:1132px;margin:28px auto 0;padding:16px 18px 14px}
-.adv-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-.adv-ctrl{display:flex;align-items:center;gap:6px}
-.adv-count{font:500 11px/1 var(--font-mono);letter-spacing:.12em;color:var(--muted);margin-right:6px;font-variant-numeric:tabular-nums}
-.adv-ctrl .btn.icon{width:32px;height:32px;min-height:0}
-.adv-track{display:flex;gap:32px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-x:contain;border-radius:10px}
+.adv-wrap{max-width:1132px;margin:28px auto 0}
+.adv-wrap>.eyebrow{margin-bottom:12px}
+.adv{position:relative;padding:0;overflow:hidden}
+.adv-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-x:contain}
 .adv-track::-webkit-scrollbar{display:none}
-.adv-slide{flex:0 0 100%;scroll-snap-align:start;display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:center;min-width:0}
-.adv-slide .poster{width:100%;border-radius:8px}
-.adv-body{display:flex;flex-direction:column;gap:6px;min-width:0}
-.adv-kind{font:500 10.5px/1.3 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--moss-deep)}
-.adv-body h3{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:-.025em;line-height:1.1;margin:0}
-.adv-body p{margin:0;color:var(--body-2);font-size:13.5px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.adv-facts{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--muted)}
-.adv-facts b{color:var(--fg);font-weight:600}
-.adv-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-.adv-actions .btn{min-height:36px;height:36px;font-size:13px}
-.adv-dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
-.adv-dots button{width:7px;height:7px;padding:0;border:0;border-radius:99px;background:var(--line-2);cursor:pointer;transition:width .25s,background .25s}
-.adv-dots button.on{width:22px;background:var(--fg)}
-@media (max-width:700px){.adv-slide{grid-template-columns:1fr;gap:12px}.adv-body h3{font-size:19px}}
+.adv-slide{flex:0 0 100%;scroll-snap-align:start;display:grid;grid-template-columns:1fr 1fr;min-width:0;min-height:320px;cursor:pointer}
+.adv-media{position:relative;display:flex;min-width:0}
+.adv-media .poster{flex:1;aspect-ratio:auto;border-radius:0;min-height:320px}
+.adv-body{display:flex;flex-direction:column;justify-content:center;gap:18px;padding:32px 40px 56px;min-width:0}
+.adv-kind{font:500 11px/1.3 var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--moss-deep)}
+.adv-body h3{font-family:var(--font-display);font-size:34px;font-weight:700;letter-spacing:-.035em;line-height:1.02;margin:6px 0 0}
+.adv-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-block:1px solid var(--line);padding:14px 0}
+.adv-facts div+div{border-left:1px solid var(--line);padding-left:18px}
+.adv-facts small{display:block;font:500 10px/1.3 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.adv-facts b{display:block;font-family:var(--font-display);font-size:22px;letter-spacing:-.02em;margin-top:6px;line-height:1.1}
+.adv-facts span{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+.adv-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.adv-more{font-size:13px;font-weight:600;color:var(--muted);display:inline-flex;align-items:center;gap:4px}
+.adv-slide:hover .adv-more{color:var(--fg)}
+.adv-dots{position:absolute;right:40px;bottom:24px;display:flex;gap:6px;z-index:2}
+.adv-dots button{position:relative;width:7px;height:7px;padding:0;border:0;border-radius:99px;background:var(--line-2);cursor:pointer;overflow:hidden;transition:width .25s}
+.adv-dots button.on{width:28px}
+.adv-dots button.on::after{content:"";position:absolute;inset:0;background:var(--fg);transform-origin:left;animation:adv-fill 5s linear forwards}
+.adv.paused .adv-dots button.on::after{animation-play-state:paused}
+@keyframes adv-fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.adv-arrow{position:absolute;top:50%;z-index:3;width:44px;height:44px;margin-top:-22px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--fg);display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px rgba(20,20,15,.16);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+.adv-arrow .i{width:18px;height:18px}
+.adv-arrow.prev{left:16px;transform:translateX(-6px)}
+.adv-arrow.next{right:16px;transform:translateX(6px)}
+.adv[data-side="left"] .adv-arrow.prev,.adv[data-side="right"] .adv-arrow.next,.adv-arrow:focus-visible{opacity:1;pointer-events:auto;transform:none}
+@media (hover:none){.adv-arrow{display:none}}
+@media (max-width:760px){.adv-slide{grid-template-columns:1fr;min-height:0}.adv-media .poster{min-height:0;aspect-ratio:16/8.4}.adv-body{padding:20px 20px 48px;gap:14px}.adv-body h3{font-size:26px}.adv-dots{right:20px;bottom:18px}.adv-arrow{display:none}}
+@media (prefers-reduced-motion:reduce){.adv-dots button.on::after{animation:none;transform:none}}
 /* Toolbar */
 .disc-toolbar{max-width:1132px;margin:44px auto 0}
 .disc-toolbar>.eyebrow{margin-bottom:14px}
@@ -973,7 +985,6 @@ ul{list-style:none;margin:0;padding:0}
       <span class="eyebrow">03 / All programs</span>
       <div class="disc-row">
         <div class="cat-tabs" id="cat-tabs" role="group" aria-label="Program type"></div>
-        <div class="seg" role="group" aria-label="Layout"><button type="button" data-layout="grid" class="on" aria-label="Grid view" aria-pressed="true"><svg class="i"><use href="#i-grid"/></svg>Grid</button><button type="button" data-layout="list" aria-label="List view" aria-pressed="false"><svg class="i"><use href="#i-list"/></svg>List</button></div>
       </div>
       <div class="disc-row">
         <label class="search"><svg class="i"><use href="#i-search"/></svg><input id="search" type="search" placeholder="Search programs, workshops, themes or places..." aria-label="Search programs"></label>
@@ -1640,7 +1651,7 @@ function syncStatus(){
   });
 }
 syncStatus();
-const disc={cat:'all',layout:'grid',calMode:'month',calCursor:null,nextAt:null};
+const disc={cat:'all',calMode:'month',calCursor:null,nextAt:null};
 function posterHTML(p){return `<div class="poster ${p.poster}"><div class="p-title">${p.lines.join('<br>')}</div><div class="p-sub">${p.sub}</div><div class="p-prize">${p.prize}<small>${p.prizeLabel||(p.id==='smart'||p.id==='fintech'?'CASH PRIZES':'PRIZE POOL')}</small></div><div class="p-apply">${p.applyLabel||'APPLY BY'}<b>${p.apply}</b></div></div>`}
 const mineP=p=>role==='organizer'&&p.id==='smart';
 function tagFor(p){
@@ -1756,72 +1767,81 @@ function renderCal(){
     return `<div class="dcal-c${cls}"><span class="dn">${d.getDate()}</span>${shown.map(e=>chip(e,week)).join('')}${more>0?`<button class="chip-more" type="button" data-cal-day="${d.getTime()}">+${more} more</button>`:''}</div>`;
   }).join('');
 }
-/* --- 3. Coming up: swipeable banner of the next few events --- */
-const ADV_MAX=5;
+/* --- 3. Coming up: the next few events, half poster / half key facts.
+   Moves on every 5s unless the pointer is over it; arrows appear on the side you hover. Click a slide for details. --- */
+const ADV_MAX=5,ADV_MS=5000;
 function advItems(){
   const skip=role==='organizer'?null:disc.nextId;
   return ALL.filter(p=>p.status==='open'&&p.id!==skip).sort((a,b)=>a.closes-b.closes).slice(0,ADV_MAX);
 }
-function advActions(p){
-  const det=`<button class="btn ghost" type="button" data-view-program="${p.id}">Details</button>`;
-  if(role==='organizer')return `<button class="btn ghost" type="button" data-view-program="${p.id}">View as students see it ${I('arrow','sm')}</button>`;
-  if(isWS(p))return `<button class="btn ${p.rsvp?'ghost':'primary'}" type="button" data-register="${p.id}">${p.rsvp?`${I('check','sm')} Seat saved`:`Save my seat ${I('arrow','sm')}`}</button>`+det;
-  if(p.enrolled)return `<a class="btn primary" href="#programs" data-set-tab="programs:learning">Open workspace ${I('arrow','sm')}</a>`+det;
-  return `<button class="btn primary" type="button" data-register="${p.id}">Register team ${I('arrow','sm')}</button>`+det;
+function advCTA(p){
+  if(role==='organizer')return '';
+  if(isWS(p))return `<button class="btn ${p.rsvp?'ghost':'primary'}" type="button" data-register="${p.id}">${p.rsvp?`${I('check','sm')} Seat saved`:`Save my seat ${I('arrow','sm')}`}</button>`;
+  if(p.enrolled)return `<a class="btn primary" href="#programs" data-set-tab="programs:learning">Open workspace ${I('arrow','sm')}</a>`;
+  return `<button class="btn primary" type="button" data-register="${p.id}">Register team ${I('arrow','sm')}</button>`;
 }
 function advFacts(p){
   return isWS(p)
-    ?`<span><b>${shortDate(p.starts)}, ${fmtTime(p.starts)}</b> · ${relDay(p.starts)}</span><span>${p.format}</span><span>Host · ${p.host}</span>`
-    :`<span><b>${p.prize}</b> prize pool</span><span>${p.team}</span><span>Closes <b>${shortDate(p.closes)}</b> · ${relDay(p.closes)}</span>`;
+    ?`<div><small>When</small><b>${shortDate(p.starts)} · ${fmtTime(p.starts)}</b><span>${relDay(p.starts)}</span></div><div><small>Entry</small><b>Free</b><span>${p.format.split(' · ')[0]}</span></div>`
+    :`<div><small>Prize pool</small><b>${p.prize}</b><span>${p.team.replace('Teams of ','Teams of ')}</span></div><div><small>Closes</small><b>${shortDate(p.closes)}</b><span>${relDay(p.closes)}</span></div>`;
 }
 function renderSpot(){
   const items=advItems(),el=$('#spotlight');
   if(!items.length){el.innerHTML='';return}
   disc.adv=Math.min(disc.adv||0,items.length-1);
-  el.innerHTML=`<div class="card adv" aria-roledescription="carousel">
-    <div class="adv-head"><span class="eyebrow">02 / Coming up</span>
-      <div class="adv-ctrl"><span class="adv-count" id="adv-count" aria-live="polite"></span>
-        <button class="btn ghost icon" type="button" data-adv-step="-1" aria-label="Previous event">${I('chev-left')}</button>
-        <button class="btn ghost icon" type="button" data-adv-step="1" aria-label="Next event">${I('chev-right')}</button></div></div>
-    <div class="adv-track" id="adv-track" tabindex="0" aria-label="Upcoming events, swipe or use the arrows">
-      ${items.map((p,i)=>`<article class="adv-slide" aria-roledescription="slide" aria-label="${i+1} of ${items.length}: ${p.title}">
-        ${posterHTML(p)}
-        <div class="adv-body"><span class="adv-kind">${p.kind} · ${isWS(p)?'Free':p.format}</span><h3>${p.title}</h3><p>${p.blurb}</p>
+  el.innerHTML=`<div class="adv-wrap"><span class="eyebrow">02 / Coming up</span>
+  <div class="card adv" id="adv" aria-roledescription="carousel" aria-label="Coming up">
+    <button class="adv-arrow prev" type="button" data-adv-step="-1" aria-label="Previous event">${I('chev-left')}</button>
+    <button class="adv-arrow next" type="button" data-adv-step="1" aria-label="Next event">${I('chev-right')}</button>
+    <div class="adv-track" id="adv-track" tabindex="0" aria-label="Upcoming events. Swipe, or use the arrow keys">
+      ${items.map((p,i)=>`<article class="adv-slide" data-view-program="${p.id}" aria-roledescription="slide" aria-label="${i+1} of ${items.length}: ${p.title}">
+        <div class="adv-media">${posterHTML(p)}</div>
+        <div class="adv-body">
+          <div><span class="adv-kind">${p.kind}${role==='organizer'?' · Student view':''}</span><h3>${p.title}</h3></div>
           <div class="adv-facts">${advFacts(p)}</div>
-          <div class="adv-actions">${advActions(p)}<button class="btn ghost icon" type="button" data-share="${p.id}" aria-label="Share">${I('share')}</button></div></div>
+          <div class="adv-actions">${advCTA(p)}<span class="adv-more">See details ${I('arrow','sm')}</span></div>
+        </div>
       </article>`).join('')}
     </div>
     <div class="adv-dots" role="tablist" aria-label="Choose event">${items.map((p,i)=>`<button type="button" role="tab" data-adv-go="${i}" aria-label="${p.title}"></button>`).join('')}</div>
-  </div>`;
+  </div></div>`;
   const tr=$('#adv-track');
   tr.style.scrollBehavior='auto';tr.scrollLeft=advLeft(tr,disc.adv);tr.style.scrollBehavior='';
-  advMark();
-  tr.addEventListener('scroll',()=>{const i=Math.round(tr.scrollLeft/Math.max(1,tr.clientWidth+32));if(i!==disc.adv){disc.adv=i;advMark()}},{passive:true});
+  advMark();advSchedule();
+  // a swipe by hand updates the dots; scrolls started by advGo are ignored until they settle
+  tr.addEventListener('scroll',()=>{if(Date.now()<(disc.advLock||0))return;const i=Math.round(tr.scrollLeft/Math.max(1,tr.clientWidth));if(i!==disc.adv){disc.adv=i;advMark();advSchedule()}},{passive:true});
+  const card=$('#adv');
+  card.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=card.getBoundingClientRect();card.dataset.side=e.clientX-r.left<r.width/2?'left':'right'});
+  card.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){disc.advPause=true;card.classList.add('paused');clearTimeout(disc.advT)}});
+  card.addEventListener('pointerleave',()=>{delete card.dataset.side;disc.advPause=false;card.classList.remove('paused');advSchedule()});
+  card.addEventListener('touchstart',()=>{disc.advPause=true;card.classList.add('paused');clearTimeout(disc.advT)},{passive:true});
+  card.addEventListener('touchend',()=>{setTimeout(()=>{disc.advPause=false;card.classList.remove('paused');advSchedule()},4000)},{passive:true});
 }
 const advLeft=(tr,i)=>tr.children[i].offsetLeft-tr.children[0].offsetLeft;
 function advMark(){
-  const n=$$('#adv-track .adv-slide').length;if(!n)return;
-  $('#adv-count').textContent=`${String(disc.adv+1).padStart(2,'0')} / ${String(n).padStart(2,'0')}`;
-  $$('.adv-dots button').forEach((b,i)=>{b.classList.toggle('on',i===disc.adv);b.setAttribute('aria-selected',i===disc.adv)});
+  // re-create the active dot so its 5s progress bar starts from empty
+  $$('.adv-dots button').forEach((b,i)=>{b.classList.remove('on');b.setAttribute('aria-selected',i===disc.adv)});
+  const on=$$('.adv-dots button')[disc.adv];if(on){void on.offsetWidth;on.classList.add('on')}
 }
 function advGo(i){
   const tr=$('#adv-track');if(!tr)return;const n=tr.children.length;
-  disc.adv=(i+n)%n;tr.scrollTo({left:advLeft(tr,disc.adv)});advMark();
+  disc.adv=(i+n)%n;disc.advLock=Date.now()+900;tr.scrollTo({left:advLeft(tr,disc.adv)});advMark();advSchedule();
+}
+function advSchedule(){
+  clearTimeout(disc.advT);
+  if(disc.advPause||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  disc.advT=setTimeout(()=>{
+    if(document.hidden||$('#view-discover')?.offsetParent===null||!$('#adv-track')){advSchedule();return}
+    advGo(disc.adv+1);
+  },ADV_MS);
 }
 $('#spotlight').addEventListener('click',e=>{
   const s=e.target.closest('[data-adv-step]'),g=e.target.closest('[data-adv-go]');
-  if(s){advGo(disc.adv+ +s.dataset.advStep);disc.advHold=Date.now()}
-  if(g){advGo(+g.dataset.advGo);disc.advHold=Date.now()}
+  if(s)advGo(disc.adv+ +s.dataset.advStep);
+  if(g)advGo(+g.dataset.advGo);
 });
 $('#spotlight').addEventListener('keydown',e=>{if(e.target.id==='adv-track'&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){e.preventDefault();advGo(disc.adv+(e.key==='ArrowRight'?1:-1))}});
-// Auto-advance every 7s, but pause while the pointer or focus is on it, for 15s after a manual move, and for reduced motion
-['pointerenter','focusin','touchstart'].forEach(t=>$('#spotlight').addEventListener(t,()=>disc.advPause=true,{passive:true}));
-['pointerleave','focusout'].forEach(t=>$('#spotlight').addEventListener(t,()=>disc.advPause=false));
-setInterval(()=>{
-  if(disc.advPause||document.hidden||Date.now()-(disc.advHold||0)<15000||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  if($('#view-discover')?.offsetParent===null||!$('#adv-track'))return;
-  advGo(disc.adv+1);
-},7000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)advSchedule()});
 /* --- 4 + 5. Tabs, filters and sections --- */
 const CATS=[['all','All'],['Hackathon','Hackathons'],['Challenge','Challenges'],['Workshop','Workshops'],['online','Online']];
 function filterVals(){return{q:$('#search').value.trim().toLowerCase(),th:$('#f-theme').value,ind:$('#f-industry').value}}
@@ -1833,7 +1853,6 @@ function matches(p,cat=disc.cat){
 }
 function renderToolbar(){
   $('#cat-tabs').innerHTML=CATS.map(([k,l])=>`<button type="button" data-cat="${k}" class="${disc.cat===k?'on':''}" aria-pressed="${disc.cat===k}">${l}<small>${ALL.filter(p=>matches(p,k)).length}</small></button>`).join('');
-  $$('[data-layout]').forEach(b=>{const on=b.dataset.layout===disc.layout;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
   const f=filterVals(),n=(f.th!=='all')+(f.ind!=='all');
   $('#mf-count').hidden=!n;$('#mf-count').textContent=n;
 }
@@ -1847,7 +1866,7 @@ function renderSections(){
     const items=list.filter(p=>key==='open'?p.open:p.status===key).sort(sort);
     if(!items.length)return '';
     return `<section class="psec" aria-label="${label}"><div class="psec-head"><h3>${label}<small>${items.length}</small></h3><span>${hint()}</span></div>
-      <div class="${disc.layout==='grid'?'cards':'plist'}">${items.map(disc.layout==='grid'?cardHTML:rowHTML).join('')}</div></section>`;
+      <div class="cards">${items.map(cardHTML).join('')}</div></section>`;
   }).join('');
   $('#program-sections').innerHTML=html||`<div class="empty">Nothing matches these filters.<br><button class="link-btn" type="button" data-clear>Clear filters</button></div>`;
 }
@@ -1927,14 +1946,13 @@ function shareItem(id){
   toast(`Link to ${p.title} copied`);
 }
 $('#view-discover').addEventListener('click',e=>{
-  const t=e.target.closest('[data-bookmark],[data-view-program],[data-register],[data-share],[data-cat],[data-layout],[data-cal-mode],[data-cal-step],[data-cal-today],[data-cal-day],[data-clear],#more-filters');
+  const t=e.target.closest('[data-bookmark],[data-view-program],[data-register],[data-share],[data-cat],[data-cal-mode],[data-cal-step],[data-cal-today],[data-cal-day],[data-clear],#more-filters');
   if(!t)return;const d=t.dataset;
   if(d.bookmark){const p=ALL.find(x=>x.id===d.bookmark);p.saved=!p.saved;renderSections();toast(p.saved?`Saved ${p.title}`:`Removed ${p.title} from saved`)}
   else if(d.viewProgram)openProgram(d.viewProgram);
   else if(d.register)registerFor(d.register);
   else if(d.share)shareItem(d.share);
   else if(d.cat){disc.cat=d.cat;renderToolbar();renderSections()}
-  else if(d.layout){disc.layout=d.layout;renderToolbar();renderSections()}
   else if(d.calMode){if(disc.calMode!==d.calMode){disc.calMode=d.calMode;disc.calCursor=null;renderCal()}}
   else if(d.calStep){const c=disc.calCursor,n=+d.calStep;disc.calCursor=disc.calMode==='week'?new Date(c.getFullYear(),c.getMonth(),c.getDate()+7*n):new Date(c.getFullYear(),c.getMonth()+n,1);renderCal()}
   else if('calToday' in d){disc.calCursor=null;renderCal()}
