@@ -329,6 +329,16 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 /* Toolbar */
 .disc-toolbar{max-width:1132px;margin:44px auto 0}
 .disc-toolbar>.eyebrow{margin-bottom:14px}
+.st-tabs{display:flex;align-items:flex-end;gap:28px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto;scrollbar-width:none}
+.st-tabs::-webkit-scrollbar{display:none}
+.st-tabs button{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:0 0 12px;margin-bottom:-1px;border-bottom:2px solid transparent;font:600 15px var(--font-body);color:var(--muted);white-space:nowrap;cursor:pointer}
+.st-tabs button:hover{color:var(--fg)}
+.st-tabs button small{font:500 11px/1 var(--font-mono);padding:3px 6px;border-radius:5px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
+.st-tabs button.on{color:var(--fg);border-bottom-color:var(--fg)}
+.st-tabs button.on small{background:var(--ink);border-color:var(--ink);color:#fff}
+.st-hint{margin-left:auto;padding-bottom:12px;font-size:12.5px;color:var(--muted);white-space:nowrap}
+@media (max-width:600px){.st-hint{display:none}.st-tabs{gap:20px}}
+.show-more{display:flex;justify-content:center;margin-top:18px}
 .disc-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .disc-row+.disc-row{margin-top:12px}
 .cat-tabs{display:flex;gap:6px;flex-wrap:wrap;flex:1}
@@ -983,6 +993,7 @@ ul{list-style:none;margin:0;padding:0}
     <section id="spotlight" aria-label="Coming up"></section>
     <div class="disc-toolbar">
       <span class="eyebrow">03 / All programs</span>
+      <div class="st-tabs" id="st-tabs" role="tablist" aria-label="Program status"></div>
       <div class="disc-row">
         <div class="cat-tabs" id="cat-tabs" role="group" aria-label="Program type"></div>
       </div>
@@ -1651,7 +1662,7 @@ function syncStatus(){
   });
 }
 syncStatus();
-const disc={cat:'all',calMode:'month',calCursor:null,nextAt:null};
+const disc={cat:'all',status:'open',showAll:false,calMode:'month',calCursor:null,nextAt:null};
 function posterHTML(p){return `<div class="poster ${p.poster}"><div class="p-title">${p.lines.join('<br>')}</div><div class="p-sub">${p.sub}</div><div class="p-prize">${p.prize}<small>${p.prizeLabel||(p.id==='smart'||p.id==='fintech'?'CASH PRIZES':'PRIZE POOL')}</small></div><div class="p-apply">${p.applyLabel||'APPLY BY'}<b>${p.apply}</b></div></div>`}
 const mineP=p=>role==='organizer'&&p.id==='smart';
 function tagFor(p){
@@ -1851,8 +1862,14 @@ function matches(p,cat=disc.cat){
     &&(!f.q||[p.title,p.kind,p.format,p.blurb,...p.tags,p.host||''].join(' ').toLowerCase().includes(f.q))
     &&(f.th==='all'||p.tags[0]===f.th)&&(f.ind==='all'||p.tags[1]===f.ind);
 }
+/* One status at a time (Open now / In progress / Past), then a category filter; counts follow the other filters */
+const inStatus=(p,key)=>key==='open'?p.open:p.status===key;
+const GRID_MAX=6;
 function renderToolbar(){
-  $('#cat-tabs').innerHTML=CATS.map(([k,l])=>`<button type="button" data-cat="${k}" class="${disc.cat===k?'on':''}" aria-pressed="${disc.cat===k}">${l}<small>${ALL.filter(p=>matches(p,k)).length}</small></button>`).join('');
+  $('#st-tabs').innerHTML=SECTIONS.map(([key,label,hint])=>{const n=ALL.filter(p=>matches(p)&&inStatus(p,key)).length,on=disc.status===key;
+    return `<button type="button" role="tab" data-status="${key}" class="${on?'on':''}" aria-selected="${on}">${label}<small>${n}</small></button>`}).join('')
+    +`<span class="st-hint">${SECTIONS.find(s=>s[0]===disc.status)[2]()}</span>`;
+  $('#cat-tabs').innerHTML=CATS.map(([k,l])=>`<button type="button" data-cat="${k}" class="${disc.cat===k?'on':''}" aria-pressed="${disc.cat===k}">${l}<small>${ALL.filter(p=>matches(p,k)&&inStatus(p,disc.status)).length}</small></button>`).join('');
   const f=filterVals(),n=(f.th!=='all')+(f.ind!=='all');
   $('#mf-count').hidden=!n;$('#mf-count').textContent=n;
 }
@@ -1861,14 +1878,17 @@ const SECTIONS=[
   ['progress','In progress',()=>'Registration closed · teams are building',(a,b)=>a.endsAt-b.endsAt],
   ['past','Past',()=>'Results are in',(a,b)=>b.endsAt-a.endsAt]];
 function renderSections(){
-  const list=ALL.filter(p=>matches(p));
-  const html=SECTIONS.map(([key,label,hint,sort])=>{
-    const items=list.filter(p=>key==='open'?p.open:p.status===key).sort(sort);
-    if(!items.length)return '';
-    return `<section class="psec" aria-label="${label}"><div class="psec-head"><h3>${label}<small>${items.length}</small></h3><span>${hint()}</span></div>
-      <div class="cards">${items.map(cardHTML).join('')}</div></section>`;
-  }).join('');
-  $('#program-sections').innerHTML=html||`<div class="empty">Nothing matches these filters.<br><button class="link-btn" type="button" data-clear>Clear filters</button></div>`;
+  const [key,label,,sort]=SECTIONS.find(s=>s[0]===disc.status);
+  const items=ALL.filter(p=>matches(p)&&inStatus(p,key)).sort(sort);
+  if(!items.length){
+    const other=SECTIONS.find(s=>s[0]!==key&&ALL.some(p=>matches(p)&&inStatus(p,s[0])));
+    $('#program-sections').innerHTML=`<div class="empty">Nothing ${label.toLowerCase()} matches these filters.<br>${other?`<button class="link-btn" type="button" data-status="${other[0]}">See ${other[1].toLowerCase()} instead</button> · `:''}<button class="link-btn" type="button" data-clear>Clear filters</button></div>`;
+    return;
+  }
+  const shown=disc.showAll?items:items.slice(0,GRID_MAX),more=items.length-shown.length;
+  $('#program-sections').innerHTML=`<section class="psec" aria-label="${label}"><div class="cards">${shown.map(cardHTML).join('')}</div>
+    ${more>0?`<div class="show-more"><button class="btn ghost" type="button" data-show-all>Show ${more} more ${I('chev-down','sm')}</button></div>`
+      :disc.showAll&&items.length>GRID_MAX?`<div class="show-more"><button class="btn ghost" type="button" data-show-less>Show less ${I('chev-up','sm')}</button></div>`:''}</section>`;
 }
 function renderCards(){syncStatus();renderNextUp();renderCal();renderSpot();renderToolbar();renderSections();renderMyProgs()}
 function renderMyProgs(){
@@ -1946,13 +1966,16 @@ function shareItem(id){
   toast(`Link to ${p.title} copied`);
 }
 $('#view-discover').addEventListener('click',e=>{
-  const t=e.target.closest('[data-bookmark],[data-view-program],[data-register],[data-share],[data-cat],[data-cal-mode],[data-cal-step],[data-cal-today],[data-cal-day],[data-clear],#more-filters');
+  const t=e.target.closest('[data-bookmark],[data-view-program],[data-register],[data-share],[data-cat],[data-status],[data-show-all],[data-show-less],[data-cal-mode],[data-cal-step],[data-cal-today],[data-cal-day],[data-clear],#more-filters');
   if(!t)return;const d=t.dataset;
   if(d.bookmark){const p=ALL.find(x=>x.id===d.bookmark);p.saved=!p.saved;renderSections();toast(p.saved?`Saved ${p.title}`:`Removed ${p.title} from saved`)}
   else if(d.viewProgram)openProgram(d.viewProgram);
   else if(d.register)registerFor(d.register);
   else if(d.share)shareItem(d.share);
-  else if(d.cat){disc.cat=d.cat;renderToolbar();renderSections()}
+  else if(d.cat){disc.cat=d.cat;disc.showAll=false;renderToolbar();renderSections()}
+  else if(d.status){disc.status=d.status;disc.showAll=false;renderToolbar();renderSections()}
+  else if('showAll' in d){disc.showAll=true;renderSections()}
+  else if('showLess' in d){disc.showAll=false;renderSections();$('#st-tabs').scrollIntoView({behavior:'smooth',block:'center'})}
   else if(d.calMode){if(disc.calMode!==d.calMode){disc.calMode=d.calMode;disc.calCursor=null;renderCal()}}
   else if(d.calStep){const c=disc.calCursor,n=+d.calStep;disc.calCursor=disc.calMode==='week'?new Date(c.getFullYear(),c.getMonth(),c.getDate()+7*n):new Date(c.getFullYear(),c.getMonth()+n,1);renderCal()}
   else if('calToday' in d){disc.calCursor=null;renderCal()}
