@@ -1095,8 +1095,8 @@ ul{list-style:none;margin:0;padding:0}
         <div class="card panel">
           <h3 class="panel-title" style="margin-bottom:10px">Your team · AI Forge</h3>
           <div class="thread">
-            <div class="msg"><span class="js-av" data-seed="Celine" data-size="32"></span><div class="msg-body"><b>Celine Lim</b><p class="muted">Research lead</p></div></div>
-            <div class="msg"><span class="js-av" data-seed="Kai Li" data-size="32"></span><div class="msg-body"><b>Kai Li</b><p class="muted">Prototype</p></div></div>
+            <div class="msg"><span class="js-av" data-seed="Celine" data-size="32"></span><div class="msg-body"><b>Celine Hew</b><p class="muted">Research lead</p></div></div>
+            <div class="msg"><span class="js-av" data-seed="Kai Li Chong" data-size="32"></span><div class="msg-body"><b>Kai Li Chong</b><p class="muted">Prototype</p></div></div>
             <div class="msg"><span class="js-av" data-seed="Hana" data-size="32"></span><div class="msg-body"><b>Hana Aziz</b><p class="muted">Pitch and design</p></div></div>
           </div>
         </div>
@@ -1424,7 +1424,7 @@ function lookKey(t){
 }
 const CHAR={reg:new Map(),taken:new Map(),cache:new Map(),bump:{}};
 /* Hand-picked looks that override the rolled ones */
-const CHAR_FIXED={'Kai Li':{species:'cat',bg:'#f6e2cd'}};
+const CHAR_FIXED={'Kai Li Chong':{species:'cat',bg:'#f6e2cd'}};
 try{CHAR.bump=JSON.parse(localStorage.getItem('ib-char-bump')||'{}')||{}}catch(e){}
 function character(name){
   let c=CHAR.reg.get(name);if(c)return c;
@@ -1711,7 +1711,7 @@ const WORKSHOPS=[
   {id:'w-pitch',logo:'chat',kind:'Workshop',title:'Pitch Clinic: 3 Minutes to Win',lines:['Pitch','<em>Clinic</em>'],sub:'LIVE WORKSHOP · 60 MIN',tags:['Finance','Workshop'],prize:'FREE',prizeLabel:'ENTRY',date:'18 Nov',time:'8:30 PM',mins:60,host:'Dr. Tan',team:'Open to all',format:'Online',poster:'p-fintech',apply:'18 NOV',applyLabel:'LIVE ON',blurb:'Practise a three-minute pitch and get blunt, useful feedback from past judges.'},
   {id:'w-ctf',logo:'shield',kind:'Workshop',title:'CTF Warm-up Night',lines:['CTF','Warm-up <em>Night</em>'],sub:'BEGINNERS WELCOME',tags:['Cybersecurity','Workshop'],prize:'FREE',prizeLabel:'ENTRY',date:'24 Nov',time:'9:00 PM',mins:120,host:'CyberShield team',team:'Open to all',format:'Hybrid · Cyberjaya',poster:'p-cyber',apply:'24 NOV',applyLabel:'LIVE ON',blurb:'Solve your first capture-the-flag puzzles with mentors on hand before CyberShield opens.'},
   {id:'w-nocode',logo:'grid',kind:'Workshop',title:'No-code Prototyping 101',lines:['No-code','Prototyping <em>101</em>'],sub:'HANDS-ON · BRING A LAPTOP',tags:['Climate','Workshop'],prize:'FREE',prizeLabel:'ENTRY',date:'2 Dec',time:'3:00 PM',mins:120,host:'Priya',team:'Open to all',format:'In person · UTeM Melaka',poster:'p-green',apply:'2 DEC',applyLabel:'LIVE ON',blurb:'Build a clickable prototype in an afternoon, no code needed. Seats are limited to 40.'},
-  {id:'w-iot',logo:'cog',kind:'Workshop',title:'IoT Sensors Crash Course',lines:['IoT','Sensors <em>101</em>'],sub:'LIVE WORKSHOP · 90 MIN',tags:['AI','Workshop'],prize:'FREE',prizeLabel:'ENTRY',date:'4 Nov',time:'8:00 PM',mins:90,host:'Kai Li',team:'Open to all',format:'Online',poster:'p-health',apply:'4 NOV',applyLabel:'LIVE ON',blurb:'Wire up a temperature sensor and stream readings to a dashboard in 90 minutes.'}
+  {id:'w-iot',logo:'cog',kind:'Workshop',title:'IoT Sensors Crash Course',lines:['IoT','Sensors <em>101</em>'],sub:'LIVE WORKSHOP · 90 MIN',tags:['AI','Workshop'],prize:'FREE',prizeLabel:'ENTRY',date:'4 Nov',time:'8:00 PM',mins:90,host:'Kai Li Chong',team:'Open to all',format:'Online',poster:'p-health',apply:'4 NOV',applyLabel:'LIVE ON',blurb:'Wire up a temperature sensor and stream readings to a dashboard in 90 minutes.'}
 ];
 const ALL=[...programs,...WORKSHOPS];
 // Status is always worked out from dates, never hand-set:
@@ -1923,7 +1923,7 @@ $('#myprogs').addEventListener('click',e=>{
 });
 function clearFilters(){$('#search').value='';$('#f-theme').value='all';$('#f-industry').value='all';disc.cat='all';renderToolbar();renderSections()}
 ['#search','#f-theme','#f-industry'].forEach(s=>$(s).addEventListener('input',()=>{renderToolbar();renderSections()}));
-const TEAM=[['Xin Yi Neoh','You · Team lead','Xin Yi Neoh'],['Celine Lim','Research lead','Celine'],['Kai Li','Prototype','Kai Li'],['Hana Aziz','Pitch and design','Hana']];
+const TEAM=[['Xin Yi Neoh','You · Team lead','Xin Yi Neoh'],['Celine Hew','Research lead','Celine'],['Kai Li Chong','Prototype','Kai Li Chong'],['Hana Aziz','Pitch and design','Hana']];
 const teamMax=p=>{const n=(p.team.match(/\d+/g)||[]).map(Number);return n.length?Math.max(...n):TEAM.length};
 function registerFor(id){
   const p=ALL.find(x=>x.id===id);
@@ -2015,9 +2015,9 @@ const MONTHS=['January','February','March','April','May','June','July','August',
 const planner={week:0,view:'week',baseHours:8,nextId:10,
   events:[
     {id:1,week:0,day:0,start:9,dur:2,title:'Module 2: User research',who:'Celine',color:'purple'},
-    {id:2,week:0,day:1,start:12.5,dur:3,title:'Prototype session',people:['Celine','Kai Li','KL','+2'],color:'blue'},
+    {id:2,week:0,day:1,start:12.5,dur:3,title:'Prototype session',people:['Celine','Kai Li Chong','KL','+2'],color:'blue'},
     {id:3,week:0,day:3,start:10,dur:2,title:'Mentor feedback',who:'Dr. Tan',color:'green'},
-    {id:4,week:0,day:3,start:14.5,dur:1,title:'Team review',people:['Hana','Kai Li','+2'],color:'pink'},
+    {id:4,week:0,day:3,start:14.5,dur:1,title:'Team review',people:['Hana','Kai Li Chong','+2'],color:'pink'},
     {id:5,week:0,day:4,start:16,dur:2,title:'Prepare submission',who:'Celine',color:'violet'}
   ],
   checklist:[{t:'Research complete',on:true},{t:'Draft reviewed',on:false},{t:'Files ready',on:false}]
@@ -2075,7 +2075,7 @@ $('#add-task').addEventListener('click',()=>{
         <div class="field"><label for="t-day">Day</label><select class="field-select" id="t-day">${DAYS.map((d,i)=>`<option value="${i}"${i===2?' selected':''}>${d}</option>`).join('')}</select></div>
         <div class="field"><label for="t-start">Start</label><select class="field-select" id="t-start">${startOpts.join('')}</select></div>
         <div class="field"><label for="t-dur">Duration</label><select class="field-select" id="t-dur"><option value="1">1 hour</option><option value="2" selected>2 hours</option><option value="3">3 hours</option></select></div>
-        <div class="field"><label for="t-who">Owner</label><select class="field-select" id="t-who"><option>Celine</option><option>Kai Li</option><option>Hana</option></select></div>
+        <div class="field"><label for="t-who">Owner</label><select class="field-select" id="t-who"><option>Celine</option><option>Kai Li Chong</option><option>Hana</option></select></div>
       </div>
       <div class="modal-actions"><button type="button" class="btn ghost" data-close>Cancel</button><button class="btn primary" type="submit">${I('plus','sm')}Add task</button></div>
     </form>`);
@@ -2103,7 +2103,7 @@ const course={progress:40,modules:[
   {title:'Build your prototype',sub:'Unlocks after Module 2',state:'locked',desc:'Apply AI tools to turn your research into a working prototype.',res:[{icon:'play',t:'Prototyping basics',s:'Video · 20 min',video:true},{icon:'file',t:'Prototype brief template',s:'Doc · 2 pages'}]}
 ],submitted:false,thread:[
   {who:'Celine',when:'2 hours ago',text:'Interview notes are ready for review. I tagged the quotes about lighting at station 3.'},
-  {who:'Kai Li',when:'Yesterday',text:'Camera test works on the sample images. Accuracy is about 82% so far.'},
+  {who:'Kai Li Chong',when:'Yesterday',text:'Camera test works on the sample images. Accuracy is about 82% so far.'},
   {who:'Hana',when:'Yesterday',text:'I can draft the pitch slides once the problem statement is final.'}
 ]};
 function renderModules(){
@@ -2186,7 +2186,7 @@ let planEditing=false;
 function renderPlan(){
   const track=$('#b-track').value,t=TRACKS[track],w=WEIGHTS[$('#b-objective').value],weeks=parseInt($('#b-duration').value);
   const steps=weeks>=6?[...t.steps,['Pilot with industry','Run the solution with a partner.']]:t.steps;
-  const ill=['Celine','Kai Li','Hana','Arif'];
+  const ill=['Celine','Kai Li Chong','Hana','Arif'];
   $('#rec').innerHTML=`
     <div class="rec-head"><h2>Recommended program</h2><span class="badge accent round">AI draft</span></div>
     <p class="muted" style="margin-top:-8px;font-size:13px">Here's a tailored program based on your brief.</p>
@@ -2277,7 +2277,7 @@ const manage={awaiting:6,sortDesc:true,
     {icon:'mail',t:'1 reminder failed',badge:['bad','Action needed'],btn:'Retry',act:'retry'}
   ],
   questions:[
-    {who:'Kai Li',team:'AI Forge',text:'Can we use our own defect images instead of the provided dataset?'},
+    {who:'Kai Li Chong',team:'AI Forge',text:'Can we use our own defect images instead of the provided dataset?'},
     {who:'Priya',team:'Team Meridian',text:'Is the proposal limit 2 pages or 3 pages including references?'},
     {who:'Faiz',team:'RiverMind Lab',text:'Will the partner factory share production data before the pilot?'}
   ]
@@ -2345,6 +2345,6 @@ $('#org-questions').addEventListener('submit',e=>{
 
 /* ===== Boot ===== */
 /* Register every account up front, in a fixed order, so each keeps the same character between visits */
-['Xin Yi Neoh','Innovation Office',...STUDENTS.map(s=>s[0]),...TEAMS.map(s=>s[0]),'Celine','Kai Li','Hana','Arif','Dr. Sara','Dr. Tan','Priya','Faiz'].forEach(character);
+['Xin Yi Neoh','Innovation Office',...STUDENTS.map(s=>s[0]),...TEAMS.map(s=>s[0]),'Celine','Kai Li Chong','Hana','Arif','Dr. Sara','Dr. Tan','Priya','Faiz'].forEach(character);
 hydrateAvatars();renderCards();renderPlanner();renderModules();renderAssignState();renderThread();renderBoard();renderPlan();renderManage();renderManageExtras();if(role)setRole(role);route();
 </script>
