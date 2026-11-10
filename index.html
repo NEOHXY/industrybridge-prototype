@@ -747,6 +747,14 @@ ul{list-style:none;margin:0;padding:0}
 .modal h2{font-size:20px;padding-right:36px}
 .modal-x{position:absolute;top:14px;right:14px}
 .modal-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.reg-team{border:0;margin:0;padding:0;display:grid;gap:6px}
+.reg-team legend{font-size:13px;font-weight:600;margin-bottom:8px;padding:0}
+.reg-m{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
+.reg-m:has(input:checked){border-color:var(--accent-line);background:var(--accent-soft)}
+.reg-m:has(input:disabled){cursor:default}
+.reg-m input{accent-color:var(--ink,#121210);width:16px;height:16px;margin:0}
+.reg-m b{display:block;font-size:13.5px}.reg-m small{color:var(--muted);font-size:12px}
+.reg-note{font-size:12.5px;color:var(--muted);margin:0}.reg-note.bad{color:#b4412f}
 .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
 .facts div{border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--bg-2)}
 .facts small{display:block;color:var(--muted);font-size:11.5px}
@@ -1884,10 +1892,36 @@ $('#myprogs').addEventListener('click',e=>{
 });
 function clearFilters(){$('#search').value='';$('#f-theme').value='all';$('#f-industry').value='all';disc.cat='all';renderToolbar();renderSections()}
 ['#search','#f-theme','#f-industry'].forEach(s=>$(s).addEventListener('input',()=>{renderToolbar();renderSections()}));
+const TEAM=[['Xin Yi Neoh','You · Team lead'],['Celine Lim','Research lead'],['Kai Lun','Prototype'],['Hana Aziz','Pitch and design']];
+const teamMax=p=>{const n=(p.team.match(/\d+/g)||[]).map(Number);return n.length?Math.max(...n):TEAM.length};
 function registerFor(id){
-  const p=ALL.find(x=>x.id===id);closeModal();
-  if(isWS(p)){p.rsvp=!p.rsvp;renderCards();toast(p.rsvp?`Seat saved for ${p.title}. We'll remind you an hour before.`:`Seat released for ${p.title}`);return}
-  p.enrolled=true;renderCards();toast(`Registered for ${p.title}`);
+  const p=ALL.find(x=>x.id===id);
+  if(isWS(p)){closeModal();p.rsvp=!p.rsvp;renderCards();toast(p.rsvp?`Seat saved for ${p.title}. We'll remind you an hour before.`:`Seat released for ${p.title}`);return}
+  if(p.enrolled||!p.open){openProgram(id);return}
+  openRegister(p);
+}
+/* Registration is a two-step flow: pick who's on the team, then confirm. */
+function openRegister(p){
+  const max=teamMax(p);
+  openModal(`<div><span class="eyebrow">Register team</span><h2 id="modal-title">${p.title}</h2><div class="tags" style="padding:0;margin-top:2px">${p.kind} · ${p.team} · ${p.format}</div></div>
+    <fieldset class="reg-team"><legend>Who's on Team AI Forge for this program?</legend>
+      ${TEAM.map(([n,r],i)=>`<label class="reg-m"><input type="checkbox" value="${n}"${i===0?' checked disabled':i<max?' checked':''}><span class="js-av" data-seed="${n.split(' ')[0]}" data-size="30"></span><span><b>${n}</b><small>${r}</small></span></label>`).join('')}
+    </fieldset>
+    <p class="reg-note" id="reg-note"></p>
+    <div class="facts"><div><small>Registration closes</small><b>${shortDate(p.closes)} · ${relDay(p.closes)}</b></div><div><small>Kick-off</small><b>${shortDate(new Date(p.closes.getTime()+864e5))}</b></div><div><small>Prize pool</small><b>${p.prize}</b></div></div>
+    <div class="modal-actions"><button class="btn ghost" type="button" data-close>Cancel</button><button class="btn primary" type="button" data-confirm-reg="${p.id}" autofocus>Confirm registration ${I('arrow','sm')}</button></div>`);
+  checkRegTeam(p);
+}
+function checkRegTeam(p){
+  const n=$$('.reg-team input:checked').length,max=teamMax(p),min=(p.team.match(/\d+/)||[1])[0]*1,ok=n>=min&&n<=max;
+  $('#reg-note').textContent=ok?`${n} members selected · this program allows ${min}–${max}.`:n>max?`Too many members: pick up to ${max}.`:`Pick at least ${min} members.`;
+  $('#reg-note').classList.toggle('bad',!ok);
+  $('[data-confirm-reg]').disabled=!ok;
+}
+function confirmRegister(id){
+  const p=ALL.find(x=>x.id===id),n=$$('.reg-team input:checked').length;
+  closeModal();p.enrolled=true;renderCards();
+  toast(`Team AI Forge (${n}) registered for ${p.title}. Kick-off ${shortDate(new Date(p.closes.getTime()+864e5))}.`);
 }
 function shareItem(id){
   const p=ALL.find(x=>x.id===id),url=location.href.split('#')[0]+'#discover';
@@ -1937,7 +1971,11 @@ function openProgram(id){
     <div class="modal-actions">${actions}</div>`);
 }
 $('#modal-body').addEventListener('click',e=>{
+  const c=e.target.closest('[data-confirm-reg]');if(c){confirmRegister(c.dataset.confirmReg);return}
   const r=e.target.closest('[data-register]');if(r)registerFor(r.dataset.register);
+});
+$('#modal-body').addEventListener('change',e=>{
+  if(e.target.closest('.reg-team')){const id=$('[data-confirm-reg]').dataset.confirmReg;checkRegTeam(ALL.find(x=>x.id===id))}
 });
 
 /* ===== 2. Planner ===== */
