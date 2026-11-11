@@ -1382,6 +1382,35 @@ body[data-view=hall] .hud-btn.on{background:var(--px-leaf);color:#fff}
 body[data-view=hall] .hud .hall-count{background:var(--px-moss);padding:6px 12px}
 body[data-view=hall] .hud .hall-count b{font:600 15px var(--px-font);color:var(--px-lime);letter-spacing:.02em}
 body[data-view=hall] .hud .hall-count span{font:400 12px var(--px-font);color:var(--px-paper)}
+/* Minimal top navigation; keep the rest of the Hall's game controls untouched. */
+body[data-view=hall] .hud-tl .hud-btn,
+body[data-view=hall] .hud-tr .hud-btn{
+  height:42px;
+  border:1px solid rgba(255,255,255,.3)!important;
+  border-radius:12px!important;
+  background:rgba(22,32,24,.82);
+  color:#f7f8f3;
+  box-shadow:0 6px 20px rgba(12,22,13,.18)!important;
+  backdrop-filter:blur(12px)!important;
+  -webkit-backdrop-filter:blur(12px)!important;
+}
+body[data-view=hall] .hud-tl .hud-btn,
+body[data-view=hall] .hud-tr .hud-btn{
+  font:600 13px/1 var(--font-body);
+  transition:background .18s,border-color .18s,transform .18s;
+}
+body[data-view=hall] .hud-tl .hud-btn{width:42px;padding:0}
+body[data-view=hall] .hud-tr .hud-btn{padding:0 15px;gap:8px}
+body[data-view=hall] .hud-tl .hud-btn:hover,
+body[data-view=hall] .hud-tr .hud-btn:hover,
+body[data-view=hall] .hud-tr .hud-btn.on{
+  background:rgba(42,61,44,.94);
+  border-color:rgba(180,222,147,.85)!important;
+  transform:translateY(-1px);
+}
+body[data-view=hall] .hud-tl .hud-btn:focus-visible,
+body[data-view=hall] .hud-tr .hud-btn:focus-visible{outline:2px solid #b5dc8e;outline-offset:3px}
+body[data-view=hall] .hud-tr .hud-n{border-radius:9px;box-shadow:0 0 0 2px rgba(22,32,24,.82);font:700 10px/18px var(--font-body)}
 .gbtn{background:var(--px-paper);color:var(--px-ink);font:500 14px var(--px-font);height:58px;min-width:92px;gap:4px;transition:transform .06s}
 .gbtn b{font-weight:500}
 .gbtn .pi{height:16px}
@@ -2570,13 +2599,13 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
     <button class="hall-portal" type="button" id="hall-portal" aria-label="Room Board: pick a competition and open a room"><span class="hp-glow" aria-hidden="true"></span><span class="hp-label"><b>Room Board</b><small id="hall-portal-n"></small></span></button>
     <div class="hall-announce" id="hall-announce" aria-live="polite"></div>
     <div class="hud hud-tl">
-      <button class="hud-btn" type="button" data-hud-exit aria-label="Leave the hall"><span class="pi-slot" data-pi="chev-left"></span></button>
+      <button class="hud-btn" type="button" data-hud-exit aria-label="Leave the hall"><svg class="i" aria-hidden="true"><use href="#i-chev-left"/></svg></button>
       <div class="hall-count" id="hall-count"></div>
     </div>
     <div class="hud hud-tr">
-      <button class="hud-btn wide" type="button" data-hud-drawer="card"><span class="pi-slot" data-pi="user"></span>My card</button>
-      <button class="hud-btn wide" type="button" data-hud-drawer="picks"><span class="pi-slot" data-pi="sparkle"></span>AI picks</button>
-      <button class="hud-btn wide" type="button" data-hud-drawer="reqs"><span class="pi-slot" data-pi="bell"></span>Requests<i class="hud-n" id="hud-req-n" hidden></i></button>
+      <button class="hud-btn wide" type="button" data-hud-drawer="card"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg>My card</button>
+      <button class="hud-btn wide" type="button" data-hud-drawer="picks"><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>AI picks</button>
+      <button class="hud-btn wide" type="button" data-hud-drawer="reqs"><svg class="i" aria-hidden="true"><use href="#i-bell"/></svg>Requests<i class="hud-n" id="hud-req-n" hidden></i></button>
     </div>
     <aside class="hall-drawer" aria-label="Hall panels">
       <div class="card panel" data-dp="card"><div class="panel-title" style="justify-content:space-between"><span>Your hall card</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><span class="pi-slot" data-pi="close"></span></button></div><div id="hall-mine" style="display:grid;gap:12px"></div></div>
