@@ -374,6 +374,45 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .hf-open input{accent-color:var(--moss-deep);width:15px;height:15px}
 .hf-n{margin-left:auto;font:500 11px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 #upcoming .adv{margin-top:30px}
+/* Hackathon archive on Discover */
+.arch{max-width:1132px;margin:30px auto 0;padding:20px}
+.arch-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+.arch-head h2{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:-.02em;margin:10px 0 0}
+.arch-n{font:500 11px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.arch-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.arch-bar .search{flex:1 1 320px}
+.arch-bar .cat-tabs{flex:none}
+.arch-y{font:600 11px var(--font-mono);letter-spacing:.14em;color:var(--muted);padding:14px 0 6px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.arch-row{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line)}
+.arch-row.mine{background:linear-gradient(90deg,var(--accent-soft),transparent 60%)}
+.arch-main h4{margin:4px 0 2px;font-size:15px}
+.arch-main p{margin:0;font-size:12.5px;color:var(--body-2)}
+.arch-win{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px!important;color:var(--fg)!important}
+.arch-win .i{color:#b8860b}
+.arch-win span{display:inline-flex;gap:4px;flex-wrap:wrap;margin-left:6px}
+.arch-win i{font-style:normal;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--body-2)}
+.arch-acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.arch-more{margin:12px auto 0;display:flex}
+@media (max-width:700px){.arch-row{grid-template-columns:48px minmax(0,1fr)}.arch-acts{grid-column:2;justify-content:flex-start}}
+/* Event photos */
+.ph-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ph-grid figure{margin:0;position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:#222}
+.ph-grid .sc{position:absolute;inset:0;width:100%;height:100%}
+.ph-grid figcaption{position:absolute;left:6px;bottom:6px;font-size:11px;font-weight:600;color:#fff;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:4px}
+/* Organizer Library */
+.lib-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.lib-bar .search{flex:1 1 320px}
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:6px}
+.lib-card{display:grid;gap:10px;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.lib-card.mine{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink),var(--shadow)}
+.lib-top{display:flex;align-items:center;gap:8px}
+.lib-date{margin-left:auto;font:500 11px var(--font-mono);color:var(--muted)}
+.lib-card h3{margin:0;font-family:var(--font-display);font-size:18px;letter-spacing:-.02em}
+.lib-sub{margin:0;font-size:12.5px;color:var(--body-2)}
+.lib-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.lib-stats div{padding:8px;text-align:center}.lib-stats div+div{border-left:1px solid var(--line)}
+.lib-stats b{display:block;font:600 17px var(--font-display)}.lib-stats small{font-size:11px;color:var(--muted)}
+.lib-acts{display:flex;gap:6px;flex-wrap:wrap}
 /* My programs home: tabs, a list of program rows on the left, month calendar and stats on the right */
 .mph-tabs button small{margin-left:7px;font:500 11px var(--font-mono);color:var(--muted)}
 .mph-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
@@ -1638,9 +1677,10 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
 <section class="view" id="view-discover">
   <div class="wrap">
     <h1 class="sr-only">Discover programs</h1>
-    <div class="home-head"><div><span class="eyebrow">01 / Join an event</span><h1 class="home-title"><span class="soft">Find your</span> next event</h1></div><div class="nu-pill" id="nextup" aria-label="Next deadline"></div></div>
-    <section id="spotlight" aria-label="Events you can join"></section>
-    <div class="card resume" data-role="organizer" hidden style="max-width:1132px;margin:30px auto 0">
+    <section id="library" data-role="organizer" hidden></section>
+    <div class="home-head" data-role="student"><div><span class="eyebrow">01 / Join an event</span><h1 class="home-title"><span class="soft">Find your</span> next event</h1></div><div class="nu-pill" id="nextup" aria-label="Next deadline"></div></div>
+    <section id="spotlight" data-role="student" aria-label="Events you can join"></section>
+    <div class="card resume" data-role="none" hidden style="max-width:1132px;margin:30px auto 0">
       <div class="resume-info">
         <div class="resume-label">Your live program</div>
         <div class="resume-row">
@@ -1664,7 +1704,8 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
       <div class="resume-progress"><div class="bar"><i class="js-progress-bar" style="width:40%"></i></div><span><span class="js-progress">40</span>% complete</span></div>
       <a class="btn primary" href="#programs" data-set-tab="programs:learning">Continue learning <svg class="i sm"><use href="#i-arrow"/></svg></a>
     </div>
-    <section id="upcoming" aria-label="Hot and coming up"></section>
+    <section id="upcoming" data-role="student" aria-label="Hot and coming up"></section>
+    <section class="card arch" id="archive" data-role="student" aria-label="Hackathon archive"></section>
   </div>
 </section>
 
@@ -2461,7 +2502,7 @@ function setRole(r){
   $('#me-btn').innerHTML=avatar(p.name,34,true);$('#acct-av').innerHTML=avatar(p.name,40,true);$('#acct-name').textContent=p.name;$('#acct-sub').textContent=p.sub;
   $('#me-btn').classList.toggle('org',org);$('#acct-av').classList.toggle('org',org);
   $('#switch-role').innerHTML=org?'Switch to student view<small>Join programs and learn with your team</small>':'Switch to organizer view<small>Plan, publish and manage programs</small>';
-  $('#role-pill').textContent=org?'Organizer':'Student';$('#role-pill').className='role-pill '+r;
+  $('#role-pill').textContent=org?'Organizer':'Student';$('a[data-nav="discover"]').textContent=org?'Library':'Discover';$('#role-pill').className='role-pill '+r;
   $$('[data-role]').forEach(el=>el.hidden=el.dataset.role!==r);
   renderCards();
 }
@@ -2556,6 +2597,50 @@ const NOTES={
 $('#bell').addEventListener('click',()=>openModal(`<h2 id="modal-title">Notifications</h2>
   <div class="thread">${NOTES[role||'student'].filter(n=>!(n[0]==='AI Forge'&&!course.submitted)).map(([w,t,m])=>`<div class="msg">${avatar(w,36)}<div class="msg-body"><header><b>${w}</b><span>${t}</span></header><p>${m}</p></div></div>`).join('')}</div>
   <div class="modal-actions"><button class="btn primary" data-close>Mark all as read</button></div>`));
+
+/* ===== Easy-to-replace data =====
+   EVENT_PHOTOS_URL: the shared Google Drive folder with event photos. Replace the placeholder with the real
+   folder link (Drive > folder > Share > Copy link). Any archive entry can also set its own `photos` link.
+   HACKATHON_ARCHIVE: every hackathon from the past three years. Swap this array for real records later;
+   keep the same fields. `me` marks events the signed-in student took part in (gives them a certificate). */
+const EVENT_PHOTOS_URL='https://drive.google.com/drive/folders/REPLACE_WITH_EVENT_PHOTOS_FOLDER_ID';
+const HACKATHON_ARCHIVE=[
+  // year, date (YYYY-MM-DD), title, organiser (fictional), type, format, topic, tech, teams, prize, winner, me
+  {date:'2024-02-17',title:'Lunar New Year Retail Jam',organiser:'Kedai Data Co.',type:'Hackathon',format:'In person · Kuala Lumpur',topic:'Retail',tech:['Python','Sheets'],teams:24,prize:'RM3,000',winner:'Team Ang Pow Analytics'},
+  {date:'2024-03-09',title:'Campus Energy Ideathon',organiser:'Campus Sustainability Network',type:'Ideathon',format:'Online',topic:'Climate',tech:['Figma','AppSheet'],teams:31,prize:'RM2,000',winner:'Team Watt Now'},
+  {date:'2024-04-20',title:'Hawker Payments Hack',organiser:'Penang FinLab',type:'Hackathon',format:'Hybrid · Penang',topic:'Finance',tech:['Flutter','Firebase'],teams:42,prize:'RM8,000',winner:'Team Satay Stack'},
+  {date:'2024-05-25',title:'Flood Alert Datathon',organiser:'Open Data Malaysia Lab',type:'Datathon',format:'Online',topic:'Public sector',tech:['Python','Pandas','QGIS'],teams:28,prize:'RM5,000',winner:'Team Banjir Busters'},
+  {date:'2024-06-15',title:'Smart Factory Challenge 2024',organiser:'Innovation Office',type:'Challenge',format:'Hybrid · Kuala Lumpur',topic:'Manufacturing',tech:['Python','OpenCV'],teams:36,prize:'RM10,000',winner:'Team Line Sight'},
+  {date:'2024-07-13',title:'Health Queue Sprint',organiser:'KL Health Innovation Hub',type:'Hackathon',format:'In person · Kuala Lumpur',topic:'Health',tech:['Figma','Firebase'],teams:19,prize:'RM4,000',winner:'Team Triage Tigers'},
+  {date:'2024-08-03',title:'Agri Drone Weekend',organiser:'Johor Agri Cooperative',type:'Hackathon',format:'In person · Johor Bahru',topic:'Agriculture',tech:['Arduino','Python'],teams:14,prize:'RM6,000',winner:'Team Padi Pilots'},
+  {date:'2024-08-31',title:'Merdeka Civic Hack',organiser:'Open Data Malaysia Lab',type:'Hackathon',format:'Online',topic:'Public sector',tech:['React','Looker Studio'],teams:47,prize:'RM7,000',winner:'Team Rakyat Ready'},
+  {date:'2024-09-21',title:'CTF Rookie Cup',organiser:'CyberShield Bank Security',type:'Hackathon',format:'Online',topic:'Cybersecurity',tech:['Kali Linux','Burp Suite'],teams:58,prize:'RM5,000',winner:'Team Null Pointer'},
+  {date:'2024-10-19',title:'Melaka Mobility Lab',organiser:'Melaka Smart City Unit',type:'Challenge',format:'Hybrid · Melaka',topic:'Mobility',tech:['Google Maps API','Python'],teams:22,prize:'RM6,500',winner:'Team Bas Mana'},
+  {date:'2024-11-16',title:'No-code for Good',organiser:'Innovation Office',type:'Hackathon',format:'Online',topic:'Education',tech:['AppSheet','Glide'],teams:39,prize:'RM3,500',winner:'Team Low Code High Five'},
+  {date:'2025-01-18',title:'Kopitiam AI Sprint',organiser:'Kedai Data Co.',type:'Hackathon',format:'In person · Ipoh',topic:'Retail',tech:['Gemini','Sheets'],teams:26,prize:'RM4,000',winner:'Team Teh Tarik Tensor'},
+  {date:'2025-02-22',title:'Green Campus Innovation 2025',organiser:'Campus Sustainability Network',type:'Challenge',format:'Hybrid · Shah Alam',topic:'Climate',tech:['IoT sensors','AppSheet'],teams:33,prize:'RM8,000',winner:'Team Leaf It To Us',me:'Joined'},
+  {date:'2025-03-29',title:'Insurtech for Gig Workers',organiser:'Penang FinLab',type:'Hackathon',format:'Online',topic:'Finance',tech:['Gemini','Looker Studio'],teams:44,prize:'RM9,000',winner:'Team Grab Cover'},
+  {date:'2025-04-26',title:'Rural Clinic Datathon',organiser:'KL Health Innovation Hub',type:'Datathon',format:'Online',topic:'Health',tech:['Python','Pandas'],teams:21,prize:'RM5,000',winner:'Team Klinik Insight'},
+  {date:'2025-05-17',title:'EV Road Trip Hack',organiser:'JB Energy Alliance',type:'Hackathon',format:'Hybrid · Johor Bahru',topic:'Mobility',tech:['QGIS','Python'],teams:18,prize:'RM7,500',winner:'Team Charge Ahead'},
+  {date:'2025-06-14',title:'Smart Factory Challenge 2025',organiser:'Innovation Office',type:'Challenge',format:'Hybrid · Kuala Lumpur',topic:'Manufacturing',tech:['Python','Vertex AI'],teams:40,prize:'RM10,000',winner:'Team Defect Detectives',me:'Finalist'},
+  {date:'2025-07-12',title:'Halal Trace Ideathon',organiser:'Halal Trade Network',type:'Ideathon',format:'Online',topic:'Retail',tech:['Blockchain','Figma'],teams:16,prize:'RM3,000',winner:'Team Trust Chain'},
+  {date:'2025-08-09',title:'Phishing Defence Night',organiser:'CyberShield Bank Security',type:'Hackathon',format:'In person · Cyberjaya',topic:'Cybersecurity',tech:['Python','Gemini'],teams:52,prize:'RM6,000',winner:'Team Bait Breakers'},
+  {date:'2025-08-30',title:'Merdeka Data Week',organiser:'Open Data Malaysia Lab',type:'Datathon',format:'Online',topic:'Public sector',tech:['Pandas','Looker Studio'],teams:35,prize:'RM5,000',winner:'Team Data Durian'},
+  {date:'2025-09-20',title:'Durian Farm IoT Cup',organiser:'Johor Agri Cooperative',type:'Challenge',format:'In person · Raub',topic:'Agriculture',tech:['ESP32','Arduino'],teams:12,prize:'RM6,000',winner:'Team Thorny Sensors'},
+  {date:'2025-10-18',title:'Edu Access Hack',organiser:'UTeM Student Affairs',type:'Hackathon',format:'In person · Melaka',topic:'Education',tech:['Flutter','Firebase'],teams:27,prize:'RM3,000',winner:'Team Study Buddy'},
+  {date:'2025-11-15',title:'FinTech for Inclusion 2025',organiser:'Penang FinLab',type:'Hackathon',format:'Hybrid · Penang',topic:'Finance',tech:['AppSheet','Gemini'],teams:55,prize:'RM12,000',winner:'Team Kopi Data'},
+  {date:'2025-12-06',title:'Year-end Pitch Clash',organiser:'Innovation Office',type:'Challenge',format:'In person · Kuala Lumpur',topic:'Business',tech:['Google Slides'],teams:30,prize:'RM4,000',winner:'Team Three Minute Heroes'},
+  {date:'2026-01-24',title:'Smart Shelf Sprint',organiser:'Kedai Data Co.',type:'Hackathon',format:'Online',topic:'Retail',tech:['Vertex AI','Python'],teams:29,prize:'RM5,000',winner:'Team Gap Finder'},
+  {date:'2026-02-28',title:'Clean Air Datathon',organiser:'Campus Sustainability Network',type:'Datathon',format:'Online',topic:'Climate',tech:['Python','Looker Studio'],teams:23,prize:'RM4,500',winner:'Team Jerebu Watch'},
+  {date:'2026-03-21',title:'Elder Care Ideathon',organiser:'KL Health Innovation Hub',type:'Ideathon',format:'Hybrid · Kuala Lumpur',topic:'Health',tech:['Figma','Gemini'],teams:20,prize:'RM3,500',winner:'Team Atuk Assist'},
+  {date:'2026-04-18',title:'Bus Data Hack',organiser:'Melaka Smart City Unit',type:'Hackathon',format:'In person · Melaka',topic:'Mobility',tech:['Google Maps API','Pandas'],teams:25,prize:'RM6,000',winner:'Team Next Stop'},
+  {date:'2026-05-16',title:'Secure Apps Weekend',organiser:'CyberShield Bank Security',type:'Hackathon',format:'Online',topic:'Cybersecurity',tech:['Burp Suite','Python'],teams:49,prize:'RM7,000',winner:'Team Patch Party'},
+  {date:'2026-06-13',title:'Gemini No-code Hackathon',organiser:'Innovation Office',type:'Hackathon',format:'Online',topic:'AI',tech:['Gemini','AppSheet'],teams:62,prize:'RM8,000',winner:'Team Prompt Perfect',me:'Joined'},
+  {date:'2026-07-11',title:'Hydro Grid Challenge',organiser:'JB Energy Alliance',type:'Challenge',format:'Hybrid · Kuching',topic:'Climate',tech:['Python','QGIS'],teams:15,prize:'RM9,000',winner:'Team River Watts'},
+  {date:'2026-08-08',title:'Open Budget Hack',organiser:'Open Data Malaysia Lab',type:'Hackathon',format:'Online',topic:'Public sector',tech:['React','Pandas'],teams:34,prize:'RM5,000',winner:'Team Ringgit Radar'},
+  {date:'2026-09-05',title:'Retail AI Sprint',organiser:'Kedai Data Co.',type:'Hackathon',format:'Online',topic:'Retail',tech:['Python','Vertex AI'],teams:32,prize:'RM5,000',winner:'Team Kopi Data',me:'Finalist'},
+  {date:'2026-10-25',title:'Campus Safety Hack',organiser:'UTeM Student Affairs',type:'Hackathon',format:'In person · Melaka',topic:'Cybersecurity',tech:['Flutter','Firebase'],teams:21,prize:'RM4,000',winner:'Team Null Pointer',me:'Joined'}
+].map(a=>({...a,year:+a.date.slice(0,4),id:'ar-'+a.date+'-'+a.title.toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
 
 /* ===== 1. Discover ===== */
 const programs=[
@@ -3016,7 +3101,130 @@ function renderSections(){
   }).join('');
   $('#program-sections').innerHTML=html||`<div class="empty">Nothing matches these filters.<br><button class="link-btn" type="button" data-clear>Clear filters</button></div>`;
 }
-function renderCards(){syncStatus();renderNextUp();renderCal();renderSpot();renderUp();renderToolbar();renderSections();renderMyProgs();if(curEvent&&!$('#view-event').hidden)renderEvent()}
+/* ===== Certificates (drawn on a canvas, downloaded as PNG) ===== */
+const certId=(ev,name)=>'IB-'+ev.year+'-'+hash(ev.title+'|'+name).toString(36).toUpperCase().slice(0,6);
+async function downloadCert(ev){
+  const name=PEOPLE.student.name,award=ev.me||'Joined',W=1600,H=1130,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');
+  try{await document.fonts.load('700 60px "Inter Tight"');await document.fonts.load('400 40px Anton')}catch(e){}
+  g.fillStyle='#f7f4ea';g.fillRect(0,0,W,H);
+  g.strokeStyle='#1b2215';g.lineWidth=14;g.strokeRect(40,40,W-80,H-80);g.strokeStyle='#5c7a2c';g.lineWidth=3;g.strokeRect(70,70,W-140,H-140);
+  // our bridge mark
+  g.save();g.translate(W/2-60,120);g.scale(5,5);g.strokeStyle='#1b2215';g.lineWidth=2.2;g.lineCap='round';g.stroke(new Path2D('M2 17c3-6.5 7-9.5 10-9.5s7 3 10 9.5'));g.stroke(new Path2D('M6.5 16.5v-4M10 16.5V10M14 16.5V10M17.5 16.5v-4'));g.restore();
+  const t=(txt,y,font,col='#1b2215')=>{g.font=font;g.fillStyle=col;g.textAlign='center';g.fillText(txt,W/2,y)};
+  t('INDUSTRYBRIDGE',250,'600 26px "Inter Tight", Arial','#5c7a2c');
+  t(award==='Joined'?'Certificate of Participation':'Certificate of Achievement',350,'400 76px Anton, Impact, sans-serif');
+  t('This certifies that',445,'400 30px Inter, Arial','#55554f');
+  t(name,540,'700 72px "Inter Tight", Arial');
+  g.fillStyle='#5c7a2c';g.fillRect(W/2-260,570,520,4);
+  t(award==='Joined'?'took part in':award==='Winner'?'won':'was a '+award.toLowerCase()+' at',640,'400 30px Inter, Arial','#55554f');
+  t(ev.title,710,'700 50px "Inter Tight", Arial');
+  t(`${ev.type} · ${ev.format} · organised by ${ev.organiser}`,770,'400 26px Inter, Arial','#55554f');
+  const d=new Date(ev.date);t(`${d.getDate()} ${MON_L[d.getMonth()]} ${d.getFullYear()}`,830,'600 28px Inter, Arial');
+  g.textAlign='left';g.font='400 22px Inter, Arial';g.fillStyle='#55554f';g.fillText('Certificate ID '+certId(ev,name),120,H-120);
+  g.textAlign='right';g.fillText('Verify at industrybridge.netlify.app',W-120,H-120);
+  g.strokeStyle='#1b2215';g.lineWidth=2;[[W/2-420,W/2-120],[W/2+120,W/2+420]].forEach(([a,b])=>{g.beginPath();g.moveTo(a,950);g.lineTo(b,950);g.stroke()});
+  g.textAlign='center';g.font='400 22px Inter, Arial';g.fillText(ev.organiser,W/2-270,985);g.fillText('IndustryBridge',W/2+270,985);
+  c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`IndustryBridge-certificate-${ev.title.replace(/[^A-Za-z0-9]+/g,'-')}.png`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)},'image/png');
+  toast(`Certificate for ${ev.title} downloaded`);
+}
+/* Event photos: thumbnails here, full album in the Google Drive folder */
+function openPhotos(ev){
+  const url=ev.photos||EVENT_PHOTOS_URL,ready=!/REPLACE_WITH/.test(url),fake={id:ev.id,poster:'p-smart'};
+  const caps=['Opening talk','Teams at work','Mentor rounds','Late-night build','Final demos','Awards'];
+  openModal(`<div><span class="eyebrow">Event photos</span><h2 id="modal-title">${esc(ev.title)}</h2><p class="muted" style="font-size:13px;margin:2px 0 0">${fmtDate(new Date(ev.date))} · ${esc(ev.organiser)}</p></div>
+    <div class="ph-grid">${caps.map((c,i)=>`<figure>${sceneSVG({...fake,id:ev.id+i})}<figcaption>${c}</figcaption></figure>`).join('')}</div>
+    <p class="muted" style="font-size:12.5px;margin:0">${ready?'The full album is in a shared Google Drive folder.':'Drive folder link not set yet. Put it in EVENT_PHOTOS_URL at the top of the script.'}</p>
+    <div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button>${ready?`<a class="btn primary" href="${esc(url)}" target="_blank" rel="noopener">Open in Google Drive ${I('external','sm')}</a>`:`<button class="btn primary" type="button" disabled>Open in Google Drive</button>`}</div>`,true);
+}
+const archOf=id=>HACKATHON_ARCHIVE.find(a=>a.id===id);
+document.addEventListener('click',e=>{
+  const c=e.target.closest('[data-cert]');if(c){const a=archOf(c.dataset.cert);if(a)downloadCert(a);return}
+  const p=e.target.closest('[data-photos]');if(p){const a=archOf(p.dataset.photos);if(a)openPhotos(a)}
+});
+/* ===== Hackathon archive (students, on Discover) ===== */
+const arch={q:'',year:'all',type:'all',mine:false,all:false};
+function archMatch(a,q){return !q||[a.title,a.organiser,a.topic,a.type,a.format,a.winner,...a.tech].join(' ').toLowerCase().includes(q)}
+function renderArchive(){
+  const el=$('#archive');if(!el)return;
+  if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<div class="arch-head"><div><span class="eyebrow">03 / Hackathon archive</span><h2>Every hackathon from 2024 to 2026</h2></div><span class="arch-n" id="arch-n"></span></div>
+    <div class="arch-bar"><label class="search"><svg class="i"><use href="#i-search"/></svg><input id="arch-q" type="search" placeholder="Search by keyword: title, organiser, topic, tech or winner" aria-label="Search the archive"></label>
+      <div class="cat-tabs" id="arch-years"></div>
+      <select class="pill-select" id="arch-type" aria-label="Type"><option value="all">All types</option>${[...new Set(HACKATHON_ARCHIVE.map(a=>a.type))].map(t=>`<option>${t}</option>`).join('')}</select>
+      <label class="hf-open"><input type="checkbox" id="arch-mine"> Only mine</label></div>
+    <div id="arch-list"></div>`}
+  const q=arch.q.trim().toLowerCase(),list=HACKATHON_ARCHIVE.filter(a=>(arch.year==='all'||a.year===+arch.year)&&(arch.type==='all'||a.type===arch.type)&&(!arch.mine||a.me)&&archMatch(a,q)).sort((a,b)=>b.date.localeCompare(a.date));
+  $('#arch-years').innerHTML=['all',2026,2025,2024].map(y=>`<button type="button" data-arch-year="${y}" class="${String(arch.year)===String(y)?'on':''}">${y==='all'?'All years':y}<small>${HACKATHON_ARCHIVE.filter(a=>y==='all'||a.year===y).length}</small></button>`).join('');
+  $('#arch-n').textContent=`${list.length} of ${HACKATHON_ARCHIVE.length}`;
+  const shown=arch.all||q?list:list.slice(0,10);let lastY=0;
+  $('#arch-list').innerHTML=shown.map(a=>{const d=new Date(a.date),head=a.year!==lastY?`<div class="arch-y">${a.year}</div>`:'';lastY=a.year;
+    return head+`<article class="arch-row${a.me?' mine':''}"><div class="prow-date"><small>${MON_S[d.getMonth()]}</small><b>${String(d.getDate()).padStart(2,'0')}</b></div>
+      <div class="arch-main"><div class="prow-tags"><span class="mtag accent">${a.type}</span><span class="mtag">${a.format.split(' · ')[0]}</span><span class="mtag">${a.topic}</span>${a.me?`<span class="mtag ink">You · ${a.me}</span>`:''}</div>
+        <h4>${esc(a.title)}</h4><p>${esc(a.organiser)} · ${a.format} · ${a.teams} teams · ${a.prize}</p>
+        <p class="arch-win">${I('trophy','sm')}${esc(a.winner)}<span>${a.tech.map(t=>`<i>${t}</i>`).join('')}</span></p></div>
+      <div class="arch-acts"><button class="btn ghost sm" type="button" data-photos="${a.id}">${I('eye','sm')}Photos</button>${a.me?`<button class="btn primary sm" type="button" data-cert="${a.id}">${I('file','sm')}Certificate</button>`:''}</div></article>`}).join('')
+    +(list.length>shown.length?`<button class="link-btn arch-more" type="button" data-arch-all>Show all ${list.length} hackathons</button>`:'')
+    +(list.length?'':`<div class="empty">No hackathons match “${esc(arch.q)}”.</div>`);
+}
+document.addEventListener('input',e=>{if(e.target.id==='arch-q'){arch.q=e.target.value;renderArchive()}});
+document.addEventListener('change',e=>{if(e.target.id==='arch-type'){arch.type=e.target.value;renderArchive()}if(e.target.id==='arch-mine'){arch.mine=e.target.checked;renderArchive()}});
+document.addEventListener('click',e=>{const y=e.target.closest('[data-arch-year]');if(y){arch.year=y.dataset.archYear;renderArchive();return}if(e.target.closest('[data-arch-all]')){arch.all=true;renderArchive()}});
+/* ===== Organizer Library: every program to manage or reuse ===== */
+const lib={q:'',scope:'all',status:'all',type:'all',when:'all',size:'all',sponsor:'all',sort:'recent',drafts:[
+  {id:'d-sfc27',title:'Smart Factory Challenge 2027',organiser:'Innovation Office',type:'Challenge',format:'Hybrid · Kuala Lumpur',topic:'Manufacturing',date:'2027-03-06',teams:0,status:'Draft'},
+  {id:'d-kdw',title:'Kampung Data Week',organiser:'Innovation Office',type:'Datathon',format:'Online',topic:'Public sector',date:'2027-01-16',teams:0,status:'Draft'}]};
+const ORG_NAME=()=>PEOPLE.organizer.name;
+function libItems(){
+  const now=new Date();
+  const cur=programs.map(p=>({id:p.id,live:true,title:p.title,organiser:HOSTS[p.id]||'IndustryBridge',type:p.kind,format:p.format,topic:p.tags[0],date:(p.opensAt||p.closes).toISOString().slice(0,10),teams:p.id==='smart'?40:(p.teamsIn??p.teams??0),
+    status:p.status==='soon'?'Published':p.status==='open'?'Live':p.status==='progress'?((p.endsAt-now)/864e5<=21?'Judging':'Live'):'Closed'}));
+  const old=HACKATHON_ARCHIVE.filter(a=>!cur.some(c=>c.title===a.title)).map(a=>({...a,status:'Closed'}));
+  return [...lib.drafts,...cur,...old].map(x=>({...x,mine:x.organiser===ORG_NAME(),subs:x.status==='Draft'||x.status==='Published'?0:Math.round(x.teams*(.55+hash(x.id)%40/100)),done:x.status==='Closed'?62+hash(x.id+'c')%33:x.status==='Draft'?0:20+hash(x.id+'c')%50,rating:(3.9+hash(x.id+'r')%11/10).toFixed(1)}));
+}
+function renderLibrary(){
+  const el=$('#library');if(!el)return;
+  const all=libItems(),sponsors=[...new Set(all.map(x=>x.organiser))].sort();
+  if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<header class="phead"><div class="phead-main"><span class="eyebrow"><span>IB / Library</span></span><h1 class="page-title"><span class="soft">Program</span> library</h1><p class="page-sub">Every program on IndustryBridge, yours and everyone else’s. Manage what’s running, check results, or reuse a past program as a template.</p></div>
+      <div class="phead-aside"><a class="btn primary" href="#studio-plan">${I('plus','sm')}Create a program</a></div></header>
+    <div class="lib-bar">
+      <div class="seg" role="group" aria-label="Whose programs"><button type="button" data-lib-scope="all">All programs</button><button type="button" data-lib-scope="mine">My events</button></div>
+      <label class="search"><svg class="i"><use href="#i-search"/></svg><input id="lib-q" type="search" placeholder="Search title, sponsor, topic or tech" aria-label="Search the library"></label></div>
+    <div class="lib-bar" id="lib-filters"></div>
+    <div class="lib-grid" id="lib-grid"></div>`}
+  const sel=(k,label,opts)=>`<select class="pill-select" data-lib="${k}" aria-label="${label}">${opts.map(([v,t])=>`<option value="${v}"${String(lib[k])===String(v)?' selected':''}>${t}</option>`).join('')}</select>`;
+  $('#lib-filters').innerHTML=sel('status','Status',[['all','Any status'],...['Draft','Published','Live','Judging','Closed'].map(s=>[s,s])])
+    +sel('type','Event type',[['all','Any type'],...[...new Set(all.map(x=>x.type))].map(t=>[t,t])])
+    +sel('when','Date range',[['all','Any date'],['upcoming','Upcoming'],['2026','2026'],['2025','2025'],['2024','2024']])
+    +sel('size','Participants',[['all','Any size'],['s','Under 20 teams'],['m','20–50 teams'],['l','50+ teams']])
+    +sel('sponsor','Sponsor',[['all','Any sponsor'],...sponsors.map(s=>[s,s])])
+    +sel('sort','Sort',[['recent','Newest first'],['teams','Most teams'],['done','Best completion'],['rating','Best rated']]);
+  $$('[data-lib-scope]').forEach(b=>b.classList.toggle('on',b.dataset.libScope===lib.scope));
+  const q=lib.q.trim().toLowerCase(),today=new Date().toISOString().slice(0,10);
+  const list=all.filter(x=>(lib.scope==='all'||x.mine)&&(lib.status==='all'||x.status===lib.status)&&(lib.type==='all'||x.type===lib.type)&&(lib.sponsor==='all'||x.organiser===lib.sponsor)
+      &&(lib.when==='all'||(lib.when==='upcoming'?x.date>=today:x.date.startsWith(lib.when)))&&(lib.size==='all'||(lib.size==='s'?x.teams<20:lib.size==='m'?x.teams>=20&&x.teams<=50:x.teams>50))
+      &&(!q||[x.title,x.organiser,x.topic,x.type,x.format,x.winner||'',...(x.tech||[])].join(' ').toLowerCase().includes(q)))
+    .sort((a,b)=>lib.sort==='teams'?b.teams-a.teams:lib.sort==='done'?b.done-a.done:lib.sort==='rating'?b.rating-a.rating:b.date.localeCompare(a.date));
+  const st={Draft:'',Published:'accent',Live:'ok',Judging:'warn',Closed:''};
+  $('#lib-grid').innerHTML=list.map(x=>{const d=new Date(x.date);return `<article class="lib-card${x.mine?' mine':''}">
+      <div class="lib-top"><span class="badge ${st[x.status]}">${x.status}</span>${x.mine?'<span class="mtag ink">My event</span>':''}<span class="lib-date">${d.getDate()} ${MON_S[d.getMonth()]} ${d.getFullYear()}</span></div>
+      <h3>${esc(x.title)}</h3><p class="lib-sub">${esc(x.organiser)} · ${x.type} · ${x.format}</p>
+      <div class="lib-stats"><div><b>${x.teams}</b><small>Teams</small></div><div><b>${x.subs}</b><small>Submissions</small></div><div><b>${x.done}%</b><small>Completed</small></div><div><b>${x.status==='Draft'?'–':x.rating}</b><small>Rating</small></div></div>
+      <div class="lib-acts">${x.mine?`<a class="btn ghost sm" href="#studio-design">${I('edit','sm')}Edit</a>`:''}<button class="btn ghost sm" type="button" data-lib-dup="${x.id}">${I('plus','sm')}Duplicate</button>${x.status==='Draft'||x.status==='Published'?'':x.mine?`<a class="btn ghost sm" href="#studio-manage">${I('file','sm')}Submissions</a>`:''}${x.status==='Draft'?'':`<button class="btn ghost sm" type="button" data-lib-stats="${x.id}">${I('bars','sm')}Analytics</button>`}<a class="btn primary sm" href="#studio-plan" data-lib-tpl="${x.id}">Use as template</a></div>
+    </article>`}).join('')||'<div class="empty">No programs match these filters.</div>';
+}
+document.addEventListener('input',e=>{if(e.target.id==='lib-q'){lib.q=e.target.value;renderLibrary()}});
+document.addEventListener('change',e=>{const k=e.target.dataset?.lib;if(k){lib[k]=e.target.value;renderLibrary()}});
+document.addEventListener('click',e=>{
+  const s=e.target.closest('[data-lib-scope]');if(s){lib.scope=s.dataset.libScope;renderLibrary();return}
+  const du=e.target.closest('[data-lib-dup]');if(du){const x=libItems().find(i=>i.id===du.dataset.libDup);lib.drafts.unshift({id:'d-'+Date.now(),title:x.title.replace(/ (20\d\d)$/,'')+' (copy)',organiser:ORG_NAME(),type:x.type,format:x.format,topic:x.topic,date:new Date(Date.now()+60*864e5).toISOString().slice(0,10),teams:0,status:'Draft'});renderLibrary();toast(`Copied “${x.title}” into a new draft`);return}
+  const tp=e.target.closest('[data-lib-tpl]');if(tp){const x=libItems().find(i=>i.id===tp.dataset.libTpl);setTimeout(()=>toast(`Starting from “${x.title}”: tracks, rubric and timeline copied`),60);return}
+  const an=e.target.closest('[data-lib-stats]');if(an){const x=libItems().find(i=>i.id===an.dataset.libStats);
+    openModal(`<div><span class="eyebrow">Analytics</span><h2 id="modal-title">${esc(x.title)}</h2><p class="muted" style="font-size:13px;margin:2px 0 0">${esc(x.organiser)} · ${x.status}</p></div>
+      <div class="facts"><div><small>Teams</small><b>${x.teams}</b></div><div><small>Submissions</small><b>${x.subs}</b></div><div><small>Completion</small><b>${x.done}%</b></div><div><small>Rating</small><b>${x.rating} / 5</b></div><div><small>Students reached</small><b>${x.teams*3+hash(x.id)%40}</b></div><div><small>Universities</small><b>${4+hash(x.id+'u')%14}</b></div></div>
+      ${x.winner?`<div class="win">${I('trophy')}<span>Winner: ${esc(x.winner)}</span></div>`:''}
+      <div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button><button class="btn primary" type="button" data-toast="Report exported as PDF">Export report</button></div>`)}
+});
+
+function renderCards(){syncStatus();renderNextUp();renderCal();renderSpot();renderUp();renderArchive();renderLibrary();renderToolbar();renderSections();renderMyProgs();if(curEvent&&!$('#view-event').hidden)renderEvent()}
 let curEvent=null;
 const HOSTS={smart:'Innovation Office',green:'Campus Sustainability Network',fintech:'Penang FinLab',health:'KL Health Innovation Hub',mobility:'Melaka Smart City Unit',agri:'Johor Agri Cooperative',cyber:'CyberShield Bank Security',data:'Open Data Malaysia Lab',ev:'JB Energy Alliance',halal:'Halal Trade Network',retail:'Kedai Data Co.',campus:'UTeM Student Affairs'};
 const EXTRA_TEAMS=['Kopi Data','Null Pointer','Byte Club','Team Sambal','Lumen Labs','Quant Kittens','Rojak Robotics','Data Durian'];
@@ -3121,13 +3329,14 @@ function renderMyHome(){
   const saved=ALL.filter(p=>p.saved);
   $('#mph-saved').innerHTML=saved.length?`<div class="plist">${saved.map(rowHTML).join('')}</div>`
     :`<div class="empty">Nothing saved yet. Tap the bookmark on any program in <button class="link-btn" type="button" data-set-tab="mph:all">All programs</button> to keep it here.</div>`;
-  // completed: past programs from your hackathon record
-  const done=(myCard?.hist||[]).map(([t,r,pj])=>({p:programs.find(x=>x.title===t),r,pj})).filter(x=>x.p);
-  $('#mph-completed').innerHTML=done.map(({p,r,pj})=>`<article class="mrow">
-    <div class="mrow-main"><div class="mrow-org">${logo(p)}${org(p)}</div><h3><button class="link-title" type="button" data-view-program="${p.id}">${p.title}</button></h3>
-      <p class="mrow-meta">${p.kind} · Finished ${fmtDate(p.endsAt)} · ${esc(pj)}</p></div>
-    <div class="mrow-next"><div><b><span class="badge ${r==='Winner'?'ok':r==='Finalist'?'accent':''}">${r}</span></b><small>${I('sparkle','sm')}+${XP_FOR[r].toLocaleString('en-MY')} XP verified</small></div><button class="btn ghost sm" type="button" data-toast="Certificate for ${p.title} downloaded">Certificate</button></div>
-    ${more(p)}</article>`).join('')||`<div class="empty">Finished programs show up here with your result.</div>`;
+  // completed: every past hackathon you took part in (from HACKATHON_ARCHIVE), with certificate and photos
+  const done=HACKATHON_ARCHIVE.filter(x=>x.me).sort((x,y)=>y.date.localeCompare(x.date));
+  $('#mph-completed').innerHTML=done.map(x=>`<article class="mrow">
+    <div class="mrow-main"><div class="mrow-org"><span class="pcard-logo mini p-smart" aria-hidden="true">${I('trophy')}</span>${esc(x.organiser)}</div><h3>${esc(x.title)}</h3>
+      <p class="mrow-meta">${x.type} · Finished ${fmtDate(new Date(x.date))} · ${x.teams} teams</p></div>
+    <div class="mrow-next"><div><b><span class="badge ${x.me==='Winner'?'ok':x.me==='Finalist'?'accent':''}">${x.me}</span></b><small>${I('sparkle','sm')}+${XP_FOR[x.me].toLocaleString('en-MY')} XP verified</small></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary sm" type="button" data-cert="${x.id}">${I('file','sm')}Certificate</button><button class="btn ghost sm" type="button" data-photos="${x.id}">${I('eye','sm')}Event photos</button></div></div>
+    </article>`).join('')||`<div class="empty">Finished programs show up here with your result.</div>`;
   // tab counts
   const set=(k,n)=>{$('#mph-n-'+k).textContent=n};
   set('progress',rows.length);set('saved',saved.length);set('completed',done.length);set('all',ALL.length);
