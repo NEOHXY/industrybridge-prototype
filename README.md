@@ -36,6 +36,8 @@ The key lives in a Cloudflare Worker (`cloudflare-worker/worker.js`), never in t
 4. Open the Worker URL (`https://<name>.<account>.workers.dev`). It should show `"keySet":true`.
 5. Put that URL in `index.html` as `const GEMINI_RELAY='https://…workers.dev';`, copy to `static/index.html`, commit and push.
 
+**Free poster artwork:** Worker → **Settings** → **Bindings** → **Add binding** → **Workers AI**, variable name `AI` → Deploy. **Generate artwork** then draws with FLUX.1 schnell on Cloudflare's free daily allowance (no Gemini billing needed). The Worker URL should show `"imageAI":true`.
+
 The Worker only answers requests from `https://neohxy.github.io` (and localhost), only Gemini models, and limits each visitor to 20 text and 5 image requests per 10 minutes. To allow another site, add a Text variable `ALLOWED_ORIGINS` (comma-separated). Also set a spend cap in Google AI Studio.
 
 ### Own key (optional)

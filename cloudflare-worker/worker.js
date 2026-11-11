@@ -8,7 +8,10 @@
  * Setup: Cloudflare dashboard → Workers & Pages → your Worker → Settings → Variables and Secrets
  *   GEMINI_API_KEY   (type: Secret)  your key from https://aistudio.google.com/app/apikey
  *   ALLOWED_ORIGINS  (type: Text, optional) comma-separated, e.g. https://neohxy.github.io
+ * Poster artwork (free, no Gemini billing): Settings → Bindings → Add → Workers AI, variable name AI.
+ *   POST /image {prompt} draws with FLUX.1 schnell on Cloudflare's free daily allowance.
  */
+const IMAGE_MODEL = '@cf/black-forest-labs/flux-1-schnell';
 
 const GOOGLE = 'https://generativelanguage.googleapis.com';
 const DEFAULT_ORIGINS = ['https://neohxy.github.io'];
@@ -63,11 +66,30 @@ export default {
       return origin ? new Response(null, { status: 204, headers: cors(origin) }) : new Response(null, { status: 403 });
     }
     if (url.pathname === '/' && request.method === 'GET') {
-      return reply(200, { ok: true, service: 'IndustryBridge Gemini relay', keySet: !!env.GEMINI_API_KEY }, origin);
+      return reply(200, { ok: true, service: 'IndustryBridge Gemini relay', keySet: !!env.GEMINI_API_KEY, imageAI: !!env.AI }, origin);
     }
     if (!origin) return reply(403, { error: { message: 'This relay only answers the IndustryBridge website.' } });
-    if (!env.GEMINI_API_KEY) return reply(500, { error: { message: 'GEMINI_API_KEY secret is not set on the Worker.' } }, origin);
 
+    // Poster artwork on Cloudflare Workers AI (free daily allowance), no Gemini key needed
+    if (request.method === 'POST' && url.pathname === '/image') {
+      if (!env.AI) return reply(501, { error: { message: 'Artwork is not set up yet.' } }, origin);
+      const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+      if (overLimit(ip, 'image')) return reply(429, { error: { message: 'Too many image requests. Try again in a few minutes.' } }, origin);
+      const body = await request.text();
+      if (body.length > MAX_BODY) return reply(413, { error: { message: 'Request too large.' } }, origin);
+      let prompt = '';
+      try { prompt = String(JSON.parse(body).prompt || '').slice(0, 2000); } catch (e) {}
+      if (!prompt) return reply(400, { error: { message: 'Missing prompt.' } }, origin);
+      try {
+        const out = await env.AI.run(IMAGE_MODEL, { prompt, steps: 6 });
+        if (!out || !out.image) throw new Error('no image returned');
+        return reply(200, { image: 'data:image/jpeg;base64,' + out.image }, origin);
+      } catch (e) {
+        console.log('image error', e && e.message);
+        return reply(502, { error: { message: 'Artwork failed, try again.' } }, origin);
+      }
+    }
+    if (!env.GEMINI_API_KEY) return reply(500, { error: { message: 'GEMINI_API_KEY secret is not set on the Worker.' } }, origin);
     const auth = { 'x-goog-api-key': env.GEMINI_API_KEY };
 
     // List models (the site picks a Flash text model and an image model from this)
