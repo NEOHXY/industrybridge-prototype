@@ -424,7 +424,8 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .arch-y{font:600 11px var(--font-mono);letter-spacing:.14em;color:var(--muted);padding:14px 0 6px;border-bottom:1px solid var(--line);margin-bottom:6px}
 .arch-row{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line)}
 .arch-row.mine{background:linear-gradient(90deg,var(--accent-soft),transparent 60%)}
-.arch-main h4{margin:4px 0 2px;font-size:15px}
+.arch-main h4{margin:4px 0 2px;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.arch-main h4 .mtag{font-size:10px}
 .arch-main p{margin:0;font-size:12.5px;color:var(--body-2)}
 .arch-win{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px!important;color:var(--fg)!important}
 .arch-win .i{color:#b8860b}
@@ -2278,7 +2279,7 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
     <header class="phead"><div class="phead-main">
       <span class="eyebrow"><span><a href="#discover">IB</a> / Archive</span></span>
       <h1 class="page-title"><span class="soft">Hackathon</span> archive</h1>
-      <p class="page-sub">Every hackathon from the last three years. Search by keyword, look back at winners, open event photos and get your certificates.</p>
+      <p class="page-sub">Search by keyword, open event photos and get your certificates.</p>
     </div></header>
     <section class="card arch" id="archive" aria-label="Hackathon archive"></section>
   </div>
@@ -3259,7 +3260,6 @@ function hfHTML(){
   const f=disc.hf,topics=[...new Set(ALL.map(p=>p.tags[0]))].sort(),n=cfItems().length;
   return `<div class="hf" role="group" aria-label="Filter events">
     <div class="cat-tabs">${HF_TYPES.map(([k,l])=>`<button type="button" data-hf-type="${k}" class="${f.type===k?'on':''}" aria-pressed="${f.type===k}">${l}</button>`).join('')}</div>
-    <select class="pill-select" data-hf="mode" aria-label="Mode"><option value="all">Any mode</option>${['Online','Hybrid','In person'].map(m=>`<option${f.mode===m?' selected':''}>${m}</option>`).join('')}</select>
     <select class="pill-select" data-hf="topic" aria-label="Topic"><option value="all">Any topic</option>${topics.map(t=>`<option${f.topic===t?' selected':''}>${t}</option>`).join('')}</select>
     <label class="hf-open"><input type="checkbox" data-hf="open"${f.open?' checked':''}> Open now</label>
     <span class="hf-n">${n} event${n===1?'':'s'}</span></div>`;
@@ -3464,8 +3464,7 @@ const arch={q:'',year:'all',type:'all',topic:'all',all:false};
 function archMatch(a,q){return !q||[a.title,a.organiser,a.topic,a.type,a.city,a.winner,a.participants,...a.sponsors].join(' ').toLowerCase().includes(q)}
 function arRow(a){
   return `<article class="arch-row"><div class="prow-date"><small>${a.month!=null?MON_S[a.month]:a.year}</small><b>${a.day?String(a.day).padStart(2,'0'):a.month!=null?'·':'–'}</b></div>
-    <div class="arch-main"><div class="prow-tags"><span class="mtag accent">${a.type}</span><span class="mtag">${a.topic}</span>${a.city?`<span class="mtag">${esc(a.city)}</span>`:''}${a.status==='Upcoming'?'<span class="mtag ink">Upcoming</span>':''}</div>
-      <h4>${esc(a.title)}</h4><p>${esc(a.organiser)} · ${arWhen(a)}${a.participants?' · '+esc(a.participants):''}</p>
+    <div class="arch-main"><h4>${esc(a.title)}${a.status==='Upcoming'?' <span class="mtag ink">Upcoming</span>':''}</h4><p>${esc(a.organiser)}${a.participants?' · '+esc(a.participants):''}</p>
       ${a.sponsors.length?`<p class="arch-sp">Sponsors &amp; partners: ${a.sponsors.map(s=>`<i>${esc(s)}</i>`).join('')}</p>`:''}
       <p class="arch-win">${I('trophy','sm')}${a.winner?esc(a.winner):a.status==='Upcoming'?'Not held yet':'Winner not published'}<span class="arch-prize">${a.prize?esc(a.prize):'Prize not published'}</span></p></div>
     <div class="arch-acts"><a class="btn ghost sm" href="${esc(a.src)}" target="_blank" rel="noopener">${I('external','sm')}Source</a></div></article>`;
@@ -3474,13 +3473,13 @@ function renderArchive(){
   const el=$('#archive');if(!el)return;
   if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<div class="arch-head"><div><span class="eyebrow">Malaysia · 2024 – 2026</span><h2>Every hackathon we could verify</h2></div><span class="arch-n" id="arch-n"></span></div>
     <div class="arch-bar"><label class="search"><svg class="i"><use href="#i-search"/></svg><input id="arch-q" type="search" placeholder="Search by keyword: title, organiser, sponsor, topic, city or winner" aria-label="Search the archive"></label>
-      <div class="cat-tabs" id="arch-years"></div>
-      <select class="pill-select" id="arch-type" aria-label="Type"><option value="all">All types</option>${[...new Set(HACKATHON_ARCHIVE.map(a=>a.type))].map(t=>`<option>${t}</option>`).join('')}</select>
-      <select class="pill-select" id="arch-topic" aria-label="Topic"><option value="all">All topics</option>${[...new Set(HACKATHON_ARCHIVE.map(a=>a.topic))].sort().map(t=>`<option>${t}</option>`).join('')}</select></div>
+      <select class="pill-select" id="arch-year" aria-label="Years"></select>
+      <select class="pill-select" id="arch-type" aria-label="Types"><option value="all">Types</option>${[...new Set(HACKATHON_ARCHIVE.map(a=>a.type))].map(t=>`<option>${t}</option>`).join('')}</select>
+      <select class="pill-select" id="arch-topic" aria-label="Topics"><option value="all">Topics</option>${[...new Set(HACKATHON_ARCHIVE.map(a=>a.topic))].sort().map(t=>`<option>${t}</option>`).join('')}</select></div>
     <div id="arch-list"></div>
     <p class="arch-note">Each event links to its public source. Fields marked "not published" weren't in the source. Smaller campus events without a public page may be missing.</p>`}
   const q=arch.q.trim().toLowerCase(),list=HACKATHON_ARCHIVE.filter(a=>(arch.year==='all'||a.year===+arch.year)&&(arch.type==='all'||a.type===arch.type)&&(arch.topic==='all'||a.topic===arch.topic)&&archMatch(a,q)).sort((a,b)=>b.sortKey.localeCompare(a.sortKey));
-  $('#arch-years').innerHTML=['all',2026,2025,2024].map(y=>`<button type="button" data-arch-year="${y}" class="${String(arch.year)===String(y)?'on':''}">${y==='all'?'All years':y}<small>${HACKATHON_ARCHIVE.filter(a=>y==='all'||a.year===y).length}</small></button>`).join('');
+  $('#arch-year').innerHTML=['all',2026,2025,2024].map(y=>`<option value="${y}"${String(arch.year)===String(y)?' selected':''}>${y==='all'?'Years':y}</option>`).join('');
   $('#arch-n').textContent=`${list.length} of ${HACKATHON_ARCHIVE.length}`;
   const shown=arch.all||q?list:list.slice(0,12);let lastY=0;
   $('#arch-list').innerHTML=shown.map(a=>{const head=a.year!==lastY?`<div class="arch-y">${a.year}</div>`:'';lastY=a.year;return head+arRow(a)}).join('')
@@ -3488,7 +3487,7 @@ function renderArchive(){
     +(list.length?'':`<div class="empty">No hackathons match “${esc(arch.q)}”.</div>`);
 }
 document.addEventListener('input',e=>{if(e.target.id==='arch-q'){arch.q=e.target.value;renderArchive()}});
-document.addEventListener('change',e=>{if(e.target.id==='arch-type'){arch.type=e.target.value;renderArchive()}if(e.target.id==='arch-topic'){arch.topic=e.target.value;renderArchive()}});
+document.addEventListener('change',e=>{if(e.target.id==='arch-year'){arch.year=e.target.value;renderArchive()}if(e.target.id==='arch-type'){arch.type=e.target.value;renderArchive()}if(e.target.id==='arch-topic'){arch.topic=e.target.value;renderArchive()}});
 document.addEventListener('click',e=>{const y=e.target.closest('[data-arch-year]');if(y){arch.year=y.dataset.archYear;renderArchive();return}if(e.target.closest('[data-arch-all]')){arch.all=true;renderArchive()}});
 /* ===== Organizer Library: the same real hackathons, with organiser filters ===== */
 const lib={q:'',status:'all',year:'all',type:'all',topic:'all',org:'all',sponsor:'all',prize:'all',sort:'new'};
