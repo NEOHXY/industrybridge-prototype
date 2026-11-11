@@ -466,6 +466,9 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .lib-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .lib-stats div{padding:8px;text-align:center}.lib-stats div+div{border-left:1px solid var(--line)}
 .lib-stats b{display:block;font:600 17px var(--font-display)}.lib-stats small{font-size:11px;color:var(--muted)}
+.ai-status{margin:0;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ai-status i{width:7px;height:7px;border-radius:50%;background:var(--dim)}.ai-status.on i{background:var(--moss)}
+.ai-key{font-family:var(--font-mono);font-size:13px}
 .lib-acts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .lib-src{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)}
 .lib-src:hover{color:var(--fg)}
@@ -908,7 +911,11 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .ai-ill{width:46px;height:46px;border-radius:8px;flex:none}
 
 /* ---------- Organizer: design ---------- */
-.design-grid{display:grid;grid-template-columns:300px minmax(0,1fr) 300px;gap:16px;align-items:start;margin-top:26px}
+.design-grid{display:grid;grid-template-columns:300px minmax(0,1fr) 300px;gap:16px;align-items:stretch;margin-top:26px}
+.design-grid>.poster-col{display:flex;flex-direction:column}
+.design-grid>.poster-col .sposter{margin:auto;margin-top:16px}
+.design-grid>.poster-col .sposter:not(.actual){max-width:370px}
+.design-grid>.side-col{grid-template-rows:auto 1fr}
 @media (max-width:1080px){.design-grid{grid-template-columns:1fr 1fr}.design-grid>.poster-col{grid-column:1/-1;order:-1}}
 @media (max-width:680px){.design-grid{grid-template-columns:1fr}}
 .style-opt{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;background:var(--bg-2)}
@@ -930,8 +937,14 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .swatches button{width:24px;height:24px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line-2)}
 .swatches button.on{box-shadow:0 0 0 2px var(--fg)}
 .poster-col .panel-title{justify-content:space-between}
-.sposter{container-type:inline-size;position:relative;aspect-ratio:3/4;width:100%;max-width:300px;margin:16px auto 0;overflow:hidden;border-radius:6px;padding:8cqw 7cqw;display:flex;flex-direction:column;gap:2.5cqw;--brand:#5C7A2C;transition:max-width .3s}
+.sposter{container-type:inline-size;position:relative;aspect-ratio:3/4;width:100%;max-width:300px;margin:16px auto 0;overflow:hidden;border-radius:6px;--brand:#5C7A2C;transition:max-width .3s}
 .sposter.actual{max-width:100%}
+.sp-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.sposter.has-img .sp-art{display:none}
+.sposter.has-img::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.15) 45%,rgba(0,0,0,.6))}
+.sposter.has-img[data-style=community]::after{background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,.2) 45%,rgba(255,255,255,.75))}
+.sp-in{z-index:1}
+.sp-in{position:absolute;inset:0;padding:8cqw 7cqw;display:flex;flex-direction:column;gap:2.5cqw}
 .sposter[data-style=corporate]{background:radial-gradient(circle at 80% 85%,color-mix(in srgb,var(--brand) 70%,transparent),transparent 55%),linear-gradient(165deg,color-mix(in srgb,var(--brand) 30%,#10110d),#0b0c09 70%);color:#fff}
 .sposter[data-style=tech]{background:#0b0c09;color:#fff}
 .sposter[data-style=tech]::before{content:"";position:absolute;inset:0;background-image:linear-gradient(color-mix(in srgb,var(--brand) 40%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--brand) 40%,transparent) 1px,transparent 1px);background-size:7cqw 7cqw;-webkit-mask-image:linear-gradient(to top,#000,transparent 80%);mask-image:linear-gradient(to top,#000,transparent 80%)}
@@ -944,7 +957,7 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .sp-sub{align-self:flex-start;border:1px solid color-mix(in srgb,var(--brand) 60%,#fff);padding:1.2cqw 3cqw;font-weight:700;font-size:3.4cqw;letter-spacing:.2em;z-index:1;font-family:var(--font-display)}
 .sp-prize{font-family:var(--font-poster);font-size:10cqw;line-height:1;margin-top:2cqw;z-index:1}
 .sp-prize small{display:block;font-size:4.3cqw;letter-spacing:.12em;margin-top:1cqw}
-.sp-meta{margin-top:auto;display:grid;gap:3cqw;font-size:3.5cqw;z-index:1;font-family:var(--font-display);max-width:55%}
+.sp-meta{margin-top:auto;display:grid;gap:3cqw;font-size:3.5cqw;z-index:1;font-family:var(--font-display);max-width:70%}
 .sp-meta span{display:flex;gap:2cqw;align-items:flex-start}
 .sp-meta .i{width:5cqw;height:5cqw;color:color-mix(in srgb,var(--brand) 50%,#fff)}
 .sp-art{position:absolute;right:-6cqw;bottom:-4cqw;width:64cqw;height:72cqw;z-index:0;opacity:.85}
@@ -1909,6 +1922,7 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
   <div class="acct-head"><span class="me" id="acct-av">XN</span><div><b id="acct-name">Xin Yi Neoh</b><small id="acct-sub">Student · Team AI Forge</small></div></div>
   <button class="dd-item" id="my-char">My character<small>Unique to your account</small></button>
   <button class="dd-item" id="all-chars">Character gallery<small>No two accounts look the same</small></button>
+  <button class="dd-item" id="ai-settings">Gemini AI<small id="ai-settings-sub">Not connected</small></button>
   <button class="dd-item" id="switch-role">Switch to organizer view<small>Plan, publish and manage programs</small></button>
   <p style="font-size:11px;color:var(--dim);padding:2px 12px 8px;margin:0">⚠️ Demo only — role switching is for prototype review</p>
   <a class="dd-item" href="#signin" id="sign-out">Sign out</a>
@@ -2368,6 +2382,7 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
         <div class="field"><label for="b-duration">Duration</label><select class="field-select" id="b-duration"><option>2 weeks</option><option selected>4 weeks</option><option>6 weeks</option></select></div>
         <div class="field"><label for="b-prize">Cash prize pool</label><select class="field-select" id="b-prize"><option>RM5,000</option><option selected>RM8,000</option><option>RM10,000</option><option>RM12,000</option><option>RM15,000</option></select></div>
         <button class="btn primary block lg" type="submit" id="gen-plan"><svg class="i"><use href="#i-sparkle"/></svg>Generate plan</button>
+        <p class="ai-status" id="ai-status"></p>
       </form>
       <div class="card panel rec" id="rec"></div>
     </div>
@@ -2401,7 +2416,9 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
         </div>
         <div class="field">
           <span class="field-label">Artwork</span>
-          <button class="btn outline" id="gen-art" style="justify-self:start"><svg class="i"><use href="#i-sparkle"/></svg>Generate artwork</button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn outline" id="gen-art"><svg class="i"><use href="#i-sparkle"/></svg>Generate artwork</button><button class="btn ghost" id="ai-style" type="button"><svg class="i"><use href="#i-sparkle"/></svg>Suggest style &amp; copy</button></div>
+          <button class="link-btn" type="button" id="art-reset" hidden style="justify-self:start;font-size:12.5px">Remove Gemini artwork</button>
+          <p class="ai-status" id="ai-status-design"></p>
         </div>
       </div>
       <div class="card panel poster-col">
@@ -4010,6 +4027,96 @@ function renderBoard(){
 }
 ['#lb-season','#lb-field','#lb-who'].forEach(s=>$(s).addEventListener('change',renderBoard));
 
+/* ===== Gemini (Google AI Studio key, kept only in this browser) =====
+   Static site on GitHub Pages: there is no server to hide a key, so each user pastes their own key.
+   It is saved in this browser's localStorage only and never committed. Restrict the key to this site in Google Cloud. */
+const GEM={base:'https://generativelanguage.googleapis.com/v1beta'};
+const gemGet=k=>{try{return localStorage.getItem('ib-gemini-'+k)||''}catch(e){return ''}};
+const gemSet=(k,v)=>{try{v?localStorage.setItem('ib-gemini-'+k,v):localStorage.removeItem('ib-gemini-'+k)}catch(e){}};
+const gemOn=()=>!!gemGet('key');
+async function gemModels(key){
+  const r=await fetch(`${GEM.base}/models?pageSize=200`,{headers:{'x-goog-api-key':key}});
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error?.message||`HTTP ${r.status}`);
+  const gen=(j.models||[]).filter(m=>(m.supportedGenerationMethods||[]).includes('generateContent')).map(m=>m.name.replace(/^models\//,''));
+  const ver=n=>parseFloat((n.match(/(?:gemini|banana)-(\d+(?:\.\d+)?)/)||[0,0])[1]);
+  // image models: newest Nano Banana / *-image first, Lite before Pro (cheaper for a poster background)
+  GEM.images=gen.filter(n=>/image|nano-banana/i.test(n)&&!/(imagen|edit)/i.test(n)).sort((a,b)=>(/preview|exp/.test(a))-(/preview|exp/.test(b))||ver(b)-ver(a)||(/pro/.test(a))-(/pro/.test(b)));
+  const ok=gen.filter(n=>/gemini/i.test(n)&&!/(image|banana|tts|audio|live|embedding|vision)/i.test(n));
+  // newest Flash first (fast and cheap), then everything else
+  return ok.sort((a,b)=>(/flash/.test(b)&&!/lite/.test(b))-(/flash/.test(a)&&!/lite/.test(a))||(/preview|exp/.test(a))-(/preview|exp/.test(b))||ver(b)-ver(a)||a.localeCompare(b));
+}
+async function gemJSON(prompt){
+  const key=gemGet('key'),model=gemGet('model')||'gemini-flash-latest';
+  const r=await fetch(`${GEM.base}/models/${encodeURIComponent(model)}:generateContent`,{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':key},
+    body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',temperature:.8}})});
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error?.message||`HTTP ${r.status}`);
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  try{return JSON.parse(txt.replace(/^```(?:json)?|```$/g,''))}catch(e){throw new Error('Gemini returned an unexpected answer')}
+}
+async function gemImage(prompt){
+  const key=gemGet('key'),model=gemGet('imodel');if(!model)throw new Error('pick a poster artwork model in Gemini AI settings');
+  const r=await fetch(`${GEM.base}/models/${encodeURIComponent(model)}:generateContent`,{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':key},
+    body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseModalities:['TEXT','IMAGE']}})});
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error?.message||`HTTP ${r.status}`);
+  const part=(j.candidates?.[0]?.content?.parts||[]).find(p=>p.inlineData||p.inline_data);const d=part&&(part.inlineData||part.inline_data);
+  if(!d?.data)throw new Error('no image came back');
+  return `data:${d.mimeType||d.mime_type||'image/png'};base64,${d.data}`;
+}
+function renderAIStatus(){
+  const on=gemOn(),m=gemGet('model');
+  if($('#ai-settings-sub'))$('#ai-settings-sub').textContent=on?`Connected · ${m}`:'Not connected';
+  const el=$('#ai-status');if(!el)return;el.className='ai-status'+(on?' on':'');
+  const dz=$('#ai-status-design');if(dz){dz.className='ai-status'+(on?' on':'');dz.innerHTML=on?`<i></i>Gemini · ${esc(gemGet('imodel')||'no image model')}<button class="link-btn" type="button" data-ai-settings>Change</button>`:`<i></i>Using built-in patterns<button class="link-btn" type="button" data-ai-settings>Connect Gemini</button>`}
+  el.innerHTML=on?`<i></i>Gemini · ${esc(m)}<button class="link-btn" type="button" data-ai-settings>Change</button>`:`<i></i>Using built-in templates<button class="link-btn" type="button" data-ai-settings>Connect Gemini</button>`;
+}
+function openAISettings(){
+  const on=gemOn();
+  openModal(`<div><span class="eyebrow">AI</span><h2 id="modal-title">Connect Gemini</h2></div>
+    <p class="muted" style="font-size:13px;margin:0">Paste an API key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a>. It stays in this browser only.</p>
+    <div class="field"><label for="ai-key">API key</label><input class="text-input ai-key" id="ai-key" type="password" autocomplete="off" spellcheck="false" placeholder="${on?'•••••••• saved':'AIza…'}"></div>
+    <div class="field"><label for="ai-model">Model</label><select class="field-select" id="ai-model">${on&&gemGet('model')?`<option>${esc(gemGet('model'))}</option>`:'<option value="">Check the key to load models</option>'}</select></div>
+    <div class="field"><label for="ai-imodel">Poster artwork model</label><select class="field-select" id="ai-imodel">${on&&gemGet('imodel')?`<option>${esc(gemGet('imodel'))}</option>`:'<option value="">Check the key to load models</option>'}</select></div>
+    <p class="muted" id="ai-msg" style="font-size:12.5px;margin:0"></p>
+    <div class="modal-actions">${on?'<button class="btn ghost" type="button" id="ai-remove">Disconnect</button>':''}<button class="btn ghost" type="button" id="ai-check">Check key</button><button class="btn primary" type="button" id="ai-save">Save</button></div>`);
+}
+async function aiCheck(){
+  const key=$('#ai-key').value.trim()||gemGet('key'),msg=$('#ai-msg');if(!key){msg.textContent='Paste a key first.';return null}
+  msg.textContent='Checking…';
+  try{const list=await gemModels(key);if(!list.length)throw new Error('No text models are available for this key');
+    const cur=gemGet('model');$('#ai-model').innerHTML=list.map(m=>`<option${m===cur?' selected':''}>${esc(m)}</option>`).join('');
+    const ci=gemGet('imodel');$('#ai-imodel').innerHTML=GEM.images.length?GEM.images.map(m=>`<option${m===ci?' selected':''}>${esc(m)}</option>`).join(''):'<option value="">No image model on this key</option>';
+    msg.textContent=`Key works · ${list.length} text and ${GEM.images.length} image models`;return key}
+  catch(e){msg.textContent='Could not connect: '+e.message;return null}
+}
+document.addEventListener('click',async e=>{
+  if(e.target.closest('#ai-settings,[data-ai-settings]')){closeDD();openAISettings();return}
+  if(e.target.closest('#ai-check')){aiCheck();return}
+  if(e.target.closest('#ai-remove')){gemSet('key','');gemSet('model','');gemSet('imodel','');renderAIStatus();closeModal();toast('Gemini disconnected');return}
+  if(e.target.closest('#ai-save')){
+    const typed=$('#ai-key').value.trim();let key=gemGet('key');
+    if(typed||!$('#ai-model').value){key=await aiCheck();if(!key)return}
+    gemSet('key',key);gemSet('model',$('#ai-model').value);gemSet('imodel',$('#ai-imodel').value);renderAIStatus();closeModal();toast(`Gemini connected · ${gemGet('model')}`);
+  }
+});
+renderAIStatus();
+async function aiPlanFor(brief){
+  const prompt=`You design industry-led student hackathon programs in Malaysia for IndustryBridge.
+Brief: objective "${brief.objective}", track "${brief.track}", audience "${brief.audience}", format "${brief.format}", duration "${brief.duration}", cash prize pool "${brief.prize}".
+Reply with JSON only, in plain friendly English, no markdown:
+{"title": program name, max 4 words,
+ "tagline": one sentence, max 14 words,
+ "modules": [{"name": max 4 words, "detail": max 8 words}] (exactly ${brief.weeks>=6?4:3} items, in order),
+ "weights": {"impact": int, "innovation": int, "execution": int} summing to 100,
+ "posterLines": 4 to 5 very short uppercase poster lines, max 3 words each}`;
+  const j=await gemJSON(prompt);
+  const n=Math.max(1,(j.weights?.impact|0)+(j.weights?.innovation|0)+(j.weights?.execution|0));
+  if(!j.title||!Array.isArray(j.modules)||!j.modules.length)throw new Error('Gemini returned an incomplete plan');
+  return{title:String(j.title).slice(0,60),tag:String(j.tagline||'').slice(0,160),steps:j.modules.slice(0,5).map(m=>[String(m.name||'').slice(0,40),String(m.detail||'').slice(0,80)]),
+    w:j.weights?[j.weights.impact,j.weights.innovation].map(v=>Math.round((v|0)*100/n)).concat([0]).map((v,i,a)=>i<2?v:100-a[0]-a[1]):null,
+    poster:Array.isArray(j.posterLines)?j.posterLines.slice(0,5).map(l=>String(l).toUpperCase().slice(0,24)):null,key:brief.key};
+}
+let aiPlan=null;
+
 /* ===== 5. Organizer · Program plan ===== */
 const TRACKS={
   'Logistics + Sustainability':{title:'Green Logistics Challenge',tag:'Cut emissions from last-mile delivery across Johor Bahru.',steps:[['Map the routes','Find where trucks idle and run empty.'],['Design a greener route','Prototype a low-emission delivery plan.'],['Pilot with a fleet','Test with a partner and measure savings.']]},
@@ -4022,19 +4129,22 @@ const TRACKS={
 };
 const WEIGHTS={'Cut delivery emissions':[45,30,25],'Reduce manufacturing defects':[40,30,30],'Cut campus energy use':[50,25,25],'Widen access to finance':[45,30,25],'Speed up patient triage':[40,25,35],'Protect SMEs from phishing':[35,30,35],'Improve public services with open data':[45,25,30]};
 let planEditing=false;
+const briefKey=()=>['#b-objective','#b-track','#b-audience','#b-format','#b-duration','#b-prize'].map(s=>$(s).value).join('|');
 function renderPlan(){
-  const track=$('#b-track').value,t=TRACKS[track],w=WEIGHTS[$('#b-objective').value],weeks=parseInt($('#b-duration').value);
-  const steps=weeks>=6?[...t.steps,['Pilot with industry','Run the solution with a partner.']]:t.steps;
+  const track=$('#b-track').value,weeks=parseInt($('#b-duration').value),ai=aiPlan&&aiPlan.key===briefKey()?aiPlan:null;
+  const t=ai?{title:ai.title,tag:ai.tag}:TRACKS[track],w=ai?.w||WEIGHTS[$('#b-objective').value];
+  const steps=ai?ai.steps:weeks>=6?[...TRACKS[track].steps,['Pilot with industry','Run the solution with a partner.']]:TRACKS[track].steps;
+  draft.posterLines=ai?.poster||null;
   const ill=['Celine','Kai Li Chong','Hana','Arif'];
   $('#rec').innerHTML=`
-    <div class="rec-head"><h2>Recommended program</h2><span class="badge accent round">AI draft</span></div>
+    <div class="rec-head"><h2>Recommended program</h2><span class="badge accent round">${ai?'Gemini draft':'Template draft'}</span></div>
     <p class="muted" style="margin-top:-8px;font-size:13px">Here's a tailored program based on your brief.</p>
     <div class="refs">${I('database','sm')}Based on ${4+hash(track+weeks)%5} comparable programs<button class="link-btn" type="button" id="view-refs">View references ${I('arrow','sm')}</button></div>
     <h3 id="plan-title" style="font-size:22px">${esc(draft.title=t.title)}</h3>
-    <p class="rec-tagline" id="plan-tag">${t.tag}</p>
+    <p class="rec-tagline" id="plan-tag">${esc(t.tag)}</p>
     <div class="rsec" id="sec-path">
       <button class="rsec-head" type="button" id="toggle-path"><span class="rsec-ico">${I('book')}</span><b>Learning path <small>${weeks} weeks · ${steps.length} modules</small></b>${I('chev-up')}</button>
-      <div class="rsec-body"><div class="path">${steps.map((s,i)=>`${i?`<span class="path-arrow">${I('arrow','sm')}</span>`:''}<div class="path-step">${avatar(ill[i],46)}<div><b><i>${i+1}</i>${s[0]}</b><small>${s[1]}</small></div></div>`).join('')}</div></div>
+      <div class="rsec-body"><div class="path">${steps.map((s,i)=>`${i?`<span class="path-arrow">${I('arrow','sm')}</span>`:''}<div class="path-step">${avatar(ill[i],46)}<div><b><i>${i+1}</i>${esc(s[0])}</b><small>${esc(s[1])}</small></div></div>`).join('')}</div></div>
     </div>
     <div class="rsec inline-row"><span class="rsec-ico">${I('calendar')}</span><b>Assignments &amp; milestones</b><div class="ms"><span>${I('file')}Proposal</span>${I('arrow','sm')}<span>${I('cog')}Prototype</span>${I('arrow','sm')}<span>${I('video')}Demo</span></div></div>
     <div class="rsec inline-row"><span class="rsec-ico">${I('bars')}</span><b>Assessment<small class="muted" style="display:block;font-weight:400;font-size:12px">How submissions will be evaluated.</small></b><div class="weights"><span>${I('trophy','sm')}Impact <b>${w[0]}%</b></span><span>${I('bulb','sm')}Innovation <b>${w[1]}%</b></span><span>${I('users','sm')}Execution <b>${w[2]}%</b></span></div></div>
@@ -4048,7 +4158,10 @@ $('#brief-form').addEventListener('submit',e=>{
   e.preventDefault();const btn=$('#gen-plan'),rec=$('#rec');
   btn.disabled=true;btn.innerHTML=`<span class="spin"></span>Generating…`;
   rec.classList.add('loading');rec.insertAdjacentHTML('beforeend',`<div class="loader"><span><span class="spin"></span>Drafting your program</span></div>`);
-  setTimeout(()=>{rec.classList.remove('loading');planEditing=false;renderPlan();btn.disabled=false;btn.innerHTML=`${I('sparkle')}Generate plan`;toast(`Plan ready: ${draft.title}`)},1100);
+  const done=msg=>{rec.classList.remove('loading');rec.querySelector('.loader')?.remove();planEditing=false;renderPlan();btn.disabled=false;btn.innerHTML=`${I('sparkle')}Generate plan`;toast(msg||`Plan ready: ${draft.title}`)};
+  if(!gemOn()){aiPlan=null;setTimeout(()=>done(),1100);return}
+  const b={objective:$('#b-objective').value,track:$('#b-track').value,audience:$('#b-audience').value,format:$('#b-format').value,duration:$('#b-duration').value,prize:$('#b-prize').value,weeks:parseInt($('#b-duration').value),key:briefKey()};
+  aiPlanFor(b).then(p=>{aiPlan=p;done(`Gemini drafted: ${p.title}`)}).catch(err=>{aiPlan=null;done(`Gemini didn't answer (${err.message}). Showing the template plan.`)});
 });
 $('#rec').addEventListener('click',e=>{
   if(e.target.closest('#toggle-path')){const b=$('#sec-path .rsec-body');b.hidden=!b.hidden;$('#toggle-path use:last-of-type');$('#toggle-path').lastElementChild.outerHTML=I(b.hidden?'chev-down':'chev-up')}
@@ -4286,7 +4399,7 @@ const longDate=s=>{const m={Jan:'January',Feb:'February',Mar:'March',Apr:'April'
 function renderDesign(){
   const p=$('#studio-poster');p.dataset.style=draft.style;p.dataset.art=draft.art;p.style.setProperty('--brand',draft.color);
   const words=esc(draft.title).split(/\s+/);
-  p.innerHTML=`<div class="sp-tag">INNOVATE<br>BUILD<br>SOLVE<br>FOR A SMARTER<br>TOMORROW</div><div class="sp-title">${words.join('<br>')}<em>${esc((draft.closes.match(/\d{4}/)||['2026'])[0])}</em></div><div class="sp-sub">${esc(draft.track.toUpperCase())}</div><div class="sp-prize">${esc(draft.prize)}<small>CASH PRIZES</small></div><div class="sp-meta"><span>${I('calendar')}<span>Apply by<br><b>${esc(longDate(draft.closes))}</b></span></span><span>${I('pin')}<span>${esc(draft.format)} · ${esc(draft.location)}</span></span></div><div class="sp-art"></div>`;
+  p.innerHTML=`<div class="sp-in"><div class="sp-tag">${draft.posterLines?draft.posterLines.map(esc).join('<br>'):'INNOVATE<br>BUILD<br>SOLVE<br>FOR A SMARTER<br>TOMORROW'}</div><div class="sp-title">${words.join('<br>')}<em>${esc((draft.closes.match(/\d{4}/)||['2026'])[0])}</em></div><div class="sp-sub">${esc(draft.track.toUpperCase())}</div><div class="sp-prize">${esc(draft.prize)}<small>CASH PRIZES</small></div><div class="sp-meta"><span>${I('calendar')}<span>Apply by<br><b>${esc(longDate(draft.closes))}</b></span></span><span>${I('pin')}<span>${esc(draft.format)} · ${esc(draft.location)}</span></span></div></div><div class="sp-art"></div>${draft.artImg?`<img class="sp-img" src="${draft.artImg}" alt="">`:''}`;p.classList.toggle('has-img',!!draft.artImg);$('#art-reset').hidden=!draft.artImg;
   const ready=[['Poster approved',!!draft.title],['Registration configured',!!draft.closes],['Learning modules ready',true],['Submission requirements set',true]];
   $('#ready-list').innerHTML=ready.map(([t,ok])=>`<li><span class="tick${ok?'':' no'}">${I(ok?'check':'info')}</span>${t}</li>`).join('');
   const all=ready.every(r=>r[1]);$('#ready-badge').className='badge '+(all?'ok':'warn');$('#ready-badge').innerHTML=all?`${I('check-circle')}All set`:`${I('info')}Needs details`;
@@ -4301,7 +4414,29 @@ $$('input[name=dstyle]').forEach(r=>r.addEventListener('change',()=>{draft.style
 $('#brand-color').addEventListener('input',e=>{draft.color=e.target.value.toUpperCase();renderDesign()});
 $('#brand-hex').addEventListener('change',e=>{const v=e.target.value.trim();if(/^#[0-9a-f]{6}$/i.test(v)){draft.color=v.toUpperCase();renderDesign()}else{e.target.value=draft.color;toast('Use a 6-digit hex colour, like #5C7A2C')}});
 $('#swatches').addEventListener('click',e=>{const s=e.target.closest('[data-swatch]');if(s){draft.color=s.dataset.swatch;renderDesign()}});
-$('#gen-art').addEventListener('click',()=>{const b=$('#gen-art');b.disabled=true;b.innerHTML=`<span class="spin"></span>Generating…`;setTimeout(()=>{draft.art=(draft.art+1)%3;renderDesign();b.disabled=false;b.innerHTML=`${I('sparkle')}Generate artwork`;toast('New artwork applied to the poster')},900)});
+$('#gen-art').addEventListener('click',()=>{const b=$('#gen-art');b.disabled=true;b.innerHTML=`<span class="spin"></span>Generating…`;
+  const end=msg=>{renderDesign();b.disabled=false;b.innerHTML=`${I('sparkle')}Generate artwork`;toast(msg)};
+  if(!gemOn()||!gemGet('imodel')){setTimeout(()=>{draft.art=(draft.art+1)%3;draft.artImg=null;end('New artwork applied to the poster')},900);return}
+  const mood={corporate:'clean, bold and professional',tech:'modern, dynamic, futuristic',community:'friendly, bright and welcoming'}[draft.style];
+  gemImage(`Abstract background artwork for a portrait (3:4) event poster for "${draft.title}", a student innovation challenge on ${draft.track} in ${draft.location||'Malaysia'}, Malaysia.
+Style: ${mood}. Main colour ${draft.color}. Simple shapes or a stylised scene related to the theme.
+Keep the top-left half calm and plain so white headline text can sit there.
+Absolutely no text, letters, numbers, logos or watermarks.`)
+    .then(src=>{draft.artImg=src;end('Gemini artwork applied to the poster')})
+    .catch(err=>{b.disabled=false;b.innerHTML=`${I('sparkle')}Generate artwork`;toast(`Gemini couldn't draw this one (${err.message})`)});
+});
+$('#art-reset').addEventListener('click',()=>{draft.artImg=null;renderDesign()});
+$('#ai-style').addEventListener('click',()=>{
+  if(!gemOn()){openAISettings();return}
+  const b=$('#ai-style');b.disabled=true;b.innerHTML=`<span class="spin"></span>Thinking…`;
+  gemJSON(`Suggest a poster design for a Malaysian student innovation challenge called "${draft.title}" (track: ${draft.track}, prize ${draft.prize}, ${draft.format} in ${draft.location}).
+Reply with JSON only: {"style": one of "corporate","tech","community", "color": a 6-digit hex brand colour that suits the theme and works with white text, "posterLines": 3 to 5 very short uppercase lines, max 3 words each, "why": one short sentence}`)
+    .then(j=>{if(['corporate','tech','community'].includes(j.style))draft.style=j.style;if(/^#[0-9a-f]{6}$/i.test(j.color||''))draft.color=j.color.toUpperCase();
+      if(Array.isArray(j.posterLines)&&j.posterLines.length)draft.posterLines=j.posterLines.slice(0,5).map(l=>String(l).toUpperCase().slice(0,24));
+      renderDesign();toast(j.why?`Gemini: ${String(j.why).slice(0,120)}`:'Gemini style applied')})
+    .catch(err=>toast(`Gemini didn't answer (${err.message})`))
+    .finally(()=>{b.disabled=false;b.innerHTML=`${I('sparkle')}Suggest style &amp; copy`});
+});
 $('#fit-btn').addEventListener('click',()=>{const p=$('#studio-poster');p.classList.toggle('actual');$('#fit-btn span').textContent=p.classList.contains('actual')?'Actual size':'Fit to screen'});
 $('#edit-details').addEventListener('click',()=>{
   if(editingDetails){['title','closes','prize','format','location'].forEach(k=>{const v=$('#d-'+k).value.trim();draft[k]=v});editingDetails=false;renderDesign();toast('Event details saved')}
