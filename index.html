@@ -315,7 +315,7 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 /* Home · card swap carousel (02 / Join an event). Middle card is the chosen one; neighbours tilt away on each side. */
 .cf{max-width:1132px;margin:30px auto 0;overflow-x:clip;overflow-y:visible}
 .cf-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
-.cf-stage{position:relative;height:540px;perspective:1400px;outline:none;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.cf-stage{position:relative;height:480px;perspective:1400px;outline:none;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .cf-stage:focus-visible{box-shadow:0 0 0 2px var(--accent-hi);border-radius:16px}
 .cf-card{position:absolute;left:50%;top:10px;width:min(420px,calc(100% - 120px));margin-left:calc(min(420px,calc(100% - 120px)) / -2);background:var(--surface);border:1px solid var(--line-2);border-radius:18px;overflow:hidden;box-shadow:0 18px 40px rgba(20,24,12,.14);transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s,filter .45s;transform-origin:50% 50%;display:flex;flex-direction:column}
 .cf-card[data-off="0"]{transform:none;z-index:5}
@@ -357,6 +357,23 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
   .cf-facts>div{grid-template-columns:92px minmax(0,1fr)}
 }
 @media (prefers-reduced-motion:reduce){.cf-card{transition:none}}
+/* Home header: title + compact next-deadline pill, then filters above the carousel */
+.home-head{max-width:1132px;margin:6px auto 0;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.home-title{font-family:var(--font-display);font-size:clamp(30px,4vw,46px);font-weight:700;letter-spacing:-.04em;line-height:1;margin:10px 0 0}
+.nu-pill{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 10px 8px 14px;border:1px solid var(--line-2);border-radius:999px;background:var(--surface);box-shadow:var(--shadow);font-size:12.5px;max-width:100%}
+.nu-pill:empty{display:none}
+.nu-pill-l{display:inline-flex;align-items:center;gap:6px;font:500 10.5px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--moss-deep)}
+.nu-pill-l .i{width:14px;height:14px}
+.nu-pill-t{font-weight:600;max-width:340px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nu-mini{display:inline-flex;gap:4px}
+.nu-mini span{display:inline-flex;align-items:baseline;gap:1px;padding:3px 7px;border-radius:7px;background:var(--ink);color:#fff;font:500 10px var(--font-mono)}
+.nu-mini b{font:600 13px/1 var(--font-display);font-variant-numeric:tabular-nums}
+.hf{max-width:1132px;margin:20px auto 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hf .cat-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.hf-open{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 14px;border:1px solid var(--line-2);border-radius:999px;background:var(--surface);font-size:13.5px;font-weight:500;cursor:pointer}
+.hf-open input{accent-color:var(--moss-deep);width:15px;height:15px}
+.hf-n{margin-left:auto;font:500 11px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+#upcoming .adv{margin-top:30px}
 /* My programs home: tabs, a list of program rows on the left, month calendar and stats on the right */
 .mph-tabs button small{margin-left:7px;font:500 11px var(--font-mono);color:var(--muted)}
 .mph-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
@@ -1051,6 +1068,146 @@ ul{list-style:none;margin:0;padding:0}
 .seat.vacant{border-style:dashed;background:none}
 .seat b{font-size:13.5px}.seat small{font-size:11.5px;color:var(--muted);min-height:15px}
 .seat-kick{margin-top:4px;height:28px;min-height:0;font-size:12px;color:var(--bad)}
+/* ===== Meetup Hall, full screen: the scene fills everything under the top bar; controls sit inside it ===== */
+body[data-view=hall]{overflow:hidden}
+body[data-view=hall] #hall-stage{position:fixed;left:0;right:0;top:var(--tb,68px);bottom:0;height:auto!important;aspect-ratio:auto!important;border-radius:0;border:0;z-index:5;background-position:center 30%!important}
+.hud{position:absolute;z-index:120;display:flex;gap:8px;align-items:center}
+.hud-tl{left:16px;top:14px}
+.hud-tr{right:16px;top:14px}
+.hud-br{right:16px;bottom:16px;align-items:flex-end}
+.hud .hall-count{position:static;display:flex;flex-direction:column;gap:1px;align-items:flex-start;padding:6px 12px;border-radius:12px;font-size:12px;font-weight:500}
+.hud .hall-count b{font:400 17px/1 var(--font-poster);letter-spacing:.04em;color:#e9f3dc}
+.hud-btn{height:40px;min-width:40px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 10px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(40,40,36,.74);color:#fff;font-size:13px;font-weight:600;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);cursor:pointer;position:relative}
+.hud-btn.wide{padding:0 14px}
+.hud-btn:hover,.hud-btn.on{background:#1d2a1f;border-color:#7cff8a;box-shadow:0 0 12px rgba(124,255,138,.45)}
+.hud-n{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;border-radius:9px;background:#c2410c;color:#fff;font:700 10.5px/18px var(--font-body);font-style:normal;text-align:center;padding:0 4px}
+/* chunky game buttons, used in the scene and in the windows */
+.gbtn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:96px;height:64px;padding:6px 14px;border-radius:14px;border:2px solid #2f3a26;background:linear-gradient(#fbf8ee,#e7e0c9);color:#26301f;box-shadow:0 4px 0 #2f3a26,0 8px 16px rgba(0,0,0,.25);cursor:pointer;font:600 12.5px var(--font-body);transition:transform .08s,box-shadow .08s}
+.gbtn .i{width:20px;height:20px}
+.gbtn span[aria-hidden]{font-size:19px;line-height:1}
+.gbtn:hover{filter:brightness(1.04)}
+.gbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #2f3a26,0 4px 10px rgba(0,0,0,.25)}
+.gbtn.go{background:linear-gradient(#a6dd6a,#5c9a2c);color:#0f1d07;border-color:#2c4a14;box-shadow:0 4px 0 #2c4a14,0 8px 16px rgba(0,0,0,.25)}
+.gbtn.out{background:linear-gradient(#f1d4c4,#d79c80);border-color:#5a2c18;box-shadow:0 4px 0 #5a2c18,0 8px 16px rgba(0,0,0,.2);color:#3a1708}
+.gbtn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.hud-room{display:flex;align-items:center;gap:10px;height:64px;padding:0 14px 0 10px;border-radius:14px;border:2px solid #7cff8a;background:rgba(18,26,20,.88);color:#e9f3dc;text-align:left;cursor:pointer;box-shadow:0 0 16px rgba(124,255,138,.45)}
+.hud-room b{display:block;font-size:13px}.hud-room small{display:block;font-size:11.5px;color:#b8e8a8}
+.hud-room[hidden]{display:none}
+body[data-view=hall] .hall-say{left:16px;bottom:16px}
+body[data-view=hall] .hall-hint{left:50%;right:auto;bottom:18px;transform:translateX(-50%);white-space:nowrap}
+@media (max-width:1100px){body[data-view=hall] .hall-hint{display:none}}
+/* drawer for card / AI picks / requests */
+.hall-drawer{position:absolute;right:16px;top:66px;width:min(340px,calc(100% - 32px));max-height:calc(100% - 170px);overflow:auto;z-index:125;display:none}
+#hall-stage[data-drawer]:not([data-drawer=""]) .hall-drawer{display:block}
+.hall-drawer [data-dp]{display:none;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+#hall-stage[data-drawer=card] [data-dp=card],#hall-stage[data-drawer=picks] [data-dp=picks],#hall-stage[data-drawer=reqs] [data-dp=reqs]{display:grid;gap:10px}
+/* names: custom title instead of room numbers */
+.hp-tag i{background:rgba(124,255,138,.22);color:#d9ffcf;border:1px solid rgba(124,255,138,.55);font-weight:600;letter-spacing:.02em;font-size:9.5px;padding:0 5px;margin-left:5px}
+.hp.you .hp-tag i{background:var(--moss-deep);color:#fff;border-color:var(--moss-deep)}
+/* megaphone: big announcement in the middle */
+.hall-announce{position:absolute;left:50%;top:42%;z-index:130;transform:translate(-50%,-50%) scale(.9);width:min(620px,calc(100% - 40px));display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:18px;border:2px solid #7cff8a;background:rgba(14,22,16,.9);color:#fff;box-shadow:0 0 40px rgba(124,255,138,.45),0 20px 50px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .35s,transform .35s}
+.hall-announce.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}
+.an-horn{font-size:38px;animation:portalBob 1s ease-in-out infinite}
+.an-body{flex:1;min-width:0;display:grid;gap:3px}
+.an-body small{font:500 11px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:#b8e8a8}
+.an-body b{font-size:18px;line-height:1.3;font-family:var(--font-display);letter-spacing:-.01em}
+.an-need{font-size:12.5px;color:#d9ffcf}
+.hall-announce button{flex:none;border:0;border-radius:10px;background:#7cff8a;color:#10200f;font-weight:700;padding:9px 14px;cursor:pointer}
+/* ===== Game-style windows ===== */
+.modal.wide.xwide{width:min(1180px,100%);padding:0;max-height:calc(100vh - 32px)}
+.modal.game{background:#efe9d6;border:3px solid #2f3a26;border-radius:18px;box-shadow:0 0 0 4px #c8bd96,0 30px 60px rgba(0,0,0,.4)}
+.modal.game .modal-x{background:#fbf8ee;top:9px;right:10px;border:1px solid #2f3a26}
+.gw{display:grid;gap:12px;padding:0 14px 14px}
+.gw-bar{margin:0 -14px;display:flex;align-items:baseline;gap:12px;padding:12px 60px 12px 18px;background:linear-gradient(#2f4224,#1d2a17);color:#e9f3dc;border-radius:14px 14px 0 0;border-bottom:3px solid #c8bd96}
+.gw-bar>span{display:inline-flex;align-items:center;gap:8px;font:400 22px/1 var(--font-poster);letter-spacing:.05em;text-transform:uppercase}
+.gw-bar small{font:500 11.5px var(--font-mono);color:#b8e8a8;letter-spacing:.04em}
+.gw-panel{background:#fbf8ee;border:2px solid #cfc4a0;border-radius:14px;padding:12px;min-width:0}
+/* window 1: pick a competition */
+.pc-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,1fr);grid-template-rows:auto 1fr;gap:12px;min-height:min(560px,calc(100vh - 140px))}
+.pc-list{grid-row:1/3;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;align-content:start;overflow:auto;max-height:calc(100vh - 150px)}
+.pc-thumb{flex:none;min-height:150px;display:flex;flex-direction:column;border:2px solid #d8cfae;border-radius:12px;background:#fff;padding:0;overflow:hidden;text-align:left;cursor:pointer;transition:transform .12s,border-color .12s}
+.pc-thumb:hover{transform:translateY(-2px);border-color:#8aa65a}
+.pc-thumb.on{border-color:#2f3a26;box-shadow:0 0 0 3px #7cff8a}
+.pc-art{position:relative;display:block;height:92px;overflow:hidden;flex:none}
+.pc-art .sc{position:absolute;inset:0;width:100%;height:100%}
+.pc-hot,.pc-soon{position:absolute;left:8px;top:8px;font:700 10px/1 var(--font-mono);letter-spacing:.1em;font-style:normal;padding:4px 6px;border-radius:4px;background:#c2410c;color:#fff}
+.pc-soon{background:#121210}
+.pc-name{display:block;padding:8px 10px 10px}
+.pc-name b{display:block;font-size:13.5px;line-height:1.25}
+.pc-name small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.pc-info{display:grid;gap:10px;align-content:start}
+.pc-info-art{position:relative;height:110px;border-radius:10px;overflow:hidden}
+.pc-info-art .sc{position:absolute;inset:0;width:100%;height:100%}
+.pc-info-art .pcard-logo{position:absolute;left:10px;bottom:10px;width:44px;height:44px;border-radius:11px}
+.pc-info h3{margin:0;font-family:var(--font-display);font-size:19px;letter-spacing:-.02em}
+.pc-info .cf-facts>div{grid-template-columns:86px minmax(0,1fr)}
+.pc-create{display:grid;gap:10px;align-content:start}
+.pc-create .textarea{min-height:64px}
+.pf-pick.sm button{height:28px;padding:0 10px;font-size:11.5px}
+.pc-acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+/* window 2: room */
+.rv-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px}
+.rv-slots{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));gap:10px;align-content:start;background:#e2d8b8}
+.slot{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 8px 10px;border-radius:12px;border:2px solid #b9ad84;background:linear-gradient(#fffdf4,#f1ead2);text-align:center;min-height:220px;justify-content:flex-end}
+.slot.host{border-color:#a6862a;background:linear-gradient(#fff8dc,#f3e4ad)}
+.slot.slot-me{box-shadow:0 0 0 3px #7cff8a}
+.slot-art{flex:1;display:grid;place-items:end center;width:100%}
+.slot-sp{height:120px;width:auto;image-rendering:auto;filter:drop-shadow(0 4px 2px rgba(0,0,0,.2))}
+.slot b{font-size:14px}.slot small{font-size:11.5px;color:var(--muted)}
+.slot .link-btn{font-size:11.5px;padding:2px}
+.slot-crown{position:absolute;left:8px;top:8px;color:#a6862a}
+.slot-crown .i{width:22px;height:22px;fill:#f2c230}
+.slot-stamp{position:absolute;right:6px;top:14px;transform:rotate(14deg);border:2px solid #2e8a3a;color:#2e8a3a;border-radius:6px;padding:1px 6px;font:700 11px var(--font-mono);letter-spacing:.12em;background:rgba(255,255,255,.6)}
+.slot-kick{position:absolute;right:6px;bottom:6px;width:26px;height:26px;border-radius:8px;border:1px solid #c9a3a3;background:#fff;color:var(--bad);font-size:16px;line-height:1;cursor:pointer}
+.slot.vacant{border-style:dashed;background:rgba(255,255,255,.35);justify-content:center}
+.slot-invite,.slot-open{display:flex;flex-direction:column;align-items:center;gap:6px;color:#6b6450;background:none;border:0;font-size:13px}
+.slot-invite{cursor:pointer;padding:20px}
+.slot-invite .i,.slot-open .i{width:30px;height:30px;padding:6px;border-radius:50%;border:2px dashed currentColor}
+.slot-invite:hover{color:#2f3a26}
+.rv-side{display:grid;gap:10px;align-content:start}
+.rv-kv{display:flex;justify-content:space-between;font-size:13px;border-bottom:1px dashed #d8cfae;padding-bottom:6px}
+.rv-kv span{color:var(--muted)}
+.rv-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.rv-acts .gbtn{min-width:0;width:100%}
+.inv-list{display:grid;gap:4px;max-height:min(60vh,520px);overflow:auto}
+/* window 3: room list lobby */
+.rb-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;grid-template-areas:"left right" "chat acts";gap:12px}
+.rb-left{grid-area:left;display:grid;gap:10px;align-content:start}
+.rb-right{grid-area:right;display:grid;gap:12px;align-content:start}
+.rb-chat{grid-area:chat;display:grid;gap:6px}
+.rb-acts{grid-area:acts;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:end}
+.rb-acts .gbtn{width:100%;min-width:0}
+.rb-filter{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.rb-search{display:flex;gap:6px}
+.rb-search input{width:110px;height:34px;border-radius:999px;border:1px solid var(--line-2);padding:0 12px;background:#fff}
+.rt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rt{display:grid;gap:6px;text-align:left;padding:10px 12px;border-radius:12px;border:2px solid #d8cfae;background:linear-gradient(#fffdf4,#f4eedb);cursor:pointer;min-height:118px}
+.rt:hover{border-color:#8aa65a}
+.rt.mine{border-color:#2f3a26;box-shadow:0 0 0 2px #7cff8a}
+.rt.full{opacity:.7}
+.rt-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.rt-name{font:400 17px/1.1 var(--font-poster);letter-spacing:.03em;color:#2f3a26}
+.rt-no{font:600 11px var(--font-mono);color:var(--muted)}
+.rt-desc{font-size:12.5px;color:var(--body-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rt-foot{display:flex;align-items:center;gap:8px;margin-top:auto}
+.rt-foot .room-faces{flex:1}
+.rt-st{font:600 10.5px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border-radius:4px}
+.rt-st.open{background:#dff1c8;color:#2c4a14}.rt-st.full{background:#eee;color:#666}.rt-st.mine{background:#2f3a26;color:#fff}
+.rt-n{font:600 13px var(--font-mono)}
+.rb-pager{display:flex;align-items:center;justify-content:center;gap:12px;font:500 12px var(--font-mono)}
+.rb-me{display:flex;gap:12px;align-items:center}
+.rb-me b{display:block}.rb-me small{display:block;font-size:12px;color:var(--muted)}
+.rb-h{display:block;font-size:13px;margin-bottom:6px}
+.rb-ol{display:grid;gap:2px;max-height:260px;overflow:auto}
+.rb-ol button{display:grid;grid-template-columns:24px auto 1fr;gap:8px;align-items:center;border:0;background:none;padding:3px 4px;border-radius:8px;text-align:left;font-size:12.5px;cursor:pointer}
+.rb-ol button:hover{background:#efe9d6}
+.rb-ol small{color:var(--muted);font-size:11px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rb-log{height:92px;overflow:auto;font-size:12.5px;display:grid;align-content:start;gap:2px;padding:2px}
+.rb-log p{margin:0}
+.rb-say{display:flex;gap:6px}
+.rb-say input{flex:1;height:34px;border-radius:999px;border:1px solid var(--line-2);padding:0 12px;background:#fff;min-width:0}
+@media (max-width:860px){.pc-grid,.rv-grid{grid-template-columns:1fr}.pc-list{grid-row:auto;max-height:300px}.rb-grid{grid-template-columns:1fr;grid-template-areas:"left" "acts" "right" "chat"}.rt-grid{grid-template-columns:1fr}.rv-slots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:reduce){.an-horn{animation:none}.hall-announce{transition:none}}
 .hall-count{background:rgba(40,40,36,.72);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:7px 12px;font-size:14px;backdrop-filter:blur(4px)}
 .hall-say{background:rgba(40,40,36,.7);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:5px 5px 5px 0;align-items:center;backdrop-filter:blur(4px)}
 .hall-say input{background:transparent;border:0;color:#fff;height:32px}
@@ -1297,8 +1454,9 @@ ul{list-style:none;margin:0;padding:0}
 <section class="view" id="view-discover">
   <div class="wrap">
     <h1 class="sr-only">Discover programs</h1>
-    <section class="nextup" id="nextup" aria-label="Next up"></section>
-    <div class="card resume" data-role="organizer" hidden style="max-width:1132px;margin:0 auto">
+    <div class="home-head"><div><span class="eyebrow">01 / Join an event</span><h1 class="home-title"><span class="soft">Find your</span> next event</h1></div><div class="nu-pill" id="nextup" aria-label="Next deadline"></div></div>
+    <section id="spotlight" aria-label="Events you can join"></section>
+    <div class="card resume" data-role="organizer" hidden style="max-width:1132px;margin:30px auto 0">
       <div class="resume-info">
         <div class="resume-label">Your live program</div>
         <div class="resume-row">
@@ -1311,7 +1469,7 @@ ul{list-style:none;margin:0;padding:0}
         <a class="btn green" href="#studio-manage">Review submissions <svg class="i sm"><use href="#i-arrow"/></svg></a>
       </div>
     </div>
-    <div class="card resume" data-role="student" style="max-width:1132px;margin:0 auto">
+    <div class="card resume" data-role="student" style="max-width:1132px;margin:30px auto 0">
       <div class="resume-info">
         <div class="resume-label">Continue where you left off</div>
         <div class="resume-row">
@@ -1322,7 +1480,7 @@ ul{list-style:none;margin:0;padding:0}
       <div class="resume-progress"><div class="bar"><i class="js-progress-bar" style="width:40%"></i></div><span><span class="js-progress">40</span>% complete</span></div>
       <a class="btn primary" href="#programs" data-set-tab="programs:learning">Continue learning <svg class="i sm"><use href="#i-arrow"/></svg></a>
     </div>
-    <section id="spotlight" aria-label="Coming up"></section>
+    <section id="upcoming" aria-label="Hot and coming up"></section>
   </div>
 </section>
 
@@ -1836,41 +1994,35 @@ ul{list-style:none;margin:0;padding:0}
   </div>
 </section>
 
-<!-- ================= 8. MEETUP HALL (find teammates) ================= -->
+<!-- ================= 8. MEETUP HALL (full-screen lobby) ================= -->
 <section class="view" id="view-hall" hidden>
-  <div class="wrap">
-    <header class="phead"><div class="phead-main">
-      <span class="eyebrow"><span><a href="#discover">IB</a> / Meetup Hall</span></span>
-      <h1 class="page-title"><span class="soft">Find your</span> teammates</h1>
-      <p class="page-sub">One big lobby for everyone. Walk up to the glowing Room Board, open a room for any competition, shout on the megaphone and team up.</p>
+  <h1 class="sr-only">Meetup Hall</h1>
+  <div class="hall-stage" id="hall-stage" role="application" aria-label="Meetup Hall. Click the floor to move, click a person to open their card.">
+    <div id="hall-people"></div>
+    <button class="hall-portal" type="button" id="hall-portal" aria-label="Room Board: pick a competition and open a room"><span class="hp-glow" aria-hidden="true"></span><span class="hp-label"><b>Room Board</b><small id="hall-portal-n"></small></span></button>
+    <div class="hall-announce" id="hall-announce" aria-live="polite"></div>
+    <div class="hud hud-tl">
+      <button class="hud-btn" type="button" data-hud-exit aria-label="Leave the hall"><svg class="i"><use href="#i-chev-left"/></svg></button>
+      <div class="hall-count" id="hall-count"></div>
     </div>
-    <div class="phead-aside"><button class="btn primary" type="button" id="hall-rooms-btn"><svg class="i sm"><use href="#i-grid"/></svg>Room Board</button></div></header>
-    <div class="hall-grid">
-      <div class="hall-stage" id="hall-stage" role="application" aria-label="Meetup Hall. Click the floor to move, click a person to open their card.">
-        <div class="hall-count" id="hall-count"></div>
-        <div class="hall-ticker" id="hall-ticker" aria-live="polite"></div>
-        <button class="hall-portal" type="button" id="hall-portal" aria-label="Room Board: open competition rooms"><span class="hp-glow" aria-hidden="true"></span><span class="hp-label"><b>Room Board</b><small id="hall-portal-n"></small></span></button>
-        <div id="hall-people"></div>
-        <form class="hall-say" id="hall-say"><svg class="i" style="color:#fff;margin-left:12px"><use href="#i-chat"/></svg><input id="hall-say-text" maxlength="80" placeholder="Say hello…" aria-label="Say something in the hall"><button class="btn primary sm" type="submit" style="height:38px">Send</button></form>
-        <span class="hall-hint">Click the floor to walk · click someone to see their portfolio · walk to the glowing board for rooms</span>
-      </div>
-      <aside class="side-col">
-        <div class="card panel" id="hall-myroom" style="display:grid;gap:12px"></div>
-        <div class="card panel" style="display:grid;gap:12px">
-          <div class="panel-title" style="justify-content:space-between"><span>Your hall card</span><button class="btn ghost sm" type="button" id="hall-edit">Edit</button></div>
-          <div id="hall-mine"></div>
-        </div>
-        <div class="card panel">
-          <h3 class="panel-title" style="margin-bottom:2px"><svg class="i"><use href="#i-sparkle"/></svg>AI picks for your team</h3>
-          <p class="muted" style="font-size:12.5px" id="hall-pick-note"></p>
-          <div id="hall-picks"></div>
-        </div>
-        <div class="card panel">
-          <h3 class="panel-title" style="margin-bottom:4px">Requests</h3>
-          <div id="hall-reqs"></div>
-        </div>
-      </aside>
+    <div class="hud hud-tr">
+      <button class="hud-btn wide" type="button" data-hud-drawer="card"><svg class="i"><use href="#i-user"/></svg>My card</button>
+      <button class="hud-btn wide" type="button" data-hud-drawer="picks"><svg class="i"><use href="#i-sparkle"/></svg>AI picks</button>
+      <button class="hud-btn wide" type="button" data-hud-drawer="reqs"><svg class="i"><use href="#i-bell"/></svg>Requests<i class="hud-n" id="hud-req-n" hidden></i></button>
     </div>
+    <aside class="hall-drawer" aria-label="Hall panels">
+      <div class="card panel" data-dp="card"><div class="panel-title" style="justify-content:space-between"><span>Your hall card</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><svg class="i"><use href="#i-plus" transform="rotate(45 12 12)"/></svg></button></div><div id="hall-mine" style="display:grid;gap:12px"></div></div>
+      <div class="card panel" data-dp="picks"><div class="panel-title" style="justify-content:space-between"><span><svg class="i"><use href="#i-sparkle"/></svg>AI picks for your team</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><svg class="i"><use href="#i-plus" transform="rotate(45 12 12)"/></svg></button></div><p class="muted" style="font-size:12.5px" id="hall-pick-note"></p><div id="hall-picks"></div></div>
+      <div class="card panel" data-dp="reqs"><div class="panel-title" style="justify-content:space-between"><span>Requests</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><svg class="i"><use href="#i-plus" transform="rotate(45 12 12)"/></svg></button></div><div id="hall-reqs"></div></div>
+    </aside>
+    <form class="hall-say" id="hall-say"><svg class="i" style="color:#fff;margin-left:12px"><use href="#i-chat"/></svg><input id="hall-say-text" maxlength="80" placeholder="Say hello…" aria-label="Say something in the hall"><button class="btn primary sm" type="submit" style="height:38px">Send</button></form>
+    <div class="hud hud-br">
+      <button class="hud-room" type="button" id="hud-myroom" hidden></button>
+      <button class="gbtn" type="button" data-room-board><svg class="i"><use href="#i-list"/></svg><b>Room list</b></button>
+      <button class="gbtn" type="button" data-room-quick><svg class="i"><use href="#i-arrow"/></svg><b>Quick join</b></button>
+      <button class="gbtn go" type="button" data-pick-comp><svg class="i"><use href="#i-plus"/></svg><b>Create room</b></button>
+    </div>
+    <span class="hall-hint">Click the floor to walk · click someone for their card · the glowing board opens rooms</span>
   </div>
 </section>
 </main>
@@ -1892,7 +2044,7 @@ const I=(n,c='')=>`<svg class="i ${c}" aria-hidden="true"><use href="#i-${n}"/><
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let toastTimer;
 function toast(msg){const t=$('#toast');$('span',t).textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2600)}
-function openModal(html,wide=false){$('#modal-body').innerHTML=html;$('.modal').classList.toggle('wide',wide);$('#modal').hidden=false;hydrateAvatars($('#modal-body'));setTimeout(()=>($('#modal-body [autofocus]')||$('.modal-x')).focus(),30)}
+function openModal(html,wide=false){$('.modal').classList.remove('xwide','game');$('#modal-body').innerHTML=html;$('.modal').classList.toggle('wide',wide);$('#modal').hidden=false;hydrateAvatars($('#modal-body'));setTimeout(()=>($('#modal-body [autofocus]')||$('.modal-x')).focus(),30)}
 function closeModal(){$('#modal').hidden=true}
 
 /* ===== Pixel characters =====
@@ -2139,9 +2291,12 @@ function route(v=location.hash.slice(1)){
   if(evp){curEvent=evp.id;setTab('event','home');renderEvent()}else document.title='IndustryBridge Prototype';
   // My programs opens on the list; buttons that name a workspace tab (data-set-tab="programs:…") open the workspace
   if(v==='programs'){showMP(mpPending?'ws':'home');mpPending=false}
+  if(v==="hall")setTB();
   closeDD();window.scrollTo(0,0);
 }
 let mpPending=false;
+function setTB(){document.documentElement.style.setProperty("--tb",($(".topbar")?.offsetHeight||68)+"px")}
+addEventListener("resize",()=>{if(document.body.dataset.view==="hall")setTB()});
 function showMP(mode){$("#mp-home").hidden=mode!=="home";$("#mp-ws").hidden=mode!=="ws";if(mode==="home")renderMyHome()}
 window.addEventListener('hashchange',()=>route());
 $('#view-signin').addEventListener('click',e=>{const c=e.target.closest('[data-signin]');if(!c)return;setRole(c.dataset.signin);go('discover');toast(`Signed in as ${PEOPLE[role].name}`)});
@@ -2265,7 +2420,7 @@ function syncStatus(){
   });
 }
 syncStatus();
-const disc={cat:'all',layout:'grid',calMode:'month',calCursor:null,nextAt:null};
+const disc={cat:'all',layout:'grid',calMode:'month',calCursor:null,nextAt:null,up:0,hf:{type:'all',mode:'all',topic:'all',open:false}};
 /* Line-art scenes that match each program's theme; drawn in the poster's own ink colour */
 const ART={
   factory:'<path d="M20 130V78l28 16V78l28 16V78l28 16V58h22v72"/><path d="M118 58V26h12v32"/><path d="M122 18c4-6 10-6 14-12M130 22c5-5 11-4 16-9"/><circle cx="182" cy="62" r="18" stroke-dasharray="6 5" stroke-width="7"/><circle cx="182" cy="62" r="7"/><path d="M8 134h224"/><rect x="146" y="106" width="18" height="18"/><rect x="176" y="106" width="18" height="18"/><path d="M220 134V96l-16-22-16 8"/><circle cx="220" cy="96" r="4"/>',
@@ -2433,9 +2588,8 @@ function nextTarget(){
 function renderNextUp(){
   const t=nextTarget();disc.nextAt=t?t.at:null;disc.nextId=t?.id||null;
   $('#nextup').innerHTML=t
-    ?`<div class="nu-row"><span class="eyebrow">${t.label}</span><div class="nu-digits" role="timer" aria-label="Time left">${['Days','Hours','Mins','Secs'].map((l,i)=>`<div class="nu-d"><b data-nu="${i}">00</b><small>${l}</small></div>`).join('')}</div></div>
-      <h2 class="nu-title">${t.title}</h2><p class="nu-meta">${I('clock')}${t.meta}</p><div class="nu-actions">${t.actions}</div>`
-    :`<span class="eyebrow">Discover</span><h2 class="nu-title">No open deadlines right now</h2><p class="nu-meta">New programs are added every week. Past results are below.</p>`;
+    ?`<span class="nu-pill-l">${I('clock')}${t.label}</span><b class="nu-pill-t" title="${t.meta}">${t.title}</b><span class="nu-mini" role="timer" aria-label="Time left">${['d','h','m','s'].map((l,i)=>`<span><b data-nu="${i}">00</b>${l}</span>`).join('')}</span>`
+    :`<span class="nu-pill-l">${I('clock')}No open deadlines right now</span>`;
   tickNextUp();
 }
 function tickNextUp(){
@@ -2530,12 +2684,28 @@ function cfCard(p,i){
     </div>
   </article>`;
 }
+const HF_TYPES=[['all','All'],['Hackathon','Hackathons'],['Challenge','Challenges'],['Workshop','Workshops & talks']];
+function cfItems(){
+  const f=disc.hf;
+  return ALL.filter(p=>(p.status==='open'||p.status==='soon'||p.status==='live')&&!(p.enrolled&&role!=='organizer'))
+    .filter(p=>(f.type==='all'||p.kind===f.type)&&(f.mode==='all'||p.format.startsWith(f.mode))&&(f.topic==='all'||p.tags[0]===f.topic)&&(!f.open||p.open))
+    .sort((a,b)=>isHot(b)-isHot(a)||(a.status==='soon')-(b.status==='soon')||a.closes-b.closes);
+}
+function hfHTML(){
+  const f=disc.hf,topics=[...new Set(ALL.map(p=>p.tags[0]))].sort(),n=cfItems().length;
+  return `<div class="hf" role="group" aria-label="Filter events">
+    <div class="cat-tabs">${HF_TYPES.map(([k,l])=>`<button type="button" data-hf-type="${k}" class="${f.type===k?'on':''}" aria-pressed="${f.type===k}">${l}</button>`).join('')}</div>
+    <select class="pill-select" data-hf="mode" aria-label="Mode"><option value="all">Any mode</option>${['Online','Hybrid','In person'].map(m=>`<option${f.mode===m?' selected':''}>${m}</option>`).join('')}</select>
+    <select class="pill-select" data-hf="topic" aria-label="Topic"><option value="all">Any topic</option>${topics.map(t=>`<option${f.topic===t?' selected':''}>${t}</option>`).join('')}</select>
+    <label class="hf-open"><input type="checkbox" data-hf="open"${f.open?' checked':''}> Open now</label>
+    <span class="hf-n">${n} event${n===1?'':'s'}</span></div>`;
+}
 function renderSpot(){
-  const items=advItems(),el=$('#spotlight');
-  if(!items.length){el.innerHTML='';return}
+  const items=cfItems(),el=$('#spotlight');
+  if(!items.length){el.innerHTML=hfHTML()+`<div class="empty">No events match these filters. <button class="link-btn" type="button" data-hf-reset>Clear filters</button></div>`;return}
   disc.cfN=items.length;disc.adv=Math.min(disc.adv||0,items.length-1);
-  el.innerHTML=`<div class="cf" aria-roledescription="carousel" aria-label="Events you can join">
-    <div class="cf-head"><span class="eyebrow">02 / Join an event</span><span class="adv-count" id="adv-count" aria-live="polite"></span></div>
+  el.innerHTML=hfHTML()+`<div class="cf" aria-roledescription="carousel" aria-label="Events you can join">
+    <div class="cf-head"><span></span><span class="adv-count" id="adv-count" aria-live="polite"></span></div>
     <div class="cf-stage" id="adv-track" tabindex="0" aria-label="Events you can join. Swipe or use the arrow keys">
       <button class="cf-arrow prev" type="button" data-adv-step="-1" aria-label="Previous event">${I('chev-left')}</button>
       ${items.map(cfCard).join('')}
@@ -2553,7 +2723,7 @@ function advMark(){
   const cards=$$('#adv-track .cf-card'),n=cards.length;if(!n)return;
   cards.forEach((c,i)=>{let o=i-disc.adv;if(o>n/2)o-=n;if(o<-n/2)o+=n;c.dataset.off=Math.max(-3,Math.min(3,o));c.setAttribute('aria-hidden',o!==0);$$('a,button',c).forEach(b=>b.tabIndex=o===0?0:-1)});
   $('#adv-count').textContent=`${String(disc.adv+1).padStart(2,'0')} / ${String(n).padStart(2,'0')}`;
-  $$('.adv-dots button').forEach((b,i)=>{b.classList.toggle('on',i===disc.adv);b.setAttribute('aria-selected',i===disc.adv)});
+  $$('#spotlight .adv-dots button').forEach((b,i)=>{b.classList.toggle('on',i===disc.adv);b.setAttribute('aria-selected',i===disc.adv)});
 }
 function advGo(i){
   const n=$$('#adv-track .cf-card').length;if(!n)return;
@@ -2575,6 +2745,58 @@ setInterval(()=>{
   if($('#view-discover')?.offsetParent===null||!$('#adv-track'))return;
   advGo(disc.adv+1);
 },7000);
+function renderUp(){
+  const items=advItems().slice(0,6),el=$('#upcoming');
+  if(!items.length){el.innerHTML='';return}
+  disc.up=Math.min(disc.up||0,items.length-1);
+  el.innerHTML=`<div class="card adv" aria-roledescription="carousel">
+    <div class="adv-head"><span class="eyebrow">02 / Hot &amp; coming up</span>
+      <div class="adv-ctrl"><span class="adv-count" id="up-count" aria-live="polite"></span>
+        <button class="btn ghost icon" type="button" data-up-step="-1" aria-label="Previous event">${I('chev-left')}</button>
+        <button class="btn ghost icon" type="button" data-up-step="1" aria-label="Next event">${I('chev-right')}</button></div></div>
+    <div class="adv-track" id="up-track" tabindex="0" aria-label="Upcoming events, swipe or use the arrows">
+      ${items.map((p,i)=>`<article class="adv-slide" aria-roledescription="slide" aria-label="${i+1} of ${items.length}: ${p.title}">
+        ${posterHTML(p)}
+        <div class="adv-body"><div class="adv-flags">${isHot(p)?`<span class="adv-flag hot">Hot · ${p.teamsIn} teams in</span>`:p.status==='soon'?`<span class="adv-flag soon">Coming soon</span>`:''}<span class="adv-kind">${p.kind} · ${isWS(p)?'Free':p.format}</span></div><h3>${p.title}</h3><p>${p.blurb}</p>
+          <div class="adv-facts">${advFacts(p)}</div>
+          <div class="adv-actions">${advActions(p)}<button class="btn ghost icon" type="button" data-share="${p.id}" aria-label="Share">${I('share')}</button></div></div>
+      </article>`).join('')}
+    </div>
+    <div class="adv-dots" role="tablist" aria-label="Choose event">${items.map((p,i)=>`<button type="button" role="tab" data-up-go="${i}" aria-label="${p.title}"></button>`).join('')}</div>
+  </div>`;
+  const tr=$('#up-track');
+  tr.style.scrollBehavior='auto';tr.scrollLeft=upLeft(tr,disc.up);tr.style.scrollBehavior='';
+  upMark();
+  tr.addEventListener('scroll',()=>{const i=Math.round(tr.scrollLeft/Math.max(1,tr.clientWidth+32));if(i!==disc.up){disc.up=i;upMark()}},{passive:true});
+}
+const upLeft=(tr,i)=>tr.children[i].offsetLeft-tr.children[0].offsetLeft;
+function upMark(){
+  const n=$$('#up-track .adv-slide').length;if(!n)return;
+  $('#up-count').textContent=`${String(disc.up+1).padStart(2,'0')} / ${String(n).padStart(2,'0')}`;
+  $$('#upcoming .adv-dots button').forEach((b,i)=>{b.classList.toggle('on',i===disc.up);b.setAttribute('aria-selected',i===disc.up)});
+}
+function upGo(i){
+  const tr=$('#up-track');if(!tr)return;const n=tr.children.length;
+  disc.up=(i+n)%n;tr.scrollTo({left:upLeft(tr,disc.up)});upMark();
+}
+$('#upcoming').addEventListener('click',e=>{
+  const s=e.target.closest('[data-up-step]'),g=e.target.closest('[data-up-go]');
+  if(s){upGo(disc.up+ +s.dataset.upStep);disc.upHold=Date.now()}
+  if(g){upGo(+g.dataset.upGo);disc.upHold=Date.now()}
+});
+$('#upcoming').addEventListener('keydown',e=>{if(e.target.id==='up-track'&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){e.preventDefault();upGo(disc.up+(e.key==='ArrowRight'?1:-1))}});
+// Auto-advance every 7s, but pause while the pointer or focus is on it, for 15s after a manual move, and for reduced motion
+['pointerenter','focusin','touchstart'].forEach(t=>$('#upcoming').addEventListener(t,()=>disc.upPause=true,{passive:true}));
+['pointerleave','focusout'].forEach(t=>$('#upcoming').addEventListener(t,()=>disc.upPause=false));
+setInterval(()=>{
+  if(disc.upPause||document.hidden||Date.now()-(disc.upHold||0)<15000||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if($('#view-discover')?.offsetParent===null||!$('#up-track'))return;
+  upGo(disc.up+1);
+},7000);
+/* --- Home filters above the carousel --- */
+$('#spotlight').addEventListener('click',e=>{const t=e.target.closest('[data-hf-type],[data-hf-reset]');if(!t)return;
+  if(t.dataset.hfType)disc.hf.type=t.dataset.hfType;else disc.hf={type:'all',mode:'all',topic:'all',open:false};disc.adv=0;renderSpot()});
+$('#spotlight').addEventListener('change',e=>{const k=e.target.dataset.hf;if(!k)return;disc.hf[k]=k==='open'?e.target.checked:e.target.value;disc.adv=0;renderSpot()});
 /* --- 4 + 5. Tabs, filters and sections --- */
 const CATS=[['all','All'],['Hackathon','Hackathons'],['Challenge','Challenges'],['Workshop','Workshops'],['online','Online']];
 function filterVals(){return{q:$('#search').value.trim().toLowerCase(),th:$('#f-theme').value,ind:$('#f-industry').value}}
@@ -2605,7 +2827,7 @@ function renderSections(){
   }).join('');
   $('#program-sections').innerHTML=html||`<div class="empty">Nothing matches these filters.<br><button class="link-btn" type="button" data-clear>Clear filters</button></div>`;
 }
-function renderCards(){syncStatus();renderNextUp();renderCal();renderSpot();renderToolbar();renderSections();renderMyProgs();if(curEvent&&!$('#view-event').hidden)renderEvent()}
+function renderCards(){syncStatus();renderNextUp();renderCal();renderSpot();renderUp();renderToolbar();renderSections();renderMyProgs();if(curEvent&&!$('#view-event').hidden)renderEvent()}
 let curEvent=null;
 const HOSTS={smart:'Innovation Office',green:'Campus Sustainability Network',fintech:'Penang FinLab',health:'KL Health Innovation Hub',mobility:'Melaka Smart City Unit',agri:'Johor Agri Cooperative',cyber:'CyberShield Bank Security',data:'Open Data Malaysia Lab',ev:'JB Energy Alliance',halal:'Halal Trade Network',retail:'Kedai Data Co.',campus:'UTeM Student Affairs'};
 const EXTRA_TEAMS=['Kopi Data','Null Pointer','Byte Club','Team Sambal','Lumen Labs','Quant Kittens','Rojak Robotics','Data Durian'];
@@ -3281,10 +3503,12 @@ const HALL=[
   {n:'Sage',sp:'s1_04',uni:'Mentor · UM',title:'Mentor in Disguise',bio:'Retired engineer. I join student teams as an advisor, not a builder.',skills:['Research','Writing','Business model'],need:['Data science','Frontend'],status:'team',team:'Byte Club',ev:['agri','data','health','fintech'],hist:[['Retail AI Sprint','Joined','Advised three teams'],['Campus Safety Hack','Joined','Judged the final']],links:['LinkedIn'],cv:true}
 ];
 const HALL_HI={Holmes:'Elementary. What’s your problem?',Astra:'Hi! Need someone for sensors?',Pip:'Hey! I can ship your frontend.',Miles:'Want a pitch that wins?',Zara:'Hi! I know the field data.',Pixel:'Yo, let’s make it look good.',Blaze:'Hey, anything safety-related?',Tick:'Hello. Right on time.',Sage:'Happy to advise, young one.',Luna:'Hi! Need a data person?',Maple:'Hello! I can design your screens.',Coco:'Hey, I pitch, you build?',Kaito:'Yo. Know any ML people?',Mochi:'Hi… first hackathon, be nice!',Willow:'Hi! Anything climate-related?',Finn:'Sup. We need a frontend dev.',Nova:'Hey! Got a real problem for me?',Bean:'Hi, let’s ship something.'};
-/* One open lobby for everyone, no registration needed to walk in.
-   The glowing Room Board on the stage lists competition rooms: open one for any competition, write what you're
-   building, then use the megaphone to recruit. Hosts can kick; anyone can join a room with a free seat. */
-const hall={ev:'all',me:{x:52,y:80},pos:{},sent:{},myRoom:null,nextRoom:8,tick:0,
+/* Meetup Hall: a full-screen lobby. Everyone is in, no registration needed.
+   Buttons live inside the scene. Pick a competition (glowing Room Board or "Create room"), open a room,
+   recruit with the megaphone (announced in the middle of the screen), kick, invite, register when full.
+   Names in the lobby carry a title each person sets themselves (e.g. "Frontend", "Pitch master"). */
+const hall={ev:'all',pick:null,me:{x:52,y:80},pos:{},sent:{},myRoom:null,nextRoom:8,tick:0,page:0,drawer:null,
+  chat:[['Luna','Anyone good at UI for a fintech room?'],['Kaito','Room 4 has one seat left, bus sensors!'],['Mochi','First hackathon here, be nice 🙏']],
   incoming:[{n:'Mochi',msg:'Can I join your room? It’s my first hackathon.',state:'pending'}],
   rooms:[
     {id:1,ev:'fintech',host:'Luna',members:['Luna','Bean'],desc:'Savings app for gig drivers. We have data and backend, need a UI designer!',need:['UI design']},
@@ -3295,8 +3519,8 @@ const hall={ev:'all',me:{x:52,y:80},pos:{},sent:{},myRoom:null,nextRoom:8,tick:0
     {id:6,ev:'data',host:'Holmes',members:['Holmes'],desc:'Open data on flood relief. Let’s interview NGOs first.',need:['Backend','Data science']},
     {id:7,ev:'fintech',host:'Miles',members:['Miles','Coco','Nova'],desc:'Micro-insurance for hawkers. Team is full, wish us luck!',need:[]}
   ]};
-// Your own hall card. Empty until you fill it in; your record comes from IndustryBridge.
-const myCard={done:false,sp:'s1_03',title:'',uni:'',bio:'',skills:[],need:[],gh:'',li:'',cv:false,hist:[['Retail AI Sprint','Finalist','Shelf-gap detector for corner shops'],['Campus Safety Hack','Joined','Night-walk buddy app']]};
+// Your own hall card. The title is what shows next to your name in the lobby.
+const myCard={done:false,sp:'s1_03',title:'Team lead',uni:'',bio:'',skills:[],need:[],gh:'',li:'',cv:false,hist:[['Retail AI Sprint','Finalist','Shelf-gap detector for corner shops'],['Campus Safety Hack','Joined','Night-walk buddy app']]};
 const HALL_SLOTS=[[30,50],[66,50],[86,54],[14,58],[46,56],[74,62],[22,68],[56,68],[90,68],[36,78],[70,78],[12,82],[50,88],[84,86],[40,64],[24,52],[60,76],[80,46]];
 HALL.forEach((h,i)=>{const [x,y]=HALL_SLOTS[i%HALL_SLOTS.length];hall.pos[h.n]={x:x+hash(h.n)%5,y:y+hash(h.n+'y')%5}});
 const spOf=n=>n==='me'||n==='Xin Yi Neoh'?myCard.sp:(HALL.find(h=>h.n===n)?.sp||'s0_01');
@@ -3305,7 +3529,6 @@ const hallAv=(n,size=36)=>`<span class="spr" style="width:${size}px;height:${siz
 document.getElementById('hall-stage').style.setProperty('--hall-bg',`url(${SPR.bg})`);
 const xpOf=h=>h.hist.reduce((a,[,r])=>a+XP_FOR[r],0);
 const clampN=(v,a,b)=>Math.max(a,Math.min(b,v));
-// Rooms can be opened for any competition that is open or opening soon
 const hallEvents=()=>ALL.filter(p=>!isWS(p)&&(p.status==='open'||p.status==='soon'));
 const inHall=()=>HALL;
 const canPlay=()=>true;
@@ -3313,106 +3536,170 @@ const roomMax=r=>teamMax(ALL.find(p=>p.id===r.ev));
 const roomOf=n=>hall.rooms.find(r=>r.members.includes(n));
 const myRoom=()=>hall.rooms.find(r=>r.id===hall.myRoom)||null;
 const nameOf=n=>n==='me'?'You':n;
-function matchOf(h){const hit=h.skills.filter(x=>myCard.need.includes(x)),back=h.need.filter(x=>myCard.skills.includes(x));return{hit,back,score:Math.min(98,40+hit.length*18+back.length*8+Math.round(xpOf(h)/150)+(h.status==='solo'?6:0))}}
-function hallTag(h){const r=roomOf(h.n),mine=myRoom();return mine&&r===mine?'<i class="ok">MY ROOM</i>':hall.sent[h.n]==='pending'?'<i class="sent">ASKED</i>':r?`<i class="team">ROOM ${r.id}</i>`:'<i>LFT</i>'}
-function renderHall(){
-  const list=inHall(),open=hall.rooms.filter(r=>r.members.length<roomMax(r)).length;
-  $('#hall-count').innerHTML=`<span>${list.length+1+96} players</span><button type="button" data-toast="Hall settings: hide me, mute chat" aria-label="Hall settings">${I('cog','sm')}</button><button type="button" data-toast="Sound is off in this prototype" aria-label="Sound">${I('bell','sm')}</button>`;
-  $('#hall-portal-n').textContent=`${hall.rooms.length} rooms · ${open} with seats`;
-  $('#hall-people').innerHTML=list.map(h=>{const q=hall.pos[h.n];return `<button class="hp" type="button" data-hp="${h.n}" style="left:${q.x}%;top:${q.y}%;z-index:${10+Math.round(q.y)}" aria-label="${h.n}, ${h.title}. Open portfolio"><span class="hp-tag">${h.n}${hallTag(h)}</span>${sprImg(h.n)}</button>`}).join('')
-    +`<button class="hp you" type="button" id="hall-me" style="left:${hall.me.x}%;top:${hall.me.y}%;z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You${myRoom()?`<i class="ok">ROOM ${hall.myRoom}</i>`:''}</span>${sprImg('me')}</button>`;
-  // your room
-  const r=myRoom();
-  $('#hall-myroom').innerHTML=r?`<div class="panel-title" style="justify-content:space-between"><span>Your room · #${r.id}</span><span class="badge ${r.members.length>=roomMax(r)?'ok':'accent'}">${r.members.length}/${roomMax(r)}</span></div>
-      <div class="room-ev">${roomEvLogo(r)}<div><b>${evTitle(r)}</b><small>${r.host==='me'?'You’re the host':`Host · ${r.host}`}</small></div></div>
-      <div class="room-faces">${r.members.map(m=>hallAv(m,34)).join('')}${Array.from({length:roomMax(r)-r.members.length},()=>'<span class="room-empty">+</span>').join('')}</div>
-      <button class="btn primary block" type="button" data-room-open="${r.id}">Open room ${I('arrow','sm')}</button>`
-    :`<div class="panel-title"><span>Find a team</span></div><p class="muted" style="font-size:13px">Walk up to the glowing Room Board, pick a competition and open a room. No registration needed to look around.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary sm" type="button" data-room-board>Browse rooms</button><button class="btn ghost sm" type="button" data-room-new>Open a room</button></div>`;
-  // your card
-  const xpMe=xpOf(myCard);
-  $('#hall-mine').innerHTML=myCard.done?`<button class="my-card pick" type="button" data-hp="me" style="border:0;padding:0">${hallAv('me',48)}<div><b>Xin Yi Neoh</b><small>${esc(myCard.title)} · ${esc(myCard.uni)}</small><small>${myCard.hist.length} hackathons · ${xpMe.toLocaleString('en-MY')} XP</small></div></button>
-      <div><small class="muted" style="font-size:12px">You bring</small><div class="chips-sm" style="margin-top:4px">${myCard.skills.map(x=>`<span>${x}</span>`).join('')}</div></div>
-      <div><small class="muted" style="font-size:12px">You’re looking for</small><div class="chips-sm" style="margin-top:4px">${myCard.need.map(x=>`<span class="need">${x}</span>`).join('')}</div></div>`
-    :`<p class="muted" style="font-size:13px">Not filled in yet. Fill it in so room hosts know what you’re good at.</p><button class="btn primary sm" type="button" id="card-start" style="justify-self:start">Fill in my card</button>`;
-  $('#hall-edit').hidden=!myCard.done;
-  // AI picks
-  if(!myCard.done){$('#hall-pick-note').textContent='Fill in your card so AI knows who your team needs.';$('#hall-picks').innerHTML=''}
-  else{
-    const ranked=list.filter(h=>!(myRoom()&&myRoom().members.includes(h.n))).map(h=>({h,...matchOf(h)})).filter(x=>x.hit.length).sort((a,b)=>b.score-a.score).slice(0,3);
-    $('#hall-pick-note').textContent=`Ranked by who brings what you’re looking for: ${myCard.need.join(', ')}.`;
-    $('#hall-picks').innerHTML=ranked.length?ranked.map(({h,hit,score})=>`<button class="pick" type="button" data-hp="${h.n}">${hallAv(h.n,40)}<div><b>${h.n} <span class="muted" style="font-weight:400;font-size:12px">· ${h.hist.length} hackathon${h.hist.length===1?'':'s'}</span></b><small>Brings ${hit.join(' and ')}${roomOf(h.n)?` · in room ${roomOf(h.n).id}`:' · looking for a team'}</small></div><span class="score">${score}%</span></button>`).join('')
-      :`<p class="muted" style="font-size:12.5px;padding:8px 0">No one here has those skills yet. Try changing what you’re looking for.</p>`;
-  }
-  // requests to join your room
-  const out=Object.entries(hall.sent).map(([n,st])=>`<div class="req">${hallAv(n,34)}<div><b>${n}</b><small>${st==='pending'?'Waiting for a reply':st==='accepted'?'Accepted · in your room':'Declined'}</small></div><span class="badge ${st==='accepted'?'ok':st==='pending'?'warn':'bad'}">${st==='pending'?'Sent':st}</span></div>`);
-  const inc=r&&r.host==='me'?hall.incoming.map((q,i)=>`<div class="req">${hallAv(q.n,34)}<div><b>${q.n} wants to join</b><small>${q.state==='pending'?esc(q.msg):q.state==='accepted'?'You let them in':'You declined'}</small></div>${q.state==='pending'?`<div class="req-acts"><button class="btn ghost sm" type="button" data-hp="${q.n}">View card</button><button class="btn primary sm" type="button" data-inc="${i}" data-act="accepted">Accept</button><button class="btn ghost sm" type="button" data-inc="${i}" data-act="declined">Decline</button></div>`:''}</div>`):[];
-  $('#hall-reqs').innerHTML=[...inc,...out].join('')||'<p class="muted" style="font-size:12.5px">No requests yet. Open a room and people can ask to join.</p>';
-  if(!$('#modal').hidden&&$('#room-view'))openRoom(+$('#room-view').dataset.room,true);
-  if(!$('#modal').hidden&&$('#room-board'))openRoomBoard(true);
-}
+const titleOf=n=>n==='me'?myCard.title:HALL.find(h=>h.n===n)?.title||'';
 const evOf=r=>ALL.find(p=>p.id===r.ev);
 const evTitle=r=>evOf(r)?.title||'Competition';
 const roomEvLogo=r=>{const p=evOf(r);return `<span class="pcard-logo mini ${p.poster}" aria-hidden="true">${I(p.logo)}</span>`};
-/* Room Board: every room, filter by competition, join one or open your own */
-function openRoomBoard(keep){
-  const evs=hallEvents(),f=hall.ev,rooms=hall.rooms.filter(r=>f==='all'||r.ev===f).sort((a,b)=>(b.id===hall.myRoom)-(a.id===hall.myRoom)||(roomMax(b)-b.members.length>0)-(roomMax(a)-a.members.length>0)||a.id-b.id);
-  const btn=r=>{const full=r.members.length>=roomMax(r);
-    if(r.id===hall.myRoom)return `<button class="btn primary sm" type="button" data-room-open="${r.id}">Your room</button>`;
-    if(hall.sent['room'+r.id]==='pending')return `<button class="btn ghost sm" type="button" disabled>Asked…</button>`;
-    return full?`<button class="btn ghost sm" type="button" disabled>Full</button>`:`<button class="btn primary sm" type="button" data-room-join="${r.id}">Join</button>`};
-  const html=`<div id="room-board"><div class="rb-head"><div><span class="eyebrow">Meetup Hall</span><h2 id="modal-title">Room Board</h2></div>
-      <button class="btn primary" type="button" data-room-new>${I('plus','sm')}Open a room</button></div>
-    <div class="rb-filter"><label class="sr-only" for="rb-ev">Competition</label><select class="pill-select" id="rb-ev"><option value="all">All competitions · ${hall.rooms.length} rooms</option>${evs.map(p=>`<option value="${p.id}"${p.id===f?' selected':''}>${p.title} · ${hall.rooms.filter(r=>r.ev===p.id).length}</option>`).join('')}</select>
-      <span class="muted" style="font-size:12.5px">Anyone can open a room. Register the team once it’s full.</span></div>
-    <div class="rb-list">${rooms.map(r=>`<article class="rb-row${r.id===hall.myRoom?' mine':''}">
-        <span class="rb-no">#${String(r.id).padStart(3,'0')}</span>
-        <div class="rb-main"><div class="room-ev">${roomEvLogo(r)}<div><b>${evTitle(r)}</b><small>Host · ${nameOf(r.host)}</small></div></div>
-          <p>${esc(r.desc)}</p>${r.need.length?`<div class="chips-sm">${r.need.map(x=>`<span class="need">${x}</span>`).join('')}</div>`:''}</div>
-        <div class="rb-side"><div class="room-faces">${r.members.map(m=>hallAv(m,28)).join('')}${Array.from({length:roomMax(r)-r.members.length},()=>'<span class="room-empty sm">+</span>').join('')}</div><b class="rb-seats">${r.members.length}/${roomMax(r)}</b>${btn(r)}</div>
-      </article>`).join('')||`<div class="empty">No rooms for this competition yet. <button class="link-btn" type="button" data-room-new>Open the first one</button></div>`}</div></div>`;
-  if(keep){$('#modal-body').innerHTML=html;hydrateAvatars($('#modal-body'))}else openModal(html,true);
+const lvlOf=xp=>1+Math.floor(xp/250);
+function matchOf(h){const hit=h.skills.filter(x=>myCard.need.includes(x)),back=h.need.filter(x=>myCard.skills.includes(x));return{hit,back,score:Math.min(98,40+hit.length*18+back.length*8+Math.round(xpOf(h)/150)+(h.status==='solo'?6:0))}}
+function hallTag(n){const t=titleOf(n);return t?`<i>${esc(t)}</i>`:''}
+function openModalX(html){openModal(html,true);$('.modal').classList.add('xwide','game')}
+function setModalHTML(html){$('#modal-body').innerHTML=html;hydrateAvatars($('#modal-body'))}
+function renderHall(){
+  const list=inHall(),open=hall.rooms.filter(r=>r.members.length<roomMax(r)).length,r=myRoom();
+  $('#hall-count').innerHTML=`<b>Meetup Hall</b><span>${list.length+1+96} online · ${hall.rooms.length} rooms</span>`;
+  $('#hall-portal-n').textContent=`${open} rooms with seats`;
+  $('#hall-people').innerHTML=list.map(h=>{const q=hall.pos[h.n];return `<button class="hp" type="button" data-hp="${h.n}" style="left:${q.x}%;top:${q.y}%;z-index:${10+Math.round(q.y)}" aria-label="${h.n}, ${esc(h.title)}. Open portfolio"><span class="hp-tag">${h.n}${hallTag(h.n)}</span>${sprImg(h.n)}</button>`}).join('')
+    +`<button class="hp you" type="button" id="hall-me" style="left:${hall.me.x}%;top:${hall.me.y}%;z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You${hallTag('me')}</span>${sprImg('me')}</button>`;
+  // in-scene buttons that change with your state
+  $('#hud-myroom').hidden=!r;
+  if(r)$('#hud-myroom').dataset.roomOpen=r.id;
+  if(r)$('#hud-myroom').innerHTML=`${roomEvLogo(r)}<span><b>Room #${r.id} · ${r.members.length}/${roomMax(r)}</b><small>${evTitle(r)}</small></span>`;
+  const pend=r&&r.host==='me'?hall.incoming.filter(q=>q.state==='pending').length:0;
+  $('#hud-req-n').textContent=pend||'';$('#hud-req-n').hidden=!pend;
+  // drawer panels
+  const xpMe=xpOf(myCard);
+  $('#hall-mine').innerHTML=`<button class="my-card pick" type="button" data-hp="me" style="border:0;padding:0">${hallAv('me',48)}<div><b>Xin Yi Neoh</b><small>${esc(myCard.title)}${myCard.uni?' · '+esc(myCard.uni):''}</small><small>Lv ${lvlOf(xpMe)} · ${myCard.hist.length} hackathons · ${xpMe.toLocaleString('en-MY')} XP</small></div></button>`
+    +(myCard.done?`<div><small class="muted" style="font-size:12px">You bring</small><div class="chips-sm" style="margin-top:4px">${myCard.skills.map(x=>`<span>${x}</span>`).join('')}</div></div>
+      <div><small class="muted" style="font-size:12px">You’re looking for</small><div class="chips-sm" style="margin-top:4px">${myCard.need.map(x=>`<span class="need">${x}</span>`).join('')}</div></div>`
+    :`<p class="muted" style="font-size:13px;margin:0">Fill in your card so room hosts know what you’re good at.</p>`)
+    +`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" type="button" data-title-edit>${I('edit','sm')}Change title</button><button class="btn ${myCard.done?'ghost':'primary'} sm" type="button" id="card-start">${myCard.done?'Edit card':'Fill in my card'}</button></div>`;
+  if(!myCard.done){$('#hall-pick-note').textContent='Fill in your card so AI knows who your team needs.';$('#hall-picks').innerHTML=''}
+  else{
+    const ranked=list.filter(h=>!(r&&r.members.includes(h.n))).map(h=>({h,...matchOf(h)})).filter(x=>x.hit.length).sort((a,b)=>b.score-a.score).slice(0,3);
+    $('#hall-pick-note').textContent=`Ranked by who brings what you’re looking for: ${myCard.need.join(', ')}.`;
+    $('#hall-picks').innerHTML=ranked.length?ranked.map(({h,hit,score})=>`<button class="pick" type="button" data-hp="${h.n}">${hallAv(h.n,40)}<div><b>${h.n} <span class="muted" style="font-weight:400;font-size:12px">· ${esc(h.title)}</span></b><small>Brings ${hit.join(' and ')}${roomOf(h.n)?` · in a room`:' · looking for a team'}</small></div><span class="score">${score}%</span></button>`).join('')
+      :`<p class="muted" style="font-size:12.5px;padding:8px 0">No one here has those skills yet. Try changing what you’re looking for.</p>`;
+  }
+  const out=Object.entries(hall.sent).filter(([n])=>!n.startsWith('room')).map(([n,st])=>`<div class="req">${hallAv(n,34)}<div><b>${n}</b><small>${st==='pending'?'Waiting for a reply':st==='accepted'?'Accepted · in your room':'Declined'}</small></div><span class="badge ${st==='accepted'?'ok':st==='pending'?'warn':'bad'}">${st==='pending'?'Sent':st}</span></div>`);
+  const inc=r&&r.host==='me'?hall.incoming.map((q,i)=>`<div class="req">${hallAv(q.n,34)}<div><b>${q.n} wants to join</b><small>${q.state==='pending'?esc(q.msg):q.state==='accepted'?'You let them in':'You declined'}</small></div>${q.state==='pending'?`<div class="req-acts"><button class="btn ghost sm" type="button" data-hp="${q.n}">View card</button><button class="btn primary sm" type="button" data-inc="${i}" data-act="accepted">Accept</button><button class="btn ghost sm" type="button" data-inc="${i}" data-act="declined">Decline</button></div>`:''}</div>`):[];
+  $('#hall-reqs').innerHTML=[...inc,...out].join('')||'<p class="muted" style="font-size:12.5px">No requests yet. Open a room and people can ask to join.</p>';
+  $('#hall-stage').dataset.drawer=hall.drawer||'';
+  $$('[data-hud-drawer]').forEach(b=>b.classList.toggle('on',b.dataset.hudDrawer===hall.drawer));
+  // keep an open window in step
+  if(!$('#modal').hidden){if($('#room-view'))openRoom(+$('#room-view').dataset.room,true);else if($('#room-board'))openRoomBoard(true);else if($('#pick-comp'))openPickComp(hall.pick,true)}
 }
-/* Open a room: pick any competition, say what you're building and who you need */
-function openRoomNew(){
-  if(myRoom()){toast('Leave your current room before opening a new one');openRoom(hall.myRoom);return}
-  const evs=hallEvents(),pre=hall.ev!=='all'?hall.ev:evs[0]?.id;
-  openModal(`<div id="room-new"><span class="eyebrow">Room Board</span><h2 id="modal-title">Open a room</h2></div>
-    <div class="field"><label for="rn-ev">Competition</label><select class="field-select" id="rn-ev">${evs.map(p=>`<option value="${p.id}"${p.id===pre?' selected':''}>${p.title} · ${p.team}${p.status==='soon'?' · opens '+shortDate(p.opensAt):''}</option>`).join('')}</select></div>
-    <div class="field"><label for="rn-desc">What are you building?</label><textarea class="textarea" id="rn-desc" maxlength="140" style="min-height:80px" placeholder="e.g. A savings app for gig drivers. I do research and pitching.">${esc(myCard.bio?myCard.bio.slice(0,120):'')}</textarea><span class="err" id="rn-err" hidden>Write at least 10 characters so people know what the room is for.</span></div>
-    <div class="field"><span class="field-label">Looking for <span class="muted" style="font-weight:400">· optional, up to 3</span></span><div class="pf-pick need" id="rn-need">${SKILLS.map(x=>`<button type="button" data-rn="${x}" class="${myCard.need.includes(x)?'on':''}">${x}</button>`).join('')}</div></div>
-    <div class="modal-actions"><button class="btn ghost" type="button" data-room-board>Back</button><button class="btn primary" type="button" id="rn-save">Open room ${I('arrow','sm')}</button></div>`,true);
+/* ---- Window 1: pick a competition. Thumbnails left, info top right, create bottom right ---- */
+function openPickComp(id,keep){
+  const evs=hallEvents();hall.pick=id&&evs.some(p=>p.id===id)?id:hall.pick&&evs.some(p=>p.id===hall.pick)?hall.pick:evs[0]?.id;
+  const p=ALL.find(x=>x.id===hall.pick),rooms=hall.rooms.filter(r=>r.ev===p.id),seats=rooms.filter(r=>r.members.length<roomMax(r)).length;
+  const draft=keep&&$('#pc-desc')?{d:$('#pc-desc').value,n:$$('#pc-need button.on').map(b=>b.dataset.rn)}:{d:'',n:myCard.need.slice(0,3)};
+  const thumb=q=>{const n=hall.rooms.filter(r=>r.ev===q.id).length;return `<button type="button" class="pc-thumb${q.id===p.id?' on':''}" data-pc="${q.id}" aria-pressed="${q.id===p.id}">
+      <span class="pc-art" style="background:${(HERO_BG[q.poster]||HERO_BG['p-smart'])[1]}">${sceneSVG(q,'xMaxYMid')}${isHot(q)?'<i class="pc-hot">HOT</i>':q.status==='soon'?'<i class="pc-soon">SOON</i>':''}</span>
+      <span class="pc-name"><b>${q.title}</b><small>${q.kind} · ${n} room${n===1?'':'s'}</small></span></button>`};
+  const html=`<div id="pick-comp" class="gw"><header class="gw-bar"><span>${I('trophy','sm')}Pick a competition</span><small>${evs.length} competitions you can open a room for</small></header>
+    <div class="pc-grid">
+      <div class="pc-list gw-panel">${evs.map(thumb).join('')}</div>
+      <section class="pc-info gw-panel" aria-live="polite">
+        <div class="pc-info-art" style="background:${(HERO_BG[p.poster]||HERO_BG['p-smart'])[1]}">${sceneSVG(p,'xMaxYMid')}<span class="pcard-logo ${p.poster}" aria-hidden="true">${I(p.logo)}</span></div>
+        <h3>${p.title}</h3>
+        <dl class="cf-facts">
+          <div><dt>${I('calendar')}Time</dt><dd>${cfWhen(p)}</dd></div>
+          <div><dt>${I('pin')}Place</dt><dd>${p.format}</dd></div>
+          <div class="half"><dt>${I('trophy')}Prize</dt><dd>${p.prize}</dd></div>
+          <div class="half"><dt>${I('users')}Team</dt><dd>${p.team.replace('Teams of ','')}</dd></div>
+          <div class="wide"><dt>${I('route')}Tracks</dt><dd class="cf-chips">${(EV_TRACKS[p.id]||[]).map(t=>`<span>${t}</span>`).join('')}</dd></div>
+        </dl>
+      </section>
+      <section class="pc-create gw-panel">
+        <div class="field"><label for="pc-desc">What will your room build?</label><textarea class="textarea" id="pc-desc" maxlength="140" placeholder="e.g. A savings app for gig drivers. I do research and pitching.">${esc(draft.d)}</textarea><span class="err" id="pc-err" hidden>Write at least 10 characters so people know what the room is for.</span></div>
+        <div class="pf-pick need sm" id="pc-need" aria-label="Looking for, up to 3">${SKILLS.map(x=>`<button type="button" data-rn="${x}" class="${draft.n.includes(x)?'on':''}">${x}</button>`).join('')}</div>
+        <div class="pc-acts"><button class="btn ghost" type="button" data-board-ev="${p.id}">Browse ${rooms.length} room${rooms.length===1?'':'s'}${seats?` · ${seats} open`:''}</button><button class="btn primary" type="button" id="pc-create">${I('plus','sm')}Create room</button></div>
+      </section>
+    </div></div>`;
+  if(keep)setModalHTML(html);else openModalX(html);
 }
 function createRoom(){
-  const desc=$('#rn-desc').value.trim();if(desc.length<10){$('#rn-err').hidden=false;$('#rn-desc').focus();return}
-  const r={id:hall.nextRoom++,ev:$('#rn-ev').value,host:'me',members:['me'],desc,need:$$('#rn-need button.on').map(b=>b.dataset.rn)};
-  hall.rooms.push(r);hall.myRoom=r.id;hall.incoming.forEach(q=>q.state='pending');renderHall();openRoom(r.id);
+  if(myRoom()){toast('Leave your current room before opening a new one');openRoom(hall.myRoom);return}
+  const desc=$('#pc-desc').value.trim();if(desc.length<10){$('#pc-err').hidden=false;$('#pc-desc').focus();return}
+  const r={id:hall.nextRoom++,ev:hall.pick,host:'me',members:['me'],desc,need:$$('#pc-need button.on').map(b=>b.dataset.rn)};
+  hall.rooms.push(r);hall.myRoom=r.id;hall.incoming.forEach(q=>q.state='pending');openRoom(r.id);renderHall();
   toast(`Room #${r.id} is open. Use the megaphone to call teammates.`);
 }
-/* Inside a room: seats, megaphone, kick (host), register when full, leave */
+/* ---- Window 2: the room. Player slots, side info, big buttons ---- */
 function openRoom(id,keep){
   const r=hall.rooms.find(x=>x.id===id);if(!r){closeModal();return}
   const max=roomMax(r),host=r.host==='me',mine=r.id===hall.myRoom,p=evOf(r),full=r.members.length>=max;
-  const seat=m=>{const h=HALL.find(x=>x.n===m),isHost=m===r.host;return `<div class="seat${isHost?' host':''}">${hallAv(m,56)}<b>${nameOf(m)}</b><small>${isHost?'Host':m==='me'?(myCard.title||'Member'):h?.skills.slice(0,2).join(' · ')||'Member'}</small>
-      ${host&&m!=='me'?`<button class="btn ghost sm seat-kick" type="button" data-room-kick="${m}">Kick</button>`:m!=='me'?`<button class="link-btn" type="button" data-hp="${m}" style="font-size:12px">View card</button>`:''}</div>`};
-  const html=`<div id="room-view" data-room="${r.id}"><div class="rb-head"><div><span class="eyebrow">Room #${String(r.id).padStart(3,'0')} · ${r.members.length}/${max}</span><h2 id="modal-title">${p.title}</h2></div><span class="badge ${full?'ok':'accent'}">${full?'Full':'Recruiting'}</span></div>
-    <p class="room-desc">${esc(r.desc)}</p>
-    ${r.need.length?`<div class="chips-sm">${r.need.map(x=>`<span class="need">Looking for ${x}</span>`).join('')}</div>`:''}
-    <div class="seats">${r.members.map(seat).join('')}${Array.from({length:max-r.members.length},()=>`<div class="seat vacant"><span class="room-empty lg">+</span><b>Open seat</b><small>Waiting for a teammate</small></div>`).join('')}</div>
-    <div class="modal-actions">
-      ${mine?`<button class="btn ghost" type="button" data-room-leave>${host?'Close room':'Leave room'}</button>`:''}
-      <button class="btn ghost" type="button" data-room-board>All rooms</button>
-      ${mine&&host&&!full?`<button class="btn primary" type="button" data-room-horn>📢 Megaphone</button>`:''}
-      ${mine&&full?`<button class="btn primary" type="button" data-register="${r.ev}">Register this team ${I('arrow','sm')}</button>`:''}
-      ${!mine&&!full?`<button class="btn primary" type="button" data-room-join="${r.id}">Join room</button>`:''}
+  const slot=m=>{const isHost=m===r.host;return `<div class="slot${isHost?' host':''}${m==='me'?' slot-me':''}">
+      ${isHost?`<span class="slot-crown" title="Host">${I('crown')}</span>`:`<span class="slot-stamp">READY</span>`}
+      ${host&&m!=='me'?`<button class="slot-kick" type="button" data-room-kick="${m}" aria-label="Kick ${m}">×</button>`:''}
+      <span class="slot-art">${sprImg(m,'slot-sp')}</span>
+      <b>${nameOf(m)}</b><small>${esc(titleOf(m)||'Member')}</small>
+      ${m!=='me'?`<button class="link-btn" type="button" data-hp="${m}">View card</button>`:''}</div>`};
+  const empty=()=>`<div class="slot vacant">${mine&&host?`<button type="button" class="slot-invite" data-room-invite>${I('plus')}<b>Invite</b></button>`:`<span class="slot-open">${I('plus')}<b>Open</b></span>`}</div>`;
+  const html=`<div id="room-view" class="gw" data-room="${r.id}"><header class="gw-bar"><span>${I('users','sm')}Room #${String(r.id).padStart(3,'0')}</span><small>${p.title} · ${r.members.length}/${max} · ${full?'full':'recruiting'}</small></header>
+    <div class="rv-grid">
+      <div class="rv-slots gw-panel" style="--cols:${Math.min(4,max)}">${r.members.map(slot).join('')}${Array.from({length:max-r.members.length},empty).join('')}</div>
+      <aside class="rv-side gw-panel">
+        <div class="room-ev">${roomEvLogo(r)}<div><b>${p.title}</b><small>${p.kind} · ${p.format}</small></div></div>
+        <div class="rv-kv"><span>Host</span><b>${nameOf(r.host)}</b></div>
+        <div class="rv-kv"><span>Seats</span><b>${r.members.length} / ${max}</b></div>
+        <div class="rv-kv"><span>Prize</span><b>${p.prize}</b></div>
+        <p class="room-desc">${esc(r.desc)}</p>
+        ${r.need.length?`<div class="chips-sm">${r.need.map(x=>`<span class="need">${x}</span>`).join('')}</div>`:''}
+        <div class="rv-acts">
+          ${mine&&host?`<button class="gbtn" type="button" data-room-invite ${full?'disabled':''}>${I('user')}<b>Invite</b></button><button class="gbtn" type="button" data-room-horn ${full?'disabled':''}><span aria-hidden="true">📢</span><b>Megaphone</b></button>`:''}
+          ${mine?`<button class="gbtn go" type="button" data-register="${r.ev}" ${full?'':'disabled'} title="${full?'':'Fill every seat to register'}">${I('check')}<b>Register team</b></button><button class="gbtn out" type="button" data-room-leave>${I('chev-left')}<b>${host?'Close room':'Leave'}</b></button>`
+            :`<button class="gbtn go" type="button" data-room-join="${r.id}" ${full||hall.sent['room'+r.id]?'disabled':''}>${I('arrow')}<b>${full?'Full':hall.sent['room'+r.id]?'Asked…':'Join room'}</b></button><button class="gbtn out" type="button" data-room-board>${I('list')}<b>All rooms</b></button>`}
+        </div>
+      </aside>
     </div></div>`;
-  if(keep){$('#modal-body').innerHTML=html;hydrateAvatars($('#modal-body'))}else openModal(html,true);
+  if(keep)setModalHTML(html);else openModalX(html);
 }
-/* Megaphone: your room goes up on the lobby banner; someone who fits answers a moment later */
+/* Invite list: people in the lobby who are not in a room, best match first */
+function openInvite(){
+  const r=myRoom();if(!r)return;
+  const free=HALL.filter(h=>!roomOf(h.n)).map(h=>({h,s:h.skills.filter(x=>r.need.includes(x)).length})).sort((a,b)=>b.s-a.s);
+  setModalHTML(`<div id="invite-view" class="gw"><header class="gw-bar"><span>${I('user','sm')}Invite to room #${r.id}</span><small>${free.length} people without a room</small></header>
+    <div class="gw-panel inv-list">${free.map(({h,s})=>`<div class="req">${hallAv(h.n,38)}<div><b>${h.n} <span class="muted" style="font-weight:400">· ${esc(h.title)}</span></b><small>${h.skills.join(' · ')}${s?` · fits what you need`:''}</small></div>${hall.sent[h.n]==='pending'?'<span class="badge warn">Sent</span>':`<button class="btn primary sm" type="button" data-hall-ask="${h.n}">Invite</button>`}</div>`).join('')}</div>
+    <div class="modal-actions"><button class="btn ghost" type="button" data-room-open="${r.id}">Back to room</button></div></div>`);
+}
+/* ---- Window 3: room list lobby. Tiles + pages left, you and who's online right, chat below ---- */
+function openRoomBoard(keep){
+  const evs=hallEvents(),f=hall.ev,all=hall.rooms.filter(r=>f==='all'||r.ev===f).sort((a,b)=>(b.id===hall.myRoom)-(a.id===hall.myRoom)||(roomMax(b)-b.members.length>0)-(roomMax(a)-a.members.length>0)||a.id-b.id);
+  const per=6,pages=Math.max(1,Math.ceil(all.length/per));hall.page=Math.min(hall.page,pages-1);const rooms=all.slice(hall.page*per,hall.page*per+per);
+  const xpMe=xpOf(myCard);
+  const tile=r=>{const max=roomMax(r),full=r.members.length>=max,mine=r.id===hall.myRoom;return `<button type="button" class="rt${mine?' mine':''}${full?' full':''}" data-room-open="${r.id}">
+      <span class="rt-top"><b class="rt-name">${evTitle(r)}</b><span class="rt-no">#${String(r.id).padStart(3,'0')}</span></span>
+      <span class="rt-desc">${esc(r.desc)}</span>
+      <span class="rt-foot"><span class="room-faces">${r.members.map(m=>hallAv(m,24)).join('')}</span><span class="rt-st ${mine?'mine':full?'full':'open'}">${mine?'Your room':full?'Full':'Open'}</span><b class="rt-n">${r.members.length}/${max}</b></span></button>`};
+  const html=`<div id="room-board" class="gw"><header class="gw-bar"><span>${I('grid','sm')}Room list</span><small>${hall.rooms.length} rooms · ${HALL.length+97} online</small></header>
+    <div class="rb-grid">
+      <div class="rb-left gw-panel">
+        <div class="rb-filter"><label class="sr-only" for="rb-ev">Competition</label><select class="pill-select" id="rb-ev"><option value="all">All competitions</option>${evs.map(p=>`<option value="${p.id}"${p.id===f?' selected':''}>${p.title} · ${hall.rooms.filter(r=>r.ev===p.id).length}</option>`).join('')}</select>
+          <form class="rb-search" id="rb-search"><input id="rb-q" inputmode="numeric" placeholder="Room no." aria-label="Find room by number"><button class="btn ghost sm" type="submit">${I('search','sm')}Find</button></form></div>
+        <div class="rt-grid">${rooms.map(tile).join('')||`<div class="empty">No rooms for this competition yet.</div>`}</div>
+        <div class="rb-pager"><button class="btn ghost sm" type="button" data-rb-page="-1" ${hall.page?'':'disabled'}>${I('chev-left','sm')}Prev</button><span>Page ${hall.page+1} / ${pages}</span><button class="btn ghost sm" type="button" data-rb-page="1" ${hall.page<pages-1?'':'disabled'}>Next${I('chev-right','sm')}</button></div>
+      </div>
+      <aside class="rb-right">
+        <div class="gw-panel rb-me">${hallAv('me',56)}<div><b>Xin Yi Neoh</b><small>${esc(myCard.title)}</small><small>Lv ${lvlOf(xpMe)} · ${xpMe.toLocaleString('en-MY')} XP</small><button class="link-btn" type="button" data-title-edit style="padding:2px 0;font-size:12px">${I('edit','sm')}Change title</button></div></div>
+        <div class="gw-panel rb-online"><b class="rb-h">Online now</b><div class="rb-ol">${HALL.map(h=>`<button type="button" data-hp="${h.n}">${hallAv(h.n,24)}<span>${h.n}</span><small>${esc(h.title)}</small></button>`).join('')}</div></div>
+      </aside>
+      <div class="rb-chat gw-panel"><div class="rb-log" id="rb-log">${hall.chat.map(([n,t])=>`<p><b>${esc(nameOf(n))}:</b> ${esc(t)}</p>`).join('')}</div>
+        <form class="rb-say" id="rb-say"><input id="rb-say-t" maxlength="80" placeholder="Chat with the lobby…" aria-label="Lobby chat"><button class="btn ghost sm" type="submit">Send</button></form></div>
+      <div class="rb-acts"><button class="gbtn" type="button" data-pick-comp>${I('plus')}<b>Create room</b></button><button class="gbtn go" type="button" data-room-quick>${I('arrow')}<b>Quick join</b></button></div>
+    </div></div>`;
+  if(keep)setModalHTML(html);else openModalX(html);
+  const lg=$('#rb-log');if(lg)lg.scrollTop=lg.scrollHeight;
+}
+function quickJoin(){
+  if(myRoom()){openRoom(hall.myRoom);return}
+  const r=hall.rooms.filter(x=>x.members.length<roomMax(x)&&(hall.ev==='all'||x.ev===hall.ev)).sort((a,b)=>b.need.filter(x=>myCard.skills.includes(x)).length-a.need.filter(x=>myCard.skills.includes(x)).length)[0];
+  if(!r){toast('No open seats right now. Create a room instead.');return}
+  joinRoom(r.id);
+}
+/* Change the title shown next to your name */
+function openTitleEdit(){
+  const ideas=['Frontend','Backend','UI designer','Pitch master','Data wizard','Researcher','Team lead','Hardware hacker'];
+  openModal(`<div><span class="eyebrow">Meetup Hall</span><h2 id="modal-title">Your title</h2><p class="muted" style="font-size:13px;margin:4px 0 0">Shown next to your name in the lobby and in rooms.</p></div>
+    <div class="field"><label for="tt-in">Title</label><input class="text-input" id="tt-in" maxlength="20" value="${esc(myCard.title)}" placeholder="e.g. Frontend" autofocus></div>
+    <div class="pf-pick sm">${ideas.map(x=>`<button type="button" data-tt="${x}" class="${x===myCard.title?'on':''}">${x}</button>`).join('')}</div>
+    <div class="modal-actions"><button class="btn ghost" type="button" data-close>Cancel</button><button class="btn primary" type="button" id="tt-save">Save title</button></div>`);
+}
+/* Megaphone: your room is announced in the middle of the hall; someone who fits answers a moment later */
 function hallHorn(){
   const r=myRoom();if(!r)return;
-  showTicker({n:'me',r});hallBubble('me','📢 '+r.desc.slice(0,40));
-  toast('Megaphone sent to everyone in the hall');
+  closeModal();announce({n:'me',r});hallBubble('me','📢');
   clearTimeout(hall.hornT);
   hall.hornT=setTimeout(()=>{
     if(!myRoom()||r.members.length>=roomMax(r))return;
@@ -3420,16 +3707,16 @@ function hallHorn(){
     if(!fit){toast('No one free right now. Try again later.');return}
     r.members.push(fit.h.n);renderHall();hallBubble(fit.h.n,'On my way to your room!');
     toast(`${fit.h.n} heard the megaphone and joined room #${r.id}`);
-  },2200);
+  },2600);
 }
 function joinRoom(id){
   const r=hall.rooms.find(x=>x.id===id);if(!r)return;
   if(myRoom()){toast('Leave your current room first');return}
-  hall.sent['room'+id]='pending';openRoomBoard(true);toast(`Asked ${r.host} to let you into room #${id}`);
+  hall.sent['room'+id]='pending';renderHall();toast(`Asked ${r.host} to let you into room #${id}`);
   setTimeout(()=>{delete hall.sent['room'+id];
     if(r.members.length>=roomMax(r)){toast(`Room #${id} filled up before ${r.host} replied`);renderHall();return}
-    r.members.push('me');hall.myRoom=id;renderHall();hallBubble(r.host,'Welcome in!');
-    toast(`${r.host} let you into room #${id}`);if(!$('#modal').hidden)openRoom(id,true)},1500);
+    r.members.push('me');hall.myRoom=id;hallBubble(r.host,'Welcome in!');
+    toast(`${r.host} let you into room #${id}`);if($('#modal').hidden)openRoom(id);else openRoom(id,true);renderHall()},1500);
 }
 function leaveRoom(){
   const r=myRoom();if(!r)return;
@@ -3442,17 +3729,18 @@ function kickFromRoom(n){
   r.members=r.members.filter(m=>m!==n);delete hall.sent[n];renderHall();hallBubble(n,'Aww, okay. Good luck!');
   toast(`${n} was removed from room #${r.id}`);
 }
-/* Lobby banner: rooms that still have seats take turns on the megaphone */
-function showTicker(item){
-  const t=$('#hall-ticker');if(!t||!item)return;const r=item.r,max=roomMax(r);
-  t.innerHTML=`<span class="tk-horn">📢</span><span class="tk-msg"><b>${nameOf(item.n)}</b> · ${evTitle(r)} · ${r.members.length}/${max}: ${esc(r.desc)}</span>${r.id!==hall.myRoom&&r.members.length<max?`<button type="button" data-room-open="${r.id}">View</button>`:''}`;
-  t.classList.remove('pop');void t.offsetWidth;t.classList.add('pop');
+/* Big announcement in the middle of the hall; fades after a few seconds */
+function announce(item){
+  const a=$('#hall-announce');if(!a||!item)return;const r=item.r,max=roomMax(r),me=item.n==='me';
+  a.innerHTML=`<span class="an-horn" aria-hidden="true">📢</span><div class="an-body"><small>${me?'You':esc(item.n)} · ${evTitle(r)} · room #${r.id} · ${r.members.length}/${max}</small><b>${esc(r.desc)}</b>${r.need.length?`<span class="an-need">Looking for ${r.need.join(', ')}</span>`:''}</div>${!me&&r.id!==hall.myRoom&&r.members.length<max?`<button type="button" data-room-open="${r.id}">View room</button>`:''}`;
+  a.classList.remove('show');void a.offsetWidth;a.classList.add('show');
+  clearTimeout(a._t);a._t=setTimeout(()=>a.classList.remove('show'),me?5000:4000);
 }
 setInterval(()=>{
-  if($('#view-hall').hidden||document.hidden)return;
+  if($('#view-hall').hidden||document.hidden||!$('#modal').hidden)return;
   const open=hall.rooms.filter(r=>r.id!==hall.myRoom&&r.members.length<roomMax(r));if(!open.length)return;
-  const r=open[hall.tick++%open.length];showTicker({n:r.host,r});
-},6500);
+  const r=open[hall.tick++%open.length];announce({n:r.host,r});
+},16000);
 function hallBubble(name,text){
   const el=name==='me'?$('#hall-me'):$(`#hall-people [data-hp="${name}"]`);if(!el)return;
   el.querySelector('.hp-bubble')?.remove();
@@ -3478,8 +3766,8 @@ function openHallCard(n){
   const cta=mine&&mine.members.includes(n)?`<button class="btn primary" type="button" disabled>${I('check','sm')}In your room</button>`
     :st==='pending'?`<button class="btn primary" type="button" disabled>Invite sent</button>`
     :mine&&mine.host==='me'&&!theirs&&mine.members.length<roomMax(mine)?`<button class="btn primary" type="button" data-hall-ask="${n}" autofocus>Invite to room #${mine.id} ${I('arrow','sm')}</button>`
-    :theirs&&!mine?`<button class="btn primary" type="button" data-room-open="${theirs.id}" autofocus>See ${n}’s room #${theirs.id} ${I('arrow','sm')}</button>`
-    :!mine?`<button class="btn primary" type="button" data-room-new>Open a room to invite ${n}</button>`
+    :theirs&&!mine?`<button class="btn primary" type="button" data-room-open="${theirs.id}" autofocus>See ${n}’s room ${I('arrow','sm')}</button>`
+    :!mine?`<button class="btn primary" type="button" data-pick-comp>Open a room to invite ${n}</button>`
     :`<button class="btn primary" type="button" disabled>${theirs?`Already in room #${theirs.id}`:'Your room is full'}</button>`;
   openModal(portfolioHTML(h,false)+(myCard.done&&m.hit.length?`<div class="match-line">${I('sparkle')}<span><b>${m.score}% match.</b> Brings ${m.hit.join(' and ')}, which you’re looking for${m.back.length?`, and needs your ${m.back.join(' and ')}`:''}.</span></div>`:'')
     +`<div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button>${cta}</div>`,true);
@@ -3500,7 +3788,7 @@ function openCardForm(){
   openModal(`<div style="display:flex;gap:14px;align-items:center"><span id="pf-av">${hallAv('me',60)}</span><div><h2 id="modal-title">Your hall card</h2><p class="muted" style="font-size:13px">Teammates see this when they click you. You fill it in once.</p></div></div>
     <button class="btn outline sm" type="button" id="pf-ai" style="justify-self:start">${I('sparkle','sm')}Draft it from my IndustryBridge activity</button>
     <div class="field"><span class="field-label">Your character <span class="muted" style="font-weight:400">· pick any you like</span></span><div class="av-pick" id="pf-sp">${Object.keys(SPR).filter(k=>k!=='bg').map(k=>`<button type="button" data-spk="${k}" class="${k===pf.sp?'on':''}" aria-label="Character ${k}"><img src="${SPR[k]}" alt=""></button>`).join('')}</div></div>
-    <div class="pf-row"><div class="field"><label for="pf-title">Title</label><input class="text-input" id="pf-title" placeholder="e.g. Team lead, UX researcher" value="${esc(pf.title)}"></div>
+    <div class="pf-row"><div class="field"><label for="pf-title">Title <span class="muted" style="font-weight:400">· shown next to your name</span></label><input class="text-input" id="pf-title" maxlength="20" placeholder="e.g. Frontend, UI designer, Pitch master" value="${esc(pf.title)}"></div>
     <div class="field"><label for="pf-uni">University</label><input class="text-input" id="pf-uni" placeholder="e.g. UTM" value="${esc(pf.uni)}"></div></div>
     <div class="field"><label for="pf-bio">About you</label><textarea class="textarea" id="pf-bio" style="min-height:70px" placeholder="What do you like building? One or two sentences.">${esc(pf.bio)}</textarea></div>
     <div class="field"><span class="field-label">What you’re good at <span class="muted" style="font-weight:400">· pick up to 4</span></span><div class="pf-pick" id="pf-skills">${pick('skills',4)}</div></div>
@@ -3526,42 +3814,56 @@ function walkMe(x,y){
   const me=$('#hall-me');if(!me)return;me.classList.toggle('left',x<hall.me.x);me.classList.add('walk');clearTimeout(me._w);me._w=setTimeout(()=>me.classList.remove('walk'),1100);hall.me={x,y};me.style.left=x+'%';me.style.top=y+'%';me.style.zIndex=100+Math.round(y);
 }
 $('#hall-stage').addEventListener('click',e=>{
-  if(e.target.closest('.hall-say')||e.target.closest('.hall-count'))return;
-  const tk=e.target.closest('#hall-ticker [data-room-open]');if(tk){openRoom(+tk.dataset.roomOpen);return}
-  if(e.target.closest('#hall-ticker'))return;
-  // the glowing Room Board: walk up to it, then it opens
-  if(e.target.closest('#hall-portal')){walkMe(50,40);setTimeout(()=>openRoomBoard(),hall.me.y>44?650:150);return}
+  if(e.target.closest('.hall-say,.hud,.hall-drawer,#hall-announce'))return;
+  // the glowing Room Board: walk up to it, then pick a competition
+  if(e.target.closest('#hall-portal')){walkMe(50,46);setTimeout(()=>openPickComp(),hall.me.y>50?650:150);return}
   const p=e.target.closest('[data-hp]');if(p){openHallCard(p.dataset.hp);return}
   if(e.target.closest('#hall-me')){openHallCard('me');return}
+  if(hall.drawer){hall.drawer=null;renderHall();return}
   const r=$('#hall-stage').getBoundingClientRect();
   walkMe(clampN((e.clientX-r.left)/r.width*100,6,94),clampN((e.clientY-r.top)/r.height*100,46,92));
 });
 $('#view-hall').addEventListener('click',e=>{
-  const pk=e.target.closest('.side-col [data-hp]');if(pk){openHallCard(pk.dataset.hp);return}
+  const dr=e.target.closest('[data-hud-drawer]');if(dr){hall.drawer=hall.drawer===dr.dataset.hudDrawer?null:dr.dataset.hudDrawer;renderHall();return}
+  if(e.target.closest('[data-drawer-close]')){hall.drawer=null;renderHall();return}
+  if(e.target.closest('[data-hud-exit]')){go('discover');return}
+  const pk=e.target.closest('.hall-drawer [data-hp]');if(pk){openHallCard(pk.dataset.hp);return}
   const ic=e.target.closest('[data-inc]');if(ic){const q=hall.incoming[+ic.dataset.inc],r=myRoom();
     if(ic.dataset.act==='accepted'&&r&&r.members.length>=roomMax(r)){toast('Your room is full. Kick someone or decline.');return}
     q.state=ic.dataset.act;if(q.state==='accepted'&&r)r.members.push(q.n);renderHall();toast(q.state==='accepted'?`${q.n} joined room #${r.id}`:`You declined ${q.n}’s request`);return}
   if(e.target.closest('#hall-edit,#card-start'))openCardForm();
 });
-// Room controls live in the modal and in the side panel
+// Window buttons (in the scene, the drawer and inside the pop-ups)
 document.addEventListener('click',e=>{
-  const t=e.target.closest('[data-room-board],[data-room-new],[data-room-open],[data-room-join],[data-room-kick],[data-room-horn],[data-room-leave]');
-  const hp=e.target.closest('#modal-body [data-hp]');if(hp&&$('#room-view')){openHallCard(hp.dataset.hp);return}
-  if(!t||e.target.closest('#hall-stage'))return;const d=t.dataset;
-  if('roomBoard' in d)openRoomBoard();
-  else if('roomNew' in d)openRoomNew();
-  else if(d.roomOpen)openRoom(+d.roomOpen);
+  const hp=e.target.closest('#modal-body [data-hp]');if(hp&&($('#room-view')||$('#room-board'))){openHallCard(hp.dataset.hp);return}
+  const t=e.target.closest('[data-pick-comp],[data-room-board],[data-board-ev],[data-room-open],[data-room-join],[data-room-kick],[data-room-horn],[data-room-leave],[data-room-invite],[data-room-quick],[data-rb-page],[data-pc],[data-title-edit],[data-tt],#pc-create,#tt-save');
+  if(!t||e.target.closest('#hall-stage [data-hp]'))return;const d=t.dataset;
+  if('pickComp' in d)openPickComp();
+  else if(d.pc)openPickComp(d.pc,true);
+  else if(t.id==='pc-create')createRoom();
+  else if(d.boardEv){hall.ev=d.boardEv;hall.page=0;openRoomBoard(!$('#modal').hidden)}
+  else if('roomBoard' in d)openRoomBoard(!$('#modal').hidden&&!!$('.modal.xwide'));
+  else if(d.roomOpen)openRoom(+d.roomOpen,!$('#modal').hidden&&!!$('.modal.xwide'));
   else if(d.roomJoin)joinRoom(+d.roomJoin);
   else if(d.roomKick)kickFromRoom(d.roomKick);
   else if('roomHorn' in d)hallHorn();
   else if('roomLeave' in d)leaveRoom();
+  else if('roomInvite' in d)openInvite();
+  else if('roomQuick' in d)quickJoin();
+  else if(d.rbPage){hall.page+= +d.rbPage;openRoomBoard(true)}
+  else if('titleEdit' in d)openTitleEdit();
+  else if(d.tt){$('#tt-in').value=d.tt;$$('[data-tt]').forEach(b=>b.classList.toggle('on',b===t))}
+  else if(t.id==='tt-save'){const v=$('#tt-in').value.trim();if(!v){$('#tt-in').focus();return}myCard.title=v;closeModal();renderHall();hallBubble('me',v);toast(`Your title is now “${v}”`)}
 });
-$('#modal-body').addEventListener('change',e=>{if(e.target.id==='rb-ev'){hall.ev=e.target.value;openRoomBoard(true)}});
+$('#modal-body').addEventListener('change',e=>{if(e.target.id==='rb-ev'){hall.ev=e.target.value;hall.page=0;openRoomBoard(true)}});
 $('#modal-body').addEventListener('click',e=>{
-  const b=e.target.closest('[data-rn]');if(b){const on=$$('#rn-need button.on');if(!b.classList.contains('on')&&on.length>=3){toast('Pick up to 3');return}b.classList.toggle('on');return}
-  if(e.target.closest('#rn-save'))createRoom();
+  const b=e.target.closest('[data-rn]');if(b){const on=$$('#pc-need button.on');if(!b.classList.contains('on')&&on.length>=3){toast('Pick up to 3');return}b.classList.toggle('on')}
 });
-$('#hall-rooms-btn').addEventListener('click',()=>openRoomBoard());
+$('#modal-body').addEventListener('submit',e=>{
+  if(e.target.id==='rb-search'){e.preventDefault();const n=+$('#rb-q').value.replace(/\D/g,'');const r=hall.rooms.find(x=>x.id===n);if(r)openRoom(n,true);else toast(n?`No room #${n}`:'Type a room number')}
+  if(e.target.id==='rb-say'){e.preventDefault();const t=$('#rb-say-t').value.trim();if(!t)return;hall.chat.push(['me',t]);
+    const who=HALL[hash(t)%HALL.length].n;setTimeout(()=>{hall.chat.push([who,HALL_HI[who]||'Hi! 👋']);if($('#room-board'))openRoomBoard(true)},1200);openRoomBoard(true);$('#rb-say-t')?.focus()}
+});
 $('#modal-body').addEventListener('click',e=>{
   const a=e.target.closest('[data-hall-ask]');if(a){hallAsk(a.dataset.hallAsk);return}
   if(e.target.closest('#card-edit2')){openCardForm();return}
@@ -3572,7 +3874,7 @@ $('#modal-body').addEventListener('click',e=>{
     if(arr.includes(v))arr.splice(arr.indexOf(v),1);else if(arr.length<max)arr.push(v);else{toast(`Pick up to ${max}. Remove one first.`);return}
     b.classList.toggle('on',arr.includes(v));return}
   if(e.target.closest('#pf-ai')){
-    $('#pf-title').value='Team lead · UX researcher';$('#pf-uni').value='UTM';
+    $('#pf-title').value='Team lead';$('#pf-uni').value='UTM';
     $('#pf-bio').value='I lead Team AI Forge. I run user interviews and turn them into problem statements judges understand, then pitch the result.';
     pf.skills=['Research','Pitching','UI design'];pf.need=['Machine learning','Backend'];
     $$('#pf-skills button').forEach(x=>x.classList.toggle('on',pf.skills.includes(x.dataset.v)));$$('#pf-need button').forEach(x=>x.classList.toggle('on',pf.need.includes(x.dataset.v)));
