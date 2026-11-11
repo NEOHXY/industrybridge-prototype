@@ -1332,7 +1332,7 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
 .hl-dots::after{content:"";animation:hlDots 1s steps(4) infinite}
 .hl-bar{width:min(300px,70vw);height:14px;background:#e4e2d8;box-shadow:0 -3px 0 var(--px-ink),0 3px 0 var(--px-ink),-3px 0 0 var(--px-ink),3px 0 0 var(--px-ink)}
 .hl-bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#4f86e8 0 25%,#e2523f 25% 50%,#f2b51c 50% 75%,#3fa45a 75% 100%) 0 0/48px 100%}
-.hall-loader.go .hl-bar i{animation:hlBar 1.25s steps(12) forwards}
+.hall-loader.go .hl-bar i{animation:hlBar 3.1s steps(24) forwards}
 @keyframes hlLegA{0%{visibility:visible}50%{visibility:hidden}}
 @keyframes hlLegB{0%{visibility:hidden}50%{visibility:visible}}
 @keyframes hlHop{0%,100%{transform:translateY(0)}43%{transform:translateY(-34px)}50%{transform:translateY(-38px)}57%{transform:translateY(-34px)}64%{transform:translateY(-14px)}}
@@ -1364,6 +1364,12 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
 #hall-chat .hall-say{position:static!important;width:auto!important;box-shadow:none!important;background:#232d1c;border-top:2px solid var(--px-ink)!important;padding:4px 4px 4px 0}
 #hall-chat .hall-say input:disabled{opacity:.6}
 @media (max-width:900px){.hall-chat{width:min(320px,calc(100% - 32px))}.hc-log{height:84px}}
+/* Register team from a room: prefilled member list */
+.rr-list{display:grid;gap:6px}
+.rr-m{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;background:#fffaf0;border:2px solid #d3c69c}
+.rr-m b{display:block;font:600 14px var(--px-font)}.rr-m small{display:block;font-size:12px;color:var(--muted)}
+.rr-ok{color:var(--px-leaf)}.rr-ok .pi{height:14px}
+#my-rooms .rt-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
 .hall-count{background:rgba(40,40,36,.72);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:7px 12px;font-size:14px;backdrop-filter:blur(4px)}
 .hall-say{background:rgba(40,40,36,.7);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:5px 5px 5px 0;align-items:center;backdrop-filter:blur(4px)}
 .hall-say input{background:transparent;border:0;color:#fff;height:32px}
@@ -3710,7 +3716,7 @@ function showHallLoader(){
   L.hidden=false;L.classList.remove('out');void L.offsetWidth;L.classList.add('go');
   // use the wait to decode the hall art so the first frames don't stutter
   const imgs=[SPR.bg,...new Set(HALL.map(h=>SPR[h.sp])),SPR[myCard.sp]].filter(Boolean).map(src=>{const i=new Image();i.src=src;return i.decode?i.decode().catch(()=>{}):Promise.resolve()});
-  return Promise.all([Promise.all(imgs),new Promise(r=>setTimeout(r,1300))]).then(()=>{L.classList.add('out');setTimeout(()=>{L.hidden=true;L.classList.remove('go','out')},350)});
+  return Promise.all([Promise.all(imgs),new Promise(r=>setTimeout(r,3200))]).then(()=>{L.classList.add('out');setTimeout(()=>{L.hidden=true;L.classList.remove('go','out')},350)});
 }
 /* Meetup Hall: a full-screen lobby. Everyone is in, no registration needed.
    Buttons live inside the scene. Pick a competition (glowing Room Board or "Create room"), open a room,
@@ -3743,7 +3749,11 @@ const inHall=()=>HALL;
 const canPlay=()=>true;
 const roomMax=r=>teamMax(ALL.find(p=>p.id===r.ev));
 const roomOf=n=>hall.rooms.find(r=>r.members.includes(n));
-const myRoom=()=>hall.rooms.find(r=>r.id===hall.myRoom)||null;
+const myRooms=()=>hall.rooms.filter(r=>r.members.includes('me'));
+const inRoom=r=>!!r&&r.members.includes('me');
+function myRoom(){let r=hall.rooms.find(x=>x.id===hall.myRoom);if(!inRoom(r)){r=myRooms()[0]||null;hall.myRoom=r?r.id:null}return r}
+// the room whose window is open, otherwise your active room
+const curRoom=()=>{const v=$('#room-view');return (v&&hall.rooms.find(r=>r.id===+v.dataset.room))||myRoom()};
 const nameOf=n=>n==='me'?'You':n;
 const titleOf=n=>n==='me'?myCard.title:HALL.find(h=>h.n===n)?.title||'';
 const evOf=r=>ALL.find(p=>p.id===r.ev);
@@ -3763,9 +3773,9 @@ function renderHall(){
   $('#hall-people').innerHTML=list.map(h=>{const q=hall.pos[h.n];return `<button class="hp" type="button" data-hp="${h.n}" style="--x:${q.x};--y:${q.y};z-index:${10+Math.round(q.y)}" aria-label="${h.n}, ${esc(h.title)}. Open portfolio"><span class="hp-tag">${h.n}${hallTag(h.n)}</span>${sprImg(h.n)}</button>`}).join('')
     +`<button class="hp you" type="button" id="hall-me" style="--x:${hall.me.x};--y:${hall.me.y};z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You${hallTag('me')}</span>${sprImg('me')}</button>`;
   // in-scene buttons that change with your state
-  $('#hud-myroom').hidden=!r;
-  if(r)$('#hud-myroom').dataset.roomOpen=r.id;
-  if(r)$('#hud-myroom').innerHTML=`${roomEvLogo(r)}<span><b>Room #${r.id} · ${r.members.length}/${roomMax(r)}</b><small>${evTitle(r)}</small></span>`;
+  const mineAll=myRooms(),hb=$('#hud-myroom');hb.hidden=!r;
+  if(mineAll.length>1){delete hb.dataset.roomOpen;hb.dataset.myRooms='';hb.innerHTML=`${PI('users')}<span><b>My rooms · ${mineAll.length}</b><small>${mineAll.filter(x=>x.members.length>=roomMax(x)).length} ready to register</small></span>`}
+  else if(r){delete hb.dataset.myRooms;hb.dataset.roomOpen=r.id;hb.innerHTML=`${roomEvLogo(r)}<span><b>Room #${r.id} · ${r.members.length}/${roomMax(r)}</b><small>${evTitle(r)}</small></span>`}
   const pend=r&&r.host==='me'?hall.incoming.filter(q=>q.state==='pending').length:0;
   $('#hud-req-n').textContent=pend||'';$('#hud-req-n').hidden=!pend;
   // drawer panels
@@ -3821,7 +3831,6 @@ function openPickComp(id,keep){
   if(keep)setModalHTML(html);else openModalX(html);
 }
 function createRoom(){
-  if(myRoom()){toast('Leave your current room before opening a new one');openRoom(hall.myRoom);return}
   const desc=$('#pc-desc').value.trim();if(desc.length<10){$('#pc-err').hidden=false;$('#pc-desc').focus();return}
   const r={id:hall.nextRoom++,ev:hall.pick,host:'me',members:['me'],desc,need:$$('#pc-need button.on').map(b=>b.dataset.rn)};
   hall.rooms.push(r);hall.myRoom=r.id;hall.incoming.forEach(q=>q.state='pending');openRoom(r.id);renderHall();
@@ -3830,7 +3839,7 @@ function createRoom(){
 /* ---- Window 2: the room. Player slots, side info, big buttons ---- */
 function openRoom(id,keep){
   const r=hall.rooms.find(x=>x.id===id);if(!r){closeModal();return}
-  const max=roomMax(r),host=r.host==='me',mine=r.id===hall.myRoom,p=evOf(r),full=r.members.length>=max;
+  const max=roomMax(r),host=r.host==='me',mine=inRoom(r),p=evOf(r),full=r.members.length>=max;if(mine)hall.myRoom=r.id;
   const slot=m=>{const isHost=m===r.host;return `<div class="slot${isHost?' host':''}${m==='me'?' slot-me':''}">
       ${isHost?`<span class="slot-crown" title="Host">${PI('crown')}</span>`:`<span class="slot-stamp">READY</span>`}
       ${host&&m!=='me'?`<button class="slot-kick" type="button" data-room-kick="${m}" aria-label="Kick ${m}">×</button>`:''}
@@ -3838,7 +3847,7 @@ function openRoom(id,keep){
       <b>${nameOf(m)}</b><small>${esc(titleOf(m)||'Member')}</small>
       ${m!=='me'?`<button class="link-btn" type="button" data-hp="${m}">View card</button>`:''}</div>`};
   const empty=()=>`<div class="slot vacant">${mine&&host?`<button type="button" class="slot-invite" data-room-invite>${PI('plus')}<b>Invite</b></button>`:`<span class="slot-open">${PI('plus')}<b>Open</b></span>`}</div>`;
-  const html=`<div id="room-view" class="gw" data-room="${r.id}"><header class="gw-bar"><span>${PI('users')}Room #${String(r.id).padStart(3,'0')}</span><small>${p.title} · ${r.members.length}/${max} · ${full?'full':'recruiting'}</small></header>
+  const html=`<div id="room-view" class="gw" data-room="${r.id}"><header class="gw-bar"><span>${PI('users')}Room #${String(r.id).padStart(3,'0')}</span><small>${p.title} · ${r.members.length}/${max} · ${r.registered?'registered':full?'full':'recruiting'}</small></header>
     <div class="rv-grid">
       <div class="rv-slots gw-panel" style="--cols:${Math.min(4,max)}">${r.members.map(slot).join('')}${Array.from({length:max-r.members.length},empty).join('')}</div>
       <aside class="rv-side gw-panel">
@@ -3850,7 +3859,7 @@ function openRoom(id,keep){
         ${r.need.length?`<div class="chips-sm">${r.need.map(x=>`<span class="need">${x}</span>`).join('')}</div>`:''}
         <div class="rv-acts">
           ${mine&&host?`<button class="gbtn" type="button" data-room-invite ${full?'disabled':''}>${PI('user')}<b>Invite</b></button><button class="gbtn" type="button" data-room-horn ${full?'disabled':''}>${PI('horn')}<b>Megaphone</b></button>`:''}
-          ${mine?`<button class="gbtn go" type="button" data-register="${r.ev}" ${full?'':'disabled'} title="${full?'':'Fill every seat to register'}">${PI('check')}<b>Register team</b></button><button class="gbtn out" type="button" data-room-leave>${PI('chev-left')}<b>${host?'Close room':'Leave'}</b></button>`
+          ${mine?`<button class="gbtn go" type="button" data-room-register="${r.id}" ${full&&!r.registered?'':'disabled'} title="${full?'':'Fill every seat to register'}">${PI('check')}<b>${r.registered?'Registered':'Register team'}</b></button><button class="gbtn out" type="button" data-room-leave>${PI('chev-left')}<b>${host?'Close room':'Leave'}</b></button>`
             :`<button class="gbtn go" type="button" data-room-join="${r.id}" ${full||hall.sent['room'+r.id]?'disabled':''}>${PI('arrow')}<b>${full?'Full':hall.sent['room'+r.id]?'Asked…':'Join room'}</b></button><button class="gbtn out" type="button" data-room-board>${PI('list')}<b>All rooms</b></button>`}
         </div>
       </aside>
@@ -3858,8 +3867,42 @@ function openRoom(id,keep){
   if(keep)setModalHTML(html);else openModalX(html);
 }
 /* Invite list: people in the lobby who are not in a room, best match first */
+/* Register a full room as a team: members come straight from the room */
+function openRoomRegister(id){
+  const r=hall.rooms.find(x=>x.id===id);if(!r)return;const p=evOf(r),max=roomMax(r),full=r.members.length>=max,soon=p.status==='soon';
+  setModalHTML(`<div id="room-reg" class="gw" data-room="${r.id}"><header class="gw-bar"><span>${PI('check')}Register team</span><small>${p.title} · room #${r.id}</small></header>
+    <div class="rv-grid">
+      <div class="gw-panel" style="display:grid;gap:12px;align-content:start">
+        <div class="field"><label for="rr-name">Team name</label><input class="text-input" id="rr-name" maxlength="28" value="${esc(r.teamName||(r.host==='me'?'Team AI Forge':r.host+'’s team'))}"></div>
+        <div><b style="font-size:13.5px">Members · ${r.members.length} of ${max}</b><p class="muted" style="font-size:12.5px;margin:2px 0 8px">Filled in from your room. Kick or invite in the room to change them.</p>
+          <div class="rr-list">${r.members.map(m=>`<div class="rr-m">${hallAv(m,40)}<div><b>${m==='me'?'Xin Yi Neoh (you)':m}</b><small>${esc(titleOf(m)||'Member')}${m===r.host?' · captain':''}</small></div><span class="rr-ok">${PI('check')}</span></div>`).join('')}</div></div>
+      </div>
+      <aside class="gw-panel rv-side">
+        <div class="room-ev">${roomEvLogo(r)}<div><b>${p.title}</b><small>${p.kind} · ${p.format}</small></div></div>
+        <div class="rv-kv"><span>Team size</span><b>${p.team.replace('Teams of ','')}</b></div>
+        <div class="rv-kv"><span>${soon?'Registration opens':'Registration closes'}</span><b>${shortDate(soon?p.opensAt:p.closes)}</b></div>
+        <div class="rv-kv"><span>Prize</span><b>${p.prize}</b></div>
+        <p class="muted" style="font-size:12.5px;margin:0">${soon?`Registration opens ${fmtDate(p.opensAt)}. Your team is saved until then.`:'Everyone in the room gets a confirmation and the program appears in My programs.'}</p>
+        <div class="rv-acts"><button class="gbtn out" type="button" data-room-open="${r.id}">${PI('chev-left')}<b>Back</b></button><button class="gbtn go" type="button" id="rr-confirm" ${full&&!soon?'':'disabled'}>${PI('check')}<b>${soon?'Not open yet':'Confirm'}</b></button></div>
+      </aside>
+    </div></div>`);
+}
+function confirmRoomRegister(){
+  const r=hall.rooms.find(x=>x.id===+$('#room-reg').dataset.room);if(!r)return;const p=evOf(r),name=$('#rr-name').value.trim()||'Team '+r.id;
+  r.registered=true;r.teamName=name;p.enrolled=true;
+  (hall.roomChat[r.id]=hall.roomChat[r.id]||[]).push([r.host,`We’re registered for ${p.title} as ${name}!`]);
+  closeModal();renderCards();renderHall();
+  toast(`${name} (${r.members.length}) is registered for ${p.title}. It’s in My programs now.`);
+}
+/* Several rooms at once: a list of every room you're in */
+function openMyRooms(){
+  const list=myRooms();
+  setModalHTML(`<div id="my-rooms" class="gw"><header class="gw-bar"><span>${PI('users')}My rooms</span><small>${list.length} rooms you’re in</small></header>
+    <div class="rt-grid">${list.map(r=>{const max=roomMax(r),full=r.members.length>=max;return `<button type="button" class="rt mine" data-room-open="${r.id}"><span class="rt-top"><b class="rt-name">${evTitle(r)}</b><span class="rt-no">#${String(r.id).padStart(3,'0')}</span></span><span class="rt-desc">${esc(r.desc)}</span><span class="rt-foot"><span class="room-faces">${r.members.map(m=>hallAv(m,24)).join('')}</span><span class="rt-st ${r.registered?'mine':full?'open':'full'}">${r.registered?'Registered':full?'Ready':'Recruiting'}</span><b class="rt-n">${r.members.length}/${max}</b></span></button>`}).join('')}</div>
+    <div class="modal-actions"><button class="btn primary" type="button" data-pick-comp>${PI('plus')}Open another room</button></div></div>`);
+}
 function openInvite(){
-  const r=myRoom();if(!r)return;
+  const r=curRoom();if(!r)return;
   const free=HALL.filter(h=>!roomOf(h.n)).map(h=>({h,s:h.skills.filter(x=>r.need.includes(x)).length})).sort((a,b)=>b.s-a.s);
   setModalHTML(`<div id="invite-view" class="gw"><header class="gw-bar"><span>${PI('user')}Invite to room #${r.id}</span><small>${free.length} people without a room</small></header>
     <div class="gw-panel inv-list">${free.map(({h,s})=>`<div class="req">${hallAv(h.n,38)}<div><b>${h.n} <span class="muted" style="font-weight:400">· ${esc(h.title)}</span></b><small>${h.skills.join(' · ')}${s?` · fits what you need`:''}</small></div>${hall.sent[h.n]==='pending'?'<span class="badge warn">Sent</span>':`<button class="btn primary sm" type="button" data-hall-ask="${h.n}">Invite</button>`}</div>`).join('')}</div>
@@ -3867,10 +3910,10 @@ function openInvite(){
 }
 /* ---- Window 3: room list lobby. Tiles + pages left, you and who's online right, chat below ---- */
 function openRoomBoard(keep){
-  const evs=hallEvents(),f=hall.ev,all=hall.rooms.filter(r=>f==='all'||r.ev===f).sort((a,b)=>(b.id===hall.myRoom)-(a.id===hall.myRoom)||(roomMax(b)-b.members.length>0)-(roomMax(a)-a.members.length>0)||a.id-b.id);
+  const evs=hallEvents(),f=hall.ev,all=hall.rooms.filter(r=>f==='all'||r.ev===f).sort((a,b)=>inRoom(b)-inRoom(a)||(roomMax(b)-b.members.length>0)-(roomMax(a)-a.members.length>0)||a.id-b.id);
   const per=6,pages=Math.max(1,Math.ceil(all.length/per));hall.page=Math.min(hall.page,pages-1);const rooms=all.slice(hall.page*per,hall.page*per+per);
   const xpMe=xpOf(myCard);
-  const tile=r=>{const max=roomMax(r),full=r.members.length>=max,mine=r.id===hall.myRoom;return `<button type="button" class="rt${mine?' mine':''}${full?' full':''}" data-room-open="${r.id}">
+  const tile=r=>{const max=roomMax(r),full=r.members.length>=max,mine=inRoom(r);return `<button type="button" class="rt${mine?' mine':''}${full?' full':''}" data-room-open="${r.id}">
       <span class="rt-top"><b class="rt-name">${evTitle(r)}</b><span class="rt-no">#${String(r.id).padStart(3,'0')}</span></span>
       <span class="rt-desc">${esc(r.desc)}</span>
       <span class="rt-foot"><span class="room-faces">${r.members.map(m=>hallAv(m,24)).join('')}</span><span class="rt-st ${mine?'mine':full?'full':'open'}">${mine?'Your room':full?'Full':'Open'}</span><b class="rt-n">${r.members.length}/${max}</b></span></button>`};
@@ -3894,8 +3937,7 @@ function openRoomBoard(keep){
   const lg=$('#rb-log');if(lg)lg.scrollTop=lg.scrollHeight;
 }
 function quickJoin(){
-  if(myRoom()){openRoom(hall.myRoom);return}
-  const r=hall.rooms.filter(x=>x.members.length<roomMax(x)&&(hall.ev==='all'||x.ev===hall.ev)).sort((a,b)=>b.need.filter(x=>myCard.skills.includes(x)).length-a.need.filter(x=>myCard.skills.includes(x)).length)[0];
+  const r=hall.rooms.filter(x=>!inRoom(x)&&x.members.length<roomMax(x)&&(hall.ev==='all'||x.ev===hall.ev)).sort((a,b)=>b.need.filter(x=>myCard.skills.includes(x)).length-a.need.filter(x=>myCard.skills.includes(x)).length)[0];
   if(!r){toast('No open seats right now. Create a room instead.');return}
   joinRoom(r.id);
 }
@@ -3909,11 +3951,11 @@ function openTitleEdit(){
 }
 /* Megaphone: your room is announced in the middle of the hall; someone who fits answers a moment later */
 function hallHorn(){
-  const r=myRoom();if(!r)return;
+  const r=curRoom();if(!r)return;
   closeModal();announce({n:'me',r});hallBubble('me','Recruiting!');
   clearTimeout(hall.hornT);
   hall.hornT=setTimeout(()=>{
-    if(!myRoom()||r.members.length>=roomMax(r))return;
+    if(!inRoom(r)||r.members.length>=roomMax(r))return;
     const free=HALL.filter(h=>!roomOf(h.n)&&!r.members.includes(h.n)),fit=free.map(h=>({h,s:h.skills.filter(x=>r.need.includes(x)).length})).sort((a,b)=>b.s-a.s||hash(a.h.n+r.id)-hash(b.h.n+r.id))[0];
     if(!fit){toast('No one free right now. Try again later.');return}
     r.members.push(fit.h.n);renderHall();hallBubble(fit.h.n,'On my way to your room!');
@@ -3922,7 +3964,7 @@ function hallHorn(){
 }
 function joinRoom(id){
   const r=hall.rooms.find(x=>x.id===id);if(!r)return;
-  if(myRoom()){toast('Leave your current room first');return}
+  if(inRoom(r)){openRoom(id,!$('#modal').hidden);return}
   hall.sent['room'+id]='pending';renderHall();toast(`Asked ${r.host} to let you into room #${id}`);
   setTimeout(()=>{delete hall.sent['room'+id];
     if(r.members.length>=roomMax(r)){toast(`Room #${id} filled up before ${r.host} replied`);renderHall();return}
@@ -3930,13 +3972,13 @@ function joinRoom(id){
     toast(`${r.host} let you into room #${id}`);if($('#modal').hidden)openRoom(id);else openRoom(id,true);renderHall()},1500);
 }
 function leaveRoom(){
-  const r=myRoom();if(!r)return;
+  const r=curRoom();if(!r)return;
   if(r.host==='me'){hall.rooms=hall.rooms.filter(x=>x!==r);toast(`Room #${r.id} closed`)}
   else{r.members=r.members.filter(m=>m!=='me');toast(`You left room #${r.id}`)}
-  hall.myRoom=null;closeModal();renderHall();
+  if(hall.myRoom===r.id)hall.myRoom=null;closeModal();renderHall();
 }
 function kickFromRoom(n){
-  const r=myRoom();if(!r||r.host!=='me')return;
+  const r=curRoom();if(!r||r.host!=='me')return;
   r.members=r.members.filter(m=>m!==n);delete hall.sent[n];renderHall();hallBubble(n,'Aww, okay. Good luck!');
   toast(`${n} was removed from room #${r.id}`);
 }
@@ -3951,8 +3993,8 @@ function renderChat(){
   const line=(n,t)=>`<p><b>${esc(nameOf(n))}:</b> ${esc(t)}</p>`;
   if(ch==='lobby')log.innerHTML=hall.chat.slice(-40).map(([n,t])=>line(n,t)).join('');
   else if(ch==='room')log.innerHTML=r?`<p class="hc-sys">Room #${r.id} · ${evTitle(r)} · ${r.members.length}/${roomMax(r)}</p>`+(hall.roomChat[r.id]||[]).map(([n,t])=>line(n,t)).join(''):`<p class="hc-sys">You’re not in a room yet. Open one or join one from the Megaphone tab.</p>`;
-  else log.innerHTML=hall.horns.length?hall.horns.map(hn=>{const rm=hall.rooms.find(x=>x.id===hn.id),open=rm&&rm.members.length<roomMax(rm)&&rm.id!==hall.myRoom;
-      return `<div class="hc-horn">${PI('horn')}<div><b>${esc(nameOf(hn.n))}</b> <small>${hn.ev} · #${hn.id}${rm?` · ${rm.members.length}/${roomMax(rm)}`:' · closed'}</small><span>${esc(hn.desc)}</span></div>${open?`<button type="button" data-room-open="${rm.id}">Join</button>`:rm&&rm.id===hall.myRoom?'<em>Yours</em>':rm?'<em>Full</em>':''}</div>`}).join(''):'<p class="hc-sys">No megaphone calls yet.</p>';
+  else log.innerHTML=hall.horns.length?hall.horns.map(hn=>{const rm=hall.rooms.find(x=>x.id===hn.id),open=rm&&rm.members.length<roomMax(rm)&&!inRoom(rm);
+      return `<div class="hc-horn">${PI('horn')}<div><b>${esc(nameOf(hn.n))}</b> <small>${hn.ev} · #${hn.id}${rm?` · ${rm.members.length}/${roomMax(rm)}`:' · closed'}</small><span>${esc(hn.desc)}</span></div>${open?`<button type="button" data-room-open="${rm.id}">Join</button>`:inRoom(rm)?'<em>Yours</em>':rm?'<em>Full</em>':''}</div>`}).join(''):'<p class="hc-sys">No megaphone calls yet.</p>';
   const inp=$('#hall-say-text'),dis=ch==='horn'||(ch==='room'&&!r);
   inp.disabled=dis;$('#hall-say button').disabled=dis;
   inp.placeholder=ch==='horn'?'Recruit from your room with the megaphone':ch==='room'?(r?`Message room #${r.id}…`:'Join a room to chat here'):'Say hello…';
@@ -3965,13 +4007,13 @@ function logHorn(n,r){
 function announce(item){
   if(item&&!item.quiet)logHorn(item.n,item.r);
   const a=$('#hall-announce');if(!a||!item)return;const r=item.r,max=roomMax(r),me=item.n==='me';
-  a.innerHTML=`<span class="an-horn" aria-hidden="true">${PI('horn')}</span><span class="an-who">${me?'You':esc(item.n)}</span><span class="an-msg">${esc(r.desc)}</span><span class="an-meta">${evTitle(r)} · ${r.members.length}/${max}</span>${!me&&r.id!==hall.myRoom&&r.members.length<max?`<button type="button" data-room-open="${r.id}">Join</button>`:''}`;
+  a.innerHTML=`<span class="an-horn" aria-hidden="true">${PI('horn')}</span><span class="an-who">${me?'You':esc(item.n)}</span><span class="an-msg">${esc(r.desc)}</span><span class="an-meta">${evTitle(r)} · ${r.members.length}/${max}</span>${!me&&!inRoom(r)&&r.members.length<max?`<button type="button" data-room-open="${r.id}">Join</button>`:''}`;
   a.classList.remove('show');void a.offsetWidth;a.classList.add('show');
   clearTimeout(a._t);a._t=setTimeout(()=>a.classList.remove('show'),me?5000:4000);
 }
 setInterval(()=>{
   if($('#view-hall').hidden||document.hidden||!$('#modal').hidden)return;
-  const open=hall.rooms.filter(r=>r.id!==hall.myRoom&&r.members.length<roomMax(r));if(!open.length)return;
+  const open=hall.rooms.filter(r=>!inRoom(r)&&r.members.length<roomMax(r));if(!open.length)return;
   const r=open[hall.tick++%open.length];announce({n:r.host,r});
 },16000);
 function hallBubble(name,text){
@@ -4069,9 +4111,12 @@ $('#view-hall').addEventListener('click',e=>{
 // Window buttons (in the scene, the drawer and inside the pop-ups)
 document.addEventListener('click',e=>{
   const hp=e.target.closest('#modal-body [data-hp]');if(hp&&($('#room-view')||$('#room-board'))){openHallCard(hp.dataset.hp);return}
-  const t=e.target.closest('[data-pick-comp],[data-room-board],[data-board-ev],[data-room-open],[data-room-join],[data-room-kick],[data-room-horn],[data-room-leave],[data-room-invite],[data-room-quick],[data-rb-page],[data-pc],[data-title-edit],[data-tt],#pc-create,#tt-save');
+  const t=e.target.closest('[data-room-register],[data-my-rooms],#rr-confirm,[data-pick-comp],[data-room-board],[data-board-ev],[data-room-open],[data-room-join],[data-room-kick],[data-room-horn],[data-room-leave],[data-room-invite],[data-room-quick],[data-rb-page],[data-pc],[data-title-edit],[data-tt],#pc-create,#tt-save');
   if(!t||e.target.closest('#hall-stage [data-hp]'))return;const d=t.dataset;
-  if('pickComp' in d)openPickComp();
+  if(d.roomRegister){if($('#modal').hidden)openModalX('');openRoomRegister(+d.roomRegister)}
+  else if('myRooms' in d){if($('#modal').hidden)openModalX('');openMyRooms()}
+  else if(t.id==='rr-confirm')confirmRoomRegister();
+  else if('pickComp' in d)openPickComp();
   else if(d.pc)openPickComp(d.pc,true);
   else if(t.id==='pc-create')createRoom();
   else if(d.boardEv){hall.ev=d.boardEv;hall.page=0;openRoomBoard(!$('#modal').hidden)}
