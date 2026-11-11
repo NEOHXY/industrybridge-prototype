@@ -1860,6 +1860,55 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
 .sp-card .link-btn{padding:4px 0 0;font-size:12px}
 .sp-stage{grid-column:1/-1;height:32px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface-2);font:500 12.5px var(--font-body);padding:0 8px;color:var(--fg)}
 .sp-tip{position:fixed;z-index:300;max-width:260px;padding:8px 10px;border-radius:8px;background:#15170f;color:#fff;font-size:12.5px;line-height:1.4;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+
+/* Modern Hall status, chat, actions and competition picker. */
+body[data-view=hall] .hud-tl .hall-count{border:1px solid rgba(255,255,255,.3)!important;border-radius:12px!important;background:rgba(22,32,24,.82);box-shadow:0 6px 20px #0c160d2e!important;backdrop-filter:blur(12px)!important;padding:9px 14px}
+body[data-view=hall] .hud-tl .hall-count b{font:600 14px/1.3 var(--font-body);letter-spacing:0;color:#f7f8f3}
+body[data-view=hall] .hud-tl .hall-count span{font:400 11px/1.4 var(--font-body);color:#c5d4bf}
+#hall-chat{border:1px solid #ffffff40;border-radius:16px;background:rgba(22,32,24,.9);box-shadow:0 8px 28px #0003;backdrop-filter:blur(12px);font:400 13px/1.5 var(--font-body);overflow:hidden}
+#hall-chat .hc-tabs{padding:6px;gap:4px;background:transparent;border-bottom:1px solid #ffffff1a}
+#hall-chat .hc-tabs button{height:34px;border:0;border-radius:8px;background:transparent;color:#c5d4bf;font:500 12px var(--font-body);box-shadow:none}
+#hall-chat .hc-tabs button.on{background:#ffffff18;color:#fff}
+#hall-chat .hc-tabs button:hover{background:#ffffff10}
+#hall-chat .hc-log{padding:12px 14px;gap:8px}
+#hall-chat .hc-log b{color:#c2dfa5}
+#hall-chat .hall-say{border:0!important;border-top:1px solid #ffffff1a!important;border-radius:0!important;background:transparent;padding:10px 12px;gap:10px}
+#hall-chat .hall-say input{font:400 13px var(--font-body)}
+#hall-chat .hall-say .btn{border-radius:8px;box-shadow:none;font:600 12px var(--font-body);padding:0 14px;background:#bedb9f;color:#1b2a19}
+#hall-chat .hc-n{border-radius:8px;box-shadow:none;font-family:var(--font-body)}
+#hall-chat .hc-horn button{border-radius:6px;box-shadow:none;font-family:var(--font-body)}
+body[data-view=hall] .hud-br .gbtn{height:48px;min-width:0;flex-direction:row;gap:9px;padding:0 17px;border:1px solid #ffffff70!important;border-radius:12px!important;background:rgba(250,251,245,.94);color:#263426;box-shadow:0 6px 20px #0c160d2e!important;font:600 13px var(--font-body)}
+body[data-view=hall] .hud-br .gbtn b{font-weight:600}
+body[data-view=hall] .hud-br .gbtn.go{background:#bddb9b;border-color:#bddb9b!important}
+body[data-view=hall] .hud-br .gbtn:hover{background:#fff;filter:none}
+body[data-view=hall] .hud-br .gbtn.go:hover{background:#cce6b0}
+.modal.game:has(#pick-comp){border:1px solid #e1e6dc;border-radius:20px;background:#f5f7f2;box-shadow:0 24px 80px #0005;overflow:hidden}
+.modal.game:has(#pick-comp) .modal-x{border:1px solid #dfe5d9;border-radius:10px;background:#fff;box-shadow:none;color:#344331}
+#pick-comp{font-family:var(--font-body);gap:18px;padding:0 20px 20px}
+#pick-comp .gw-bar{margin:0 -20px;padding:22px 64px 20px 24px;gap:10px;flex-wrap:wrap;background:#fff;border:0;border-bottom:1px solid #e1e6dc;border-radius:0}
+#pick-comp .gw-bar>span{font:600 21px var(--font-body);color:#253323;letter-spacing:-.02em}
+#pick-comp .gw-bar small{font:400 12px var(--font-body);color:#71806a;letter-spacing:0}
+#pick-comp .gw-panel{background:#fff;border:1px solid #e1e6dc;border-radius:14px;padding:14px}
+#pick-comp .pc-grid{gap:16px}
+#pick-comp .pc-list{gap:12px;background:transparent;border:0;padding:3px}
+#pick-comp .pc-thumb{border:1px solid #dfe5d9;border-radius:12px!important;box-shadow:0 2px 5px #20302006}
+#pick-comp .pc-thumb.on{border-color:#658647;box-shadow:0 0 0 2px #b8cf9c}
+#pick-comp .pc-thumb:hover{border-color:#658647}
+#pick-comp .pc-name{padding:12px}
+#pick-comp .pc-name b{font:600 13px/1.4 var(--font-body)}
+#pick-comp .pc-name small{margin-top:4px}
+#pick-comp .pc-info-art,#pick-comp .pcard-logo{border-radius:10px!important}
+#pick-comp .pc-info h3{font:600 20px/1.3 var(--font-body);letter-spacing:-.02em}
+#pick-comp .pc-hot,#pick-comp .pc-soon{font:600 9px var(--font-body);border-radius:5px;letter-spacing:.04em}
+#pick-comp .cf-chips span{border:0;border-radius:6px;background:#edf3e6;color:#526d3c;padding:4px 8px}
+#pick-comp .textarea{border:1px solid #dce3d5;border-radius:10px;background:#fafbf8;font-family:var(--font-body);padding:12px}
+#pick-comp .pf-pick button{border:1px solid #dce3d5;border-radius:8px;font:500 12px var(--font-body);background:#fff;padding:7px 10px}
+#pick-comp .pf-pick button.on{background:#edf3e6;border-color:#77955c;color:#385128;box-shadow:none}
+#pick-comp .btn{border:1px solid #dce3d5;border-radius:10px;box-shadow:none;font:600 13px var(--font-body);min-height:40px}
+#pick-comp .btn.primary{background:#526f39;border-color:#526f39;color:#fff}
+#pick-comp .btn.ghost{background:#fff;color:#35482b}
+#pick-comp button:focus-visible,#hall-chat button:focus-visible,.hud-br button:focus-visible{outline:2px solid #9aba7b;outline-offset:3px}
+
 </style>
 
 <!-- Icon sprite: reuse with <svg class="i"><use href="#i-NAME"/></svg> -->
@@ -2613,15 +2662,15 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
       <div class="card panel" data-dp="reqs"><div class="panel-title" style="justify-content:space-between"><span>Requests</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><span class="pi-slot" data-pi="close"></span></button></div><div id="hall-reqs"></div></div>
     </aside>
     <div class="hall-chat" id="hall-chat">
-      <div class="hc-tabs" role="tablist" aria-label="Chat channel"><button type="button" role="tab" data-ch="lobby" class="on">Lobby</button><button type="button" role="tab" data-ch="horn"><span class="pi-slot" data-pi="horn"></span>Megaphone<i class="hc-n" id="hc-horn-n" hidden></i></button><button type="button" role="tab" data-ch="room">Room<i class="hc-n" id="hc-room-n" hidden></i></button></div>
+      <div class="hc-tabs" role="tablist" aria-label="Chat channel"><button type="button" role="tab" data-ch="lobby" class="on">Lobby</button><button type="button" role="tab" data-ch="horn"><svg class="i" aria-hidden="true"><use href="#i-chat"/></svg>Megaphone<i class="hc-n" id="hc-horn-n" hidden></i></button><button type="button" role="tab" data-ch="room">Room<i class="hc-n" id="hc-room-n" hidden></i></button></div>
       <div class="hc-log" id="hc-log" aria-live="polite"></div>
-      <form class="hall-say" id="hall-say"><span class="pi-slot" data-pi="chat"></span><input id="hall-say-text" maxlength="80" placeholder="Say hello…" aria-label="Chat message"><button class="btn primary sm" type="submit" style="height:34px">Send</button></form>
+      <form class="hall-say" id="hall-say"><svg class="i" aria-hidden="true"><use href="#i-chat"/></svg><input id="hall-say-text" maxlength="80" placeholder="Say hello…" aria-label="Chat message"><button class="btn primary sm" type="submit" style="height:34px">Send</button></form>
     </div>
     <div class="hud hud-br">
       <button class="hud-room" type="button" id="hud-myroom" hidden></button>
-      <button class="gbtn" type="button" data-room-board><span class="pi-slot" data-pi="list"></span><b>Room list</b></button>
-      <button class="gbtn" type="button" data-room-quick><span class="pi-slot" data-pi="arrow"></span><b>Quick join</b></button>
-      <button class="gbtn go" type="button" data-pick-comp><span class="pi-slot" data-pi="plus"></span><b>Create room</b></button>
+      <button class="gbtn" type="button" data-room-board><svg class="i" aria-hidden="true"><use href="#i-grid"/></svg><b>Room list</b></button>
+      <button class="gbtn" type="button" data-room-quick><svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg><b>Quick join</b></button>
+      <button class="gbtn go" type="button" data-pick-comp><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><b>Create room</b></button>
     </div>
     <span class="hall-hint">Click the floor to walk · click someone for their card · the glowing board opens rooms</span>
   </div>
@@ -4738,24 +4787,24 @@ function openPickComp(id,keep){
   const thumb=q=>{const n=hall.rooms.filter(r=>r.ev===q.id).length;return `<button type="button" class="pc-thumb${q.id===p.id?' on':''}" data-pc="${q.id}" aria-pressed="${q.id===p.id}">
       <span class="pc-art" style="background:${(HERO_BG[q.poster]||HERO_BG['p-smart'])[1]}">${sceneSVG(q,'xMaxYMid')}${isHot(q)?'<i class="pc-hot">HOT</i>':q.status==='soon'?'<i class="pc-soon">SOON</i>':''}</span>
       <span class="pc-name"><b>${q.title}</b><small>${q.kind} · ${n} room${n===1?'':'s'}</small></span></button>`};
-  const html=`<div id="pick-comp" class="gw"><header class="gw-bar"><span>${PI('trophy')}Pick a competition</span><small>${evs.length} competitions you can open a room for</small></header>
+  const html=`<div id="pick-comp" class="gw"><header class="gw-bar"><span>${I('trophy')}Pick a competition</span><small>${evs.length} competitions you can open a room for</small></header>
     <div class="pc-grid">
       <div class="pc-list gw-panel">${evs.map(thumb).join('')}</div>
       <section class="pc-info gw-panel" aria-live="polite">
         <div class="pc-info-art" style="background:${(HERO_BG[p.poster]||HERO_BG['p-smart'])[1]}">${sceneSVG(p,'xMaxYMid')}<span class="pcard-logo ${p.poster}" aria-hidden="true">${I(p.logo)}</span></div>
         <h3>${p.title}</h3>
         <dl class="cf-facts">
-          <div><dt>${PI('calendar')}Time</dt><dd>${cfWhen(p)}</dd></div>
-          <div><dt>${PI('pin')}Place</dt><dd>${p.format}</dd></div>
-          <div class="half"><dt>${PI('trophy')}Prize</dt><dd>${p.prize}</dd></div>
-          <div class="half"><dt>${PI('users')}Team</dt><dd>${p.team.replace('Teams of ','')}</dd></div>
-          <div class="wide"><dt>${PI('route')}Tracks</dt><dd class="cf-chips">${(EV_TRACKS[p.id]||[]).map(t=>`<span>${t}</span>`).join('')}</dd></div>
+          <div><dt>${I('calendar')}Time</dt><dd>${cfWhen(p)}</dd></div>
+          <div><dt>${I('target')}Place</dt><dd>${p.format}</dd></div>
+          <div class="half"><dt>${I('trophy')}Prize</dt><dd>${p.prize}</dd></div>
+          <div class="half"><dt>${I('users')}Team</dt><dd>${p.team.replace('Teams of ','')}</dd></div>
+          <div class="wide"><dt>${I('grid')}Tracks</dt><dd class="cf-chips">${(EV_TRACKS[p.id]||[]).map(t=>`<span>${t}</span>`).join('')}</dd></div>
         </dl>
       </section>
       <section class="pc-create gw-panel">
         <div class="field"><label for="pc-desc">What will your room build?</label><textarea class="textarea" id="pc-desc" maxlength="140" placeholder="e.g. A savings app for gig drivers. I do research and pitching.">${esc(draft.d)}</textarea><span class="err" id="pc-err" hidden>Write at least 10 characters so people know what the room is for.</span></div>
         <div class="pf-pick need sm" id="pc-need" aria-label="Looking for, up to 3">${SKILLS.map(x=>`<button type="button" data-rn="${x}" class="${draft.n.includes(x)?'on':''}">${x}</button>`).join('')}</div>
-        <div class="pc-acts"><button class="btn ghost" type="button" data-board-ev="${p.id}">Browse ${rooms.length} room${rooms.length===1?'':'s'}${seats?` · ${seats} open`:''}</button><button class="btn primary" type="button" id="pc-create">${PI('plus')}Create room</button></div>
+        <div class="pc-acts"><button class="btn ghost" type="button" data-board-ev="${p.id}">Browse ${rooms.length} room${rooms.length===1?'':'s'}${seats?` · ${seats} open`:''}</button><button class="btn primary" type="button" id="pc-create">${I('plus')}Create room</button></div>
       </section>
     </div></div>`;
   if(keep)setModalHTML(html);else openModalX(html);
