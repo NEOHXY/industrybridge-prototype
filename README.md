@@ -2,20 +2,22 @@
 
 Clickable single-page prototype of IndustryBridge, an AI-powered challenge-management LMS for students and organizers.
 
-The whole app is one file: `index.html`. Netlify republishes the live link automatically every time a change lands on the `main` branch.
+The existing app is `index.html`. Streamlit serves an identical copy at `static/index.html`; the Python file only provides the Streamlit entry point and a full-window frame. No screens or JavaScript were rewritten.
 
-## How to edit
+## Deploy on Streamlit Community Cloud
 
-**In the browser (easiest)**
-1. Open `index.html` on GitHub and press the pencil icon (or press `.` to open the web editor).
-2. Make your change and click **Commit changes** to `main`.
-3. Wait about a minute, then refresh the Netlify link.
+1. Open [share.streamlit.io](https://share.streamlit.io/) and choose **Create app** → **Yup, I have an app**.
+2. Repository: `NEOHXY/industrybridge-prototype`; branch: `main`; main file path: `app.py`.
+3. Click **Deploy**. Share the resulting `*.streamlit.app` link. For the full-window original app, append `/app/static/index.html` to that link.
 
-**On your computer**
-1. `git clone <repo URL>` then open `index.html` in your editor and a browser.
-2. `git pull` before you start, so you have your teammates' latest changes.
-3. `git add index.html`, `git commit -m "What you changed"`, `git push`.
+You can also run it locally with `pip install -r requirements.txt` and `streamlit run app.py`.
 
-## Tips
-- Pull before editing and push soon after, so two people don't edit the same lines at once.
-- If something breaks, open the Netlify **Deploys** list and click an earlier deploy, then **Publish deploy** to roll back. On GitHub, you can revert the commit.
+## Edit the prototype
+
+Edit `index.html`, then copy it to `static/index.html` before committing. Both files must match. On Windows PowerShell:
+
+```powershell
+Copy-Item index.html static/index.html
+```
+
+The old Netlify configuration remains in the repository. Browser data stored on the Netlify domain is separate from data stored on the new Streamlit domain; demo state in this prototype may need to be entered again after switching links.
