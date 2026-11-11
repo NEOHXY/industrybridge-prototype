@@ -393,6 +393,9 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .arch-win i{font-style:normal;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--body-2)}
 .arch-acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 .arch-more{margin:12px auto 0;display:flex}
+.cert-view{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#f7f4ea;min-height:120px;display:grid;place-items:center}
+.cert-view img{display:block;width:100%;height:auto}
+#view-archive .arch{margin-top:6px}
 @media (max-width:700px){.arch-row{grid-template-columns:48px minmax(0,1fr)}.arch-acts{grid-column:2;justify-content:flex-start}}
 /* Event photos */
 .ph-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
@@ -1613,6 +1616,7 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
     <nav class="mainnav" aria-label="Main">
       <a href="#discover" data-nav="discover">Discover</a>
       <a href="#programs" data-nav="programs" data-role="student">My programs</a>
+      <a href="#archive" data-nav="archive" data-role="student">Archive</a>
       <a href="#planner" data-nav="planner" data-role="student">Planner</a>
       <a href="#leaderboard" data-nav="leaderboard" data-role="student">Leaderboard</a>
       <a href="#hall" data-nav="hall" data-role="student">Meetup Hall</a>
@@ -1705,7 +1709,6 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
       <a class="btn primary" href="#programs" data-set-tab="programs:learning">Continue learning <svg class="i sm"><use href="#i-arrow"/></svg></a>
     </div>
     <section id="upcoming" data-role="student" aria-label="Hot and coming up"></section>
-    <section class="card arch" id="archive" data-role="student" aria-label="Hackathon archive"></section>
   </div>
 </section>
 
@@ -1982,6 +1985,18 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
       </div>
     </div>
     </div>
+  </div>
+</section>
+
+<!-- ================= HACKATHON ARCHIVE (2024–2026) ================= -->
+<section class="view" id="view-archive" hidden>
+  <div class="wrap">
+    <header class="phead"><div class="phead-main">
+      <span class="eyebrow"><span><a href="#discover">IB</a> / Archive</span></span>
+      <h1 class="page-title"><span class="soft">Hackathon</span> archive</h1>
+      <p class="page-sub">Every hackathon from the last three years. Search by keyword, look back at winners, open event photos and get your certificates.</p>
+    </div></header>
+    <section class="card arch" id="archive" aria-label="Hackathon archive"></section>
   </div>
 </section>
 
@@ -2486,8 +2501,8 @@ function hydrateAvatars(root=document){$$('.js-av',root).forEach(el=>{el.innerHT
 function refreshAvatars(){hydrateAvatars();renderPlanner();renderModules();renderThread();renderBoard();renderPlan();renderManage();renderManageExtras();if(role)setRole(role);else renderCards()}
 
 /* ===== Roles & routing (hash = screen). Students and organizers get different navigation ===== */
-const VIEWS=['signin','discover','event','programs','planner','leaderboard','hall','studio-plan','studio-design','studio-manage'];
-const STUDENT_VIEWS=['programs','planner','leaderboard','hall'],ORG_VIEWS=['studio-plan','studio-design','studio-manage'];
+const VIEWS=['signin','discover','event','programs','archive','planner','leaderboard','hall','studio-plan','studio-design','studio-manage'];
+const STUDENT_VIEWS=['programs','archive','planner','leaderboard','hall'],ORG_VIEWS=['studio-plan','studio-design','studio-manage'];
 const PEOPLE={
   student:{name:'Xin Yi Neoh',ini:'XN',sub:'Student · Team AI Forge',other:'organizer'},
   organizer:{name:'Innovation Office',ini:'IO',sub:'Organizer · Smart Factory Challenge',other:'student'}
@@ -3103,7 +3118,7 @@ function renderSections(){
 }
 /* ===== Certificates (drawn on a canvas, downloaded as PNG) ===== */
 const certId=(ev,name)=>'IB-'+ev.year+'-'+hash(ev.title+'|'+name).toString(36).toUpperCase().slice(0,6);
-async function downloadCert(ev){
+async function makeCert(ev){
   const name=PEOPLE.student.name,award=ev.me||'Joined',W=1600,H=1130,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');
   try{await document.fonts.load('700 60px "Inter Tight"');await document.fonts.load('400 40px Anton')}catch(e){}
   g.fillStyle='#f7f4ea';g.fillRect(0,0,W,H);
@@ -3124,6 +3139,17 @@ async function downloadCert(ev){
   g.textAlign='right';g.fillText('Verify at industrybridge.netlify.app',W-120,H-120);
   g.strokeStyle='#1b2215';g.lineWidth=2;[[W/2-420,W/2-120],[W/2+120,W/2+420]].forEach(([a,b])=>{g.beginPath();g.moveTo(a,950);g.lineTo(b,950);g.stroke()});
   g.textAlign='center';g.font='400 22px Inter, Arial';g.fillText(ev.organiser,W/2-270,985);g.fillText('IndustryBridge',W/2+270,985);
+  return c;
+}
+async function showCert(ev){
+  openModal(`<div><span class="eyebrow">Certificate</span><h2 id="modal-title">${esc(ev.title)}</h2></div><div class="cert-view"><p class="muted">Preparing your certificate…</p></div>`,true);
+  const c=await makeCert(ev);if(!$('.cert-view'))return;
+  $('.cert-view').innerHTML=`<img src="${c.toDataURL('image/png')}" alt="Certificate for ${esc(PEOPLE.student.name)}, ${esc(ev.title)}">`;
+  $('#modal-title').insertAdjacentHTML('afterend',`<p class="muted" style="font-size:12.5px;margin:2px 0 0">${ev.me} · ${fmtDate(new Date(ev.date))} · ID ${certId(ev,PEOPLE.student.name)}</p>`);
+  $('#modal-body').insertAdjacentHTML('beforeend',`<div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button><button class="btn primary" type="button" data-cert-dl="${ev.id}">${I('save','sm')}Download PNG</button></div>`);
+}
+async function downloadCert(ev){
+  const c=await makeCert(ev);
   c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`IndustryBridge-certificate-${ev.title.replace(/[^A-Za-z0-9]+/g,'-')}.png`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)},'image/png');
   toast(`Certificate for ${ev.title} downloaded`);
 }
@@ -3138,7 +3164,8 @@ function openPhotos(ev){
 }
 const archOf=id=>HACKATHON_ARCHIVE.find(a=>a.id===id);
 document.addEventListener('click',e=>{
-  const c=e.target.closest('[data-cert]');if(c){const a=archOf(c.dataset.cert);if(a)downloadCert(a);return}
+  const c=e.target.closest('[data-cert]');if(c){const a=archOf(c.dataset.cert);if(a)showCert(a);return}
+  const dl=e.target.closest('[data-cert-dl]');if(dl){const a=archOf(dl.dataset.certDl);if(a)downloadCert(a);return}
   const p=e.target.closest('[data-photos]');if(p){const a=archOf(p.dataset.photos);if(a)openPhotos(a)}
 });
 /* ===== Hackathon archive (students, on Discover) ===== */
@@ -3146,7 +3173,7 @@ const arch={q:'',year:'all',type:'all',mine:false,all:false};
 function archMatch(a,q){return !q||[a.title,a.organiser,a.topic,a.type,a.format,a.winner,...a.tech].join(' ').toLowerCase().includes(q)}
 function renderArchive(){
   const el=$('#archive');if(!el)return;
-  if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<div class="arch-head"><div><span class="eyebrow">03 / Hackathon archive</span><h2>Every hackathon from 2024 to 2026</h2></div><span class="arch-n" id="arch-n"></span></div>
+  if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<div class="arch-head"><div><span class="eyebrow">2024 – 2026</span><h2>All hackathons</h2></div><span class="arch-n" id="arch-n"></span></div>
     <div class="arch-bar"><label class="search"><svg class="i"><use href="#i-search"/></svg><input id="arch-q" type="search" placeholder="Search by keyword: title, organiser, topic, tech or winner" aria-label="Search the archive"></label>
       <div class="cat-tabs" id="arch-years"></div>
       <select class="pill-select" id="arch-type" aria-label="Type"><option value="all">All types</option>${[...new Set(HACKATHON_ARCHIVE.map(a=>a.type))].map(t=>`<option>${t}</option>`).join('')}</select>
