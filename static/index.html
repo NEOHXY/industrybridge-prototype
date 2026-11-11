@@ -2702,7 +2702,6 @@ body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .
       <form class="hall-say" id="hall-say"><svg class="i" aria-hidden="true"><use href="#i-chat"/></svg><input id="hall-say-text" maxlength="80" placeholder="Say hello…" aria-label="Chat message"><button class="btn primary sm" type="submit" style="height:34px">Send</button></form>
     </div>
     <div class="hud hud-br">
-      <button class="hud-room" type="button" id="hud-myroom" hidden></button>
       <button class="gbtn" type="button" data-room-board><svg class="i" aria-hidden="true"><use href="#i-grid"/></svg><b>Room list</b></button>
       <button class="gbtn" type="button" data-room-quick><svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg><b>Quick join</b></button>
       <button class="gbtn go" type="button" data-pick-comp><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><b>Create room</b></button>
@@ -4786,9 +4785,6 @@ function renderHall(){
   $('#hall-people').innerHTML=list.map(h=>{const q=hall.pos[h.n];return `<button class="hp" type="button" data-hp="${h.n}" style="--x:${q.x};--y:${q.y};z-index:${10+Math.round(q.y)}" aria-label="${h.n}, ${esc(h.title)}. Open portfolio"><span class="hp-tag">${h.n}</span>${sprImg(h.n)}</button>`}).join('')
     +`<button class="hp you" type="button" id="hall-me" style="--x:${hall.me.x};--y:${hall.me.y};z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You</span>${sprImg('me')}</button>`;
   // in-scene buttons that change with your state
-  const mineAll=myRooms(),hb=$('#hud-myroom');hb.hidden=!r;
-  if(mineAll.length>1){delete hb.dataset.roomOpen;hb.dataset.myRooms='';hb.innerHTML=`${PI('users')}<span><b>My rooms · ${mineAll.length}</b><small>${mineAll.filter(x=>x.members.length>=roomMax(x)).length} ready to register</small></span>`}
-  else if(r){delete hb.dataset.myRooms;hb.dataset.roomOpen=r.id;hb.innerHTML=`${roomEvLogo(r)}<span><b>Room #${r.id} · ${r.members.length}/${roomMax(r)}</b><small>${evTitle(r)}</small></span>`}
   const pend=r&&r.host==='me'?hall.incoming.filter(q=>q.state==='pending').length:0;
   $('#hud-req-n').textContent=pend||'';$('#hud-req-n').hidden=!pend;
   // drawer panels
