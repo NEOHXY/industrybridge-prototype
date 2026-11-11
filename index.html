@@ -312,6 +312,113 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .adv-dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
 .adv-dots button{width:7px;height:7px;padding:0;border:0;border-radius:99px;background:var(--line-2);cursor:pointer;transition:width .25s,background .25s}
 .adv-dots button.on{width:22px;background:var(--fg)}
+/* Home · card swap carousel (02 / Join an event). Middle card is the chosen one; neighbours tilt away on each side. */
+.cf{max-width:1132px;margin:30px auto 0;overflow-x:clip;overflow-y:visible}
+.cf-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+.cf-stage{position:relative;height:540px;perspective:1400px;outline:none;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.cf-stage:focus-visible{box-shadow:0 0 0 2px var(--accent-hi);border-radius:16px}
+.cf-card{position:absolute;left:50%;top:10px;width:min(420px,calc(100% - 120px));margin-left:calc(min(420px,calc(100% - 120px)) / -2);background:var(--surface);border:1px solid var(--line-2);border-radius:18px;overflow:hidden;box-shadow:0 18px 40px rgba(20,24,12,.14);transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s,filter .45s;transform-origin:50% 50%;display:flex;flex-direction:column}
+.cf-card[data-off="0"]{transform:none;z-index:5}
+.cf-card[data-off="-1"]{transform:translateX(-64%) scale(.84) rotateY(18deg);z-index:4;filter:saturate(.75) brightness(.97);cursor:pointer}
+.cf-card[data-off="1"]{transform:translateX(64%) scale(.84) rotateY(-18deg);z-index:4;filter:saturate(.75) brightness(.97);cursor:pointer}
+.cf-card[data-off="-2"]{transform:translateX(-108%) scale(.7) rotateY(24deg);z-index:3;opacity:.55;cursor:pointer}
+.cf-card[data-off="2"]{transform:translateX(108%) scale(.7) rotateY(-24deg);z-index:3;opacity:.55;cursor:pointer}
+.cf-card[data-off="-3"],.cf-card[data-off="3"]{transform:scale(.6);opacity:0;pointer-events:none;z-index:1}
+.cf-card:not([data-off="0"]) .cf-body>*{pointer-events:none}
+.cf-banner{position:relative;height:118px;flex:none;overflow:hidden;isolation:isolate}
+.cf-banner .sc{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.cf-banner .pcard-logo{position:absolute;left:16px;bottom:-1px;width:50px;height:50px;border-radius:12px 12px 0 0;border-bottom:0;transform:translateY(0);box-shadow:0 -4px 14px rgba(0,0,0,.18)}
+.cf-flags{position:absolute;right:12px;top:12px;display:flex;gap:6px;align-items:center}
+.cf-kind{height:22px;padding:0 8px;border-radius:5px;display:inline-flex;align-items:center;font:600 10.5px/1 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.cf-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;flex:1}
+.cf-body h3{font-family:var(--font-display);font-size:21px;font-weight:700;letter-spacing:-.025em;line-height:1.15;margin:0}
+.cf-facts{display:grid;grid-template-columns:1fr 1fr;gap:9px 14px;margin:0}
+.cf-facts>div{grid-column:1/-1;display:grid;grid-template-columns:104px minmax(0,1fr);gap:8px;align-items:start;min-width:0}
+.cf-facts>div.half{grid-column:auto;grid-template-columns:auto minmax(0,1fr)}
+.cf-facts dt{display:flex;align-items:center;gap:6px;font:500 10.5px/1.6 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cf-facts dt .i{width:14px;height:14px;flex:none;color:var(--moss-deep)}
+.cf-facts dd{margin:0;font-size:13px;font-weight:600;line-height:1.45;color:var(--fg);min-width:0}
+.cf-facts>div.half dd{text-align:right}
+.cf-chips{display:flex;flex-wrap:wrap;gap:5px}
+.cf-chips span{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--moss-deep);border:1px solid var(--accent-line)}
+.cf-chips span.tool{background:var(--surface-2);color:var(--body-2);border-color:var(--line-2)}
+.cf-body .adv-actions{margin-top:auto}
+.cf-arrow{position:absolute;top:50%;z-index:10;width:48px;height:48px;margin-top:-24px;border-radius:50%;border:1px solid var(--line-2);background:var(--surface);display:grid;place-items:center;box-shadow:var(--shadow);cursor:pointer;color:var(--fg)}
+.cf-arrow:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cf-arrow .i{width:20px;height:20px}
+.cf-arrow.prev{left:0}.cf-arrow.next{right:0}
+@media (max-width:760px){
+  .cf-stage{height:560px}
+  .cf-card{width:calc(100% - 72px);margin-left:calc((100% - 72px) / -2)}
+  .cf-card[data-off="-1"]{transform:translateX(-90%) scale(.86) rotateY(16deg)}
+  .cf-card[data-off="1"]{transform:translateX(90%) scale(.86) rotateY(-16deg)}
+  .cf-card[data-off="-2"],.cf-card[data-off="2"]{opacity:0;pointer-events:none}
+  .cf-arrow{width:38px;height:38px;margin-top:-19px}
+  .cf-facts>div{grid-template-columns:92px minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){.cf-card{transition:none}}
+/* My programs home: tabs, a list of program rows on the left, month calendar and stats on the right */
+.mph-tabs button small{margin-left:7px;font:500 11px var(--font-mono);color:var(--muted)}
+.mph-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+@media (max-width:1040px){.mph-grid{grid-template-columns:1fr}.mph-side{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:start}}
+.mph-list{display:grid;gap:12px}
+.mph-main .disc-toolbar{margin:0 0 4px}
+.mph-main .cards{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.mrow{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,300px);gap:18px;align-items:center;padding:18px 52px 18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.mrow-main{display:grid;gap:6px;min-width:0}
+.mrow-org{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);font-weight:500}
+.mrow-org .pcard-logo.mini{width:26px;height:26px;border-radius:7px}
+.mrow-org .pcard-logo.mini .i{width:14px;height:14px}
+.mrow h3{margin:0;font-size:17px;font-family:var(--font-display);letter-spacing:-.02em}
+.link-title{background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.link-title:hover{text-decoration:underline}
+.mrow-meta{margin:0;font-size:13px;color:var(--body-2)}
+.mrow .bar{max-width:420px;height:7px;margin-top:4px;flex:none}
+.mrow .bar i{background:var(--moss-deep)}
+.mrow-next{display:flex;flex-direction:column;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg-2)}
+.mrow-next b{display:block;font-size:13.5px}
+.mrow-next small{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-top:3px}
+.mrow-next .btn{align-self:flex-start}
+.mrow-more{position:absolute;right:10px;top:12px;color:var(--muted)}
+.mrow-add{display:flex;align-items:center;gap:12px;padding:14px 18px;border:1px dashed var(--line-2);border-radius:var(--r);background:none;text-align:left;color:var(--muted);cursor:pointer}
+.mrow-add:hover{border-color:var(--ink);color:var(--fg)}
+.mrow-add>.i{width:20px;height:20px}
+.mrow-add b{display:block;color:var(--fg);font-size:13.5px}.mrow-add small{font-size:12px}
+@media (max-width:700px){.mrow{grid-template-columns:1fr;padding-right:20px}.mrow-more{top:10px;right:6px}}
+.mph-side{display:grid;gap:16px;position:sticky;top:84px}
+@media (max-width:1040px){.mph-side{position:static}}
+.mcal{padding:18px 18px 16px}
+.mcal-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.mcal-top h2{font-family:var(--font-display);font-size:17px;font-weight:700;letter-spacing:-.02em;margin:0}
+.mcal-nav{display:flex;align-items:center;gap:2px}
+.dcal.mini{gap:2px}
+.dcal.mini .dcal-h{padding:2px 0 6px;letter-spacing:.06em}
+.dcal.mini .dcal-c{min-height:0;aspect-ratio:1;border:0;border-radius:50%;padding:0;align-items:center;justify-content:center;gap:2px;background:none;cursor:pointer;position:relative;color:var(--fg)}
+.dcal.mini .dcal-c.blank{cursor:default}
+.dcal.mini .dcal-c:hover:not(.blank){background:var(--surface-2)}
+.dcal.mini .dcal-c .dn{align-self:center;padding:0;font-size:12.5px;font-weight:500;background:none!important;color:inherit}
+.dcal.mini .dcal-c.gone{color:var(--dim)}
+.dcal.mini .dcal-c.has .dn{font-weight:700}
+.dcal.mini .dcal-c.today{box-shadow:inset 0 0 0 2px var(--moss-deep);color:var(--moss-deep)}
+.dcal.mini .dcal-c.sel{background:var(--ink)!important;color:#fff;box-shadow:none}
+.dcal.mini .dots{display:flex;gap:2px;height:4px}
+.dcal.mini .dots i{width:4px;height:4px;border-radius:50%}
+.dcal.mini .dots i.deadline{background:var(--moss)}
+.dcal.mini .dots i.demo{background:var(--ink)}
+.dcal.mini .dots i.workshop{background:#e08a3c}
+.dcal.mini .dcal-c.sel .dots i.demo{background:#fff}
+.mcal .cal-legend{gap:10px 14px;margin-top:12px;font-size:11.5px}
+.mcal .cal-legend i{width:8px;height:8px;border-radius:50%;border:0}
+.mcal .cal-legend .lg-deadline{background:var(--moss)}.mcal .cal-legend .lg-workshop{background:#e08a3c}
+.mcal-day{display:grid;gap:6px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.mcal-day-h{font:600 11px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mcal-day .chip-ev{white-space:normal;padding:6px 9px;font-size:12px}
+.mcal-day .chip-ev small{font-size:11px}
+.mstats{padding:18px}
+.mstats h3{font-size:15px;margin:0 0 12px}
+.mstats-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mstats-row b{display:block;font:700 24px/1 var(--font-display);letter-spacing:-.02em}
+.mstats-row small{display:block;margin-top:4px;font-size:12px;color:var(--muted)}
 @media (max-width:700px){.adv-count{display:none}.adv-head .eyebrow{white-space:nowrap}.adv-slide{grid-template-columns:1fr;gap:12px}.adv-body h3{font-size:19px}}
 /* Toolbar */
 .disc-toolbar{max-width:1132px;margin:44px auto 0}
@@ -467,7 +574,7 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .workload b{color:var(--warn)}
 .workload.calm b{color:var(--ok)}
 .planner-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
-@media (max-width:980px){.planner-grid{grid-template-columns:1fr}}
+@media (max-width:1100px){.planner-grid{grid-template-columns:1fr}}
 .cal-toolbar{display:flex;align-items:center;gap:10px;padding:16px;flex-wrap:wrap}
 .cal-toolbar h2{font-size:19px;font-weight:700;flex:1;min-width:200px}
 .pager{display:flex;gap:6px}
@@ -479,7 +586,8 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .cal-dh.today b{color:var(--accent-hi)}
 .cal-times{position:relative}
 .cal-times span{position:absolute;right:8px;transform:translateY(-50%);font-size:11px;color:var(--muted);white-space:nowrap}
-.cal-day{position:relative;border-left:1px solid var(--line);background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--hr) * 2 - 1px),rgba(0,0,0,.06) calc(var(--hr) * 2 - 1px) calc(var(--hr) * 2))}
+/* Hour lines start 8px down, the same offset the time labels and events use, so a 9:00 event sits exactly on the 9:00 line */
+.cal-day{position:relative;border-left:1px solid var(--line);background-image:linear-gradient(to bottom,rgba(0,0,0,.07) 0 1px,transparent 1px);background-size:100% var(--hr);background-position:0 8px;background-repeat:repeat-y}
 .cal-day:hover{background-color:rgba(111,138,58,.05)}
 .ev{position:absolute;left:3px;right:3px;border-radius:6px;padding:6px 8px;font-size:11px;display:flex;flex-direction:column;gap:3px;overflow:hidden;border:0;text-align:left;border-left:3px solid;cursor:pointer;transition:filter .15s}
 .ev:hover{filter:brightness(1.15)}
@@ -487,6 +595,16 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .ev span{display:flex;align-items:center;gap:5px;color:#55554f}
 .ev .i{width:12px;height:12px}
 .ev.done{opacity:.45}.ev.done b{text-decoration:line-through}
+.ev .stack .initials,.ev .stack .pav{width:20px!important;height:20px!important;font-size:9px}
+.ev .stack>*+*{margin-left:-7px}
+/* One-hour blocks: title on one line, faces beside the time, nothing spills out */
+.ev.short{padding:4px 7px;gap:2px}
+.ev.short b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev.short .ev-row{display:flex;align-items:center;gap:6px}
+.cal-dh.today{background:rgba(111,138,58,.07)}
+.cal-day.today{background-color:rgba(111,138,58,.04)}
+.cal-now{position:absolute;left:0;right:0;height:2px;background:#c2410c;z-index:3;pointer-events:none}
+.cal-now::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:#c2410c}
 .ev-purple{background:#e9edf6;border-color:#6278ad}
 .ev-blue{background:#e1e9f7;border-color:#3f68c4}
 .ev-green{background:#e8efda;border-color:#6f8a3a}
@@ -505,7 +623,9 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .sub-card h4{font-size:17px}
 .target{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
 .target .ring{width:36px;height:36px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;flex:none}
-.learn-row{display:flex;gap:12px;align-items:center}
+.learn-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.learn-row>.btn{flex:1 0 100%}
+.learn-row>.thumb{flex:none}
 .learn-row>div{flex:1;min-width:0}
 
 /* ---------- My programs ---------- */
@@ -886,6 +1006,51 @@ ul{list-style:none;margin:0;padding:0}
 .hp .pav{display:none}
 .hp-tag{background:rgba(58,58,52,.86);color:#fff;border-color:transparent;font-size:11px;padding:2px 8px;border-radius:7px}
 .hp.you .hp-tag{background:#fff;color:var(--ink)}
+/* Meetup Hall lobby: glowing Room Board over the stage sign, megaphone banner, rooms */
+.hall-portal{position:absolute;left:50%;top:3.5%;width:41%;height:24%;transform:translateX(-50%);z-index:6;background:none;border:0;padding:0;cursor:pointer;border-radius:14px}
+.hall-portal .hp-glow{position:absolute;inset:0;border-radius:14px;border:3px solid rgba(124,255,138,.85);box-shadow:0 0 18px rgba(124,255,138,.75),inset 0 0 22px rgba(124,255,138,.35);animation:portalPulse 2.2s ease-in-out infinite}
+.hall-portal::before{content:"";position:absolute;left:50%;bottom:-6%;width:22%;height:16%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(rgba(124,255,138,.75),rgba(124,255,138,0) 70%);animation:portalPulse 2.2s ease-in-out infinite}
+.hall-portal .hp-label{position:absolute;left:50%;top:calc(100% + 10px);transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:1px;white-space:nowrap;background:rgba(18,26,20,.88);color:#e9f3dc;border:1px solid rgba(124,255,138,.7);border-radius:9px;padding:5px 12px;box-shadow:0 0 14px rgba(124,255,138,.45)}
+.hall-portal .hp-label b{font-size:12.5px;letter-spacing:.02em}
+.hall-portal .hp-label small{font:500 10.5px var(--font-mono);color:#b8e8a8}
+.hall-portal .hp-label::before{content:"▼";position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-size:10px;color:#7cff8a;text-shadow:0 0 6px #7cff8a;animation:portalBob 1.1s ease-in-out infinite}
+.hall-portal:hover .hp-glow,.hall-portal:focus-visible .hp-glow{border-color:#b6ffbf;box-shadow:0 0 30px rgba(124,255,138,1),inset 0 0 30px rgba(124,255,138,.5)}
+.hall-portal:focus-visible{outline:none}
+@keyframes portalPulse{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes portalBob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-3px)}}
+.hall-ticker{position:absolute;left:12px;top:12px;z-index:7;max-width:calc(100% - 230px);display:flex;align-items:center;gap:8px;background:rgba(40,40,36,.78);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:6px 8px 6px 10px;font-size:12.5px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.hall-ticker:empty{display:none}
+.hall-ticker .tk-msg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.hall-ticker .tk-horn{font-size:15px}
+.hall-ticker button{flex:none;border:0;border-radius:7px;background:#7cff8a;color:#10200f;font-weight:700;font-size:11.5px;padding:3px 9px;cursor:pointer}
+.hall-ticker.pop{animation:tkPop .45s ease}
+@keyframes tkPop{from{transform:translateY(-8px);opacity:0}to{transform:none;opacity:1}}
+@media (max-width:600px){.hall-ticker{max-width:calc(100% - 24px);top:52px}.hall-portal .hp-label small{display:none}}
+@media (prefers-reduced-motion:reduce){.hall-portal .hp-glow,.hall-portal::before,.hall-portal .hp-label::before,.hall-ticker.pop{animation:none}}
+.room-ev{display:flex;align-items:center;gap:10px;min-width:0}
+.room-ev b{display:block;font-size:13.5px}.room-ev small{display:block;font-size:12px;color:var(--muted)}
+.room-faces{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.room-empty{width:34px;height:34px;border-radius:9px;border:1.5px dashed var(--line-2);display:grid;place-items:center;color:var(--dim);font-weight:600}
+.room-empty.sm{width:28px;height:28px;border-radius:8px;font-size:12px}
+.room-empty.lg{width:56px;height:56px;border-radius:14px;font-size:20px}
+.rb-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.rb-filter{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.rb-list{display:grid;gap:8px;max-height:min(56vh,520px);overflow:auto;padding-right:2px}
+.rb-row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.rb-row.mine{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.rb-no{font:600 12px var(--font-mono);color:var(--muted)}
+.rb-main{display:grid;gap:6px;min-width:0}
+.rb-main p{margin:0;font-size:13px;color:var(--body-2)}
+.rb-side{display:flex;align-items:center;gap:10px}
+.rb-seats{font:600 13px var(--font-mono);min-width:30px;text-align:right}
+@media (max-width:640px){.rb-row{grid-template-columns:1fr}.rb-no{display:none}.rb-side{justify-content:space-between}}
+.room-desc{margin:0;font-size:14.5px;color:var(--body-2)}
+.seats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.seat{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:14px 10px;border:1px solid var(--line);border-radius:12px;background:var(--bg-2)}
+.seat.host{border-color:var(--moss-deep);box-shadow:inset 0 0 0 1px var(--moss-deep)}
+.seat.vacant{border-style:dashed;background:none}
+.seat b{font-size:13.5px}.seat small{font-size:11.5px;color:var(--muted);min-height:15px}
+.seat-kick{margin-top:4px;height:28px;min-height:0;font-size:12px;color:var(--bad)}
 .hall-count{background:rgba(40,40,36,.72);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:7px 12px;font-size:14px;backdrop-filter:blur(4px)}
 .hall-say{background:rgba(40,40,36,.7);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:5px 5px 5px 0;align-items:center;backdrop-filter:blur(4px)}
 .hall-say input{background:transparent;border:0;color:#fff;height:32px}
@@ -1157,37 +1322,7 @@ ul{list-style:none;margin:0;padding:0}
       <div class="resume-progress"><div class="bar"><i class="js-progress-bar" style="width:40%"></i></div><span><span class="js-progress">40</span>% complete</span></div>
       <a class="btn primary" href="#programs" data-set-tab="programs:learning">Continue learning <svg class="i sm"><use href="#i-arrow"/></svg></a>
     </div>
-    <section class="card cal-card" aria-labelledby="cal-label">
-      <div class="cal-top">
-        <div class="cal-title"><span class="eyebrow">01 / Calendar</span><h2 id="cal-label">November 2026</h2></div>
-        <div class="seg" role="group" aria-label="Calendar view"><button type="button" data-cal-mode="week">Week</button><button type="button" data-cal-mode="month" class="on">Month</button></div>
-        <div class="cal-nav"><button class="btn ghost sm" type="button" data-cal-step="-1"><svg class="i sm"><use href="#i-chev-left"/></svg>Prev</button><button class="btn ghost sm" type="button" data-cal-today>Today</button><button class="btn ghost sm" type="button" data-cal-step="1">Next<svg class="i sm"><use href="#i-chev-right"/></svg></button></div>
-      </div>
-      <div class="dcal" id="dcal"></div>
-      <div class="cal-legend"><span><i class="lg-deadline"></i>Registration closes</span><span><i class="lg-demo"></i>Final demo</span><span><i class="lg-workshop"></i>Workshop</span></div>
-    </section>
     <section id="spotlight" aria-label="Coming up"></section>
-    <div class="disc-toolbar">
-      <span class="eyebrow">03 / All programs</span>
-      <div class="disc-row">
-        <div class="cat-tabs" id="cat-tabs" role="group" aria-label="Program type"></div>
-        <div class="seg" role="group" aria-label="Layout"><button type="button" data-layout="grid" class="on" aria-label="Grid view" aria-pressed="true"><svg class="i"><use href="#i-grid"/></svg>Grid</button><button type="button" data-layout="list" aria-label="List view" aria-pressed="false"><svg class="i"><use href="#i-list"/></svg>List</button></div>
-      </div>
-      <div class="disc-row">
-        <label class="search"><svg class="i"><use href="#i-search"/></svg><input id="search" type="search" placeholder="Search programs, workshops, themes or places..." aria-label="Search programs"></label>
-        <button class="btn ghost" type="button" id="more-filters" aria-expanded="false" aria-controls="more-panel"><svg class="i sm"><use href="#i-sliders"/></svg>More filters<span class="mf-count" id="mf-count" hidden></span></button>
-      </div>
-      <div class="more-panel" id="more-panel" hidden>
-        <select class="pill-select" id="f-theme" aria-label="Theme">
-          <option value="all">All themes</option><option>AI</option><option>Cybersecurity</option><option>Data Science</option><option>Climate</option><option>Finance</option><option>Health</option><option>Mobility</option>
-        </select>
-        <select class="pill-select" id="f-industry" aria-label="Industry">
-          <option value="all">All industries</option><option>Manufacturing</option><option>Sustainability</option><option>No-code</option><option>Healthcare</option><option>Transport</option><option>Agriculture</option><option>Banking</option><option>Public sector</option><option>Retail</option><option>Education</option>
-        </select>
-        <button class="link-btn" type="button" data-clear>Clear filters</button>
-      </div>
-    </div>
-    <div id="program-sections"></div>
   </div>
 </section>
 
@@ -1260,9 +1395,68 @@ ul{list-style:none;margin:0;padding:0}
 <!-- ================= 3. MY PROGRAMS ================= -->
 <section class="view" id="view-programs" hidden>
   <div class="wrap">
+    <!-- My programs home: what you're in, saved, finished, and every program you can join -->
+    <div id="mp-home">
+      <header class="phead"><div class="phead-main">
+        <span class="eyebrow"><span><a href="#discover">IB</a> / My programs</span></span>
+        <h1 class="page-title"><span class="soft">My</span> programs</h1>
+        <p class="page-sub">Pick up where you left off, keep an eye on dates, and find your next program.</p>
+      </div></header>
+      <div class="tabs mph-tabs" data-tabs="mph" role="tablist">
+        <button data-tab="progress" class="on">In progress<small id="mph-n-progress"></small></button>
+        <button data-tab="saved">Saved<small id="mph-n-saved"></small></button>
+        <button data-tab="completed">Completed<small id="mph-n-completed"></small></button>
+        <button data-tab="all">All programs<small id="mph-n-all"></small></button>
+      </div>
+      <div class="mph-grid">
+        <div class="mph-main">
+          <div data-panel="mph:progress"><div class="mph-list" id="mph-progress"></div></div>
+          <div data-panel="mph:saved" hidden><div id="mph-saved"></div></div>
+          <div data-panel="mph:completed" hidden><div class="mph-list" id="mph-completed"></div></div>
+          <div data-panel="mph:all" hidden>
+            <div class="disc-toolbar">
+              <div class="disc-row">
+                <div class="cat-tabs" id="cat-tabs" role="group" aria-label="Program type"></div>
+                <div class="seg" role="group" aria-label="Layout"><button type="button" data-layout="grid" class="on" aria-label="Grid view" aria-pressed="true"><svg class="i"><use href="#i-grid"/></svg>Grid</button><button type="button" data-layout="list" aria-label="List view" aria-pressed="false"><svg class="i"><use href="#i-list"/></svg>List</button></div>
+              </div>
+              <div class="disc-row">
+                <label class="search"><svg class="i"><use href="#i-search"/></svg><input id="search" type="search" placeholder="Search programs, workshops, themes or places..." aria-label="Search programs"></label>
+                <button class="btn ghost" type="button" id="more-filters" aria-expanded="false" aria-controls="more-panel"><svg class="i sm"><use href="#i-sliders"/></svg>More filters<span class="mf-count" id="mf-count" hidden></span></button>
+              </div>
+              <div class="more-panel" id="more-panel" hidden>
+                <select class="pill-select" id="f-theme" aria-label="Theme">
+                  <option value="all">All themes</option><option>AI</option><option>Cybersecurity</option><option>Data Science</option><option>Climate</option><option>Finance</option><option>Health</option><option>Mobility</option>
+                </select>
+                <select class="pill-select" id="f-industry" aria-label="Industry">
+                  <option value="all">All industries</option><option>Manufacturing</option><option>Sustainability</option><option>No-code</option><option>Healthcare</option><option>Transport</option><option>Agriculture</option><option>Banking</option><option>Public sector</option><option>Retail</option><option>Education</option>
+                </select>
+                <button class="link-btn" type="button" data-clear>Clear filters</button>
+              </div>
+            </div>
+            <div id="program-sections"></div>
+          </div>
+        </div>
+        <aside class="mph-side">
+          <section class="card mcal" aria-labelledby="cal-label">
+            <div class="mcal-top"><h2 id="cal-label">November 2026</h2>
+              <div class="mcal-nav"><button class="btn ghost sm" type="button" data-cal-today>Today</button><button class="icon-btn" type="button" data-cal-step="-1" aria-label="Previous month"><svg class="i"><use href="#i-chev-left"/></svg></button><button class="icon-btn" type="button" data-cal-step="1" aria-label="Next month"><svg class="i"><use href="#i-chev-right"/></svg></button></div></div>
+            <div class="dcal" id="dcal"></div>
+            <div class="cal-legend"><span><i class="lg-deadline"></i>Registration closes</span><span><i class="lg-demo"></i>Final demo</span><span><i class="lg-workshop"></i>Workshop</span></div>
+            <div class="mcal-day" id="mcal-day"></div>
+          </section>
+          <section class="card mstats">
+            <h3>Last 4 weeks</h3>
+            <div class="mstats-row" id="mstats"></div>
+          </section>
+        </aside>
+      </div>
+    </div>
+
+    <!-- One program's workspace (opened from the list above, or from any "Open workspace" button) -->
+    <div id="mp-ws" hidden>
     <nav class="myprogs" id="myprogs" aria-label="Your programs"></nav>
     <header class="phead"><div class="phead-main">
-      <span class="eyebrow"><span><a href="#discover">IB</a> / My programs</span></span>
+      <span class="eyebrow"><span><a href="#discover">IB</a> / <a href="#programs">My programs</a></span></span>
       <h1 class="page-title" style="font-size:clamp(30px,4.4vw,44px)">Smart Factory Challenge</h1>
       <div class="title-tags"><span class="mtag ink">Enrolled</span><span class="mtag">Team AI Forge</span><span class="mtag">Challenge</span><span class="mtag">Hybrid · Kuala Lumpur</span></div>
     </div>
@@ -1403,6 +1597,7 @@ ul{list-style:none;margin:0;padding:0}
         <div class="msg"><span class="js-av" data-seed="Dr. Sara" data-size="40"></span><div class="msg-body"><header><b>Dr. Sara</b><span>Today · Problem proposal draft</span></header><p>Clarify who faces this problem and add interview evidence. Name the role (line operator, QA lead) and quote two interviews directly.</p></div></div>
         <div class="msg"><span class="js-av" data-seed="Dr. Tan" data-size="40"></span><div class="msg-body"><header><b>Dr. Tan</b><span>4 Nov · Module 1 reflection</span></header><p>Good framing of defect cost. Next, estimate how many units per shift are affected so judges can see the scale.</p></div></div>
       </div>
+    </div>
     </div>
   </div>
 </section>
@@ -1647,18 +1842,20 @@ ul{list-style:none;margin:0;padding:0}
     <header class="phead"><div class="phead-main">
       <span class="eyebrow"><span><a href="#discover">IB</a> / Meetup Hall</span></span>
       <h1 class="page-title"><span class="soft">Find your</span> teammates</h1>
-      <p class="page-sub">Each event you register for opens its own hall. Walk around, click anyone to see their hackathon portfolio, and team up.</p>
+      <p class="page-sub">One big lobby for everyone. Walk up to the glowing Room Board, open a room for any competition, shout on the megaphone and team up.</p>
     </div>
-    <div class="phead-aside"><select class="pill-select" id="hall-ev" aria-label="Event hall"></select></div></header>
+    <div class="phead-aside"><button class="btn primary" type="button" id="hall-rooms-btn"><svg class="i sm"><use href="#i-grid"/></svg>Room Board</button></div></header>
     <div class="hall-grid">
       <div class="hall-stage" id="hall-stage" role="application" aria-label="Meetup Hall. Click the floor to move, click a person to open their card.">
         <div class="hall-count" id="hall-count"></div>
+        <div class="hall-ticker" id="hall-ticker" aria-live="polite"></div>
+        <button class="hall-portal" type="button" id="hall-portal" aria-label="Room Board: open competition rooms"><span class="hp-glow" aria-hidden="true"></span><span class="hp-label"><b>Room Board</b><small id="hall-portal-n"></small></span></button>
         <div id="hall-people"></div>
         <form class="hall-say" id="hall-say"><svg class="i" style="color:#fff;margin-left:12px"><use href="#i-chat"/></svg><input id="hall-say-text" maxlength="80" placeholder="Say hello…" aria-label="Say something in the hall"><button class="btn primary sm" type="submit" style="height:38px">Send</button></form>
-        <span class="hall-hint">Click the floor to walk · click someone to see their portfolio</span>
-        <div class="hall-gate" id="hall-gate" hidden></div>
+        <span class="hall-hint">Click the floor to walk · click someone to see their portfolio · walk to the glowing board for rooms</span>
       </div>
       <aside class="side-col">
+        <div class="card panel" id="hall-myroom" style="display:grid;gap:12px"></div>
         <div class="card panel" style="display:grid;gap:12px">
           <div class="panel-title" style="justify-content:space-between"><span>Your hall card</span><button class="btn ghost sm" type="button" id="hall-edit">Edit</button></div>
           <div id="hall-mine"></div>
@@ -1940,8 +2137,12 @@ function route(v=location.hash.slice(1)){
   $$('.view').forEach(s=>s.hidden=s.id!=='view-'+v);
   $$('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===(v==='event'?'discover':v)));
   if(evp){curEvent=evp.id;setTab('event','home');renderEvent()}else document.title='IndustryBridge Prototype';
+  // My programs opens on the list; buttons that name a workspace tab (data-set-tab="programs:…") open the workspace
+  if(v==='programs'){showMP(mpPending?'ws':'home');mpPending=false}
   closeDD();window.scrollTo(0,0);
 }
+let mpPending=false;
+function showMP(mode){$("#mp-home").hidden=mode!=="home";$("#mp-ws").hidden=mode!=="ws";if(mode==="home")renderMyHome()}
 window.addEventListener('hashchange',()=>route());
 $('#view-signin').addEventListener('click',e=>{const c=e.target.closest('[data-signin]');if(!c)return;setRole(c.dataset.signin);go('discover');toast(`Signed in as ${PEOPLE[role].name}`)});
 
@@ -1988,6 +2189,7 @@ $('#modal-body').addEventListener('click',e=>{
 
 /* Tabs */
 function setTab(group,name){
+  if(group==='programs'){mpPending=true;showMP('ws');setTimeout(()=>mpPending=false)}
   $$(`[data-tabs="${group}"] [data-tab]`).forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
   $$(`[data-panel^="${group}:"]`).forEach(p=>p.hidden=p.dataset.panel!==`${group}:${name}`);
 }
@@ -2253,35 +2455,29 @@ function calEvents(){
   });
   return ev;
 }
+/* Month calendar beside My programs: a dot per event on each day; pick a day to list what's on it */
 function renderCal(){
-  const now=new Date(),today=dayStart(now),week=disc.calMode==='week';
-  if(!disc.calCursor)disc.calCursor=week?new Date(today.getTime()-((today.getDay()+6)%7)*864e5):new Date(today.getFullYear(),today.getMonth(),1);
+  const now=new Date(),today=dayStart(now);
+  if(!disc.calCursor)disc.calCursor=new Date(today.getFullYear(),today.getMonth(),1);
   const cur=disc.calCursor,ev=calEvents(),order={deadline:0,demo:1,workshop:2};
-  let days=[],label;
-  if(week){
-    for(let i=0;i<7;i++)days.push(new Date(cur.getFullYear(),cur.getMonth(),cur.getDate()+i));
-    const e=days[6];label=`${cur.getDate()} ${MON_S[cur.getMonth()]} – ${e.getDate()} ${MON_S[e.getMonth()]} ${e.getFullYear()}`;
-  }else{
-    const y=cur.getFullYear(),m=cur.getMonth(),off=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
-    for(let i=0;i<off;i++)days.push(null);
-    for(let d=1;d<=n;d++)days.push(new Date(y,m,d));
-    while(days.length%7)days.push(null);
-    label=`${MON_L[m]} ${y}`;
-  }
-  $('#cal-label').textContent=label;
-  $$('[data-cal-mode]').forEach(b=>b.classList.toggle('on',b.dataset.calMode===disc.calMode));
-  const chip=(e,full)=>`<button class="chip-ev ${e.type}${e.d<now?' done':''}" type="button" data-view-program="${e.p.id}" title="${e.p.title} · ${e.sub}">${e.p.title}${full?`<small>${e.sub}</small>`:''}</button>`;
-  $('#dcal').className='dcal'+(week?' week':'');
-  $('#dcal').innerHTML=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d,i)=>`<div class="dcal-h">${week?`${d} ${days[i].getDate()}`:d}</div>`).join('')+days.map(d=>{
+  const y=cur.getFullYear(),m=cur.getMonth(),off=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
+  const sel=disc.calSel?new Date(disc.calSel):(today.getMonth()===m&&today.getFullYear()===y?today:new Date(y,m,1));
+  const days=[];for(let i=0;i<off;i++)days.push(null);for(let d=1;d<=n;d++)days.push(new Date(y,m,d));while(days.length%7)days.push(null);
+  $('#cal-label').textContent=`${MON_L[m]} ${y}`;
+  $('#dcal').className='dcal mini';
+  $('#dcal').innerHTML=['Mo','Tu','We','Th','Fr','Sa','Su'].map(d=>`<div class="dcal-h">${d}</div>`).join('')+days.map(d=>{
     if(!d)return '<div class="dcal-c blank" aria-hidden="true"></div>';
-    const list=ev.filter(e=>sameDay(e.d,d)).sort((a,b)=>order[a.type]-order[b.type]||a.d-b.d);
-    const shown=week?list:list.slice(0,2),more=list.length-shown.length;
-    const cls=sameDay(d,today)?' today':d<today?' gone':'';
-    return `<div class="dcal-c${cls}"><span class="dn">${d.getDate()}</span>${shown.map(e=>chip(e,week)).join('')}${more>0?`<button class="chip-more" type="button" data-cal-day="${d.getTime()}">+${more} more</button>`:''}</div>`;
+    const list=ev.filter(e=>sameDay(e.d,d)).sort((a,b)=>order[a.type]-order[b.type]);
+    const cls=(sameDay(d,today)?' today':d<today?' gone':'')+(sameDay(d,sel)?' sel':'')+(list.length?' has':'');
+    return `<button type="button" class="dcal-c${cls}" data-cal-day="${d.getTime()}" aria-label="${fmtDate(d)}${list.length?`, ${list.length} event${list.length>1?'s':''}`:''}" aria-pressed="${sameDay(d,sel)}"><span class="dn">${d.getDate()}</span><span class="dots">${[...new Set(list.map(e=>e.type))].map(t=>`<i class="${t}"></i>`).join('')}</span></button>`;
   }).join('');
+  const list=ev.filter(e=>sameDay(e.d,sel)).sort((a,b)=>order[a.type]-order[b.type]||a.d-b.d);
+  $('#mcal-day').innerHTML=`<div class="mcal-day-h">${sameDay(sel,today)?'Today · ':''}${sel.getDate()} ${MON_S[sel.getMonth()]}</div>`+(list.length
+    ?list.map(e=>`<button class="chip-ev ${e.type}${e.d<now?' done':''}" type="button" data-view-program="${e.p.id}">${e.p.title}<small>${e.sub}</small></button>`).join('')
+    :`<p class="muted" style="font-size:12.5px;margin:0">Nothing on this day.</p>`);
 }
 /* --- 3. Coming up: swipeable banner of the next few events --- */
-const ADV_MAX=6,HOT_MIN=40;
+const ADV_MAX=8,HOT_MIN=40;
 const isHot=p=>p.status==='open'&&(p.teamsIn||0)>=HOT_MIN;
 function advItems(){
   const skip=role==='organizer'?null:disc.nextId;
@@ -2305,45 +2501,71 @@ function advFacts(p){
     ?`<span><b>${shortDate(p.starts)}, ${fmtTime(p.starts)}</b> · ${relDay(p.starts)}</span><span>${p.format}</span><span>Host · ${p.host}</span>`
     :`<span><b>${p.prize}</b> prize pool</span><span>${p.team}</span><span>Closes <b>${shortDate(p.closes)}</b> · ${relDay(p.closes)}</span>`;
 }
+/* Card swap carousel: the chosen event sits in the middle, its neighbours peek out tilted on each side.
+   Every card shows the basics people ask first: when, where, who runs it, tools, tracks, prize and team size. */
+const EV_TRACKS={smart:['Defect detection','Line analytics'],green:['Waste','Energy','Campus mobility'],fintech:['Micro-savings','Credit scoring','Insurtech'],health:['Clinic queues','Elderly care'],mobility:['Last mile','Parking','Bus data'],agri:['Smart irrigation','Crop health'],cyber:['Red team','Phishing defence','Secure apps'],data:['Open data','Civic dashboards'],ev:['Charger siting','Grid load'],halal:['Traceability','Supplier trust'],retail:['Demand forecast','Shelf vision'],campus:['Night safety','Incident reports'],'w-prompt':['Problem framing'],'w-pitch':['3-minute pitch'],'w-ctf':['Web','Crypto','Forensics'],'w-nocode':['App prototype'],'w-iot':['Sensors','Dashboards']};
+const EV_TOOLS={smart:['Python','Gemini','OpenCV'],green:['AppSheet','Google Sheets','Figma'],fintech:['AppSheet','Gemini','Looker Studio'],health:['Figma','Firebase','Gemini'],mobility:['Python','Google Maps API','Looker Studio'],agri:['Arduino','IoT sensors','Python'],cyber:['Kali Linux','Burp Suite','Python'],data:['Python','Pandas','Looker Studio'],ev:['Python','QGIS','Google Maps API'],halal:['Blockchain','AppSheet','Python'],retail:['Python','Vertex AI','Sheets'],campus:['Flutter','Firebase'],'w-prompt':['Gemini','Google Docs'],'w-pitch':['Google Slides'],'w-ctf':['Kali Linux','CyberChef'],'w-nocode':['AppSheet','Glide'],'w-iot':['Arduino','ESP32']};
+function cfWhen(p){
+  if(isWS(p))return `${shortDate(p.starts)}, ${fmtTime(p.starts)} · ${relDay(p.starts)}`;
+  if(p.status==='soon')return `Opens ${shortDate(p.opensAt)} · demo ${shortDate(p.endsAt)}`;
+  return `Register by ${shortDate(p.closes)} · demo ${shortDate(p.endsAt)}`;
+}
+function cfCard(p,i){
+  const host=isWS(p)?p.host:HOSTS[p.id]||'IndustryBridge',chips=(a,c='')=>(a||[]).map(t=>`<span class="${c}">${t}</span>`).join('');
+  const flag=isHot(p)?`<span class="adv-flag hot">Hot · ${p.teamsIn} teams</span>`:p.status==='soon'?`<span class="adv-flag soon">Coming soon</span>`:p.status==='live'?`<span class="adv-flag hot">Live now</span>`:'';
+  return `<article class="cf-card" data-cf="${i}" aria-roledescription="slide" aria-label="${i+1} of ${disc.cfN}: ${p.title}">
+    <div class="cf-banner" style="background:${(HERO_BG[p.poster]||HERO_BG['p-smart'])[1]}">${sceneSVG(p,'xMaxYMid')}<span class="pcard-logo ${p.poster}" aria-hidden="true">${I(p.logo||'sparkle')}</span><div class="cf-flags">${flag}<span class="cf-kind">${p.kind}</span></div></div>
+    <div class="cf-body">
+      <h3>${p.title}</h3>
+      <dl class="cf-facts">
+        <div><dt>${I('calendar')}Time</dt><dd>${cfWhen(p)}</dd></div>
+        <div><dt>${I('pin')}Place</dt><dd>${p.format}</dd></div>
+        <div><dt>${I('user')}Organiser</dt><dd>${host}</dd></div>
+        <div class="half"><dt>${I('trophy')}Prize</dt><dd>${isWS(p)?'Free entry':p.prize}</dd></div>
+        <div class="half"><dt>${I('users')}Team</dt><dd>${p.team.replace('Teams of ','')}${/\d/.test(p.team)?' people':''}</dd></div>
+        <div class="wide"><dt>${I('route')}Tracks</dt><dd class="cf-chips">${chips(EV_TRACKS[p.id])}</dd></div>
+        <div class="wide"><dt>${I('cog')}Skills &amp; tools</dt><dd class="cf-chips">${chips(EV_TOOLS[p.id],'tool')}</dd></div>
+      </dl>
+      <div class="adv-actions">${advActions(p)}<button class="btn ghost icon" type="button" data-share="${p.id}" aria-label="Share">${I('share')}</button></div>
+    </div>
+  </article>`;
+}
 function renderSpot(){
   const items=advItems(),el=$('#spotlight');
   if(!items.length){el.innerHTML='';return}
-  disc.adv=Math.min(disc.adv||0,items.length-1);
-  el.innerHTML=`<div class="card adv" aria-roledescription="carousel">
-    <div class="adv-head"><span class="eyebrow">02 / Hot &amp; coming up</span>
-      <div class="adv-ctrl"><span class="adv-count" id="adv-count" aria-live="polite"></span>
-        <button class="btn ghost icon" type="button" data-adv-step="-1" aria-label="Previous event">${I('chev-left')}</button>
-        <button class="btn ghost icon" type="button" data-adv-step="1" aria-label="Next event">${I('chev-right')}</button></div></div>
-    <div class="adv-track" id="adv-track" tabindex="0" aria-label="Upcoming events, swipe or use the arrows">
-      ${items.map((p,i)=>`<article class="adv-slide" aria-roledescription="slide" aria-label="${i+1} of ${items.length}: ${p.title}">
-        ${posterHTML(p)}
-        <div class="adv-body"><div class="adv-flags">${isHot(p)?`<span class="adv-flag hot">Hot · ${p.teamsIn} teams in</span>`:p.status==='soon'?`<span class="adv-flag soon">Coming soon</span>`:''}<span class="adv-kind">${p.kind} · ${isWS(p)?'Free':p.format}</span></div><h3>${p.title}</h3><p>${p.blurb}</p>
-          <div class="adv-facts">${advFacts(p)}</div>
-          <div class="adv-actions">${advActions(p)}<button class="btn ghost icon" type="button" data-share="${p.id}" aria-label="Share">${I('share')}</button></div></div>
-      </article>`).join('')}
+  disc.cfN=items.length;disc.adv=Math.min(disc.adv||0,items.length-1);
+  el.innerHTML=`<div class="cf" aria-roledescription="carousel" aria-label="Events you can join">
+    <div class="cf-head"><span class="eyebrow">02 / Join an event</span><span class="adv-count" id="adv-count" aria-live="polite"></span></div>
+    <div class="cf-stage" id="adv-track" tabindex="0" aria-label="Events you can join. Swipe or use the arrow keys">
+      <button class="cf-arrow prev" type="button" data-adv-step="-1" aria-label="Previous event">${I('chev-left')}</button>
+      ${items.map(cfCard).join('')}
+      <button class="cf-arrow next" type="button" data-adv-step="1" aria-label="Next event">${I('chev-right')}</button>
     </div>
     <div class="adv-dots" role="tablist" aria-label="Choose event">${items.map((p,i)=>`<button type="button" role="tab" data-adv-go="${i}" aria-label="${p.title}"></button>`).join('')}</div>
   </div>`;
-  const tr=$('#adv-track');
-  tr.style.scrollBehavior='auto';tr.scrollLeft=advLeft(tr,disc.adv);tr.style.scrollBehavior='';
   advMark();
-  tr.addEventListener('scroll',()=>{const i=Math.round(tr.scrollLeft/Math.max(1,tr.clientWidth+32));if(i!==disc.adv){disc.adv=i;advMark()}},{passive:true});
+  // swipe left or right on the cards
+  const st=$('#adv-track');let x0=null;
+  st.addEventListener('pointerdown',e=>{x0=e.clientX},{passive:true});
+  st.addEventListener('pointerup',e=>{if(x0===null)return;const dx=e.clientX-x0;x0=null;if(Math.abs(dx)>40){advGo(disc.adv+(dx<0?1:-1));disc.advHold=Date.now();st._swiped=Date.now()}},{passive:true});
 }
-const advLeft=(tr,i)=>tr.children[i].offsetLeft-tr.children[0].offsetLeft;
 function advMark(){
-  const n=$$('#adv-track .adv-slide').length;if(!n)return;
+  const cards=$$('#adv-track .cf-card'),n=cards.length;if(!n)return;
+  cards.forEach((c,i)=>{let o=i-disc.adv;if(o>n/2)o-=n;if(o<-n/2)o+=n;c.dataset.off=Math.max(-3,Math.min(3,o));c.setAttribute('aria-hidden',o!==0);$$('a,button',c).forEach(b=>b.tabIndex=o===0?0:-1)});
   $('#adv-count').textContent=`${String(disc.adv+1).padStart(2,'0')} / ${String(n).padStart(2,'0')}`;
   $$('.adv-dots button').forEach((b,i)=>{b.classList.toggle('on',i===disc.adv);b.setAttribute('aria-selected',i===disc.adv)});
 }
 function advGo(i){
-  const tr=$('#adv-track');if(!tr)return;const n=tr.children.length;
-  disc.adv=(i+n)%n;tr.scrollTo({left:advLeft(tr,disc.adv)});advMark();
+  const n=$$('#adv-track .cf-card').length;if(!n)return;
+  disc.adv=(i+n)%n;advMark();
 }
 $('#spotlight').addEventListener('click',e=>{
-  const s=e.target.closest('[data-adv-step]'),g=e.target.closest('[data-adv-go]');
-  if(s){advGo(disc.adv+ +s.dataset.advStep);disc.advHold=Date.now()}
-  if(g){advGo(+g.dataset.advGo);disc.advHold=Date.now()}
-});
+  const s=e.target.closest('[data-adv-step]'),g=e.target.closest('[data-adv-go]'),side=e.target.closest('.cf-card:not([data-off="0"])');
+  if(s){advGo(disc.adv+ +s.dataset.advStep);disc.advHold=Date.now();return}
+  if(g){advGo(+g.dataset.advGo);disc.advHold=Date.now();return}
+  // a click on a side card brings it to the middle instead of pressing its buttons
+  if(side){e.stopPropagation();e.preventDefault();if(Date.now()-($('#adv-track')._swiped||0)>300)advGo(+side.dataset.cf);disc.advHold=Date.now()}
+},true);
 $('#spotlight').addEventListener('keydown',e=>{if(e.target.id==='adv-track'&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){e.preventDefault();advGo(disc.adv+(e.key==='ArrowRight'?1:-1))}});
 // Auto-advance every 7s, but pause while the pointer or focus is on it, for 15s after a manual move, and for reduced motion
 ['pointerenter','focusin','touchstart'].forEach(t=>$('#spotlight').addEventListener(t,()=>disc.advPause=true,{passive:true}));
@@ -2443,16 +2665,65 @@ function renderMyProgs(){
   const items=[smart,...programs.filter(p=>p.enrolled&&p.id!=='smart'&&p.status!=='past'),...WORKSHOPS.filter(w=>w.rsvp&&w.status!=='past')];
   const sub=p=>p.id==='smart'?'Week 2 of 4 · in progress':isWS(p)?`Workshop · ${p.date}, ${fmtTime(p.starts)}`:`Kick-off ${shortDate(new Date(p.closes.getTime()+864e5))}`;
   $('#myprogs').innerHTML=`<span class="mp-label">Your programs</span>`+items.map(p=>`<button class="mp${p.id==='smart'?' on':''}" type="button" data-mp="${p.id}"${p.id==='smart'?' aria-current="page"':''}><span class="pcard-logo mini ${p.poster}" aria-hidden="true">${I(p.logo)}</span><span><b>${p.title}</b><small>${sub(p)}</small></span></button>`).join('')
-    +`<a class="mp add" href="#discover">${I('plus')}<span><b>Find a program</b><small>${programs.filter(p=>p.status==='open'&&!p.enrolled).length} open now</small></span></a>`;
+    +`<a class="mp add" href="#programs" data-set-tab="mph:all">${I('plus')}<span><b>Find a program</b><small>${programs.filter(p=>p.status==='open'&&!p.enrolled).length} open now</small></span></a>`;
   $('#st-due').textContent=`Problem proposal · ${relDay(due)}`;
   $('#st-demo').textContent=$('#st-mdemo').textContent=`Final demo · ${relDay(smart.endsAt)}`;
   $('#st-pdue').textContent=`Next submission · ${relDay(due)}`;
+  renderMyHome();
 }
 $('#myprogs').addEventListener('click',e=>{
   const b=e.target.closest('[data-mp]');if(!b||b.dataset.mp==='smart')return;
   const p=ALL.find(x=>x.id===b.dataset.mp);
   if(isWS(p))openProgram(p.id);else toast(`${p.title} workspace opens at kick-off on ${shortDate(new Date(p.closes.getTime()+864e5))}`);
 });
+/* My programs home: In progress / Saved / Completed lists plus the "Last 4 weeks" box */
+function renderMyHome(){
+  if(!$('#mph-progress'))return;
+  const smart=programs.find(p=>p.id==='smart'),due=parseDay('12 Nov','5:00 PM'),org=p=>isWS(p)?p.host:HOSTS[p.id]||'IndustryBridge';
+  const logo=p=>`<span class="pcard-logo mini ${p.poster}" aria-hidden="true">${I(p.logo||'sparkle')}</span>`;
+  const more=p=>`<button class="icon-btn mrow-more" type="button" data-view-program="${p.id}" aria-label="More about ${p.title}">${I('more')}</button>`;
+  const rows=[];
+  // the program you're working in
+  const fb=course.submitted;
+  rows.push(`<article class="mrow">
+    <div class="mrow-main"><div class="mrow-org">${logo(smart)}${org(smart)}</div>
+      <h3><button class="link-title" type="button" data-open-ws="learning">${smart.title}</button></h3>
+      <p class="mrow-meta">${smart.kind} · ${course.progress}% complete · Final demo ${fmtDate(smart.endsAt)}</p>
+      <div class="bar"><i style="width:${course.progress}%"></i></div></div>
+    <div class="mrow-next"><div><b>${fb?'Final demo prep':'Problem proposal'}</b><small>${I('file','sm')}${fb?`Demo ${shortDate(smart.endsAt)} · ${relDay(smart.endsAt)}`:`Due ${shortDate(due)}, 5:00 PM · ${relDay(due)}`}</small></div>
+      <button class="btn primary sm" type="button" data-open-ws="${fb?'learning':'submissions'}">${fb?'Continue learning':'Continue submission'}</button></div>
+    ${more(smart)}</article>`);
+  // other programs you registered for, waiting for kick-off
+  programs.filter(p=>p.enrolled&&p.id!=='smart'&&p.status!=='past').forEach(p=>{const ko=new Date(p.closes.getTime()+864e5);rows.push(`<article class="mrow">
+    <div class="mrow-main"><div class="mrow-org">${logo(p)}${org(p)}</div><h3><button class="link-title" type="button" data-view-program="${p.id}">${p.title}</button></h3>
+      <p class="mrow-meta">${p.kind} · Registered · Kick-off ${fmtDate(ko)}</p><div class="bar"><i style="width:0%"></i></div></div>
+    <div class="mrow-next"><div><b>Workspace opens at kick-off</b><small>${I('calendar','sm')}${shortDate(ko)} · ${relDay(ko)}</small></div><a class="btn ghost sm" href="#hall" data-hall-ev="${p.id}">Find teammates</a></div>
+    ${more(p)}</article>`)});
+  // workshops with a saved seat
+  WORKSHOPS.filter(w=>w.rsvp&&w.status!=='past').forEach(p=>rows.push(`<article class="mrow">
+    <div class="mrow-main"><div class="mrow-org">${logo(p)}Hosted by ${p.host}</div><h3><button class="link-title" type="button" data-view-program="${p.id}">${p.title}</button></h3>
+      <p class="mrow-meta">Workshop · Seat saved · ${p.format}</p></div>
+    <div class="mrow-next"><div><b>${p.status==='live'?'Live now':'Starts '+relDay(p.starts)}</b><small>${I('clock','sm')}${shortDate(p.starts)}, ${fmtTime(p.starts)}</small></div><button class="btn ghost sm" type="button" data-view-program="${p.id}">Details</button></div>
+    ${more(p)}</article>`));
+  $('#mph-progress').innerHTML=rows.join('')+`<button class="mrow-add" type="button" data-set-tab="mph:all">${I('plus')}<span><b>Find another program</b><small>${ALL.filter(p=>p.open&&!p.enrolled).length} open to join now</small></span></button>`;
+  // saved
+  const saved=ALL.filter(p=>p.saved);
+  $('#mph-saved').innerHTML=saved.length?`<div class="plist">${saved.map(rowHTML).join('')}</div>`
+    :`<div class="empty">Nothing saved yet. Tap the bookmark on any program in <button class="link-btn" type="button" data-set-tab="mph:all">All programs</button> to keep it here.</div>`;
+  // completed: past programs from your hackathon record
+  const done=(myCard?.hist||[]).map(([t,r,pj])=>({p:programs.find(x=>x.title===t),r,pj})).filter(x=>x.p);
+  $('#mph-completed').innerHTML=done.map(({p,r,pj})=>`<article class="mrow">
+    <div class="mrow-main"><div class="mrow-org">${logo(p)}${org(p)}</div><h3><button class="link-title" type="button" data-view-program="${p.id}">${p.title}</button></h3>
+      <p class="mrow-meta">${p.kind} · Finished ${fmtDate(p.endsAt)} · ${esc(pj)}</p></div>
+    <div class="mrow-next"><div><b><span class="badge ${r==='Winner'?'ok':r==='Finalist'?'accent':''}">${r}</span></b><small>${I('sparkle','sm')}+${XP_FOR[r].toLocaleString('en-MY')} XP verified</small></div><button class="btn ghost sm" type="button" data-toast="Certificate for ${p.title} downloaded">Certificate</button></div>
+    ${more(p)}</article>`).join('')||`<div class="empty">Finished programs show up here with your result.</div>`;
+  // tab counts
+  const set=(k,n)=>{$('#mph-n-'+k).textContent=n};
+  set('progress',rows.length);set('saved',saved.length);set('completed',done.length);set('all',ALL.length);
+  // last 4 weeks
+  const doneMods=course.modules.filter(m=>m.state==='done').length,tasks=planner.events.filter(e=>e.done).length+(course.submitted?1:0);
+  $('#mstats').innerHTML=[[`+${200+(course.submitted?100:0)}`,'XP earned'],[doneMods,'Modules completed'],[tasks+3,'Tasks done'],[`${6+doneMods*2}h`,'Learning time']].map(([b,s])=>`<div><b>${b}</b><small>${s}</small></div>`).join('');
+}
 function clearFilters(){$('#search').value='';$('#f-theme').value='all';$('#f-industry').value='all';disc.cat='all';renderToolbar();renderSections()}
 ['#search','#f-theme','#f-industry'].forEach(s=>$(s).addEventListener('input',()=>{renderToolbar();renderSections()}));
 const TEAM=[['Xin Yi Neoh','You · Team lead','Xin Yi Neoh'],['Celine Hew','Research lead','Celine'],['Kai Li Chong','Prototype','Kai Li Chong'],['Hana Aziz','Pitch and design','Hana']];
@@ -2486,29 +2757,30 @@ function checkRegTeam(p){
 function confirmRegister(id){
   const p=ALL.find(x=>x.id===id),n=$$('.reg-team input:checked').length;
   closeModal();p.enrolled=true;if(typeof hall!=='undefined')hall.ev=p.id;renderCards();renderHall();
-  toast(`${n===1?'You’re':`Team AI Forge (${n}) is`} registered for ${p.title}. Its Meetup Hall is now open.`);
+  toast(`${n===1?'You’re':`Team AI Forge (${n}) is`} registered for ${p.title}.`);
 }
 function shareItem(id){
   const p=ALL.find(x=>x.id===id),url=location.href.split('#')[0]+'#discover';
   try{navigator.clipboard.writeText(`${p.title} on IndustryBridge: ${url}`).catch(()=>{})}catch(e){}
   toast(`Link to ${p.title} copied`);
 }
-$('#view-discover').addEventListener('click',e=>{
-  const t=e.target.closest('[data-bookmark],[data-view-program],[data-register],[data-share],[data-cat],[data-layout],[data-cal-mode],[data-cal-step],[data-cal-today],[data-cal-day],[data-clear],#more-filters');
+// Discover and My programs share these controls (cards, filters and the calendar now live under My programs)
+['#view-discover','#view-programs'].forEach(sel=>$(sel).addEventListener('click',e=>{
+  const t=e.target.closest('[data-bookmark],[data-view-program],[data-register],[data-share],[data-cat],[data-layout],[data-cal-step],[data-cal-today],[data-cal-day],[data-clear],#more-filters,[data-open-ws]');
   if(!t)return;const d=t.dataset;
-  if(d.bookmark){const p=ALL.find(x=>x.id===d.bookmark);p.saved=!p.saved;renderSections();toast(p.saved?`Saved ${p.title}`:`Removed ${p.title} from saved`)}
+  if(d.bookmark){const p=ALL.find(x=>x.id===d.bookmark);p.saved=!p.saved;renderSections();renderMyHome();toast(p.saved?`Saved ${p.title}`:`Removed ${p.title} from saved`)}
+  else if(d.openWs){setTab('programs',d.openWs);window.scrollTo(0,0)}
   else if(d.viewProgram)openProgram(d.viewProgram);
   else if(d.register)registerFor(d.register);
   else if(d.share)shareItem(d.share);
   else if(d.cat){disc.cat=d.cat;renderToolbar();renderSections()}
   else if(d.layout){disc.layout=d.layout;renderToolbar();renderSections()}
-  else if(d.calMode){if(disc.calMode!==d.calMode){disc.calMode=d.calMode;disc.calCursor=null;renderCal()}}
-  else if(d.calStep){const c=disc.calCursor,n=+d.calStep;disc.calCursor=disc.calMode==='week'?new Date(c.getFullYear(),c.getMonth(),c.getDate()+7*n):new Date(c.getFullYear(),c.getMonth()+n,1);renderCal()}
-  else if('calToday' in d){disc.calCursor=null;renderCal()}
-  else if(d.calDay){const day=new Date(+d.calDay);disc.calMode='week';disc.calCursor=new Date(day.getFullYear(),day.getMonth(),day.getDate()-((day.getDay()+6)%7));renderCal()}
+  else if(d.calStep){const c=disc.calCursor,n=+d.calStep;disc.calCursor=new Date(c.getFullYear(),c.getMonth()+n,1);renderCal()}
+  else if('calToday' in d){disc.calCursor=null;disc.calSel=null;renderCal()}
+  else if(d.calDay){disc.calSel=+d.calDay;renderCal()}
   else if('clear' in d)clearFilters();
   else if(t.id==='more-filters'){const p=$('#more-panel');p.hidden=!p.hidden;t.setAttribute('aria-expanded',!p.hidden)}
-});
+}));
 function openProgram(id){closeModal();go('p-'+id)}
 function openProgramModal(id){
   const p=ALL.find(x=>x.id===id);let facts,actions,extra='';
@@ -2549,7 +2821,7 @@ $('#modal-body').addEventListener('change',e=>{
 });
 
 /* ===== 2. Planner ===== */
-const HR=44,START=9,END=20;
+const HR=52,START=9,END=20;
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'],DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const planner={week:0,view:'week',baseHours:8,nextId:10,
   events:[
@@ -2565,16 +2837,24 @@ const fmtH=h=>{const hh=Math.floor(h),m=h%1?'30':'00',ap=hh>=12?'pm':'am',d=hh>1
 function weekStart(off){const t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate()-((t.getDay()+6)%7)+off*7)}
 function weekLabel(off){const s=weekStart(off),e=new Date(s);e.setDate(s.getDate()+6);
   return s.getMonth()===e.getMonth()?`${s.getDate()} – ${e.getDate()} ${MONTHS[s.getMonth()]} ${s.getFullYear()}`:`${s.getDate()} ${MONTHS[s.getMonth()]} – ${e.getDate()} ${MONTHS[e.getMonth()]} ${e.getFullYear()}`}
-function peopleHTML(list){return `<span class="stack">${list.map(n=>n.startsWith('+')||n.length<=2?`<span class="initials" style="width:22px;height:22px;background:${n.startsWith('+')?'#8a8a84':'#4a5f9a'};color:#fff">${n}</span>`:avatar(n,22,true)).join('')}</span>`}
+function peopleHTML(list){
+  // At most 3 faces, the rest fold into one "+n" chip so the stack always fits the block
+  const faces=list.filter(n=>!n.startsWith('+')),extra=list.filter(n=>n.startsWith('+')).reduce((a,n)=>a+(+n.slice(1)||0),0)+Math.max(0,faces.length-3);
+  list=[...faces.slice(0,3),...(extra?['+'+extra]:[])];
+  return `<span class="stack">${list.map(n=>n.startsWith('+')||n.length<=2?`<span class="initials" style="width:22px;height:22px;background:${n.startsWith('+')?'#8a8a84':'#4a5f9a'};color:#fff">${n}</span>`:avatar(n,22,true)).join('')}</span>`}
 function renderPlanner(){
   $('#week-label').textContent=weekLabel(planner.week);
   const evs=planner.events.filter(e=>e.week===planner.week);
   const s=weekStart(planner.week);
   let head=`<div></div>`;
-  for(let d=0;d<7;d++){const dt=new Date(s);dt.setDate(s.getDate()+d);head+=`<div class="cal-dh">${DAYS[d]}<b>${dt.getDate()}</b></div>`}
-  let times='';for(let h=START;h<END;h+=2)times+=`<span style="top:${(h-START)*HR+8}px">${fmtH(h)}</span>`;
-  let cols='';for(let d=0;d<7;d++){cols+=`<div class="cal-day" data-day="${d}">${evs.filter(e=>e.day===d).map(e=>`<button class="ev ev-${e.color}${e.done?' done':''}" data-ev="${e.id}" style="top:${(e.start-START)*HR+8}px;height:${e.dur*HR-6}px"><b>${esc(e.title)}</b>${e.people?peopleHTML(e.people):`<span>${I('user')}${esc(e.who)}</span>`}${e.dur>=1.5||!e.people?`<span>${I('clock')}${e.dur}h</span>`:''}</button>`).join('')}</div>`}
-  $('#cal-week').innerHTML=`<div class="cal" style="--hr:${HR}px">${head}<div class="cal-times" style="height:${(END-START)*HR+8}px">${times}</div>${cols}</div>`;
+  const now=new Date(),todayIx=planner.week===0?(now.getDay()+6)%7:-1,nowH=now.getHours()+now.getMinutes()/60;
+  for(let d=0;d<7;d++){const dt=new Date(s);dt.setDate(s.getDate()+d);head+=`<div class="cal-dh${d===todayIx?' today':''}">${DAYS[d]}<b>${dt.getDate()}</b></div>`}
+  // A label on every hour line; lines, labels and blocks all share the same 8px top offset
+  let times='';for(let h=START;h<=END;h++)times+=`<span style="top:${(h-START)*HR+8}px">${fmtH(h)}</span>`;
+  const who=e=>e.people?peopleHTML(e.people):`<span>${I('user')}${esc(e.who)}</span>`;
+  const evHTML=e=>`<button class="ev ev-${e.color}${e.done?' done':''}${e.dur<=1?' short':''}" data-ev="${e.id}" style="top:${(e.start-START)*HR+9}px;height:${e.dur*HR-3}px"><b>${esc(e.title)}</b>${e.dur<=1?`<span class="ev-row">${who(e)}${e.people?"":`<span>${I("clock")}${e.dur}h</span>`}</span>`:`${who(e)}<span>${I('clock')}${e.dur}h</span>`}</button>`;
+  let cols='';for(let d=0;d<7;d++){cols+=`<div class="cal-day${d===todayIx?' today':''}" data-day="${d}">${d===todayIx&&nowH>=START&&nowH<=END?`<i class="cal-now" style="top:${(nowH-START)*HR+8}px"></i>`:''}${evs.filter(e=>e.day===d).map(evHTML).join('')}</div>`}
+  $('#cal-week').innerHTML=`<div class="cal" style="--hr:${HR}px">${head}<div class="cal-times" style="height:${(END-START)*HR+16}px">${times}</div>${cols}</div>`;
   const sorted=[...evs].sort((a,b)=>a.day-b.day||a.start-b.start);
   let list='',lastDay=-1;
   sorted.forEach(e=>{if(e.day!==lastDay){const dt=new Date(s);dt.setDate(s.getDate()+e.day);list+=`<div class="tday">${DAYS[e.day]} ${dt.getDate()} ${MONTHS[dt.getMonth()].slice(0,3)}</div>`;lastDay=e.day}
@@ -3001,10 +3281,23 @@ const HALL=[
   {n:'Sage',sp:'s1_04',uni:'Mentor · UM',title:'Mentor in Disguise',bio:'Retired engineer. I join student teams as an advisor, not a builder.',skills:['Research','Writing','Business model'],need:['Data science','Frontend'],status:'team',team:'Byte Club',ev:['agri','data','health','fintech'],hist:[['Retail AI Sprint','Joined','Advised three teams'],['Campus Safety Hack','Joined','Judged the final']],links:['LinkedIn'],cv:true}
 ];
 const HALL_HI={Holmes:'Elementary. What’s your problem?',Astra:'Hi! Need someone for sensors?',Pip:'Hey! I can ship your frontend.',Miles:'Want a pitch that wins?',Zara:'Hi! I know the field data.',Pixel:'Yo, let’s make it look good.',Blaze:'Hey, anything safety-related?',Tick:'Hello. Right on time.',Sage:'Happy to advise, young one.',Luna:'Hi! Need a data person?',Maple:'Hello! I can design your screens.',Coco:'Hey, I pitch, you build?',Kaito:'Yo. Know any ML people?',Mochi:'Hi… first hackathon, be nice!',Willow:'Hi! Anything climate-related?',Finn:'Sup. We need a frontend dev.',Nova:'Hey! Got a real problem for me?',Bean:'Hi, let’s ship something.'};
-const hall={ev:null,me:{x:52,y:80},pos:{},sent:{},incoming:[{n:'Mochi',ev:'cyber',msg:'Can I join your team? It’s my first hackathon.',state:'pending'}]};
+/* One open lobby for everyone, no registration needed to walk in.
+   The glowing Room Board on the stage lists competition rooms: open one for any competition, write what you're
+   building, then use the megaphone to recruit. Hosts can kick; anyone can join a room with a free seat. */
+const hall={ev:'all',me:{x:52,y:80},pos:{},sent:{},myRoom:null,nextRoom:8,tick:0,
+  incoming:[{n:'Mochi',msg:'Can I join your room? It’s my first hackathon.',state:'pending'}],
+  rooms:[
+    {id:1,ev:'fintech',host:'Luna',members:['Luna','Bean'],desc:'Savings app for gig drivers. We have data and backend, need a UI designer!',need:['UI design']},
+    {id:2,ev:'cyber',host:'Finn',members:['Finn','Blaze'],desc:'Phishing detector small shops can actually use. CTF players welcome.',need:['Frontend','Machine learning']},
+    {id:3,ev:'health',host:'Maple',members:['Maple'],desc:'SMS queue bot for busy clinics. I do design and research.',need:['Backend','Frontend']},
+    {id:4,ev:'mobility',host:'Kaito',members:['Kaito','Tick'],desc:'Crowding sensors on Melaka buses. Hardware is sorted.',need:['Machine learning']},
+    {id:5,ev:'agri',host:'Willow',members:['Willow','Zara'],desc:'Soil moisture alerts for durian farms in Johor.',need:['IoT']},
+    {id:6,ev:'data',host:'Holmes',members:['Holmes'],desc:'Open data on flood relief. Let’s interview NGOs first.',need:['Backend','Data science']},
+    {id:7,ev:'fintech',host:'Miles',members:['Miles','Coco','Nova'],desc:'Micro-insurance for hawkers. Team is full, wish us luck!',need:[]}
+  ]};
 // Your own hall card. Empty until you fill it in; your record comes from IndustryBridge.
 const myCard={done:false,sp:'s1_03',title:'',uni:'',bio:'',skills:[],need:[],gh:'',li:'',cv:false,hist:[['Retail AI Sprint','Finalist','Shelf-gap detector for corner shops'],['Campus Safety Hack','Joined','Night-walk buddy app']]};
-const HALL_SLOTS=[[30,40],[64,41],[84,46],[16,52],[46,50],[72,56],[22,66],[56,64],[88,64],[36,76],[70,76],[12,80],[50,84],[84,84],[40,58],[26,46],[60,72],[78,34]];
+const HALL_SLOTS=[[30,50],[66,50],[86,54],[14,58],[46,56],[74,62],[22,68],[56,68],[90,68],[36,78],[70,78],[12,82],[50,88],[84,86],[40,64],[24,52],[60,76],[80,46]];
 HALL.forEach((h,i)=>{const [x,y]=HALL_SLOTS[i%HALL_SLOTS.length];hall.pos[h.n]={x:x+hash(h.n)%5,y:y+hash(h.n+'y')%5}});
 const spOf=n=>n==='me'||n==='Xin Yi Neoh'?myCard.sp:(HALL.find(h=>h.n===n)?.sp||'s0_01');
 const sprImg=(n,cls='hp-sp')=>`<img class="${cls}" src="${SPR[spOf(n)]}" alt="">`;
@@ -3012,59 +3305,154 @@ const hallAv=(n,size=36)=>`<span class="spr" style="width:${size}px;height:${siz
 document.getElementById('hall-stage').style.setProperty('--hall-bg',`url(${SPR.bg})`);
 const xpOf=h=>h.hist.reduce((a,[,r])=>a+XP_FOR[r],0);
 const clampN=(v,a,b)=>Math.max(a,Math.min(b,v));
+// Rooms can be opened for any competition that is open or opening soon
 const hallEvents=()=>ALL.filter(p=>!isWS(p)&&(p.status==='open'||p.status==='soon'));
-const hallOpen=p=>!!p&&p.enrolled&&p.status==='open';
-const inHall=()=>HALL.filter(h=>h.ev.includes(hall.ev));
-const canPlay=()=>hallOpen(ALL.find(p=>p.id===hall.ev))&&myCard.done;
+const inHall=()=>HALL;
+const canPlay=()=>true;
+const roomMax=r=>teamMax(ALL.find(p=>p.id===r.ev));
+const roomOf=n=>hall.rooms.find(r=>r.members.includes(n));
+const myRoom=()=>hall.rooms.find(r=>r.id===hall.myRoom)||null;
+const nameOf=n=>n==='me'?'You':n;
 function matchOf(h){const hit=h.skills.filter(x=>myCard.need.includes(x)),back=h.need.filter(x=>myCard.skills.includes(x));return{hit,back,score:Math.min(98,40+hit.length*18+back.length*8+Math.round(xpOf(h)/150)+(h.status==='solo'?6:0))}}
-function hallTag(h){const st=hall.sent[h.n];return st==='accepted'?'<i class="ok">TEAMMATE</i>':st==='pending'?'<i class="sent">ASKED</i>':h.status==='solo'?'<i>LFT</i>':'<i class="team">TEAM</i>'}
+function hallTag(h){const r=roomOf(h.n),mine=myRoom();return mine&&r===mine?'<i class="ok">MY ROOM</i>':hall.sent[h.n]==='pending'?'<i class="sent">ASKED</i>':r?`<i class="team">ROOM ${r.id}</i>`:'<i>LFT</i>'}
 function renderHall(){
-  const evs=hallEvents();
-  if(!evs.some(p=>p.id===hall.ev))hall.ev=(evs.find(hallOpen)||evs.find(p=>p.status==='open')||evs[0])?.id||null;
-  const reg=evs.filter(hallOpen),rest=evs.filter(p=>!hallOpen(p));
-  $('#hall-ev').innerHTML=(reg.length?`<optgroup label="Your halls">${reg.map(p=>`<option value="${p.id}"${p.id===hall.ev?' selected':''}>${p.title}</option>`).join('')}</optgroup>`:'')
-    +`<optgroup label="Register to unlock">${rest.map(p=>`<option value="${p.id}"${p.id===hall.ev?' selected':''}>${p.title} · locked</option>`).join('')}</optgroup>`;
-  const ev=ALL.find(p=>p.id===hall.ev),open=hallOpen(ev),play=canPlay(),list=inHall();
-  $('#hall-count').innerHTML=`<span>${list.length+(play?1:0)+(ev?.teamsIn||0)*2} players</span><button type="button" data-toast="Hall settings: hide me, mute chat" aria-label="Hall settings">${I('cog','sm')}</button><button type="button" data-toast="Sound is off in this prototype" aria-label="Sound">${I('bell','sm')}</button>`;
+  const list=inHall(),open=hall.rooms.filter(r=>r.members.length<roomMax(r)).length;
+  $('#hall-count').innerHTML=`<span>${list.length+1+96} players</span><button type="button" data-toast="Hall settings: hide me, mute chat" aria-label="Hall settings">${I('cog','sm')}</button><button type="button" data-toast="Sound is off in this prototype" aria-label="Sound">${I('bell','sm')}</button>`;
+  $('#hall-portal-n').textContent=`${hall.rooms.length} rooms · ${open} with seats`;
   $('#hall-people').innerHTML=list.map(h=>{const q=hall.pos[h.n];return `<button class="hp" type="button" data-hp="${h.n}" style="left:${q.x}%;top:${q.y}%;z-index:${10+Math.round(q.y)}" aria-label="${h.n}, ${h.title}. Open portfolio"><span class="hp-tag">${h.n}${hallTag(h)}</span>${sprImg(h.n)}</button>`}).join('')
-    +(play?`<button class="hp you" type="button" id="hall-me" style="left:${hall.me.x}%;top:${hall.me.y}%;z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You</span>${sprImg('me')}</button>`:'');
-  // gate: register first, then fill in your card
-  const g=$('#hall-gate');
-  if(!ev){g.hidden=false;g.innerHTML=`<div class="card"><h3>No events open right now</h3></div>`}
-  else if(!open){g.hidden=false;g.innerHTML=ev.status==='soon'
-      ?`<div class="card">${I('lock','big')}<h3>This hall opens with registration</h3><p class="muted" style="font-size:13.5px">${ev.title} opens on ${fmtDate(ev.opensAt)}. Register then to meet the ${list.length} people already interested.</p><div class="acts"><button class="btn primary" type="button" data-register="${ev.id}">${ev.notify?'Reminder set':'Remind me'}</button><a class="btn ghost" href="#discover" data-scroll-all>Browse open competitions</a></div></div>`
-      :gateList(ev)}
-  else if(!myCard.done){g.hidden=false;g.innerHTML=`<div class="card">${hallAv('me',84)}<h3>Set up your hall card first</h3><p class="muted" style="font-size:13.5px">Everyone in the hall can see what you’re good at and who you need. Fill it in once and it works for every event.</p><div class="acts"><button class="btn primary" type="button" id="gate-card">Fill in my card ${I('arrow','sm')}</button></div></div>`}
-  else g.hidden=true;
+    +`<button class="hp you" type="button" id="hall-me" style="left:${hall.me.x}%;top:${hall.me.y}%;z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You${myRoom()?`<i class="ok">ROOM ${hall.myRoom}</i>`:''}</span>${sprImg('me')}</button>`;
+  // your room
+  const r=myRoom();
+  $('#hall-myroom').innerHTML=r?`<div class="panel-title" style="justify-content:space-between"><span>Your room · #${r.id}</span><span class="badge ${r.members.length>=roomMax(r)?'ok':'accent'}">${r.members.length}/${roomMax(r)}</span></div>
+      <div class="room-ev">${roomEvLogo(r)}<div><b>${evTitle(r)}</b><small>${r.host==='me'?'You’re the host':`Host · ${r.host}`}</small></div></div>
+      <div class="room-faces">${r.members.map(m=>hallAv(m,34)).join('')}${Array.from({length:roomMax(r)-r.members.length},()=>'<span class="room-empty">+</span>').join('')}</div>
+      <button class="btn primary block" type="button" data-room-open="${r.id}">Open room ${I('arrow','sm')}</button>`
+    :`<div class="panel-title"><span>Find a team</span></div><p class="muted" style="font-size:13px">Walk up to the glowing Room Board, pick a competition and open a room. No registration needed to look around.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary sm" type="button" data-room-board>Browse rooms</button><button class="btn ghost sm" type="button" data-room-new>Open a room</button></div>`;
   // your card
   const xpMe=xpOf(myCard);
   $('#hall-mine').innerHTML=myCard.done?`<button class="my-card pick" type="button" data-hp="me" style="border:0;padding:0">${hallAv('me',48)}<div><b>Xin Yi Neoh</b><small>${esc(myCard.title)} · ${esc(myCard.uni)}</small><small>${myCard.hist.length} hackathons · ${xpMe.toLocaleString('en-MY')} XP</small></div></button>
       <div><small class="muted" style="font-size:12px">You bring</small><div class="chips-sm" style="margin-top:4px">${myCard.skills.map(x=>`<span>${x}</span>`).join('')}</div></div>
       <div><small class="muted" style="font-size:12px">You’re looking for</small><div class="chips-sm" style="margin-top:4px">${myCard.need.map(x=>`<span class="need">${x}</span>`).join('')}</div></div>`
-    :`<p class="muted" style="font-size:13px">Not filled in yet. Teammates can’t see you until it is.</p><button class="btn primary sm" type="button" id="card-start" style="justify-self:start">Fill in my card</button>`;
+    :`<p class="muted" style="font-size:13px">Not filled in yet. Fill it in so room hosts know what you’re good at.</p><button class="btn primary sm" type="button" id="card-start" style="justify-self:start">Fill in my card</button>`;
   $('#hall-edit').hidden=!myCard.done;
   // AI picks
-  if(!play){$('#hall-pick-note').textContent=!open?'Register for this event to get picks.':'Fill in your card so AI knows who your team needs.';$('#hall-picks').innerHTML=''}
+  if(!myCard.done){$('#hall-pick-note').textContent='Fill in your card so AI knows who your team needs.';$('#hall-picks').innerHTML=''}
   else{
-    const ranked=list.filter(h=>hall.sent[h.n]!=='accepted').map(h=>({h,...matchOf(h)})).filter(r=>r.hit.length).sort((a,b)=>b.score-a.score).slice(0,3);
+    const ranked=list.filter(h=>!(myRoom()&&myRoom().members.includes(h.n))).map(h=>({h,...matchOf(h)})).filter(x=>x.hit.length).sort((a,b)=>b.score-a.score).slice(0,3);
     $('#hall-pick-note').textContent=`Ranked by who brings what you’re looking for: ${myCard.need.join(', ')}.`;
-    $('#hall-picks').innerHTML=ranked.length?ranked.map(({h,hit,score})=>`<button class="pick" type="button" data-hp="${h.n}">${hallAv(h.n,40)}<div><b>${h.n} <span class="muted" style="font-weight:400;font-size:12px">· ${h.hist.length} hackathon${h.hist.length===1?'':'s'}</span></b><small>Brings ${hit.join(' and ')}${h.status==='solo'?' · looking for a team':` · on ${h.team}`}</small></div><span class="score">${score}%</span></button>`).join('')
+    $('#hall-picks').innerHTML=ranked.length?ranked.map(({h,hit,score})=>`<button class="pick" type="button" data-hp="${h.n}">${hallAv(h.n,40)}<div><b>${h.n} <span class="muted" style="font-weight:400;font-size:12px">· ${h.hist.length} hackathon${h.hist.length===1?'':'s'}</span></b><small>Brings ${hit.join(' and ')}${roomOf(h.n)?` · in room ${roomOf(h.n).id}`:' · looking for a team'}</small></div><span class="score">${score}%</span></button>`).join('')
       :`<p class="muted" style="font-size:12.5px;padding:8px 0">No one here has those skills yet. Try changing what you’re looking for.</p>`;
   }
-  // requests
-  const out=Object.entries(hall.sent).map(([n,st])=>`<div class="req">${hallAv(n,34)}<div><b>${n}</b><small>${st==='pending'?'Waiting for a reply':st==='accepted'?'Accepted · now on your team':'Declined'}</small></div><span class="badge ${st==='accepted'?'ok':st==='pending'?'warn':'bad'}">${st==='pending'?'Sent':st}</span></div>`);
-  const inc=play?hall.incoming.map(r=>{const i=hall.incoming.indexOf(r);return `<div class="req">${hallAv(r.n,34)}<div><b>${r.n} wants to join</b><small>${r.state==='pending'?esc(r.msg):r.state==='accepted'?'You accepted':'You declined'}</small></div>${r.state==='pending'?`<div class="req-acts"><button class="btn ghost sm" type="button" data-hp="${r.n}">View card</button><button class="btn primary sm" type="button" data-inc="${i}" data-act="accepted">Accept</button><button class="btn ghost sm" type="button" data-inc="${i}" data-act="declined">Decline</button></div>`:''}</div>`}):[];
-  $('#hall-reqs').innerHTML=[...inc,...out].join('')||'<p class="muted" style="font-size:12.5px">No requests yet.</p>';
+  // requests to join your room
+  const out=Object.entries(hall.sent).map(([n,st])=>`<div class="req">${hallAv(n,34)}<div><b>${n}</b><small>${st==='pending'?'Waiting for a reply':st==='accepted'?'Accepted · in your room':'Declined'}</small></div><span class="badge ${st==='accepted'?'ok':st==='pending'?'warn':'bad'}">${st==='pending'?'Sent':st}</span></div>`);
+  const inc=r&&r.host==='me'?hall.incoming.map((q,i)=>`<div class="req">${hallAv(q.n,34)}<div><b>${q.n} wants to join</b><small>${q.state==='pending'?esc(q.msg):q.state==='accepted'?'You let them in':'You declined'}</small></div>${q.state==='pending'?`<div class="req-acts"><button class="btn ghost sm" type="button" data-hp="${q.n}">View card</button><button class="btn primary sm" type="button" data-inc="${i}" data-act="accepted">Accept</button><button class="btn ghost sm" type="button" data-inc="${i}" data-act="declined">Decline</button></div>`:''}</div>`):[];
+  $('#hall-reqs').innerHTML=[...inc,...out].join('')||'<p class="muted" style="font-size:12.5px">No requests yet. Open a room and people can ask to join.</p>';
+  if(!$('#modal').hidden&&$('#room-view'))openRoom(+$('#room-view').dataset.room,true);
+  if(!$('#modal').hidden&&$('#room-board'))openRoomBoard(true);
 }
-/* Not registered yet: show competitions you can join right now, with this hall's event first */
-function gateList(ev){
-  const open=ALL.filter(p=>!isWS(p)&&p.status==='open'&&!p.enrolled).sort((a,b)=>(b.id===ev.id)-(a.id===ev.id)||(b.teamsIn||0)-(a.teamsIn||0)).slice(0,3);
-  const n=id=>HALL.filter(h=>h.ev.includes(id)).length;
-  return `<div class="card gate-wide"><h3>Register for a competition to enter its hall</h3>
-    <p class="muted" style="font-size:13.5px">Each hall is open to students registered for that event. You can register solo and find teammates inside.</p>
-    <div class="gate-list">${open.map(p=>`<div class="gate-row"><span class="pcard-logo mini ${p.poster}" aria-hidden="true">${I(p.logo)}</span><div><b>${p.title}</b><small>${isHot(p)?'Hot · ':''}${n(p.id)} people in the hall · closes ${relDay(p.closes)}</small></div><button class="btn ${p.id===ev.id?'primary':'ghost'} sm" type="button" data-register="${p.id}">Register</button></div>`).join('')}</div>
-    <a class="btn ghost" href="#discover" data-scroll-all>Browse all competitions ${I('arrow','sm')}</a></div>`;
+const evOf=r=>ALL.find(p=>p.id===r.ev);
+const evTitle=r=>evOf(r)?.title||'Competition';
+const roomEvLogo=r=>{const p=evOf(r);return `<span class="pcard-logo mini ${p.poster}" aria-hidden="true">${I(p.logo)}</span>`};
+/* Room Board: every room, filter by competition, join one or open your own */
+function openRoomBoard(keep){
+  const evs=hallEvents(),f=hall.ev,rooms=hall.rooms.filter(r=>f==='all'||r.ev===f).sort((a,b)=>(b.id===hall.myRoom)-(a.id===hall.myRoom)||(roomMax(b)-b.members.length>0)-(roomMax(a)-a.members.length>0)||a.id-b.id);
+  const btn=r=>{const full=r.members.length>=roomMax(r);
+    if(r.id===hall.myRoom)return `<button class="btn primary sm" type="button" data-room-open="${r.id}">Your room</button>`;
+    if(hall.sent['room'+r.id]==='pending')return `<button class="btn ghost sm" type="button" disabled>Asked…</button>`;
+    return full?`<button class="btn ghost sm" type="button" disabled>Full</button>`:`<button class="btn primary sm" type="button" data-room-join="${r.id}">Join</button>`};
+  const html=`<div id="room-board"><div class="rb-head"><div><span class="eyebrow">Meetup Hall</span><h2 id="modal-title">Room Board</h2></div>
+      <button class="btn primary" type="button" data-room-new>${I('plus','sm')}Open a room</button></div>
+    <div class="rb-filter"><label class="sr-only" for="rb-ev">Competition</label><select class="pill-select" id="rb-ev"><option value="all">All competitions · ${hall.rooms.length} rooms</option>${evs.map(p=>`<option value="${p.id}"${p.id===f?' selected':''}>${p.title} · ${hall.rooms.filter(r=>r.ev===p.id).length}</option>`).join('')}</select>
+      <span class="muted" style="font-size:12.5px">Anyone can open a room. Register the team once it’s full.</span></div>
+    <div class="rb-list">${rooms.map(r=>`<article class="rb-row${r.id===hall.myRoom?' mine':''}">
+        <span class="rb-no">#${String(r.id).padStart(3,'0')}</span>
+        <div class="rb-main"><div class="room-ev">${roomEvLogo(r)}<div><b>${evTitle(r)}</b><small>Host · ${nameOf(r.host)}</small></div></div>
+          <p>${esc(r.desc)}</p>${r.need.length?`<div class="chips-sm">${r.need.map(x=>`<span class="need">${x}</span>`).join('')}</div>`:''}</div>
+        <div class="rb-side"><div class="room-faces">${r.members.map(m=>hallAv(m,28)).join('')}${Array.from({length:roomMax(r)-r.members.length},()=>'<span class="room-empty sm">+</span>').join('')}</div><b class="rb-seats">${r.members.length}/${roomMax(r)}</b>${btn(r)}</div>
+      </article>`).join('')||`<div class="empty">No rooms for this competition yet. <button class="link-btn" type="button" data-room-new>Open the first one</button></div>`}</div></div>`;
+  if(keep){$('#modal-body').innerHTML=html;hydrateAvatars($('#modal-body'))}else openModal(html,true);
 }
+/* Open a room: pick any competition, say what you're building and who you need */
+function openRoomNew(){
+  if(myRoom()){toast('Leave your current room before opening a new one');openRoom(hall.myRoom);return}
+  const evs=hallEvents(),pre=hall.ev!=='all'?hall.ev:evs[0]?.id;
+  openModal(`<div id="room-new"><span class="eyebrow">Room Board</span><h2 id="modal-title">Open a room</h2></div>
+    <div class="field"><label for="rn-ev">Competition</label><select class="field-select" id="rn-ev">${evs.map(p=>`<option value="${p.id}"${p.id===pre?' selected':''}>${p.title} · ${p.team}${p.status==='soon'?' · opens '+shortDate(p.opensAt):''}</option>`).join('')}</select></div>
+    <div class="field"><label for="rn-desc">What are you building?</label><textarea class="textarea" id="rn-desc" maxlength="140" style="min-height:80px" placeholder="e.g. A savings app for gig drivers. I do research and pitching.">${esc(myCard.bio?myCard.bio.slice(0,120):'')}</textarea><span class="err" id="rn-err" hidden>Write at least 10 characters so people know what the room is for.</span></div>
+    <div class="field"><span class="field-label">Looking for <span class="muted" style="font-weight:400">· optional, up to 3</span></span><div class="pf-pick need" id="rn-need">${SKILLS.map(x=>`<button type="button" data-rn="${x}" class="${myCard.need.includes(x)?'on':''}">${x}</button>`).join('')}</div></div>
+    <div class="modal-actions"><button class="btn ghost" type="button" data-room-board>Back</button><button class="btn primary" type="button" id="rn-save">Open room ${I('arrow','sm')}</button></div>`,true);
+}
+function createRoom(){
+  const desc=$('#rn-desc').value.trim();if(desc.length<10){$('#rn-err').hidden=false;$('#rn-desc').focus();return}
+  const r={id:hall.nextRoom++,ev:$('#rn-ev').value,host:'me',members:['me'],desc,need:$$('#rn-need button.on').map(b=>b.dataset.rn)};
+  hall.rooms.push(r);hall.myRoom=r.id;hall.incoming.forEach(q=>q.state='pending');renderHall();openRoom(r.id);
+  toast(`Room #${r.id} is open. Use the megaphone to call teammates.`);
+}
+/* Inside a room: seats, megaphone, kick (host), register when full, leave */
+function openRoom(id,keep){
+  const r=hall.rooms.find(x=>x.id===id);if(!r){closeModal();return}
+  const max=roomMax(r),host=r.host==='me',mine=r.id===hall.myRoom,p=evOf(r),full=r.members.length>=max;
+  const seat=m=>{const h=HALL.find(x=>x.n===m),isHost=m===r.host;return `<div class="seat${isHost?' host':''}">${hallAv(m,56)}<b>${nameOf(m)}</b><small>${isHost?'Host':m==='me'?(myCard.title||'Member'):h?.skills.slice(0,2).join(' · ')||'Member'}</small>
+      ${host&&m!=='me'?`<button class="btn ghost sm seat-kick" type="button" data-room-kick="${m}">Kick</button>`:m!=='me'?`<button class="link-btn" type="button" data-hp="${m}" style="font-size:12px">View card</button>`:''}</div>`};
+  const html=`<div id="room-view" data-room="${r.id}"><div class="rb-head"><div><span class="eyebrow">Room #${String(r.id).padStart(3,'0')} · ${r.members.length}/${max}</span><h2 id="modal-title">${p.title}</h2></div><span class="badge ${full?'ok':'accent'}">${full?'Full':'Recruiting'}</span></div>
+    <p class="room-desc">${esc(r.desc)}</p>
+    ${r.need.length?`<div class="chips-sm">${r.need.map(x=>`<span class="need">Looking for ${x}</span>`).join('')}</div>`:''}
+    <div class="seats">${r.members.map(seat).join('')}${Array.from({length:max-r.members.length},()=>`<div class="seat vacant"><span class="room-empty lg">+</span><b>Open seat</b><small>Waiting for a teammate</small></div>`).join('')}</div>
+    <div class="modal-actions">
+      ${mine?`<button class="btn ghost" type="button" data-room-leave>${host?'Close room':'Leave room'}</button>`:''}
+      <button class="btn ghost" type="button" data-room-board>All rooms</button>
+      ${mine&&host&&!full?`<button class="btn primary" type="button" data-room-horn>📢 Megaphone</button>`:''}
+      ${mine&&full?`<button class="btn primary" type="button" data-register="${r.ev}">Register this team ${I('arrow','sm')}</button>`:''}
+      ${!mine&&!full?`<button class="btn primary" type="button" data-room-join="${r.id}">Join room</button>`:''}
+    </div></div>`;
+  if(keep){$('#modal-body').innerHTML=html;hydrateAvatars($('#modal-body'))}else openModal(html,true);
+}
+/* Megaphone: your room goes up on the lobby banner; someone who fits answers a moment later */
+function hallHorn(){
+  const r=myRoom();if(!r)return;
+  showTicker({n:'me',r});hallBubble('me','📢 '+r.desc.slice(0,40));
+  toast('Megaphone sent to everyone in the hall');
+  clearTimeout(hall.hornT);
+  hall.hornT=setTimeout(()=>{
+    if(!myRoom()||r.members.length>=roomMax(r))return;
+    const free=HALL.filter(h=>!roomOf(h.n)&&!r.members.includes(h.n)),fit=free.map(h=>({h,s:h.skills.filter(x=>r.need.includes(x)).length})).sort((a,b)=>b.s-a.s||hash(a.h.n+r.id)-hash(b.h.n+r.id))[0];
+    if(!fit){toast('No one free right now. Try again later.');return}
+    r.members.push(fit.h.n);renderHall();hallBubble(fit.h.n,'On my way to your room!');
+    toast(`${fit.h.n} heard the megaphone and joined room #${r.id}`);
+  },2200);
+}
+function joinRoom(id){
+  const r=hall.rooms.find(x=>x.id===id);if(!r)return;
+  if(myRoom()){toast('Leave your current room first');return}
+  hall.sent['room'+id]='pending';openRoomBoard(true);toast(`Asked ${r.host} to let you into room #${id}`);
+  setTimeout(()=>{delete hall.sent['room'+id];
+    if(r.members.length>=roomMax(r)){toast(`Room #${id} filled up before ${r.host} replied`);renderHall();return}
+    r.members.push('me');hall.myRoom=id;renderHall();hallBubble(r.host,'Welcome in!');
+    toast(`${r.host} let you into room #${id}`);if(!$('#modal').hidden)openRoom(id,true)},1500);
+}
+function leaveRoom(){
+  const r=myRoom();if(!r)return;
+  if(r.host==='me'){hall.rooms=hall.rooms.filter(x=>x!==r);toast(`Room #${r.id} closed`)}
+  else{r.members=r.members.filter(m=>m!=='me');toast(`You left room #${r.id}`)}
+  hall.myRoom=null;closeModal();renderHall();
+}
+function kickFromRoom(n){
+  const r=myRoom();if(!r||r.host!=='me')return;
+  r.members=r.members.filter(m=>m!==n);delete hall.sent[n];renderHall();hallBubble(n,'Aww, okay. Good luck!');
+  toast(`${n} was removed from room #${r.id}`);
+}
+/* Lobby banner: rooms that still have seats take turns on the megaphone */
+function showTicker(item){
+  const t=$('#hall-ticker');if(!t||!item)return;const r=item.r,max=roomMax(r);
+  t.innerHTML=`<span class="tk-horn">📢</span><span class="tk-msg"><b>${nameOf(item.n)}</b> · ${evTitle(r)} · ${r.members.length}/${max}: ${esc(r.desc)}</span>${r.id!==hall.myRoom&&r.members.length<max?`<button type="button" data-room-open="${r.id}">View</button>`:''}`;
+  t.classList.remove('pop');void t.offsetWidth;t.classList.add('pop');
+}
+setInterval(()=>{
+  if($('#view-hall').hidden||document.hidden)return;
+  const open=hall.rooms.filter(r=>r.id!==hall.myRoom&&r.members.length<roomMax(r));if(!open.length)return;
+  const r=open[hall.tick++%open.length];showTicker({n:r.host,r});
+},6500);
 function hallBubble(name,text){
   const el=name==='me'?$('#hall-me'):$(`#hall-people [data-hp="${name}"]`);if(!el)return;
   el.querySelector('.hp-bubble')?.remove();
@@ -3086,21 +3474,23 @@ function portfolioHTML(h,isMe){
 }
 function openHallCard(n){
   if(n==='me'){openModal(portfolioHTML(myCard,true)+`<div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button><button class="btn primary" type="button" id="card-edit2">Edit my card</button></div>`,true);return}
-  const h=HALL.find(x=>x.n===n),m=matchOf(h),st=hall.sent[n],play=canPlay();
-  const cta=!play?`<button class="btn primary" type="button" disabled>${hallOpen(ALL.find(p=>p.id===hall.ev))?'Fill in your card to team up':'Register to team up'}</button>`
-    :st==='accepted'?`<button class="btn primary" type="button" disabled>${I('check','sm')}On your team</button>`
-    :st==='pending'?`<button class="btn primary" type="button" disabled>Request sent</button>`
-    :h.status==='solo'?`<button class="btn primary" type="button" data-hall-ask="${n}" autofocus>Invite to my team ${I('arrow','sm')}</button>`
-    :`<button class="btn primary" type="button" data-hall-ask="${n}" autofocus>Ask to join ${h.team} ${I('arrow','sm')}</button>`;
-  openModal(portfolioHTML(h,false)+(play&&m.hit.length?`<div class="match-line">${I('sparkle')}<span><b>${m.score}% match.</b> Brings ${m.hit.join(' and ')}, which you’re looking for${m.back.length?`, and needs your ${m.back.join(' and ')}`:''}.</span></div>`:'')
+  const h=HALL.find(x=>x.n===n),m=matchOf(h),st=hall.sent[n],mine=myRoom(),theirs=roomOf(n);
+  const cta=mine&&mine.members.includes(n)?`<button class="btn primary" type="button" disabled>${I('check','sm')}In your room</button>`
+    :st==='pending'?`<button class="btn primary" type="button" disabled>Invite sent</button>`
+    :mine&&mine.host==='me'&&!theirs&&mine.members.length<roomMax(mine)?`<button class="btn primary" type="button" data-hall-ask="${n}" autofocus>Invite to room #${mine.id} ${I('arrow','sm')}</button>`
+    :theirs&&!mine?`<button class="btn primary" type="button" data-room-open="${theirs.id}" autofocus>See ${n}’s room #${theirs.id} ${I('arrow','sm')}</button>`
+    :!mine?`<button class="btn primary" type="button" data-room-new>Open a room to invite ${n}</button>`
+    :`<button class="btn primary" type="button" disabled>${theirs?`Already in room #${theirs.id}`:'Your room is full'}</button>`;
+  openModal(portfolioHTML(h,false)+(myCard.done&&m.hit.length?`<div class="match-line">${I('sparkle')}<span><b>${m.score}% match.</b> Brings ${m.hit.join(' and ')}, which you’re looking for${m.back.length?`, and needs your ${m.back.join(' and ')}`:''}.</span></div>`:'')
     +`<div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button>${cta}</div>`,true);
 }
 function hallAsk(n){
-  const h=HALL.find(x=>x.n===n);hall.sent[n]='pending';closeModal();renderHall();
-  toast(h.status==='solo'?`Invite sent to ${n}. They can accept or decline.`:`Asked to join ${h.team}. ${n} can accept or decline.`);
-  setTimeout(()=>{const ok=hash(n+'ok')%4!==0;hall.sent[n]=ok?'accepted':'declined';renderHall();
-    hallBubble(n,ok?'Yes! Let’s team up.':'Sorry, our team is full.');
-    toast(ok?`${n} accepted. ${h.status==='solo'?`${n} is now on your team.`:`You’re now on ${h.team}.`}`:`${n} declined. Try someone else from the AI picks.`)},2600);
+  const r=myRoom();if(!r)return;
+  hall.sent[n]='pending';closeModal();renderHall();toast(`Invited ${n} to room #${r.id}. They can accept or decline.`);
+  setTimeout(()=>{const ok=hash(n+'ok')%4!==0&&r.members.length<roomMax(r)&&myRoom()===r;
+    hall.sent[n]=ok?'accepted':'declined';if(ok)r.members.push(n);renderHall();
+    hallBubble(n,ok?'Yes! Coming to your room.':'Sorry, I’m busy this round.');
+    toast(ok?`${n} joined room #${r.id}`:`${n} declined. Try someone else from the AI picks.`)},2400);
 }
 /* Your card form: required before you enter any hall */
 let pf=null;
@@ -3130,24 +3520,48 @@ function savePf(){
   const errs=[];if(!pf.title)errs.push('add a title');if(!pf.uni)errs.push('add your university');if(pf.bio.length<20)errs.push('write at least 20 characters about yourself');if(!pf.skills.length)errs.push('pick at least one thing you’re good at');if(!pf.need.length)errs.push('pick at least one kind of teammate');
   if(errs.length){$('#pf-err').textContent='To save, '+errs.join(', ')+'.';return}
   const first=!myCard.done;Object.assign(myCard,pf,{done:true});closeModal();renderHall();
-  toast(first?'Card saved. You’re in the hall, click the floor to walk around.':'Card updated · AI picks refreshed');
+  toast(first?'Card saved. Room hosts can now see what you’re good at.':'Card updated · AI picks refreshed');
 }
-$('#hall-ev').addEventListener('change',e=>{hall.ev=e.target.value;renderHall()});
+function walkMe(x,y){
+  const me=$('#hall-me');if(!me)return;me.classList.toggle('left',x<hall.me.x);me.classList.add('walk');clearTimeout(me._w);me._w=setTimeout(()=>me.classList.remove('walk'),1100);hall.me={x,y};me.style.left=x+'%';me.style.top=y+'%';me.style.zIndex=100+Math.round(y);
+}
 $('#hall-stage').addEventListener('click',e=>{
-  if(e.target.closest('#hall-gate')||e.target.closest('.hall-say')||e.target.closest('.hall-count'))return;
+  if(e.target.closest('.hall-say')||e.target.closest('.hall-count'))return;
+  const tk=e.target.closest('#hall-ticker [data-room-open]');if(tk){openRoom(+tk.dataset.roomOpen);return}
+  if(e.target.closest('#hall-ticker'))return;
+  // the glowing Room Board: walk up to it, then it opens
+  if(e.target.closest('#hall-portal')){walkMe(50,40);setTimeout(()=>openRoomBoard(),hall.me.y>44?650:150);return}
   const p=e.target.closest('[data-hp]');if(p){openHallCard(p.dataset.hp);return}
   if(e.target.closest('#hall-me')){openHallCard('me');return}
-  if(!canPlay())return;
-  const r=$('#hall-stage').getBoundingClientRect(),x=clampN((e.clientX-r.left)/r.width*100,6,94),y=clampN((e.clientY-r.top)/r.height*100,34,92);
-  const me=$('#hall-me');me.classList.toggle('left',x<hall.me.x);me.classList.add('walk');clearTimeout(me._w);me._w=setTimeout(()=>me.classList.remove('walk'),1100);hall.me={x,y};me.style.left=x+'%';me.style.top=y+'%';me.style.zIndex=100+Math.round(y);
+  const r=$('#hall-stage').getBoundingClientRect();
+  walkMe(clampN((e.clientX-r.left)/r.width*100,6,94),clampN((e.clientY-r.top)/r.height*100,46,92));
 });
 $('#view-hall').addEventListener('click',e=>{
   const pk=e.target.closest('.side-col [data-hp]');if(pk){openHallCard(pk.dataset.hp);return}
-  const ic=e.target.closest('[data-inc]');if(ic){const r=hall.incoming[+ic.dataset.inc];r.state=ic.dataset.act;renderHall();toast(r.state==='accepted'?`${r.n} joined your team`:`You declined ${r.n}’s request`);return}
-  const rg=e.target.closest('#hall-gate [data-register]');if(rg){registerFor(rg.dataset.register);return}
-  if(e.target.closest('#hall-edit,#card-start,#gate-card'))openCardForm();
-  if(e.target.closest('[data-scroll-all]'))setTimeout(()=>{$('#cat-tabs [data-cat="all"]')?.click();$('.disc-toolbar')?.scrollIntoView({behavior:'smooth',block:'start'})},80);
+  const ic=e.target.closest('[data-inc]');if(ic){const q=hall.incoming[+ic.dataset.inc],r=myRoom();
+    if(ic.dataset.act==='accepted'&&r&&r.members.length>=roomMax(r)){toast('Your room is full. Kick someone or decline.');return}
+    q.state=ic.dataset.act;if(q.state==='accepted'&&r)r.members.push(q.n);renderHall();toast(q.state==='accepted'?`${q.n} joined room #${r.id}`:`You declined ${q.n}’s request`);return}
+  if(e.target.closest('#hall-edit,#card-start'))openCardForm();
 });
+// Room controls live in the modal and in the side panel
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-room-board],[data-room-new],[data-room-open],[data-room-join],[data-room-kick],[data-room-horn],[data-room-leave]');
+  const hp=e.target.closest('#modal-body [data-hp]');if(hp&&$('#room-view')){openHallCard(hp.dataset.hp);return}
+  if(!t||e.target.closest('#hall-stage'))return;const d=t.dataset;
+  if('roomBoard' in d)openRoomBoard();
+  else if('roomNew' in d)openRoomNew();
+  else if(d.roomOpen)openRoom(+d.roomOpen);
+  else if(d.roomJoin)joinRoom(+d.roomJoin);
+  else if(d.roomKick)kickFromRoom(d.roomKick);
+  else if('roomHorn' in d)hallHorn();
+  else if('roomLeave' in d)leaveRoom();
+});
+$('#modal-body').addEventListener('change',e=>{if(e.target.id==='rb-ev'){hall.ev=e.target.value;openRoomBoard(true)}});
+$('#modal-body').addEventListener('click',e=>{
+  const b=e.target.closest('[data-rn]');if(b){const on=$$('#rn-need button.on');if(!b.classList.contains('on')&&on.length>=3){toast('Pick up to 3');return}b.classList.toggle('on');return}
+  if(e.target.closest('#rn-save'))createRoom();
+});
+$('#hall-rooms-btn').addEventListener('click',()=>openRoomBoard());
 $('#modal-body').addEventListener('click',e=>{
   const a=e.target.closest('[data-hall-ask]');if(a){hallAsk(a.dataset.hallAsk);return}
   if(e.target.closest('#card-edit2')){openCardForm();return}
@@ -3168,18 +3582,18 @@ $('#modal-body').addEventListener('click',e=>{
 });
 $('#modal-body').addEventListener('change',e=>{if(e.target.id==='pf-cv'&&e.target.files.length&&pf){pf.cv=true;$('#pf-cv-s').textContent=e.target.files[0].name;$('#pf-cv-l').textContent='Replace CV'}});
 $('#hall-say').addEventListener('submit',e=>{
-  e.preventDefault();if(!canPlay()){toast('Register and fill in your card to talk in the hall');return}
+  e.preventDefault();
   const t=$('#hall-say-text').value.trim();if(!t)return;$('#hall-say-text').value='';hallBubble('me',t);
   const near=inHall().map(h=>({h,d:Math.hypot(hall.pos[h.n].x-hall.me.x,(hall.pos[h.n].y-hall.me.y)*1.6)})).sort((a,b)=>a.d-b.d)[0];
-  if(near&&near.d<22)setTimeout(()=>hallBubble(near.h.n,HALL_HI[near.h.n]),1100);
-  else setTimeout(()=>toast('Walk closer to someone so they can hear you'),900);
+  if(near&&near.d<22)setTimeout(()=>hallBubble(near.h.n,HALL_HI[near.h.n]||'Hi there!'),1100);
+  else setTimeout(()=>toast('Walk closer to someone so they can hear you, or use the megaphone in your room'),900);
 });
 // People wander every few seconds; paused while hovered, when the hall is hidden, or for reduced motion
 setInterval(()=>{
   if($('#view-hall').hidden||document.hidden||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   $$('#hall-people .hp:not(.you)').forEach(el=>{
     if(el.matches(':hover')||Math.random()<.45)return;
-    const q=hall.pos[el.dataset.hp],nx=clampN(q.x+(Math.random()-.5)*18,7,93),ny=clampN(q.y+(Math.random()-.5)*14,36,90);
+    const q=hall.pos[el.dataset.hp],nx=clampN(q.x+(Math.random()-.5)*18,7,93),ny=clampN(q.y+(Math.random()-.5)*14,48,90);
     el.classList.toggle('left',nx<q.x);el.classList.add('walk');clearTimeout(el._w);el._w=setTimeout(()=>el.classList.remove('walk'),2400);q.x=nx;q.y=ny;el.style.left=nx+'%';el.style.top=ny+'%';el.style.zIndex=10+Math.round(ny);
   });
 },2600);
