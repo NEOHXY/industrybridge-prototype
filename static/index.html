@@ -1909,6 +1909,42 @@ body[data-view=hall] .hud-br .gbtn.go:hover{background:#cce6b0}
 #pick-comp .btn.ghost{background:#fff;color:#35482b}
 #pick-comp button:focus-visible,#hall-chat button:focus-visible,.hud-br button:focus-visible{outline:2px solid #9aba7b;outline-offset:3px}
 
+
+/* Modern Hall announcement, navigation hint and Room Board label. */
+body[data-view=hall] .hall-announce{
+  border:1px solid #dfe6d7!important;border-radius:12px!important;
+  background:rgba(250,252,246,.96);color:#283625;
+  box-shadow:0 6px 24px #10201026!important;
+  backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;
+  font:400 12px/1.5 var(--font-body);padding:8px 10px 8px 14px;gap:10px;
+}
+body[data-view=hall] .hall-announce .an-horn{color:#66844e;font-size:inherit}
+body[data-view=hall] .hall-announce .an-who{font-weight:600}
+body[data-view=hall] .hall-announce .an-meta{color:#77816e;font-size:11px}
+body[data-view=hall] .hall-announce button{
+  border:0;border-radius:8px;background:#526f39;color:#fff;
+  box-shadow:none;font:600 12px/1.4 var(--font-body);padding:7px 13px;
+}
+body[data-view=hall] .hall-announce button:hover{background:#405c2a}
+body[data-view=hall] .hall-hint{
+  padding:8px 14px;border:1px solid #ffffff30;border-radius:999px;
+  background:rgba(22,32,24,.78);color:#edf3e8;
+  font:400 11px/1.5 var(--font-body);letter-spacing:0;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 3px 14px #1020101a;
+}
+body[data-view=hall] .hall-portal .hp-label{
+  padding:10px 16px;gap:3px;border:1px solid #c9e6af70;border-radius:12px;
+  background:rgba(22,32,24,.9);color:#f7f8f3;
+  box-shadow:0 6px 22px #10201033;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font-family:var(--font-body);
+}
+body[data-view=hall] .hall-portal .hp-label b{font:600 13px/1.3 var(--font-body);letter-spacing:0;color:#f7f8f3}
+body[data-view=hall] .hall-portal .hp-label small{font:500 11px/1.4 var(--font-body);color:#bedb9f}
+body[data-view=hall] .hall-portal .hp-label::before{content:"";width:8px;height:8px;top:-5px;background:#283b25;border-top:1px solid #c9e6af70;border-left:1px solid #c9e6af70;transform:translateX(-50%) rotate(45deg);animation:none}
+body[data-view=hall] .hall-portal:hover .hp-label{background:#2a3d27;border-color:#bedb9f}
+body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .hall-announce button:focus-visible{outline:2px solid #bedb9f;outline-offset:3px}
+
 </style>
 
 <!-- Icon sprite: reuse with <svg class="i"><use href="#i-NAME"/></svg> -->
@@ -4988,7 +5024,7 @@ function logHorn(n,r){
 function announce(item){
   if(item&&!item.quiet)logHorn(item.n,item.r);
   const a=$('#hall-announce');if(!a||!item)return;const r=item.r,max=roomMax(r),me=item.n==='me';
-  a.innerHTML=`<span class="an-horn" aria-hidden="true">${PI('horn')}</span><span class="an-who">${me?'You':esc(item.n)}</span><span class="an-msg">${esc(r.desc)}</span><span class="an-meta">${evTitle(r)} · ${r.members.length}/${max}</span>${!me&&!inRoom(r)&&r.members.length<max?`<button type="button" data-room-open="${r.id}">Join</button>`:''}`;
+  a.innerHTML=`<span class="an-horn" aria-hidden="true">${I('bell')}</span><span class="an-who">${me?'You':esc(item.n)}</span><span class="an-msg">${esc(r.desc)}</span><span class="an-meta">${evTitle(r)} · ${r.members.length}/${max}</span>${!me&&!inRoom(r)&&r.members.length<max?`<button type="button" data-room-open="${r.id}">Join</button>`:''}`;
   a.classList.remove('show');void a.offsetWidth;a.classList.add('show');
   clearTimeout(a._t);a._t=setTimeout(()=>a.classList.remove('show'),me?5000:4000);
 }
