@@ -3576,7 +3576,7 @@ const arch={q:'',year:'all',type:'all',topic:'all',all:false};
 function archMatch(a,q){return !q||[a.title,a.organiser,a.topic,a.type,a.city,a.winner,a.participants,...a.sponsors].join(' ').toLowerCase().includes(q)}
 function arRow(a){
   return `<article class="arch-row"><div class="prow-date"><small>${a.month!=null?MON_S[a.month]:a.year}</small><b>${a.day?String(a.day).padStart(2,'0'):a.month!=null?'·':'–'}</b></div>
-    <div class="arch-main"><h4>${esc(a.title)}${a.status==='Upcoming'?' <span class="mtag ink">Upcoming</span>':''}</h4><p>${esc(a.organiser)}${a.participants?' · '+esc(a.participants):''}</p>
+    <div class="arch-main"><h4>${esc(a.title)}${a.status==='Upcoming'?' <span class="mtag ink">Upcoming</span>':''}</h4>
       ${a.sponsors.length?`<p class="arch-sp">Sponsors &amp; partners: ${a.sponsors.map(s=>`<i>${esc(s)}</i>`).join('')}</p>`:''}
       <p class="arch-win">${I('trophy','sm')}${a.winner?esc(a.winner):a.status==='Upcoming'?'Not held yet':'Winner not published'}<span class="arch-prize">${a.prize?esc(a.prize):'Prize not published'}</span></p></div>
     <div class="arch-acts"><a class="btn ghost sm" href="${esc(a.src)}" target="_blank" rel="noopener">${I('external','sm')}Source</a></div></article>`;
