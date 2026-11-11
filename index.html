@@ -1342,6 +1342,28 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
 @keyframes hlBar{to{width:100%}}
 @keyframes hlDots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
 @media (prefers-reduced-motion:reduce){.dino,.cactus,.cloud,.hl-ground,.hall-loader.go .dino .dl.a,.hall-loader.go .dino .dl.b{animation:none}}
+/* Chat box with channels (Lobby / Megaphone / Room), bottom left of the hall */
+.hall-chat{position:absolute;left:16px;bottom:16px;z-index:120;width:min(380px,calc(100% - 32px));display:grid;background:rgba(27,34,21,.9);color:var(--px-paper);font:400 13px var(--px-font);box-shadow:0 -3px 0 var(--px-ink),0 3px 0 var(--px-ink),-3px 0 0 var(--px-ink),3px 0 0 var(--px-ink),0 7px 0 rgba(0,0,0,.28)}
+.hc-tabs{display:flex;background:var(--px-ink)}
+.hc-tabs button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:30px;border:0;background:#26321e;color:#b9b39b;font:500 13px var(--px-font);cursor:pointer;position:relative;border-right:2px solid var(--px-ink)}
+.hc-tabs button:last-child{border-right:0}
+.hc-tabs button.on{background:var(--px-moss);color:var(--px-paper);box-shadow:inset 0 3px 0 var(--px-lime)}
+.hc-tabs .pi{height:12px}
+.hc-n{font-style:normal;min-width:16px;height:16px;line-height:16px;padding:0 3px;background:var(--px-clay);color:#fff;font-size:10.5px;text-align:center;box-shadow:0 0 0 2px var(--px-ink)}
+.hc-n[hidden]{display:none}
+.hc-log{height:118px;overflow-y:auto;overflow-x:hidden;padding:6px 10px;display:grid;align-content:start;gap:3px;scrollbar-width:thin}
+.hc-log p{margin:0;line-height:1.35;overflow-wrap:anywhere}
+.hc-log b{color:var(--px-lime);font-weight:600}
+.hc-sys{color:#b9b39b;font-style:italic}
+.hc-horn{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:4px 0;border-bottom:1px dashed rgba(243,236,210,.18)}
+.hc-horn>.pi{height:13px;color:#e7a07a}
+.hc-horn small{color:#b9b39b;font-size:11px}
+.hc-horn span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hc-horn button{border:0;background:#8fcf55;color:var(--px-ink);font:600 12px var(--px-font);padding:3px 9px;cursor:pointer;box-shadow:0 0 0 2px var(--px-ink)}
+.hc-horn em{font-style:normal;font-size:11px;color:#b9b39b}
+#hall-chat .hall-say{position:static!important;width:auto!important;box-shadow:none!important;background:#232d1c;border-top:2px solid var(--px-ink)!important;padding:4px 4px 4px 0}
+#hall-chat .hall-say input:disabled{opacity:.6}
+@media (max-width:900px){.hall-chat{width:min(320px,calc(100% - 32px))}.hc-log{height:84px}}
 .hall-count{background:rgba(40,40,36,.72);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:7px 12px;font-size:14px;backdrop-filter:blur(4px)}
 .hall-say{background:rgba(40,40,36,.7);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:5px 5px 5px 0;align-items:center;backdrop-filter:blur(4px)}
 .hall-say input{background:transparent;border:0;color:#fff;height:32px}
@@ -2150,7 +2172,11 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
       <div class="card panel" data-dp="picks"><div class="panel-title" style="justify-content:space-between"><span><span class="pi-slot" data-pi="sparkle"></span>AI picks for your team</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><span class="pi-slot" data-pi="close"></span></button></div><p class="muted" style="font-size:12.5px" id="hall-pick-note"></p><div id="hall-picks"></div></div>
       <div class="card panel" data-dp="reqs"><div class="panel-title" style="justify-content:space-between"><span>Requests</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><span class="pi-slot" data-pi="close"></span></button></div><div id="hall-reqs"></div></div>
     </aside>
-    <form class="hall-say" id="hall-say"><span class="pi-slot" data-pi="chat"></span><input id="hall-say-text" maxlength="80" placeholder="Say hello…" aria-label="Say something in the hall"><button class="btn primary sm" type="submit" style="height:38px">Send</button></form>
+    <div class="hall-chat" id="hall-chat">
+      <div class="hc-tabs" role="tablist" aria-label="Chat channel"><button type="button" role="tab" data-ch="lobby" class="on">Lobby</button><button type="button" role="tab" data-ch="horn"><span class="pi-slot" data-pi="horn"></span>Megaphone<i class="hc-n" id="hc-horn-n" hidden></i></button><button type="button" role="tab" data-ch="room">Room<i class="hc-n" id="hc-room-n" hidden></i></button></div>
+      <div class="hc-log" id="hc-log" aria-live="polite"></div>
+      <form class="hall-say" id="hall-say"><span class="pi-slot" data-pi="chat"></span><input id="hall-say-text" maxlength="80" placeholder="Say hello…" aria-label="Chat message"><button class="btn primary sm" type="submit" style="height:34px">Send</button></form>
+    </div>
     <div class="hud hud-br">
       <button class="hud-room" type="button" id="hud-myroom" hidden></button>
       <button class="gbtn" type="button" data-room-board><span class="pi-slot" data-pi="list"></span><b>Room list</b></button>
@@ -3690,7 +3716,7 @@ function showHallLoader(){
    Buttons live inside the scene. Pick a competition (glowing Room Board or "Create room"), open a room,
    recruit with the megaphone (announced in the middle of the screen), kick, invite, register when full.
    Names in the lobby carry a title each person sets themselves (e.g. "Frontend", "Pitch master"). */
-const hall={ev:'all',pick:null,me:{x:52,y:80},pos:{},sent:{},myRoom:null,nextRoom:8,tick:0,page:0,drawer:null,
+const hall={ch:'lobby',horns:[],roomChat:{},hornUnread:0,roomUnread:0,ev:'all',pick:null,me:{x:52,y:80},pos:{},sent:{},myRoom:null,nextRoom:8,tick:0,page:0,drawer:null,
   chat:[['Luna','Anyone good at UI for a fintech room?'],['Kaito','Room 4 has one seat left, bus sensors!'],['Mochi','First hackathon here, be nice!']],
   incoming:[{n:'Mochi',msg:'Can I join your room? It’s my first hackathon.',state:'pending'}],
   rooms:[
@@ -3730,6 +3756,7 @@ function openModalX(html){openModal(html,true);$('.modal').classList.add('xwide'
 function setModalHTML(html){$('#modal-body').innerHTML=html;hydrateAvatars($('#modal-body'))}
 function renderHall(){
   $$('#view-hall [data-pi]').forEach(el=>{if(!el.firstChild)el.innerHTML=PI(el.dataset.pi)});
+  renderChat();
   const list=inHall(),open=hall.rooms.filter(r=>r.members.length<roomMax(r)).length,r=myRoom();
   $('#hall-count').innerHTML=`<b>Meetup Hall</b><span>${list.length+1+96} online · ${hall.rooms.length} rooms</span>`;
   $('#hall-portal-n').textContent=`${open} rooms with seats`;
@@ -3914,7 +3941,29 @@ function kickFromRoom(n){
   toast(`${n} was removed from room #${r.id}`);
 }
 /* Big announcement in the middle of the hall; fades after a few seconds */
+/* Chat box channels: Lobby (everyone), Megaphone (every recruiting call, newest last, with Join), Room (your room only) */
+function renderChat(){
+  const log=$('#hc-log');if(!log)return;const r=myRoom(),ch=hall.ch;
+  if(!hall.hornSeeded){hall.hornSeeded=1;[3,1,6].forEach(id=>{const rm=hall.rooms.find(x=>x.id===id);if(rm)hall.horns.push({n:rm.host,id,desc:rm.desc,ev:evTitle(rm)})})}
+  if(ch==='horn')hall.hornUnread=0;if(ch==='room')hall.roomUnread=0;
+  $$('.hc-tabs [data-ch]').forEach(b=>{const on=b.dataset.ch===ch;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});
+  const n1=$('#hc-horn-n'),n2=$('#hc-room-n');n1.textContent=hall.hornUnread;n1.hidden=!hall.hornUnread;n2.textContent=hall.roomUnread;n2.hidden=!hall.roomUnread;
+  const line=(n,t)=>`<p><b>${esc(nameOf(n))}:</b> ${esc(t)}</p>`;
+  if(ch==='lobby')log.innerHTML=hall.chat.slice(-40).map(([n,t])=>line(n,t)).join('');
+  else if(ch==='room')log.innerHTML=r?`<p class="hc-sys">Room #${r.id} · ${evTitle(r)} · ${r.members.length}/${roomMax(r)}</p>`+(hall.roomChat[r.id]||[]).map(([n,t])=>line(n,t)).join(''):`<p class="hc-sys">You’re not in a room yet. Open one or join one from the Megaphone tab.</p>`;
+  else log.innerHTML=hall.horns.length?hall.horns.map(hn=>{const rm=hall.rooms.find(x=>x.id===hn.id),open=rm&&rm.members.length<roomMax(rm)&&rm.id!==hall.myRoom;
+      return `<div class="hc-horn">${PI('horn')}<div><b>${esc(nameOf(hn.n))}</b> <small>${hn.ev} · #${hn.id}${rm?` · ${rm.members.length}/${roomMax(rm)}`:' · closed'}</small><span>${esc(hn.desc)}</span></div>${open?`<button type="button" data-room-open="${rm.id}">Join</button>`:rm&&rm.id===hall.myRoom?'<em>Yours</em>':rm?'<em>Full</em>':''}</div>`}).join(''):'<p class="hc-sys">No megaphone calls yet.</p>';
+  const inp=$('#hall-say-text'),dis=ch==='horn'||(ch==='room'&&!r);
+  inp.disabled=dis;$('#hall-say button').disabled=dis;
+  inp.placeholder=ch==='horn'?'Recruit from your room with the megaphone':ch==='room'?(r?`Message room #${r.id}…`:'Join a room to chat here'):'Say hello…';
+  log.scrollTop=log.scrollHeight;
+}
+function logHorn(n,r){
+  hall.horns.push({n,id:r.id,desc:r.desc,ev:evTitle(r)});if(hall.horns.length>30)hall.horns.shift();
+  if(hall.ch!=='horn')hall.hornUnread++;renderChat();
+}
 function announce(item){
+  if(item&&!item.quiet)logHorn(item.n,item.r);
   const a=$('#hall-announce');if(!a||!item)return;const r=item.r,max=roomMax(r),me=item.n==='me';
   a.innerHTML=`<span class="an-horn" aria-hidden="true">${PI('horn')}</span><span class="an-who">${me?'You':esc(item.n)}</span><span class="an-msg">${esc(r.desc)}</span><span class="an-meta">${evTitle(r)} · ${r.members.length}/${max}</span>${!me&&r.id!==hall.myRoom&&r.members.length<max?`<button type="button" data-room-open="${r.id}">Join</button>`:''}`;
   a.classList.remove('show');void a.offsetWidth;a.classList.add('show');
@@ -3998,7 +4047,7 @@ function walkMe(x,y){
   const me=$('#hall-me');if(!me)return;me.classList.toggle('left',x<hall.me.x);me.classList.add('walk');clearTimeout(me._w);me._w=setTimeout(()=>me.classList.remove('walk'),1100);hall.me={x,y};me.style.setProperty('--x',x);me.style.setProperty('--y',y);me.style.zIndex=100+Math.round(y);
 }
 $('#hall-stage').addEventListener('click',e=>{
-  if(e.target.closest('.hall-say,.hud,.hall-drawer,#hall-announce'))return;
+  if(e.target.closest('.hall-chat,.hud,.hall-drawer,#hall-announce'))return;
   // the glowing Room Board: walk up to it, then pick a competition
   if(e.target.closest('#hall-portal')){walkMe(50,46);setTimeout(()=>openPickComp(),hall.me.y>50?650:150);return}
   const p=e.target.closest('[data-hp]');if(p){openHallCard(p.dataset.hp);return}
@@ -4067,11 +4116,16 @@ $('#modal-body').addEventListener('click',e=>{
   if(e.target.closest('#pf-save'))savePf();
 });
 $('#modal-body').addEventListener('change',e=>{if(e.target.id==='pf-cv'&&e.target.files.length&&pf){pf.cv=true;$('#pf-cv-s').textContent=e.target.files[0].name;$('#pf-cv-l').textContent='Replace CV'}});
+$('#hall-chat').addEventListener('click',e=>{const b=e.target.closest('[data-ch]');if(b){hall.ch=b.dataset.ch;renderChat()}});
 $('#hall-say').addEventListener('submit',e=>{
   e.preventDefault();
-  const t=$('#hall-say-text').value.trim();if(!t)return;$('#hall-say-text').value='';hallBubble('me',t);
+  const t=$('#hall-say-text').value.trim();if(!t||hall.ch==='horn')return;$('#hall-say-text').value='';
+  if(hall.ch==='room'){const r=myRoom();if(!r)return;(hall.roomChat[r.id]=hall.roomChat[r.id]||[]).push(['me',t]);renderChat();
+    const mates=r.members.filter(m=>m!=='me');if(mates.length){const m=mates[hash(t)%mates.length];setTimeout(()=>{if(!myRoom()||myRoom()!==r)return;(hall.roomChat[r.id]).push([m,['Sounds good!','On it.','Let’s meet at 8pm?','I can take that part.'][hash(t+m)%4]]);if(hall.ch!=='room')hall.roomUnread++;renderChat();hallBubble(m,'…')},1200)}
+    return}
+  hall.chat.push(['me',t]);renderChat();hallBubble('me',t);
   const near=inHall().map(h=>({h,d:Math.hypot(hall.pos[h.n].x-hall.me.x,(hall.pos[h.n].y-hall.me.y)*1.6)})).sort((a,b)=>a.d-b.d)[0];
-  if(near&&near.d<22)setTimeout(()=>hallBubble(near.h.n,HALL_HI[near.h.n]||'Hi there!'),1100);
+  if(near&&near.d<22)setTimeout(()=>{const m=HALL_HI[near.h.n]||'Hi there!';hallBubble(near.h.n,m);hall.chat.push([near.h.n,m]);renderChat()},1100);
   else setTimeout(()=>toast('Walk closer to someone so they can hear you, or use the megaphone in your room'),900);
 });
 // People wander every few seconds; paused while hovered, when the hall is hidden, or for reduced motion
