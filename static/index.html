@@ -1462,7 +1462,10 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
 @media (max-width:1400px){.hall-announce{top:70px;max-width:calc(100% - 40px)}.hall-drawer{top:112px;max-height:calc(100% - 210px)}}
 /* game windows: square pixel frames */
 .modal.game{border:0;border-radius:0;background:var(--px-paper2);box-shadow:0 -4px 0 var(--px-ink),0 4px 0 var(--px-ink),-4px 0 0 var(--px-ink),4px 0 0 var(--px-ink),0 12px 0 rgba(0,0,0,.35)}
-.modal.game .modal-x{border-radius:0;border:0;background:var(--px-paper);box-shadow:0 0 0 2px var(--px-ink)}
+.modal.game .modal-x{border-radius:0;border:0;background:transparent;box-shadow:none;color:var(--px-paper);width:34px;height:34px;transition:background .12s,color .12s}
+.modal.game .modal-x .i{width:22px;height:22px;stroke-width:2.6;stroke-linecap:square}
+.modal.game .modal-x:hover{background:rgba(0,0,0,.22);color:var(--px-lime)}
+.modal.game .modal-x:focus-visible{outline:2px solid var(--px-lime);outline-offset:0}
 .gw-bar{border-radius:0;background:var(--px-moss);border-bottom:4px solid var(--px-ink)}
 .gw-bar>span{font:600 20px var(--px-font);letter-spacing:.02em;text-transform:none;color:var(--px-paper)}
 .gw-bar>span .pi{height:16px;color:var(--px-lime)}
@@ -4141,12 +4144,22 @@ function renderBoard(){
 /* ===== Gemini (Google AI Studio key, kept only in this browser) =====
    Static site on GitHub Pages: there is no server to hide a key, so each user pastes their own key.
    It is saved in this browser's localStorage only and never committed. Restrict the key to this site in Google Cloud. */
-const GEM={base:'https://generativelanguage.googleapis.com/v1beta'};
+// Team relay (Cloudflare Worker in /cloudflare-worker). When set, every visitor gets Gemini with no key.
+// The URL is public on purpose; the key itself stays in Cloudflare as a secret.
+const GEMINI_RELAY='https://industrybridge-gemini.celine-chbl.workers.dev';
+const GEM={google:'https://generativelanguage.googleapis.com/v1beta',auto:null};
 const gemGet=k=>{try{return localStorage.getItem('ib-gemini-'+k)||''}catch(e){return ''}};
 const gemSet=(k,v)=>{try{v?localStorage.setItem('ib-gemini-'+k,v):localStorage.removeItem('ib-gemini-'+k)}catch(e){}};
-const gemOn=()=>!!gemGet('key');
+const gemOn=()=>!!gemGet('key')||!!GEMINI_RELAY;
+const gemVia=key=>key?{base:GEM.google,headers:{'x-goog-api-key':key}}:{base:GEMINI_RELAY.replace(/\/$/,'')+'/v1beta',headers:{}};
+// Models to use when the visitor hasn't picked any (relay users): newest Flash text model + cheapest image model
+async function gemAuto(){
+  if(!GEM.auto)GEM.auto=gemModels(gemGet('key')).then(t=>({text:t[0],image:GEM.images[0]||'',texts:t,images:GEM.images})).catch(e=>{GEM.auto=null;throw e});
+  return GEM.auto;
+}
 async function gemModels(key){
-  const r=await fetch(`${GEM.base}/models?pageSize=200`,{headers:{'x-goog-api-key':key}});
+  const v=gemVia(key);
+  const r=await fetch(`${v.base}/models${key?'?pageSize=200':''}`,{headers:v.headers});
   const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error?.message||`HTTP ${r.status}`);
   const gen=(j.models||[]).filter(m=>(m.supportedGenerationMethods||[]).includes('generateContent')).map(m=>m.name.replace(/^models\//,''));
   const ver=n=>parseFloat((n.match(/(?:gemini|banana)-(\d+(?:\.\d+)?)/)||[0,0])[1]);
@@ -4156,39 +4169,58 @@ async function gemModels(key){
   // newest Flash first (fast and cheap), then everything else
   return ok.sort((a,b)=>(/flash/.test(b)&&!/lite/.test(b))-(/flash/.test(a)&&!/lite/.test(a))||(/preview|exp/.test(a))-(/preview|exp/.test(b))||ver(b)-ver(a)||a.localeCompare(b));
 }
+// Try the chosen model first; if Google says it's busy, gone or too slow, move on to the next one.
+// The model that answered is remembered for the rest of the visit.
+GEM.good={text:gemGet('good-text'),image:gemGet('good-image')};
+async function gemCall(kind,body){
+  const v=gemVia(gemGet('key')),first=gemGet(kind==='image'?'imodel':'model');
+  let list=[];try{list=(await gemAuto())[kind==='image'?'images':'texts']||[]}catch(e){if(!first)throw e}
+  const tries=[...new Set([GEM.good[kind],first,...list].filter(Boolean))].slice(0,4);
+  if(!tries.length)throw new Error(`no ${kind} model available`);
+  let last;
+  for(const model of tries){
+    const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),kind==='image'?60000:12000);
+    try{
+      const r=await fetch(`${v.base}/models/${encodeURIComponent(model)}:generateContent`,{method:'POST',signal:ctl.signal,headers:{'content-type':'application/json',...v.headers},body:JSON.stringify(body)});
+      const j=await r.json().catch(()=>({}));
+      if(r.ok){GEM.good[kind]=model;gemSet('good-'+kind,model);return j}
+      last=new Error(j.error?.message||`HTTP ${r.status}`);
+      if(/quota|billing/i.test(last.message))last=new Error(kind==='image'?'image generation needs billing turned on for this Gemini key':'the Gemini quota is used up for now, try again later');
+      if(/Too many .* requests/.test(last.message)||r.status===400||r.status===401||r.status===403)throw last; // relay limit or bad key: no point trying other models
+    }catch(e){if(e.name==='AbortError')last=new Error(`${model} took too long`);else if(e===last)throw e;else last=e}
+    finally{clearTimeout(timer)}
+  }
+  throw last;
+}
 async function gemJSON(prompt){
-  const key=gemGet('key'),model=gemGet('model')||'gemini-flash-latest';
-  const r=await fetch(`${GEM.base}/models/${encodeURIComponent(model)}:generateContent`,{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':key},
-    body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',temperature:.8}})});
-  const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error?.message||`HTTP ${r.status}`);
+  const j=await gemCall('text',{contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',temperature:.8}});
   const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
   try{return JSON.parse(txt.replace(/^```(?:json)?|```$/g,''))}catch(e){throw new Error('Gemini returned an unexpected answer')}
 }
 async function gemImage(prompt){
-  const key=gemGet('key'),model=gemGet('imodel');if(!model)throw new Error('pick a poster artwork model in Gemini AI settings');
-  const r=await fetch(`${GEM.base}/models/${encodeURIComponent(model)}:generateContent`,{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':key},
-    body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseModalities:['TEXT','IMAGE']}})});
-  const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error?.message||`HTTP ${r.status}`);
+  const j=await gemCall('image',{contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseModalities:['TEXT','IMAGE']}});
   const part=(j.candidates?.[0]?.content?.parts||[]).find(p=>p.inlineData||p.inline_data);const d=part&&(part.inlineData||part.inline_data);
   if(!d?.data)throw new Error('no image came back');
   return `data:${d.mimeType||d.mime_type||'image/png'};base64,${d.data}`;
 }
 function renderAIStatus(){
-  const on=gemOn(),m=gemGet('model');
+  const on=gemOn(),own=!!gemGet('key'),m=own?gemGet('model'):'team connection';
   if($('#ai-settings-sub'))$('#ai-settings-sub').textContent=on?`Connected · ${m}`:'Not connected';
   const el=$('#ai-status');if(!el)return;el.className='ai-status'+(on?' on':'');
-  const dz=$('#ai-status-design');if(dz){dz.className='ai-status'+(on?' on':'');dz.innerHTML=on?`<i></i>Gemini · ${esc(gemGet('imodel')||'no image model')}<button class="link-btn" type="button" data-ai-settings>Change</button>`:`<i></i>Using built-in patterns<button class="link-btn" type="button" data-ai-settings>Connect Gemini</button>`}
+  const dz=$('#ai-status-design');if(dz){dz.className='ai-status'+(on?' on':'');dz.innerHTML=on?`<i></i>Gemini · ${esc(own?gemGet('imodel')||'no image model':'team connection')}<button class="link-btn" type="button" data-ai-settings>Change</button>`:`<i></i>Using built-in patterns<button class="link-btn" type="button" data-ai-settings>Connect Gemini</button>`}
   el.innerHTML=on?`<i></i>Gemini · ${esc(m)}<button class="link-btn" type="button" data-ai-settings>Change</button>`:`<i></i>Using built-in templates<button class="link-btn" type="button" data-ai-settings>Connect Gemini</button>`;
 }
 function openAISettings(){
-  const on=gemOn();
-  openModal(`<div><span class="eyebrow">AI</span><h2 id="modal-title">Connect Gemini</h2></div>
-    <p class="muted" style="font-size:13px;margin:0">Paste an API key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a>. It stays in this browser only.</p>
+  const on=!!gemGet('key');
+  openModal(`<div><span class="eyebrow">AI</span><h2 id="modal-title">${GEMINI_RELAY?'Gemini AI':'Connect Gemini'}</h2></div>
+    ${GEMINI_RELAY?`<p style="font-size:13px;margin:0" class="ai-status on"><i></i>${on?'Using your own key on this browser.':'Connected through the team connection. Nothing to set up.'}</p>
+    <p class="muted" style="font-size:12.5px;margin:0">Optional: use your own key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a> instead. It stays in this browser only.</p>`
+    :`<p class="muted" style="font-size:13px;margin:0">Paste an API key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a>. It stays in this browser only.</p>`}
     <div class="field"><label for="ai-key">API key</label><input class="text-input ai-key" id="ai-key" type="password" autocomplete="off" spellcheck="false" placeholder="${on?'•••••••• saved':'AIza…'}"></div>
     <div class="field"><label for="ai-model">Model</label><select class="field-select" id="ai-model">${on&&gemGet('model')?`<option>${esc(gemGet('model'))}</option>`:'<option value="">Check the key to load models</option>'}</select></div>
     <div class="field"><label for="ai-imodel">Poster artwork model</label><select class="field-select" id="ai-imodel">${on&&gemGet('imodel')?`<option>${esc(gemGet('imodel'))}</option>`:'<option value="">Check the key to load models</option>'}</select></div>
     <p class="muted" id="ai-msg" style="font-size:12.5px;margin:0"></p>
-    <div class="modal-actions">${on?'<button class="btn ghost" type="button" id="ai-remove">Disconnect</button>':''}<button class="btn ghost" type="button" id="ai-check">Check key</button><button class="btn primary" type="button" id="ai-save">Save</button></div>`);
+    <div class="modal-actions">${on?`<button class="btn ghost" type="button" id="ai-remove">${GEMINI_RELAY?'Use team connection':'Disconnect'}</button>`:''}<button class="btn ghost" type="button" id="ai-check">Check key</button><button class="btn primary" type="button" id="ai-save">Save</button></div>`);
 }
 async function aiCheck(){
   const key=$('#ai-key').value.trim()||gemGet('key'),msg=$('#ai-msg');if(!key){msg.textContent='Paste a key first.';return null}
@@ -4202,11 +4234,13 @@ async function aiCheck(){
 document.addEventListener('click',async e=>{
   if(e.target.closest('#ai-settings,[data-ai-settings]')){closeDD();openAISettings();return}
   if(e.target.closest('#ai-check')){aiCheck();return}
-  if(e.target.closest('#ai-remove')){gemSet('key','');gemSet('model','');gemSet('imodel','');renderAIStatus();closeModal();toast('Gemini disconnected');return}
+  if(e.target.closest('#ai-remove')){gemSet('key','');gemSet('model','');gemSet('imodel','');GEM.auto=null;renderAIStatus();closeModal();toast(GEMINI_RELAY?'Back on the team connection':'Gemini disconnected');return}
   if(e.target.closest('#ai-save')){
     const typed=$('#ai-key').value.trim();let key=gemGet('key');
+    if(GEMINI_RELAY&&!typed&&!key){closeModal();return}
     if(typed||!$('#ai-model').value){key=await aiCheck();if(!key)return}
-    gemSet('key',key);gemSet('model',$('#ai-model').value);gemSet('imodel',$('#ai-imodel').value);renderAIStatus();closeModal();toast(`Gemini connected · ${gemGet('model')}`);
+    if(!key){closeModal();return}
+    gemSet('key',key);gemSet('model',$('#ai-model').value);gemSet('imodel',$('#ai-imodel').value);GEM.auto=null;renderAIStatus();closeModal();toast(`Gemini connected · ${gemGet('model')}`);
   }
 });
 renderAIStatus();
@@ -4214,7 +4248,7 @@ async function aiPlanFor(brief){
   const prompt=`You design industry-led student hackathon programs in Malaysia for IndustryBridge.
 Brief: objective "${brief.objective}", track "${brief.track}", audience "${brief.audience}", format "${brief.format}", duration "${brief.duration}", cash prize pool "${brief.prize}".
 Reply with JSON only, in plain friendly English, no markdown:
-{"title": program name, max 4 words,
+{"title": program name, max 4 words, no year,
  "tagline": one sentence, max 14 words,
  "modules": [{"name": max 4 words, "detail": max 8 words}] (exactly ${brief.weeks>=6?4:3} items, in order),
  "weights": {"impact": int, "innovation": int, "execution": int} summing to 100,
@@ -4272,7 +4306,7 @@ $('#brief-form').addEventListener('submit',e=>{
   const done=msg=>{rec.classList.remove('loading');rec.querySelector('.loader')?.remove();planEditing=false;renderPlan();btn.disabled=false;btn.innerHTML=`${I('sparkle')}Generate plan`;toast(msg||`Plan ready: ${draft.title}`)};
   if(!gemOn()){aiPlan=null;setTimeout(()=>done(),1100);return}
   const b={objective:$('#b-objective').value,track:$('#b-track').value,audience:$('#b-audience').value,format:$('#b-format').value,duration:$('#b-duration').value,prize:$('#b-prize').value,weeks:parseInt($('#b-duration').value),key:briefKey()};
-  aiPlanFor(b).then(p=>{aiPlan=p;done(`Gemini drafted: ${p.title}`)}).catch(err=>{aiPlan=null;done(`Gemini didn't answer (${err.message}). Showing the template plan.`)});
+  aiPlanFor(b).then(p=>{aiPlan=p;done(`Gemini drafted: ${p.title}`)}).catch(err=>{aiPlan=null;done(`Gemini didn't answer (${String(err.message).split(/(?<=\.)\s/)[0].slice(0,90)}). Showing the template plan.`)});
 });
 $('#rec').addEventListener('click',e=>{
   if(e.target.closest('#toggle-path')){const b=$('#sec-path .rsec-body');b.hidden=!b.hidden;$('#toggle-path use:last-of-type');$('#toggle-path').lastElementChild.outerHTML=I(b.hidden?'chev-down':'chev-up')}
@@ -4527,14 +4561,14 @@ $('#brand-hex').addEventListener('change',e=>{const v=e.target.value.trim();if(/
 $('#swatches').addEventListener('click',e=>{const s=e.target.closest('[data-swatch]');if(s){draft.color=s.dataset.swatch;renderDesign()}});
 $('#gen-art').addEventListener('click',()=>{const b=$('#gen-art');b.disabled=true;b.innerHTML=`<span class="spin"></span>Generating…`;
   const end=msg=>{renderDesign();b.disabled=false;b.innerHTML=`${I('sparkle')}Generate artwork`;toast(msg)};
-  if(!gemOn()||!gemGet('imodel')){setTimeout(()=>{draft.art=(draft.art+1)%3;draft.artImg=null;end('New artwork applied to the poster')},900);return}
+  if(!gemOn()||(gemGet('key')&&!gemGet('imodel'))){setTimeout(()=>{draft.art=(draft.art+1)%3;draft.artImg=null;end('New artwork applied to the poster')},900);return}
   const mood={corporate:'clean, bold and professional',tech:'modern, dynamic, futuristic',community:'friendly, bright and welcoming'}[draft.style];
   gemImage(`Abstract background artwork for a portrait (3:4) event poster for "${draft.title}", a student innovation challenge on ${draft.track} in ${draft.location||'Malaysia'}, Malaysia.
 Style: ${mood}. Main colour ${draft.color}. Simple shapes or a stylised scene related to the theme.
 Keep the top-left half calm and plain so white headline text can sit there.
 Absolutely no text, letters, numbers, logos or watermarks.`)
     .then(src=>{draft.artImg=src;end('Gemini artwork applied to the poster')})
-    .catch(err=>{b.disabled=false;b.innerHTML=`${I('sparkle')}Generate artwork`;toast(`Gemini couldn't draw this one (${err.message})`)});
+    .catch(err=>{b.disabled=false;b.innerHTML=`${I('sparkle')}Generate artwork`;toast(`Gemini couldn't draw this one: ${String(err.message).split(/(?<=\.)\s/)[0].slice(0,110)}`)});
 });
 $('#art-reset').addEventListener('click',()=>{draft.artImg=null;renderDesign()});
 $('#ai-style').addEventListener('click',()=>{

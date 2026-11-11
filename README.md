@@ -24,11 +24,20 @@ The old Netlify configuration remains in the repository. Browser data stored on 
 
 ## Gemini AI (Program plan and poster)
 
-When Gemini is connected, the organizer studio uses it; otherwise it falls back to the built-in templates and patterns.
+When Gemini is connected, the organizer studio uses it: **Generate plan** (title, modules, weights, poster lines), **Suggest style & copy** and **Generate artwork** on the poster. Otherwise it falls back to the built-in templates and patterns.
 
-1. Create a key at [Google AI Studio](https://aistudio.google.com/app/apikey).
-2. In the app, open the avatar menu → **Gemini AI** (or the "Connect Gemini" link under Generate plan), paste the key, click **Check key**, pick a model, then **Save**.
-3. Generate a plan. The title, tagline, learning modules, assessment weights and poster lines come from Gemini.
-4. Design & publish → **Suggest style & copy** lets Gemini pick the poster style, brand colour and tag lines. **Generate artwork** draws a poster background with the image model you chose (Nano Banana). Image generation may need billing turned on for the key.
+### Team connection (everyone on the link gets Gemini)
 
-The site is static (GitHub Pages), so there is no server to hide a key. The key is saved only in that browser's localStorage and is never committed. **Never put a key in `index.html` or this repo.** In Google Cloud Console → Credentials, restrict the key to the Generative Language API and to the referrer `https://neohxy.github.io/*`.
+The key lives in a Cloudflare Worker (`cloudflare-worker/worker.js`), never in this repo or the browser.
+
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Create Worker** → name it (e.g. `industrybridge-gemini`) → **Deploy**.
+2. **Edit code**, replace everything with `cloudflare-worker/worker.js`, **Deploy**.
+3. Worker → **Settings** → **Variables and Secrets** → **Add**: type **Secret**, name `GEMINI_API_KEY`, value = key from [Google AI Studio](https://aistudio.google.com/app/apikey) → **Deploy**.
+4. Open the Worker URL (`https://<name>.<account>.workers.dev`). It should show `"keySet":true`.
+5. Put that URL in `index.html` as `const GEMINI_RELAY='https://…workers.dev';`, copy to `static/index.html`, commit and push.
+
+The Worker only answers requests from `https://neohxy.github.io` (and localhost), only Gemini models, and limits each visitor to 20 text and 5 image requests per 10 minutes. To allow another site, add a Text variable `ALLOWED_ORIGINS` (comma-separated). Also set a spend cap in Google AI Studio.
+
+### Own key (optional)
+
+Avatar menu → **Gemini AI** → paste a key → **Check key** → **Save**. It is stored only in that browser and overrides the team connection there. **Never put a key in `index.html` or this repo.**
