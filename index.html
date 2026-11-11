@@ -1948,6 +1948,23 @@ body[data-view=hall] .hall-portal .hp-label::before{content:"";width:8px;height:
 body[data-view=hall] .hall-portal:hover .hp-label{background:#2a3d27;border-color:#bedb9f}
 body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .hall-announce button:focus-visible{outline:2px solid #bedb9f;outline-offset:3px}
 
+
+/* ---------- Front page: 3D bridge hero, role cards rise on scroll ---------- */
+#view-signin{padding:0}
+#view-signin .lp{position:relative;height:200vh}
+#view-signin .lp-st{position:sticky;top:68px;height:calc(100vh - 68px);overflow:hidden;background:radial-gradient(120% 70% at 50% 100%,#e2e1dd 0%,#f3f3f1 45%,#fff 75%)}
+#view-signin .lp-copy{position:relative;z-index:3;text-align:center;padding:clamp(22px,4.5vh,52px) 16px 0}
+#view-signin .lp-copy .hero-title{font-size:clamp(32px,4.3vw,60px);line-height:1.02;letter-spacing:-.045em}
+#view-signin .lp-copy .page-sub{margin:12px auto 0;max-width:46ch;color:#86867f}
+#lp-canvas{position:absolute;left:0;width:100%;z-index:2;pointer-events:none;-webkit-mask-image:linear-gradient(#000 88%,transparent);mask-image:linear-gradient(#000 88%,transparent)}
+#view-signin .lp-cards{position:absolute;left:50%;bottom:clamp(14px,3vh,32px);width:min(900px,94vw);z-index:4;transform:translate(-50%,calc(100% + 60px));will-change:transform}
+#view-signin .role-card{min-height:0;gap:12px;padding:22px}
+#view-signin .role-card ul{padding:10px 12px}
+#view-signin .signin-note{margin-top:12px}
+.lp-cue{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:6px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#55554f;background:rgba(255,255,255,.8);border:1px solid var(--line);border-radius:999px;padding:7px 14px;animation:lpbob 1.8s ease-in-out infinite}
+@keyframes lpbob{50%{transform:translate(-50%,5px)}}
+@media (max-width:760px){#view-signin .lp{height:240vh}#view-signin .role-card ul{display:none}}
+@media (prefers-reduced-motion:reduce){.lp-cue{animation:none}}
 </style>
 
 <!-- Icon sprite: reuse with <svg class="i"><use href="#i-NAME"/></svg> -->
@@ -2049,12 +2066,16 @@ body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .
 <main>
 <!-- ================= 0. SIGN IN (choose role) ================= -->
 <section class="view" id="view-signin" hidden>
-  <div class="wrap">
-    <div class="center-head">
-      <div class="kicker">Learn · Build · Compete</div>
-      <h1 class="page-title hero-title"><span class="soft">A new bridge</span><br>between industry and campus</h1>
-      <p class="page-sub">Discover real company challenges, learn through guided paths, and turn your team's work into verified evidence.</p>
-    </div>
+  <div class="lp" id="lp">
+    <div class="lp-st" id="lp-st">
+      <div class="lp-copy" id="lp-copy">
+        <div class="kicker">AI-powered challenge management</div>
+        <h1 class="page-title hero-title"><span class="soft">A New Bridge</span><br>between Industry and Campus</h1>
+        <p class="page-sub">Companies bring real problems. Student teams solve them. Gemini runs everything in between.</p>
+      </div>
+      <canvas id="lp-canvas" aria-label="A campus and a factory on two cliffs, joined by an arch bridge with students walking across"></canvas>
+      <div class="lp-cue" id="lp-cue">Scroll to sign in<svg class="i sm"><use href="#i-chev-down"/></svg></div>
+      <div class="lp-cards" id="lp-cards">
     <div class="role-grid">
       <div class="role-card" data-signin="student">
         <span class="role-ico"><svg class="i"><use href="#i-user"/></svg></span>
@@ -2078,6 +2099,8 @@ body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .
       </div>
     </div>
     <p class="signin-note">Prototype: no password needed. Switch roles any time from your profile menu.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -5241,4 +5264,34 @@ document.getElementById('modal-body').addEventListener('click',e=>{if(e.target.i
 
 /* ===== Boot ===== */
 hydrateAvatars();renderCards();renderPlanner();renderModules();renderAssignState();renderThread();renderBoard();renderPlan();renderManage();renderManageExtras();renderSponsors();renderHall();if(role)setRole(role);route();
+
+/* Front page: static render + looping walking-students layer; role cards rise with scroll */
+(function(){
+  const view=document.getElementById('view-signin'), lp=document.getElementById('lp'), st=document.getElementById('lp-st'), copy=document.getElementById('lp-copy');
+  const cv=document.getElementById('lp-canvas'), cx=cv.getContext('2d'), cards=document.getElementById('lp-cards'), cue=document.getElementById('lp-cue');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const PPN=96, PPB={x0:0.12182,y1:0.73806};
+  const base=new Image(); base.decoding='async'; base.src='landing/base.webp';
+  const pp=[]; let loaded=false;
+  function load(){ if(loaded) return; loaded=true; for(let i=0;i<PPN;i++){ const im=new Image(); im.decoding='async'; im.src='landing/pp'+String(i).padStart(2,'0')+'.webp'; pp.push(im); } }
+  function size(){ const top=copy.offsetTop+copy.offsetHeight+6, H=Math.max(200,st.clientHeight-top); cv.style.top=top+'px'; cv.style.height=H+'px'; const d=Math.min(devicePixelRatio||1,2); cv.width=cv.clientWidth*d; cv.height=H*d; cv._d=d; }
+  addEventListener('resize',size); addEventListener('load',size); if(document.fonts) document.fonts.ready.then(size);
+  const ss=x=>x<=0?0:x>=1?1:x*x*(3-2*x); let last=0, wasHidden=true;
+  function tick(t){
+    requestAnimationFrame(tick);
+    if(view.hidden){ wasHidden=true; return; }
+    if(wasHidden){ wasHidden=false; load(); size(); }
+    const r=lp.getBoundingClientRect(), p=Math.min(1,Math.max(0,-r.top/Math.max(1,lp.offsetHeight-st.clientHeight))), e=ss(p*1.25);
+    cards.style.transform='translate(-50%,calc('+((1-e)*100).toFixed(2)+'% + '+((1-e)*60).toFixed(1)+'px))';
+    cue.style.opacity=(1-Math.min(1,p*4)).toFixed(2);
+    const W=cv.clientWidth,H=cv.clientHeight,d=cv._d||1; cx.setTransform(d,0,0,d,0,0); cx.clearRect(0,0,W,H);
+    if(!(base.complete&&base.naturalWidth)) return;
+    const s=Math.min(W*1.02/1920,H/(1080*0.76)), w=1920*s, h=1080*s, x=(W-w)/2, y=-h*0.11;
+    cx.drawImage(base,x,y,w,h);
+    let k=reduce?0:Math.floor(t/1000*8)%PPN; const ok=i=>pp[i]&&pp[i].complete&&pp[i].naturalWidth>0;
+    if(!ok(k)) k=ok(last)?last:-1; else last=k;
+    if(k>=0){ const im=pp[k]; cx.drawImage(im,x+PPB.x0*w,y+(1-PPB.y1)*h,im.naturalWidth*s,im.naturalHeight*s); }
+  }
+  requestAnimationFrame(tick);
+})();
 </script>
