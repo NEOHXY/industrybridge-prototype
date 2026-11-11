@@ -2685,7 +2685,6 @@ body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .
     <div class="hall-announce" id="hall-announce" aria-live="polite"></div>
     <div class="hud hud-tl">
       <button class="hud-btn" type="button" data-hud-exit aria-label="Leave the hall"><svg class="i" aria-hidden="true"><use href="#i-chev-left"/></svg></button>
-      <div class="hall-count" id="hall-count"></div>
     </div>
     <div class="hud hud-tr">
       <button class="hud-btn wide" type="button" data-hud-drawer="card"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg>My card</button>
@@ -4783,7 +4782,6 @@ function renderHall(){
   $$('#view-hall [data-pi]').forEach(el=>{if(!el.firstChild)el.innerHTML=PI(el.dataset.pi)});
   renderChat();
   const list=inHall(),open=hall.rooms.filter(r=>r.members.length<roomMax(r)).length,r=myRoom();
-  $('#hall-count').innerHTML=`<b>Meetup Hall</b><span>${list.length+1+96} online · ${hall.rooms.length} rooms</span>`;
   $('#hall-portal-n').textContent=`${open} rooms with seats`;
   $('#hall-people').innerHTML=list.map(h=>{const q=hall.pos[h.n];return `<button class="hp" type="button" data-hp="${h.n}" style="--x:${q.x};--y:${q.y};z-index:${10+Math.round(q.y)}" aria-label="${h.n}, ${esc(h.title)}. Open portfolio"><span class="hp-tag">${h.n}</span>${sprImg(h.n)}</button>`}).join('')
     +`<button class="hp you" type="button" id="hall-me" style="--x:${hall.me.x};--y:${hall.me.y};z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You</span>${sprImg('me')}</button>`;
