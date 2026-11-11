@@ -54,6 +54,16 @@ main{position:relative;z-index:1}
 .mainnav{display:flex;gap:2px;margin:0 auto;align-self:stretch}
 .mainnav>a{display:flex;align-items:center;gap:6px;padding:0 14px;font-size:12px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.66);border:0;background:none;position:relative;height:100%;white-space:nowrap}
 .mainnav>a:hover{color:#fff}
+.nav-dd{position:relative;display:flex}
+.nav-dd>a{display:flex;align-items:center;gap:6px;padding:0 14px;font-size:12px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.66);position:relative;height:100%;white-space:nowrap}
+.nav-dd>a:hover,.nav-dd:hover>a{color:#fff}
+.nav-chev{width:12px;height:12px;opacity:.7;transition:transform .15s}
+.nav-dd:hover .nav-chev,.nav-dd:focus-within .nav-chev{transform:rotate(180deg)}
+.nav-menu{position:absolute;top:calc(100% - 10px);left:50%;transform:translateX(-50%);min-width:180px;padding:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.18);display:none;z-index:60}
+.nav-dd:hover .nav-menu,.nav-dd:focus-within .nav-menu{display:grid}
+.nav-dd.shut .nav-menu{display:none}
+.nav-menu button{all:unset;cursor:pointer;padding:9px 12px;border-radius:8px;font:600 13.5px var(--font-body);color:var(--fg)}
+.nav-menu button:hover,.nav-menu button:focus-visible{background:var(--accent-soft)}
 .mainnav .active{color:#fff}
 .mainnav .active::after{content:"";position:absolute;left:14px;right:14px;bottom:14px;height:2px;border-radius:2px;background:var(--moss-pale)}
 .dd-menu{position:fixed;z-index:40;min-width:230px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 18px 44px rgba(20,20,15,.16)}
@@ -88,6 +98,7 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
   .mainnav .active::after{bottom:6px}
   .mainnav{order:3;width:100%;margin:0 -12px;height:44px;overflow-x:auto;scrollbar-width:none}
   .mainnav::-webkit-scrollbar{display:none}
+  .nav-menu,.nav-chev{display:none!important}
 }
 
 /* ---------- Shared pieces ---------- */
@@ -428,10 +439,10 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .arch-sp i{font-style:normal;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--moss-deep)}
 .arch-prize{margin-left:8px;font-size:12px;color:var(--muted)}
 .arch-note{margin:14px 0 0;font-size:12px;color:var(--muted)}
-.lib-count{margin:-4px 0 10px;font:500 11px var(--font-mono);letter-spacing:.06em;color:var(--muted)}
+.lib-count{margin:2px 0 10px;font:500 11px var(--font-mono);letter-spacing:.06em;color:var(--muted)}
 .lib-facts{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2)}
 .lib-facts dt{font:500 10.5px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.lib-facts dd{margin:2px 0 0;font-size:12.5px;font-weight:600;line-height:1.35}
+.lib-facts dd{margin:2px 0 0;font-size:12.5px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .sp-hist li a{font-size:12px;color:var(--accent-hi);white-space:nowrap}
 .cert-view{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#f7f4ea;min-height:120px;display:grid;place-items:center}
 .cert-view img{display:block;width:100%;height:auto}
@@ -455,7 +466,12 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .lib-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .lib-stats div{padding:8px;text-align:center}.lib-stats div+div{border-left:1px solid var(--line)}
 .lib-stats b{display:block;font:600 17px var(--font-display)}.lib-stats small{font-size:11px;color:var(--muted)}
-.lib-acts{display:flex;gap:6px;flex-wrap:wrap}
+.lib-acts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.lib-src{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)}
+.lib-src:hover{color:var(--fg)}
+.lib-main{display:flex;gap:10px;flex-wrap:wrap}
+.lib-more{margin:0 0 12px}
+.lib-card{align-content:start}
 /* My programs home: tabs, a list of program rows on the left, month calendar and stats on the right */
 .mph-tabs button small{margin-left:7px;font:500 11px var(--font-mono);color:var(--muted)}
 .mph-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
@@ -1869,7 +1885,8 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
     <div class="brand-wrap"><a class="brand" href="#discover"><svg class="i"><use href="#i-bridge"/></svg>IndustryBridge</a><span class="role-pill student" id="role-pill">Student</span></div>
     <nav class="mainnav" aria-label="Main">
       <a href="#discover" data-nav="discover">Discover</a>
-      <a href="#programs" data-nav="programs" data-role="student">My programs</a>
+      <div class="nav-dd" data-role="student"><a href="#programs" data-nav="programs" aria-haspopup="true">My programs<svg class="i sm nav-chev" aria-hidden="true"><use href="#i-chev-down"/></svg></a>
+        <div class="nav-menu" role="menu" aria-label="Browse programs"><button type="button" role="menuitem" data-nav-cat="Hackathon">Hackathons</button><button type="button" role="menuitem" data-nav-cat="Challenge">Challenges</button><button type="button" role="menuitem" data-nav-cat="Workshop">Workshops</button></div></div>
       <a href="#archive" data-nav="archive" data-role="student">Archive</a>
       <a href="#planner" data-nav="planner" data-role="student">Planner</a>
       <a href="#leaderboard" data-nav="leaderboard" data-role="student">Leaderboard</a>
@@ -2056,15 +2073,13 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
           <div data-panel="mph:completed" hidden><div class="mph-list" id="mph-completed"></div></div>
           <div data-panel="mph:all" hidden>
             <div class="disc-toolbar">
-              <div class="st-tabs" id="st-tabs" role="tablist" aria-label="Program status"></div>
-              <div class="disc-row">
-                <div class="cat-tabs" id="cat-tabs" role="group" aria-label="Program type"></div>
-              </div>
               <div class="disc-row">
                 <label class="search"><svg class="i"><use href="#i-search"/></svg><input id="search" type="search" placeholder="Search programs, workshops, themes or places..." aria-label="Search programs"></label>
                 <button class="btn ghost" type="button" id="more-filters" aria-expanded="false" aria-controls="more-panel"><svg class="i sm"><use href="#i-sliders"/></svg>More filters<span class="mf-count" id="mf-count" hidden></span></button>
               </div>
               <div class="more-panel" id="more-panel" hidden>
+                <select class="pill-select" id="f-status" aria-label="Status"></select>
+                <select class="pill-select" id="f-cat" aria-label="Type"></select>
                 <select class="pill-select" id="f-theme" aria-label="Theme">
                   <option value="all">All themes</option><option>AI</option><option>Cybersecurity</option><option>Data Science</option><option>Climate</option><option>Finance</option><option>Health</option><option>Mobility</option>
                 </select>
@@ -2753,6 +2768,8 @@ $$('[data-tabs]').forEach(t=>t.addEventListener('click',e=>{const b=e.target.clo
 
 /* Global click delegation */
 document.addEventListener('click',e=>{
+  const nc=e.target.closest('[data-nav-cat]');if(nc){const dd=nc.closest('.nav-dd');dd.classList.add('shut');nc.blur();dd.addEventListener('mouseleave',()=>dd.classList.remove('shut'),{once:true});
+    disc.cat=nc.dataset.navCat;disc.status='open';go('programs');showMP('home');setTab('mph','all');renderToolbar();renderSections();return}
   const st=e.target.closest('[data-set-tab]');if(st){const[g,n]=st.dataset.setTab.split(':');setTab(g,n)}
   const gt=e.target.closest('[data-goto-tab]');if(gt){const[g,n]=gt.dataset.gotoTab.split(':');setTab(g,n);window.scrollTo({top:0,behavior:'smooth'})}
   const tt=e.target.closest('[data-toast]');if(tt)toast(tt.dataset.toast);
@@ -3337,22 +3354,20 @@ $('#spotlight').addEventListener('click',e=>{const t=e.target.closest('[data-hf-
   if(t.dataset.hfType)disc.hf.type=t.dataset.hfType;else disc.hf={type:'all',mode:'all',topic:'all',open:false};disc.adv=0;renderSpot()});
 $('#spotlight').addEventListener('change',e=>{const k=e.target.dataset.hf;if(!k)return;disc.hf[k]=k==='open'?e.target.checked:e.target.value;disc.adv=0;renderSpot()});
 /* --- 4 + 5. Tabs, filters and sections --- */
-const CATS=[['all','All'],['Hackathon','Hackathons'],['Challenge','Challenges'],['Workshop','Workshops'],['online','Online']];
+const CATS=[['all','All types'],['Hackathon','Hackathons'],['Challenge','Challenges'],['Workshop','Workshops']];
 function filterVals(){return{q:$('#search').value.trim().toLowerCase(),th:$('#f-theme').value,ind:$('#f-industry').value}}
 function matches(p,cat=disc.cat){
   const f=filterVals();
-  return (cat==='all'||(cat==='online'?p.format.startsWith('Online'):p.kind===cat))
+  return (cat==='all'||p.kind===cat)
     &&(!f.q||[p.title,p.kind,p.format,p.blurb,...p.tags,p.host||''].join(' ').toLowerCase().includes(f.q))
     &&(f.th==='all'||p.tags[0]===f.th)&&(f.ind==='all'||p.tags[1]===f.ind);
 }
 /* One status at a time (Open now / In progress / Past), then a category filter; counts follow the other filters */
 const inStatus=(p,key)=>key==='open'?p.open:p.status===key;
 function renderToolbar(){
-  $('#st-tabs').innerHTML=SECTIONS.map(([key,label])=>{const on=disc.status===key;
-    return `<button type="button" role="tab" data-status="${key}" class="${on?'on':''}" aria-selected="${on}">${label}</button>`}).join('')
-    +`<span class="st-hint">${SECTIONS.find(s=>s[0]===disc.status)[2]()}</span>`;
-  $('#cat-tabs').innerHTML=CATS.map(([k,l])=>`<button type="button" data-cat="${k}" class="${disc.cat===k?'on':''}" aria-pressed="${disc.cat===k}">${l}<small>${ALL.filter(p=>matches(p,k)&&inStatus(p,disc.status)).length}</small></button>`).join('');
-  const f=filterVals(),n=(f.th!=='all')+(f.ind!=='all');
+  $('#f-status').innerHTML=SECTIONS.map(([key,label])=>`<option value="${key}"${disc.status===key?' selected':''}>${label} (${ALL.filter(p=>matches(p)&&inStatus(p,key)).length})</option>`).join('');
+  $('#f-cat').innerHTML=CATS.map(([k,l])=>`<option value="${k}"${disc.cat===k?' selected':''}>${l} (${ALL.filter(p=>matches(p,k)&&inStatus(p,disc.status)).length})</option>`).join('');
+  const f=filterVals(),n=(disc.status!=='open')+(disc.cat!=='all')+(f.th!=='all')+(f.ind!=='all');
   $('#mf-count').hidden=!n;$('#mf-count').textContent=n;
 }
 const SECTIONS=[
@@ -3462,36 +3477,42 @@ document.addEventListener('click',e=>{const y=e.target.closest('[data-arch-year]
 const lib={q:'',status:'all',year:'all',type:'all',topic:'all',org:'all',sponsor:'all',prize:'all',sort:'new'};
 function renderLibrary(){
   const el=$('#library');if(!el)return;const all=HACKATHON_ARCHIVE;
-  if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<header class="phead"><div class="phead-main"><span class="eyebrow"><span>IB / Library</span></span><h1 class="page-title"><span class="soft">Hackathon</span> library</h1><p class="page-sub">Every hackathon held in Malaysia from 2024 to 2026 that we could verify, with organisers, sponsors, prizes and winners from public sources. Use it to plan dates, find sponsors and reuse what worked.</p></div>
+  if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<header class="phead"><div class="phead-main"><span class="eyebrow"><span>IB / Library</span></span><h1 class="page-title"><span class="soft">Hackathon</span> library</h1><p class="page-sub">Verified Malaysian hackathons, 2024–2026. Find sponsors and reuse what worked.</p></div>
       <div class="phead-aside"><a class="btn ghost" href="#sponsors">${I('bars','sm')}Sponsor insights</a><a class="btn primary" href="#studio-plan">${I('plus','sm')}Create a program</a></div></header>
-    <div class="lib-bar"><label class="search"><svg class="i"><use href="#i-search"/></svg><input id="lib-q" type="search" placeholder="Search title, organiser, sponsor, topic, city or winner" aria-label="Search the library"></label></div>
-    <div class="lib-bar" id="lib-filters"></div><p class="lib-count" id="lib-count"></p>
+    <div class="lib-bar"><label class="search"><svg class="i"><use href="#i-search"/></svg><input id="lib-q" type="search" placeholder="Search hackathons, sponsors or organisers" aria-label="Search the library"></label><div class="lib-main" id="lib-filters"></div><button class="btn ghost" type="button" id="lib-more" aria-expanded="false" aria-controls="lib-more-panel">${I('sliders','sm')}More filters<span class="mf-count" id="lib-mf" hidden></span></button></div>
+    <div class="more-panel lib-more" id="lib-more-panel" hidden></div><p class="lib-count" id="lib-count"></p>
     <div class="lib-grid" id="lib-grid"></div>`}
   const opt=a=>[...new Set(a)].sort();
   const sel=(k,label,opts)=>`<select class="pill-select" data-lib="${k}" aria-label="${label}">${opts.map(([v,t])=>`<option value="${esc(v)}"${String(lib[k])===String(v)?' selected':''}>${esc(t)}</option>`).join('')}</select>`;
-  $('#lib-filters').innerHTML=sel('status','Status',[['all','Any status'],['Completed','Completed'],['Upcoming','Upcoming']])
+  $('#lib-filters').innerHTML=sel('status','Status',[['all','Any status'],['Upcoming','Upcoming'],['Completed','Completed']])
     +sel('year','Year',[['all','Any year'],['2026','2026'],['2025','2025'],['2024','2024']])
+    +sel('sort','Sort',[['new','Newest'],['old','Oldest'],['az','A–Z']]);
+  $('#lib-more-panel').innerHTML=sel('topic','Topic',[['all','Any topic'],...opt(all.map(a=>a.topic)).map(t=>[t,t])])
     +sel('type','Event type',[['all','Any type'],...opt(all.map(a=>a.type)).map(t=>[t,t])])
-    +sel('topic','Topic',[['all','Any topic'],...opt(all.map(a=>a.topic)).map(t=>[t,t])])
     +sel('org','Organiser',[['all','Any organiser'],...opt(all.map(a=>a.organiser)).map(t=>[t,t])])
     +sel('sponsor','Sponsor',[['all','Any sponsor'],['none','No sponsor named'],...opt(all.flatMap(a=>a.sponsors)).map(t=>[t,t])])
-    +sel('prize','Prize',[['all','Prize: any'],['yes','Prize published'],['no','Prize not published']])
-    +sel('sort','Sort',[['new','Newest first'],['old','Oldest first'],['az','A to Z']]);
+    +sel('prize','Prize',[['all','Any prize'],['yes','Prize published'],['no','Prize not published']])
+    +`<button class="link-btn" type="button" data-lib-clear>Clear filters</button>`;
+  const nMore=['topic','type','org','sponsor','prize'].filter(k=>lib[k]!=='all').length;$('#lib-mf').hidden=!nMore;$('#lib-mf').textContent=nMore;
   const q=lib.q.trim().toLowerCase();
   const list=all.filter(a=>(lib.status==='all'||a.status===lib.status)&&(lib.year==='all'||a.year===+lib.year)&&(lib.type==='all'||a.type===lib.type)&&(lib.topic==='all'||a.topic===lib.topic)&&(lib.org==='all'||a.organiser===lib.org)
       &&(lib.sponsor==='all'||(lib.sponsor==='none'?!a.sponsors.length:a.sponsors.includes(lib.sponsor)))&&(lib.prize==='all'||(lib.prize==='yes'?!!a.prize:!a.prize))&&archMatch(a,q))
     .sort((a,b)=>lib.sort==='old'?a.sortKey.localeCompare(b.sortKey):lib.sort==='az'?a.title.localeCompare(b.title):b.sortKey.localeCompare(a.sortKey));
-  $('#lib-count').textContent=`${list.length} of ${all.length} hackathons · ${all.filter(a=>a.year===2024).length} in 2024, ${all.filter(a=>a.year===2025).length} in 2025, ${all.filter(a=>a.year===2026).length} in 2026`;
+  $('#lib-count').textContent=list.length===all.length?`${all.length} hackathons`:`${list.length} of ${all.length} hackathons`;
+  const short=v=>esc(String(v).split(/,(?!\d)|;| \(| – | — /)[0].trim()),fact=(k,v)=>`<div><dt>${k}</dt><dd title="${esc(v||'')}">${v?short(v):'—'}</dd></div>`;
+  const sps=a=>a.sponsors.length?esc(a.sponsors.slice(0,2).join(', '))+(a.sponsors.length>2?` +${a.sponsors.length-2}`:''):'—';
   $('#lib-grid').innerHTML=list.map(a=>`<article class="lib-card">
-      <div class="lib-top"><span class="badge ${a.status==='Upcoming'?'accent':''}">${a.status}</span><span class="mtag">${a.type}</span><span class="mtag">${a.topic}</span><span class="lib-date">${arWhen(a)}</span></div>
-      <h3>${esc(a.title)}</h3><p class="lib-sub">${esc(a.organiser)}${a.city?' · '+esc(a.city):''}</p>
-      <dl class="lib-facts"><div><dt>Sponsors</dt><dd>${a.sponsors.length?a.sponsors.map(esc).join(', '):NP}</dd></div><div><dt>Participants</dt><dd>${a.participants?esc(a.participants):NP}</dd></div><div><dt>Prize</dt><dd>${a.prize?esc(a.prize):NP}</dd></div><div><dt>Winner</dt><dd>${a.winner?esc(a.winner):a.status==='Upcoming'?'Not held yet':NP}</dd></div></dl>
-      <div class="lib-acts"><a class="btn ghost sm" href="${esc(a.src)}" target="_blank" rel="noopener">${I('external','sm')}Source · ${esc(a.host)}</a>${a.sponsors.length?`<a class="btn ghost sm" href="#sponsors" data-lib-sp="${esc(a.sponsors[0])}">${I('bars','sm')}Sponsor record</a>`:''}<a class="btn primary sm" href="#studio-plan" data-lib-tpl="${a.id}">Use as template</a></div>
+      <div class="lib-top"><span class="badge ${a.status==='Upcoming'?'accent':''}">${a.status}</span><span class="mtag">${a.topic}</span><span class="lib-date">${arWhen(a)}</span></div>
+      <h3>${esc(a.title)}</h3><p class="lib-sub">${esc(a.organiser.split(/,(?!\d)| and | with /)[0])}${a.city?' · '+short(a.city):''}</p>
+      <dl class="lib-facts"><div><dt>Sponsors</dt><dd title="${esc(a.sponsors.join(', '))}">${sps(a)}</dd></div>${fact('Prize',a.prize)}${fact('Participants',a.participants)}${a.status==='Upcoming'?'':fact('Winner',a.winner)}</dl>
+      <div class="lib-acts"><a class="btn primary sm" href="#studio-plan" data-lib-tpl="${a.id}">Use as template</a>${a.sponsors.length?`<a class="btn ghost sm" href="#sponsors" data-lib-sp="${esc(a.sponsors[0])}">Sponsors</a>`:''}<a class="lib-src" href="${esc(a.src)}" target="_blank" rel="noopener" title="Source: ${esc(a.host)}">${esc(a.host)}${I('external','sm')}</a></div>
     </article>`).join('')||'<div class="empty">No hackathons match these filters.</div>';
 }
 document.addEventListener('input',e=>{if(e.target.id==='lib-q'){lib.q=e.target.value;renderLibrary()}});
 document.addEventListener('change',e=>{const k=e.target.dataset?.lib;if(k){lib[k]=e.target.value;renderLibrary()}});
 document.addEventListener('click',e=>{
+  if(e.target.closest('#lib-more')){const p=$('#lib-more-panel'),b=$('#lib-more');p.hidden=!p.hidden;b.setAttribute('aria-expanded',!p.hidden);return}
+  if(e.target.closest('[data-lib-clear]')){Object.assign(lib,{status:'all',year:'all',type:'all',topic:'all',org:'all',sponsor:'all',prize:'all'});renderLibrary();return}
   const tp=e.target.closest('[data-lib-tpl]');if(tp){const a=HACKATHON_ARCHIVE.find(i=>i.id===tp.dataset.libTpl);setTimeout(()=>toast(`Starting from “${a.title}”: topic and format copied. Check dates and prizes before publishing.`),60);return}
   const sp=e.target.closest('[data-lib-sp]');if(sp){const k=spSlug(sp.dataset.libSp);setTimeout(()=>openSponsor(k),80)}
 });
@@ -3615,7 +3636,9 @@ function renderMyHome(){
   const doneMods=course.modules.filter(m=>m.state==='done').length,tasks=planner.events.filter(e=>e.done).length+(course.submitted?1:0);
   $('#mstats').innerHTML=[[`+${200+(course.submitted?100:0)}`,'XP earned'],[doneMods,'Modules completed'],[tasks+3,'Tasks done'],[`${6+doneMods*2}h`,'Learning time']].map(([b,s])=>`<div><b>${b}</b><small>${s}</small></div>`).join('');
 }
-function clearFilters(){$('#search').value='';$('#f-theme').value='all';$('#f-industry').value='all';disc.cat='all';renderToolbar();renderSections()}
+function clearFilters(){$('#search').value='';$('#f-theme').value='all';$('#f-industry').value='all';disc.cat='all';disc.status='open';renderToolbar();renderSections()}
+$('#f-status').addEventListener('change',e=>{disc.status=e.target.value;renderToolbar();renderSections()});
+$('#f-cat').addEventListener('change',e=>{disc.cat=e.target.value;renderToolbar();renderSections()});
 ['#search','#f-theme','#f-industry'].forEach(s=>$(s).addEventListener('input',()=>{renderToolbar();renderSections()}));
 const TEAM=[['Xin Yi Neoh','You · Team lead','Xin Yi Neoh'],['Celine Hew','Research lead','Celine'],['Kai Li Chong','Prototype','Kai Li Chong'],['Hana Aziz','Pitch and design','Hana']];
 const teamMax=p=>{const n=(p.team.match(/\d+/g)||[]).map(Number);return n.length?Math.max(...n):TEAM.length};
