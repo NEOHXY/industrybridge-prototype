@@ -4785,8 +4785,8 @@ function renderHall(){
   const list=inHall(),open=hall.rooms.filter(r=>r.members.length<roomMax(r)).length,r=myRoom();
   $('#hall-count').innerHTML=`<b>Meetup Hall</b><span>${list.length+1+96} online · ${hall.rooms.length} rooms</span>`;
   $('#hall-portal-n').textContent=`${open} rooms with seats`;
-  $('#hall-people').innerHTML=list.map(h=>{const q=hall.pos[h.n];return `<button class="hp" type="button" data-hp="${h.n}" style="--x:${q.x};--y:${q.y};z-index:${10+Math.round(q.y)}" aria-label="${h.n}, ${esc(h.title)}. Open portfolio"><span class="hp-tag">${h.n}${hallTag(h.n)}</span>${sprImg(h.n)}</button>`}).join('')
-    +`<button class="hp you" type="button" id="hall-me" style="--x:${hall.me.x};--y:${hall.me.y};z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You${hallTag('me')}</span>${sprImg('me')}</button>`;
+  $('#hall-people').innerHTML=list.map(h=>{const q=hall.pos[h.n];return `<button class="hp" type="button" data-hp="${h.n}" style="--x:${q.x};--y:${q.y};z-index:${10+Math.round(q.y)}" aria-label="${h.n}, ${esc(h.title)}. Open portfolio"><span class="hp-tag">${h.n}</span>${sprImg(h.n)}</button>`}).join('')
+    +`<button class="hp you" type="button" id="hall-me" style="--x:${hall.me.x};--y:${hall.me.y};z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You</span>${sprImg('me')}</button>`;
   // in-scene buttons that change with your state
   const mineAll=myRooms(),hb=$('#hud-myroom');hb.hidden=!r;
   if(mineAll.length>1){delete hb.dataset.roomOpen;hb.dataset.myRooms='';hb.innerHTML=`${PI('users')}<span><b>My rooms · ${mineAll.length}</b><small>${mineAll.filter(x=>x.members.length>=roomMax(x)).length} ready to register</small></span>`}
