@@ -421,6 +421,18 @@ body[data-view=signin] .mainnav,body[data-view=signin] .top-actions,body[data-vi
 .arch-win i{font-style:normal;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--body-2)}
 .arch-acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 .arch-more{margin:12px auto 0;display:flex}
+/* Real-data details */
+.np{color:var(--muted);font-style:italic;font-weight:400}
+.sp-ini{display:inline-grid;place-items:center;border-radius:8px;background:var(--org);color:#fff;font-weight:700;letter-spacing:.02em;flex:none}
+.arch-sp{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-top:4px!important}
+.arch-sp i{font-style:normal;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--moss-deep)}
+.arch-prize{margin-left:8px;font-size:12px;color:var(--muted)}
+.arch-note{margin:14px 0 0;font-size:12px;color:var(--muted)}
+.lib-count{margin:-4px 0 10px;font:500 11px var(--font-mono);letter-spacing:.06em;color:var(--muted)}
+.lib-facts{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2)}
+.lib-facts dt{font:500 10.5px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lib-facts dd{margin:2px 0 0;font-size:12.5px;font-weight:600;line-height:1.35}
+.sp-hist li a{font-size:12px;color:var(--accent-hi);white-space:nowrap}
 .cert-view{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#f7f4ea;min-height:120px;display:grid;place-items:center}
 .cert-view img{display:block;width:100%;height:auto}
 #view-archive .arch{margin-top:6px}
@@ -1152,8 +1164,6 @@ ul{list-style:none;margin:0;padding:0}
 .rb-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .rb-filter{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .rb-list{display:grid;gap:8px;max-height:min(56vh,520px);overflow:auto;padding-right:2px}
-.rb-row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
-.rb-row.mine{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
 .rb-no{font:600 12px var(--font-mono);color:var(--muted)}
 .rb-main{display:grid;gap:6px;min-width:0}
 .rb-main p{margin:0;font-size:13px;color:var(--body-2)}
@@ -1662,6 +1672,40 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
 .mc-x span{text-align:center;font:500 10.5px var(--font-mono);color:var(--muted)}
 .mc-x span.now{color:var(--fg);font-weight:700}
 .mc-x span.now::after{content:"now";display:block;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep)}
+/* Sponsor insights charts */
+.sp-grid2{margin-top:16px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+@media (max-width:900px){.sp-grid2{grid-template-columns:1fr}}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.sw.ln{height:3px;border-radius:2px;background:#c2410c;width:14px}
+.rb-name .sw{width:12px;height:12px}
+.rb-bar{box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.dn{display:grid;grid-template-columns:170px minmax(0,1fr);gap:16px;align-items:center}
+.dn svg{width:170px;height:170px}
+.dn circle{transition:opacity .15s}
+.dn svg:hover circle{opacity:.55}.dn svg circle:hover{opacity:1}
+.dn-n{font:700 28px var(--font-display);fill:var(--fg)}
+.dn-l{font:500 11px var(--font-mono);fill:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.dn-leg{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.dn-leg li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;font-size:13px}
+.dn-leg li span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dn-leg li b{font-variant-numeric:tabular-nums}
+.dn-leg.cols{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));margin-top:14px}
+.dn-leg.cols li{grid-template-columns:auto minmax(0,1fr);font-size:12px}
+@media (max-width:520px){.dn{grid-template-columns:1fr;justify-items:center}}
+.combo{width:100%;height:auto;overflow:visible}
+.combo .cb{outline:none}.combo .cb:hover rect,.combo .cb:focus-visible rect{filter:brightness(1.2)}
+.cb-v{font:600 11px var(--font-body);fill:var(--fg)}
+.cb-x{font:500 10px var(--font-mono);fill:var(--muted)}
+.combo-leg{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:4px}
+.combo-leg span{display:inline-flex;align-items:center;gap:6px}
+.stk{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;height:200px;align-items:end;padding:0 10px;border-bottom:1px solid var(--line-2)}
+.stk-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
+.stk-bar{width:min(64px,80%);display:flex;flex-direction:column-reverse;border-radius:6px 6px 0 0;overflow:hidden}
+.stk-bar span{display:block;min-height:3px;outline:none;border-top:1px solid rgba(255,255,255,.6)}
+.stk-bar span:hover,.stk-bar span:focus-visible{filter:brightness(1.15)}
+.stk-col b{font:600 14px var(--font-display);order:-1}
+.stk-col small{font:500 11px var(--font-mono);color:var(--muted);margin-bottom:-22px}
+#sp-stack .dn-leg.cols{margin-top:30px}
 .sp-cap{margin:14px 0 0;font-size:13px;line-height:1.5;color:var(--body-2)}
 .sp-mini{width:100%;border-collapse:collapse;font-size:13px}
 .sp-mini th{font-size:12px;font-weight:500;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
@@ -2250,9 +2294,9 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
     <header class="phead"><div class="phead-main">
       <span class="eyebrow"><span><a href="#studio-manage">Studio</a> / Sponsors</span></span>
       <h1 class="page-title"><span class="soft">Sponsor</span> insights</h1>
-      <p class="page-sub">Who backs which topics, when they say yes, and who to ask next.</p>
+      <p class="page-sub">Who backed Malaysian hackathons from 2024 to 2026, in which topics and months, and who came back. Built from public sources only.</p>
     </div>
-    <div class="phead-aside"><span class="badge warn">Demo data</span><a class="btn primary" href="#studio-plan"><svg class="i sm"><use href="#i-sparkle"/></svg>Match sponsors to a new program</a></div></header>
+    <div class="phead-aside"><span class="badge ok">Real data · public sources</span><a class="btn primary" href="#studio-plan"><svg class="i sm"><use href="#i-sparkle"/></svg>Match sponsors to a new program</a></div></header>
     <div class="tabs" data-tabs="sponsors" role="tablist"><button class="on" data-tab="insights" role="tab">Insights</button><button data-tab="outreach" role="tab">Your outreach</button></div>
     <div data-panel="sponsors:insights">
       <div class="cat-tabs sp-topics" id="sp-topics" role="group" aria-label="Topic"></div>
@@ -2260,13 +2304,17 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
       <p class="statnote" id="sp-note"></p>
       <div class="sp-grid">
         <section class="card sp-chart" id="sp-rank" aria-label="Top sponsors"></section>
-        <section class="card sp-chart" id="sp-months" aria-label="When sponsors say yes"></section>
+        <section class="card sp-chart" id="sp-donut" aria-label="Share of sponsor credits"></section>
+      </div>
+      <div class="sp-grid sp-grid2">
+        <section class="card sp-chart" id="sp-months" aria-label="When hackathons happen"></section>
+        <section class="card sp-chart" id="sp-stack" aria-label="Hackathons per year by topic"></section>
       </div>
       <div class="sp-callout" id="sp-callout"></div>
       <div class="card sp-table-card">
         <div class="sp-table-head"><h3>Sponsors</h3><span id="sp-table-sub"></span></div>
         <div class="table-scroll"><table class="lb-table sp-table">
-          <thead><tr><th>Sponsor</th><th>Backs</th><th>Usually gives</th><th>Record</th><th>Came back</th><th>Budget window</th><th aria-label="Open"></th></tr></thead>
+          <thead><tr><th>Sponsor</th><th>Topics</th><th>Events backed</th><th>Years</th><th>Came back</th><th aria-label="Open"></th></tr></thead>
           <tbody id="sp-rows"></tbody>
         </table></div>
       </div>
@@ -2274,7 +2322,7 @@ body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);bac
     <div data-panel="sponsors:outreach" hidden>
       <p class="sp-out-sum" id="sp-out-sum"></p>
       <div class="sp-board" id="sp-board"></div>
-      <p class="sp-fine">Intros go through IndustryBridge to the inbox each sponsor lists for sponsorship requests. If there's no reply in 5 days, you'll get a reminder to nudge.</p>
+      <p class="sp-fine">Your board is private to you. Contacts are whatever you type in; IndustryBridge doesn't collect or show sponsors' personal emails.</p>
     </div>
   </div>
 </section>
@@ -2718,49 +2766,64 @@ $('#bell').addEventListener('click',()=>openModal(`<h2 id="modal-title">Notifica
   <div class="thread">${NOTES[role||'student'].filter(n=>!(n[0]==='AI Forge'&&!course.submitted)).map(([w,t,m])=>`<div class="msg">${avatar(w,36)}<div class="msg-body"><header><b>${w}</b><span>${t}</span></header><p>${m}</p></div></div>`).join('')}</div>
   <div class="modal-actions"><button class="btn primary" data-close>Mark all as read</button></div>`));
 
-/* ===== Easy-to-replace data =====
-   EVENT_PHOTOS_URL: the shared Google Drive folder with event photos. Replace the placeholder with the real
-   folder link (Drive > folder > Share > Copy link). Any archive entry can also set its own `photos` link.
-   HACKATHON_ARCHIVE: every hackathon from the past three years. Swap this array for real records later;
-   keep the same fields. `me` marks events the signed-in student took part in (gives them a certificate). */
+/* ===== Real hackathons in Malaysia, 2024–2026 =====
+   HACKATHON_ARCHIVE: every entry is a real event, checked against the public source in `src`.
+   Fields left as '' were not published in that source; the page shows "Not published" instead of guessing.
+   date: 'YYYY-MM-DD' when the day is known, 'YYYY-MM' for the month, 'YYYY' for the year only.
+   sponsors: companies or bodies the source names as sponsor, funder or supporting partner (not the organiser's own staff).
+   To add an event, copy an entry, fill in what the source says, and keep the link. Last checked: 11 Nov 2026.
+   EVENT_PHOTOS_URL: Google Drive folder for photos of IndustryBridge's own programs (My programs > Completed). */
 const EVENT_PHOTOS_URL='https://drive.google.com/drive/folders/REPLACE_WITH_EVENT_PHOTOS_FOLDER_ID';
 const HACKATHON_ARCHIVE=[
-  // year, date (YYYY-MM-DD), title, organiser (fictional), type, format, topic, tech, teams, prize, winner, me
-  {date:'2024-02-17',title:'Lunar New Year Retail Jam',organiser:'Kedai Data Co.',type:'Hackathon',format:'In person · Kuala Lumpur',topic:'Retail',tech:['Python','Sheets'],teams:24,prize:'RM3,000',winner:'Team Ang Pow Analytics'},
-  {date:'2024-03-09',title:'Campus Energy Ideathon',organiser:'Campus Sustainability Network',type:'Ideathon',format:'Online',topic:'Climate',tech:['Figma','AppSheet'],teams:31,prize:'RM2,000',winner:'Team Watt Now'},
-  {date:'2024-04-20',title:'Hawker Payments Hack',organiser:'Penang FinLab',type:'Hackathon',format:'Hybrid · Penang',topic:'Finance',tech:['Flutter','Firebase'],teams:42,prize:'RM8,000',winner:'Team Satay Stack'},
-  {date:'2024-05-25',title:'Flood Alert Datathon',organiser:'Open Data Malaysia Lab',type:'Datathon',format:'Online',topic:'Public sector',tech:['Python','Pandas','QGIS'],teams:28,prize:'RM5,000',winner:'Team Banjir Busters'},
-  {date:'2024-06-15',title:'Smart Factory Challenge 2024',organiser:'Innovation Office',type:'Challenge',format:'Hybrid · Kuala Lumpur',topic:'Manufacturing',tech:['Python','OpenCV'],teams:36,prize:'RM10,000',winner:'Team Line Sight'},
-  {date:'2024-07-13',title:'Health Queue Sprint',organiser:'KL Health Innovation Hub',type:'Hackathon',format:'In person · Kuala Lumpur',topic:'Health',tech:['Figma','Firebase'],teams:19,prize:'RM4,000',winner:'Team Triage Tigers'},
-  {date:'2024-08-03',title:'Agri Drone Weekend',organiser:'Johor Agri Cooperative',type:'Hackathon',format:'In person · Johor Bahru',topic:'Agriculture',tech:['Arduino','Python'],teams:14,prize:'RM6,000',winner:'Team Padi Pilots'},
-  {date:'2024-08-31',title:'Merdeka Civic Hack',organiser:'Open Data Malaysia Lab',type:'Hackathon',format:'Online',topic:'Public sector',tech:['React','Looker Studio'],teams:47,prize:'RM7,000',winner:'Team Rakyat Ready'},
-  {date:'2024-09-21',title:'CTF Rookie Cup',organiser:'CyberShield Bank Security',type:'Hackathon',format:'Online',topic:'Cybersecurity',tech:['Kali Linux','Burp Suite'],teams:58,prize:'RM5,000',winner:'Team Null Pointer'},
-  {date:'2024-10-19',title:'Melaka Mobility Lab',organiser:'Melaka Smart City Unit',type:'Challenge',format:'Hybrid · Melaka',topic:'Mobility',tech:['Google Maps API','Python'],teams:22,prize:'RM6,500',winner:'Team Bas Mana'},
-  {date:'2024-11-16',title:'No-code for Good',organiser:'Innovation Office',type:'Hackathon',format:'Online',topic:'Education',tech:['AppSheet','Glide'],teams:39,prize:'RM3,500',winner:'Team Low Code High Five'},
-  {date:'2025-01-18',title:'Kopitiam AI Sprint',organiser:'Kedai Data Co.',type:'Hackathon',format:'In person · Ipoh',topic:'Retail',tech:['Gemini','Sheets'],teams:26,prize:'RM4,000',winner:'Team Teh Tarik Tensor'},
-  {date:'2025-02-22',title:'Green Campus Innovation 2025',organiser:'Campus Sustainability Network',type:'Challenge',format:'Hybrid · Shah Alam',topic:'Climate',tech:['IoT sensors','AppSheet'],teams:33,prize:'RM8,000',winner:'Team Leaf It To Us',me:'Joined'},
-  {date:'2025-03-29',title:'Insurtech for Gig Workers',organiser:'Penang FinLab',type:'Hackathon',format:'Online',topic:'Finance',tech:['Gemini','Looker Studio'],teams:44,prize:'RM9,000',winner:'Team Grab Cover'},
-  {date:'2025-04-26',title:'Rural Clinic Datathon',organiser:'KL Health Innovation Hub',type:'Datathon',format:'Online',topic:'Health',tech:['Python','Pandas'],teams:21,prize:'RM5,000',winner:'Team Klinik Insight'},
-  {date:'2025-05-17',title:'EV Road Trip Hack',organiser:'JB Energy Alliance',type:'Hackathon',format:'Hybrid · Johor Bahru',topic:'Mobility',tech:['QGIS','Python'],teams:18,prize:'RM7,500',winner:'Team Charge Ahead'},
-  {date:'2025-06-14',title:'Smart Factory Challenge 2025',organiser:'Innovation Office',type:'Challenge',format:'Hybrid · Kuala Lumpur',topic:'Manufacturing',tech:['Python','Vertex AI'],teams:40,prize:'RM10,000',winner:'Team Defect Detectives',me:'Finalist'},
-  {date:'2025-07-12',title:'Halal Trace Ideathon',organiser:'Halal Trade Network',type:'Ideathon',format:'Online',topic:'Retail',tech:['Blockchain','Figma'],teams:16,prize:'RM3,000',winner:'Team Trust Chain'},
-  {date:'2025-08-09',title:'Phishing Defence Night',organiser:'CyberShield Bank Security',type:'Hackathon',format:'In person · Cyberjaya',topic:'Cybersecurity',tech:['Python','Gemini'],teams:52,prize:'RM6,000',winner:'Team Bait Breakers'},
-  {date:'2025-08-30',title:'Merdeka Data Week',organiser:'Open Data Malaysia Lab',type:'Datathon',format:'Online',topic:'Public sector',tech:['Pandas','Looker Studio'],teams:35,prize:'RM5,000',winner:'Team Data Durian'},
-  {date:'2025-09-20',title:'Durian Farm IoT Cup',organiser:'Johor Agri Cooperative',type:'Challenge',format:'In person · Raub',topic:'Agriculture',tech:['ESP32','Arduino'],teams:12,prize:'RM6,000',winner:'Team Thorny Sensors'},
-  {date:'2025-10-18',title:'Edu Access Hack',organiser:'UTeM Student Affairs',type:'Hackathon',format:'In person · Melaka',topic:'Education',tech:['Flutter','Firebase'],teams:27,prize:'RM3,000',winner:'Team Study Buddy'},
-  {date:'2025-11-15',title:'FinTech for Inclusion 2025',organiser:'Penang FinLab',type:'Hackathon',format:'Hybrid · Penang',topic:'Finance',tech:['AppSheet','Gemini'],teams:55,prize:'RM12,000',winner:'Team Kopi Data'},
-  {date:'2025-12-06',title:'Year-end Pitch Clash',organiser:'Innovation Office',type:'Challenge',format:'In person · Kuala Lumpur',topic:'Business',tech:['Google Slides'],teams:30,prize:'RM4,000',winner:'Team Three Minute Heroes'},
-  {date:'2026-01-24',title:'Smart Shelf Sprint',organiser:'Kedai Data Co.',type:'Hackathon',format:'Online',topic:'Retail',tech:['Vertex AI','Python'],teams:29,prize:'RM5,000',winner:'Team Gap Finder'},
-  {date:'2026-02-28',title:'Clean Air Datathon',organiser:'Campus Sustainability Network',type:'Datathon',format:'Online',topic:'Climate',tech:['Python','Looker Studio'],teams:23,prize:'RM4,500',winner:'Team Jerebu Watch'},
-  {date:'2026-03-21',title:'Elder Care Ideathon',organiser:'KL Health Innovation Hub',type:'Ideathon',format:'Hybrid · Kuala Lumpur',topic:'Health',tech:['Figma','Gemini'],teams:20,prize:'RM3,500',winner:'Team Atuk Assist'},
-  {date:'2026-04-18',title:'Bus Data Hack',organiser:'Melaka Smart City Unit',type:'Hackathon',format:'In person · Melaka',topic:'Mobility',tech:['Google Maps API','Pandas'],teams:25,prize:'RM6,000',winner:'Team Next Stop'},
-  {date:'2026-05-16',title:'Secure Apps Weekend',organiser:'CyberShield Bank Security',type:'Hackathon',format:'Online',topic:'Cybersecurity',tech:['Burp Suite','Python'],teams:49,prize:'RM7,000',winner:'Team Patch Party'},
-  {date:'2026-06-13',title:'Gemini No-code Hackathon',organiser:'Innovation Office',type:'Hackathon',format:'Online',topic:'AI',tech:['Gemini','AppSheet'],teams:62,prize:'RM8,000',winner:'Team Prompt Perfect',me:'Joined'},
-  {date:'2026-07-11',title:'Hydro Grid Challenge',organiser:'JB Energy Alliance',type:'Challenge',format:'Hybrid · Kuching',topic:'Climate',tech:['Python','QGIS'],teams:15,prize:'RM9,000',winner:'Team River Watts'},
-  {date:'2026-08-08',title:'Open Budget Hack',organiser:'Open Data Malaysia Lab',type:'Hackathon',format:'Online',topic:'Public sector',tech:['React','Pandas'],teams:34,prize:'RM5,000',winner:'Team Ringgit Radar'},
-  {date:'2026-09-05',title:'Retail AI Sprint',organiser:'Kedai Data Co.',type:'Hackathon',format:'Online',topic:'Retail',tech:['Python','Vertex AI'],teams:32,prize:'RM5,000',winner:'Team Kopi Data',me:'Finalist'},
-  {date:'2026-10-25',title:'Campus Safety Hack',organiser:'UTeM Student Affairs',type:'Hackathon',format:'In person · Melaka',topic:'Cybersecurity',tech:['Flutter','Firebase'],teams:21,prize:'RM4,000',winner:'Team Null Pointer',me:'Joined'}
-].map(a=>({...a,year:+a.date.slice(0,4),id:'ar-'+a.date+'-'+a.title.toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
+  // 2024
+  {date:'2024-02-22',title:'HackCorruption Malaysia',organiser:'Accountability Lab',sponsors:[],type:'Hackathon',city:'Kuala Lumpur',topic:'Governance',participants:'Teams from Indonesia, Malaysia and Thailand',prize:'',winner:'OpenBO, Voices4Budget, Carbonitor, Integrity Eyes, Land Looters',src:'https://accountabilitylab.org/hackcorruption-malaysia-our-most-feasible-ideas/'},
+  {date:'2024-04-20',title:'Varsity Hackathon (V HACK) 2024',organiser:'Universiti Sains Malaysia (School of Computer Sciences)',sponsors:['Securities Commission Malaysia'],type:'Hackathon',city:'Penang',topic:'Fintech',participants:'200+ teams',prize:'RM15,000 to the champion',winner:'roadto15k (APU)',src:'https://afterschool.my/find-university-in-malaysia/apu-team-roadto15k-emerges-as-champions-at-varsity-hackathon-2024'},
+  {date:'2024-05-17',title:'WPH Digital Hackathon: Next Gen Revolution 2024',organiser:'WPH Digital',sponsors:['WPH Digital'],type:'Hackathon',city:'Regional (Malaysia, Singapore, Philippines)',topic:'AI',participants:'Teams from Malaysia, Singapore and the Philippines',prize:'',winner:'HireMe (APU)',src:'https://apu.edu.my/media/news/3168'},
+  {date:'2024-06',title:'Air Selangor Data & Digital Hackathon 2024',organiser:'Air Selangor',sponsors:['Air Selangor'],type:'Hackathon',city:'Petaling Jaya',topic:'Water & utilities',participants:'149 registrations, 10 finalist teams',prize:'RM10,000 first place (RM20,000 in prizes)',winner:'Fresh Air (Universiti Malaya)',src:'https://www5.airselangor.com/?p=112923'},
+  {date:'2024-06-30',title:'PayNet x APU Hackathon 2024 (X2 Hackathon by Akar)',organiser:'PayNet and Asia Pacific University',sponsors:['PayNet'],type:'Hackathon',city:'Kuala Lumpur',topic:'Fintech',participants:'37 teams registered, 10 selected',prize:'RM5,000 to the Platinum winner',winner:'Pay-Jaja',src:'https://apu.edu.my/node/2636'},
+  {date:'2024-10',title:'Siber Siaga 2024 x iHack 2024',organiser:'UiTM College of Computing, Informatics and Mathematics',sponsors:['Malaysian Armed Forces Cyber Division (BSEP)','TM One'],type:'CTF',city:'',topic:'Cybersecurity',participants:'103 teams in the qualifier',prize:'Trip to the ASEAN Cyber SEA Games 2024',winner:'UPNM',src:'https://news.uitm.edu.my/?p=66097'},
+  {date:'2024-10-14',title:'MYHackathon 2024 · Cohort 1',organiser:'MOSTI and Cradle Fund',sponsors:['MOSTI','Cradle Fund'],type:'Challenge',city:'Kuala Lumpur',topic:'GovTech',participants:'Malaysian startups',prize:'Conditional grants up to RM250,000 per winner',winner:'7 winners incl. TERRAAGRA, ParlimenAI, V-Cred',src:'https://technode.global/2024/10/16/mosti-announces-seven-local-startups-as-winners-of-myhackathon-2024-cohort-1/'},
+  {date:'2024-10-17',title:'UST D3CODE 2024 (Malaysia)',organiser:'UST',sponsors:['UST'],type:'Hackathon',city:'',topic:'AI',participants:'',prize:'',winner:'Multimedia University team (Sentinel AI)',src:'https://www.prnewswire.com/apac/news-releases/ust-announces-the-global-winners-of-d3code-hackathon-2024-302278206.html'},
+  {date:'2024-11-09',title:'MY Universities Hackathon 2024',organiser:'HackQuest with USM and UTM',sponsors:['Ethereum Foundation','Road to Devcon','KIP Protocol','Open Campus'],type:'Hackathon',city:'Penang',topic:'Web3',participants:'Top 10 teams at demo day',prize:'RM10,000 prize pool',winner:'Smart X (USM), Ethereum track',src:'https://cs.usm.my/index.php/news/news-cs/830-usm-hosted-my-universities-hackathon-2024-and-won-biggest-prize-pool-in-ethereum-track'},
+  {date:'2024-11-23',title:'PayHack 2024 · Open Finance Hackathon',organiser:'PayNet',sponsors:['PayNet'],type:'Hackathon',city:'Online, finals in Kuala Lumpur',topic:'Fintech',participants:'32 teams in the finals',prize:'',winner:'',src:'https://pay-net.atlassian.net/wiki/spaces/OF/pages/746553571/5.2+PayHack+2024-Open+Finance+Hackathon'},
+  {date:'2024-12-06',title:'HackWknd Kota Samarahan 2024',organiser:'SDEC, Borneo Digital and UNIMAS',sponsors:['SDEC','ZOHO Corporation'],type:'Hackathon',city:'Kota Samarahan',topic:'Education',participants:'',prize:'RM3,000 AI Innovation Award',winner:'Team Ballin',src:'https://sdec.com.my/web/2024/12/13/hackwknd-kota-samarahan-2024-pioneering-ai-innovations-in-education/'},
+  {date:'2024-12-10',title:'MYHackathon 2024 · Cohort 2',organiser:'MOSTI and Cradle Fund',sponsors:['MOSTI','Cradle Fund'],type:'Challenge',city:'Kuala Lumpur',topic:'GovTech',participants:'Malaysian companies',prize:'Conditional grants up to RM250,000 per winner',winner:'AERIAL WORKS, BeyondVISIBLE, Leogics Solution, Electserve, VL JEJAK',src:'https://cj.my/?p=150924'},
+  {date:'2024',title:'Curtin Malaysia CTF Hackathon 2.0',organiser:'Curtin University Malaysia (Electrical and Computer Engineering)',sponsors:['SDEC'],type:'CTF',city:'Online',topic:'Cybersecurity',participants:'',prize:'RM7,500 prize pool',winner:'',src:'https://apu.edu.my/node/1309'},
+  // 2025
+  {date:'2025-04',title:'UMHackathon 2025',organiser:'PEKOM and FSKTM, Universiti Malaya',sponsors:[],type:'Hackathon',city:'Kuala Lumpur',topic:'AI',participants:'',prize:'RM7,500 first prize',winner:'Sunway University team',src:'https://sunwayuniversity.edu.my/news/2025/fet-students-crowned-champion-umhackathon-2025'},
+  {date:'2025-04',title:'UTMxHackathon 2025',organiser:'Universiti Teknologi Malaysia (Faculty of Computing)',sponsors:[],type:'Hackathon',city:'Johor Bahru',topic:'Software',participants:'117 students',prize:'',winner:'',src:'https://news.utm.my/2025/04/utmxhackathon25-igniting-innovation-shaping-the-future/'},
+  {date:'2025-04-26',title:'Varsity Hackathon (V HACK) 2025',organiser:'Universiti Sains Malaysia (School of Computer Sciences)',sponsors:['CelcomDigi'],type:'Hackathon',city:'Penang',topic:'Smart cities',participants:'',prize:'',winner:'HydroNet (Universiti Malaya)',src:'https://cs.usm.my/index.php/news-events/news-cs/848-varsity-hackathon-2025-a-global-stage-for-innovation-at-usm'},
+  {date:'2025-05-04',title:'KitaHack 2025',organiser:'Google Developer Groups on Campus Malaysia',sponsors:['Google'],type:'Hackathon',city:'Subang Jaya (Monash University Malaysia)',topic:'AI',participants:'Top 10 finalists from 100+ ideas',prize:'',winner:'',src:'https://gdg.community.dev/events/details/google-gdg-on-campus-universiti-malaya-kuala-lumpur-malaysia-presents-kitahack-2025-demo-day/cohost-gdg-on-campus-monash-university-malaysia-selangor-malaysia'},
+  {date:'2025-07',title:'UNIMAS AI Hackathon 2025',organiser:'SDEC, Borneo Digital and UNIMAS',sponsors:['SDEC'],type:'Hackathon',city:'Kota Samarahan',topic:'AI',participants:'',prize:'',winner:'',src:'https://gazette.unimas.my/?p=5795'},
+  {date:'2025-09',title:'PayHack 2025',organiser:'PayNet (PayNet Akar)',sponsors:['PayNet','Ant International'],type:'Hackathon',city:'Kuala Lumpur',topic:'Fintech',participants:'400+ students from 21 universities',prize:'RM55,000 prize pool, RM20,000 to the champion',winner:'RoadTo20K (Universiti Malaya)',src:'https://fintechnews.my/53955/innovation/intervarsity-hackathon-paynet/'},
+  {date:'2025-09-20',title:'Great Malaysia AI Hackathon 2025',organiser:'Asia Pacific University with MDEC',sponsors:['MDEC','AWS'],type:'Hackathon',city:'Kuala Lumpur (Technology Park Malaysia)',topic:'AI',participants:'1,741 participants',prize:'RM110,000 prize pool',winner:'Ctrl + Chill (APU)',src:'https://apu.edu.my/node/2740'},
+  {date:'2025',title:'SC COFAR Challenge 2025',organiser:'Securities Commission Malaysia',sponsors:['Securities Commission Malaysia'],type:'Challenge',city:'',topic:'Climate',participants:'University students',prize:'RM50,000 in cash prizes',winner:'',src:'https://www.sc.com.my/resources/media/media-release/university-students-win-rm50000-in-scs-cofar-challenge'},
+  {date:'2025',title:'UST D3CODE 2025 (Malaysia)',organiser:'UST',sponsors:['UST'],type:'Hackathon',city:'Cyberjaya',topic:'AI',participants:'',prize:'',winner:'',src:'https://newinti.edu.my/inti-students-win-awards-in-space-robotics-and-global-hackathon/'},
+  {date:'2025',title:'MATLAB AI Hackathon 2025',organiser:'TechSource Systems',sponsors:['TechSource Systems'],type:'Hackathon',city:'',topic:'AI',participants:'Malaysian students',prize:'',winner:'',src:'https://www.techsource-asia.com/matlab-ai-hackathon-2025-ignites-innovation-collaboration-and-creativity-among-malaysian-students/'},
+  {date:'2025',title:'Curtin Malaysia CTF Hackathon 3.0',organiser:'Curtin University Malaysia (Electrical and Computer Engineering)',sponsors:['SDEC'],type:'CTF',city:'Online',topic:'Cybersecurity',participants:'75 teams',prize:'RM2,500 grand prize',winner:'Flag/Abuser (UniKL MIIT)',src:'https://www.apu.edu.my/news/apu-claims-1st-and-2nd-runner-curtin-malaysias-national-ctf-hackathon-2025'},
+  {date:'2025-11',title:'GirlsCode Challenge 2025 · National Final',organiser:'SDEC',sponsors:['SDEC'],type:'Challenge',city:'',topic:'Education',participants:'Primary and secondary school girls',prize:'',winner:'Guardian Angels (junior), Digital Divas (senior)',src:'https://sdec.com.my/web/2025/12/03/malaysias-young-female-tech-innovators-shine-at-girlscode-challenge-5th-anniversary-finals/'},
+  {date:'2025-11-22',title:'Maybank Hackathon 2025 (GTD 2025)',organiser:'Maybank, hosted by Asia Pacific University',sponsors:['Maybank'],type:'Hackathon',city:'Kuala Lumpur',topic:'Cybersecurity',participants:'12 finalist teams',prize:'',winner:'Byte-Sized (APU)',src:'https://apu.edu.my/news/apu-students-excel-maybank-hackathon-2025'},
+  {date:'2025-12',title:'Cursor x Anthropic Hackathon Malaysia',organiser:'Community organisers at Monash University Malaysia',sponsors:['Cursor','Anthropic','AWS','Vercel','Groq','ElevenLabs'],type:'Hackathon',city:'Subang Jaya (Monash University Malaysia)',topic:'AI',participants:'684 builders, 140 projects',prize:'Up to US$5,000 Cursor credits, US$1,000 Claude API credits',winner:'',src:'https://www.therakyatpost.com/tech/2025/12/17/684-tech-builders-came-together-for-malaysias-largest-24-hour-ai-hackathon-at-monash-university/'},
+  // 2026
+  {date:'2026',title:'KitaHack 2026',organiser:'Google Developer Groups on Campus Malaysia',sponsors:['Google'],type:'Hackathon',city:'',topic:'AI',participants:'',prize:'',winner:'',src:'https://kitahack2026.my/'},
+  {date:'2026-04-25',title:'Varsity Hackathon (V HACK) 2026',organiser:'Universiti Sains Malaysia (School of Computer Sciences)',sponsors:[],type:'Hackathon',city:'Penang',topic:'Software',participants:'',prize:'',winner:'',src:'https://cs.usm.my/index.php/news/announcement/868-varsity-hackathon-2026'},
+  {date:'2026-05-02',title:'UMHackathon 2026',organiser:'PEKOM and FSKTM, Universiti Malaya',sponsors:['Z.ai','YTL AI Labs','Etiqa','Ant International','Alphared','TRAE'],type:'Hackathon',city:'Kuala Lumpur',topic:'AI',participants:'272 teams, 1,103 participants (preliminary)',prize:'',winner:'',src:'https://apu.edu.my/node/3120'},
+  {date:'2026-05',title:'BorNEO HackWknd 2026',organiser:'SDEC and partners',sponsors:['SDEC'],type:'Hackathon',city:'',topic:'Software',participants:'450+ participants from ASEAN',prize:'',winner:'',src:'https://www.theborneopost.com/2026/05/11/borneo-hackwknd-boosts-sarawaks-digital-ecosystem-says-sdec-ceo/'},
+  {date:'2026-05-16',title:'Project 2030: MyAI Future Hackathon',organiser:'GDG on Campus Universiti Teknologi Malaysia',sponsors:['Google'],type:'Hackathon',city:'Johor Bahru',topic:'AI',participants:'',prize:'',winner:'',src:'https://news.utm.my/2026/05/utm-empowers-next-generation-of-ai-innovators-through-project-2030-myai-future-hackathon/'},
+  {date:'2026-05-23',title:'UTMxHackathon 2026',organiser:'Universiti Teknologi Malaysia (Faculty of Computing students)',sponsors:['GXBank','RunCloud'],type:'Hackathon',city:'Johor Bahru',topic:'Software',participants:'399 participants from 24 universities',prize:'',winner:'Protect Liver',src:'https://news.utm.my/2026/06/utmxhackathon-2026-empowering-nearly-400-young-tech-innovators-across-malaysia-to-solve-real-world-challenges/'},
+  {date:'2026-07',title:'AI Hackathon for the Public Sector 2026',organiser:'Digital Penang',sponsors:['Digital Penang'],type:'Hackathon',city:'Penang',topic:'GovTech',participants:'Penang public officers',prize:'RM2,000 top prize',winner:'GovSTRA (Penang Convention and Exhibition Bureau)',src:'https://www.thestar.com.my/metro/metro-news/2026/07/13/real-time-monitoring-of-short-term-stays-in-penang-wins-hackathon'},
+  {date:'2026-07-18',title:'Codex Community Hackathon Kuala Lumpur 2026',organiser:'Codex Community Malaysia',sponsors:[],type:'Hackathon',city:'Subang Jaya (Sunway University)',topic:'AI',participants:'Up to 150 selected participants',prize:'US$15,000 in Codex credits for 1st place',winner:'',src:'https://luma.com/rgk6ln4e'},
+  {date:'2026-07-30',title:'SC RIFAR University Challenge 2026',organiser:'Securities Commission Malaysia',sponsors:['Securities Commission Malaysia','ICAEW Malaysia','Lembaga Urus Air Selangor','Landasan Lumayan','Jeffrey Sachs Centre'],type:'Challenge',city:'Kuala Lumpur',topic:'Climate',participants:'About 400 students from 46 universities',prize:'RM57,000 in prizes',winner:'Team BDR (Monash University Malaysia and Universiti Malaya)',src:'https://www.sc.com.my/resources/media/media-release/scs-rifar-showcase-awards-youth-driven-innovative-solutions-for-climate-resilience'},
+  {date:'2026-10',title:'AI Muda@NADI Hackathon 2026',organiser:'MCMC and CelcomDigi',sponsors:['MCMC','CelcomDigi','Google for Education'],type:'Hackathon',city:'',topic:'AI',participants:'9,000+ secondary school students, 26 finalist teams',prize:'RM5,000 to the champion',winner:'INNOVIQ (Kolej Vokasional Perdagangan Johor Bahru)',src:'https://soyacincau.com/2026/10/27/malaysian-students-ai-smart-farming/'},
+  {date:'2026-12-05',title:'Sea x OpenAI Regional Codex Hackathon · Kuala Lumpur',organiser:'Sea and OpenAI',sponsors:['Sea','OpenAI'],type:'Hackathon',city:'Kuala Lumpur (Mandarin Oriental)',topic:'AI',participants:'About 40 teams',prize:'US$50,000 in OpenAI API credits',winner:'',src:'https://www.malaymail.com/news/money/mediaoutreach/2026/10/12/sea-and-openai-bring-regional-codex-hackathon-series-to-malaysia/493348'}
+].map(a=>{
+  const [y,m,d]=a.date.split('-'),year=+y,month=m?+m-1:null,day=d?+d:null;
+  const when=day?new Date(year,month,day):month!=null?new Date(year,month,1):new Date(year,0,1);
+  return {...a,year,month,day,when,sortKey:a.date.padEnd(10,'-00'),status:when>new Date()?'Upcoming':'Completed',host:(()=>{try{return new URL(a.src).hostname.replace(/^www\d?\./,'')}catch(e){return ''}})(),
+    id:'ar-'+a.date+'-'+a.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')};
+});
+const arWhen=a=>a.day?`${a.day} ${MON_S[a.month]} ${a.year}`:a.month!=null?`${MON_L[a.month]} ${a.year}`:`${a.year}`;
+const NP='<span class="np">Not published</span>';
 
 /* ===== 1. Discover ===== */
 const programs=[
@@ -3319,95 +3382,85 @@ function openPhotos(ev){
     <p class="muted" style="font-size:12.5px;margin:0">${ready?'The full album is in a shared Google Drive folder.':'Drive folder link not set yet. Put it in EVENT_PHOTOS_URL at the top of the script.'}</p>
     <div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button>${ready?`<a class="btn primary" href="${esc(url)}" target="_blank" rel="noopener">Open in Google Drive ${I('external','sm')}</a>`:`<button class="btn primary" type="button" disabled>Open in Google Drive</button>`}</div>`,true);
 }
-const archOf=id=>HACKATHON_ARCHIVE.find(a=>a.id===id);
+/* The signed-in student's own record on IndustryBridge (certificates and photos come from here, not from the real archive) */
+function myRecord(){
+  return [['retail','Finalist'],['campus','Joined']].map(([id,me])=>{const p=programs.find(x=>x.id===id);if(!p)return null;const d=p.endsAt;
+    return {id:'mr-'+id,title:p.title,organiser:HOSTS[id]||'IndustryBridge',type:p.kind,format:p.format,date:d.toISOString().slice(0,10),year:d.getFullYear(),me,teams:p.teams||0}}).filter(Boolean);
+}
+const archOf=id=>myRecord().find(a=>a.id===id);
 document.addEventListener('click',e=>{
   const c=e.target.closest('[data-cert]');if(c){const a=archOf(c.dataset.cert);if(a)showCert(a);return}
   const dl=e.target.closest('[data-cert-dl]');if(dl){const a=archOf(dl.dataset.certDl);if(a)downloadCert(a);return}
   const p=e.target.closest('[data-photos]');if(p){const a=archOf(p.dataset.photos);if(a)openPhotos(a)}
 });
-/* ===== Hackathon archive (students, on Discover) ===== */
-const arch={q:'',year:'all',type:'all',mine:false,all:false};
-function archMatch(a,q){return !q||[a.title,a.organiser,a.topic,a.type,a.format,a.winner,...a.tech].join(' ').toLowerCase().includes(q)}
+/* ===== Hackathon archive: real Malaysian hackathons 2024–2026 (students' Archive tab) ===== */
+const arch={q:'',year:'all',type:'all',topic:'all',all:false};
+function archMatch(a,q){return !q||[a.title,a.organiser,a.topic,a.type,a.city,a.winner,a.participants,...a.sponsors].join(' ').toLowerCase().includes(q)}
+function arRow(a){
+  return `<article class="arch-row"><div class="prow-date"><small>${a.month!=null?MON_S[a.month]:a.year}</small><b>${a.day?String(a.day).padStart(2,'0'):a.month!=null?'·':'–'}</b></div>
+    <div class="arch-main"><div class="prow-tags"><span class="mtag accent">${a.type}</span><span class="mtag">${a.topic}</span>${a.city?`<span class="mtag">${esc(a.city)}</span>`:''}${a.status==='Upcoming'?'<span class="mtag ink">Upcoming</span>':''}</div>
+      <h4>${esc(a.title)}</h4><p>${esc(a.organiser)} · ${arWhen(a)}${a.participants?' · '+esc(a.participants):''}</p>
+      ${a.sponsors.length?`<p class="arch-sp">Sponsors &amp; partners: ${a.sponsors.map(s=>`<i>${esc(s)}</i>`).join('')}</p>`:''}
+      <p class="arch-win">${I('trophy','sm')}${a.winner?esc(a.winner):a.status==='Upcoming'?'Not held yet':'Winner not published'}<span class="arch-prize">${a.prize?esc(a.prize):'Prize not published'}</span></p></div>
+    <div class="arch-acts"><a class="btn ghost sm" href="${esc(a.src)}" target="_blank" rel="noopener">${I('external','sm')}Source</a></div></article>`;
+}
 function renderArchive(){
   const el=$('#archive');if(!el)return;
-  if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<div class="arch-head"><div><span class="eyebrow">2024 – 2026</span><h2>All hackathons</h2></div><span class="arch-n" id="arch-n"></span></div>
-    <div class="arch-bar"><label class="search"><svg class="i"><use href="#i-search"/></svg><input id="arch-q" type="search" placeholder="Search by keyword: title, organiser, topic, tech or winner" aria-label="Search the archive"></label>
+  if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<div class="arch-head"><div><span class="eyebrow">Malaysia · 2024 – 2026</span><h2>Every hackathon we could verify</h2></div><span class="arch-n" id="arch-n"></span></div>
+    <div class="arch-bar"><label class="search"><svg class="i"><use href="#i-search"/></svg><input id="arch-q" type="search" placeholder="Search by keyword: title, organiser, sponsor, topic, city or winner" aria-label="Search the archive"></label>
       <div class="cat-tabs" id="arch-years"></div>
       <select class="pill-select" id="arch-type" aria-label="Type"><option value="all">All types</option>${[...new Set(HACKATHON_ARCHIVE.map(a=>a.type))].map(t=>`<option>${t}</option>`).join('')}</select>
-      <label class="hf-open"><input type="checkbox" id="arch-mine"> Only mine</label></div>
-    <div id="arch-list"></div>`}
-  const q=arch.q.trim().toLowerCase(),list=HACKATHON_ARCHIVE.filter(a=>(arch.year==='all'||a.year===+arch.year)&&(arch.type==='all'||a.type===arch.type)&&(!arch.mine||a.me)&&archMatch(a,q)).sort((a,b)=>b.date.localeCompare(a.date));
+      <select class="pill-select" id="arch-topic" aria-label="Topic"><option value="all">All topics</option>${[...new Set(HACKATHON_ARCHIVE.map(a=>a.topic))].sort().map(t=>`<option>${t}</option>`).join('')}</select></div>
+    <div id="arch-list"></div>
+    <p class="arch-note">Each event links to its public source. Fields marked "not published" weren't in the source. Smaller campus events without a public page may be missing.</p>`}
+  const q=arch.q.trim().toLowerCase(),list=HACKATHON_ARCHIVE.filter(a=>(arch.year==='all'||a.year===+arch.year)&&(arch.type==='all'||a.type===arch.type)&&(arch.topic==='all'||a.topic===arch.topic)&&archMatch(a,q)).sort((a,b)=>b.sortKey.localeCompare(a.sortKey));
   $('#arch-years').innerHTML=['all',2026,2025,2024].map(y=>`<button type="button" data-arch-year="${y}" class="${String(arch.year)===String(y)?'on':''}">${y==='all'?'All years':y}<small>${HACKATHON_ARCHIVE.filter(a=>y==='all'||a.year===y).length}</small></button>`).join('');
   $('#arch-n').textContent=`${list.length} of ${HACKATHON_ARCHIVE.length}`;
-  const shown=arch.all||q?list:list.slice(0,10);let lastY=0;
-  $('#arch-list').innerHTML=shown.map(a=>{const d=new Date(a.date),head=a.year!==lastY?`<div class="arch-y">${a.year}</div>`:'';lastY=a.year;
-    return head+`<article class="arch-row${a.me?' mine':''}"><div class="prow-date"><small>${MON_S[d.getMonth()]}</small><b>${String(d.getDate()).padStart(2,'0')}</b></div>
-      <div class="arch-main"><div class="prow-tags"><span class="mtag accent">${a.type}</span><span class="mtag">${a.format.split(' · ')[0]}</span><span class="mtag">${a.topic}</span>${a.me?`<span class="mtag ink">You · ${a.me}</span>`:''}</div>
-        <h4>${esc(a.title)}</h4><p>${esc(a.organiser)} · ${a.format} · ${a.teams} teams · ${a.prize}</p>
-        <p class="arch-win">${I('trophy','sm')}${esc(a.winner)}<span>${a.tech.map(t=>`<i>${t}</i>`).join('')}</span></p></div>
-      <div class="arch-acts"><button class="btn ghost sm" type="button" data-photos="${a.id}">${I('eye','sm')}Photos</button>${a.me?`<button class="btn primary sm" type="button" data-cert="${a.id}">${I('file','sm')}Certificate</button>`:''}</div></article>`}).join('')
+  const shown=arch.all||q?list:list.slice(0,12);let lastY=0;
+  $('#arch-list').innerHTML=shown.map(a=>{const head=a.year!==lastY?`<div class="arch-y">${a.year}</div>`:'';lastY=a.year;return head+arRow(a)}).join('')
     +(list.length>shown.length?`<button class="link-btn arch-more" type="button" data-arch-all>Show all ${list.length} hackathons</button>`:'')
     +(list.length?'':`<div class="empty">No hackathons match “${esc(arch.q)}”.</div>`);
 }
 document.addEventListener('input',e=>{if(e.target.id==='arch-q'){arch.q=e.target.value;renderArchive()}});
-document.addEventListener('change',e=>{if(e.target.id==='arch-type'){arch.type=e.target.value;renderArchive()}if(e.target.id==='arch-mine'){arch.mine=e.target.checked;renderArchive()}});
+document.addEventListener('change',e=>{if(e.target.id==='arch-type'){arch.type=e.target.value;renderArchive()}if(e.target.id==='arch-topic'){arch.topic=e.target.value;renderArchive()}});
 document.addEventListener('click',e=>{const y=e.target.closest('[data-arch-year]');if(y){arch.year=y.dataset.archYear;renderArchive();return}if(e.target.closest('[data-arch-all]')){arch.all=true;renderArchive()}});
-/* ===== Organizer Library: every program to manage or reuse ===== */
-const lib={q:'',scope:'all',status:'all',type:'all',when:'all',size:'all',sponsor:'all',sort:'recent',drafts:[
-  {id:'d-sfc27',title:'Smart Factory Challenge 2027',organiser:'Innovation Office',type:'Challenge',format:'Hybrid · Kuala Lumpur',topic:'Manufacturing',date:'2027-03-06',teams:0,status:'Draft'},
-  {id:'d-kdw',title:'Kampung Data Week',organiser:'Innovation Office',type:'Datathon',format:'Online',topic:'Public sector',date:'2027-01-16',teams:0,status:'Draft'}]};
-const ORG_NAME=()=>PEOPLE.organizer.name;
-function libItems(){
-  const now=new Date();
-  const cur=programs.map(p=>({id:p.id,live:true,title:p.title,organiser:HOSTS[p.id]||'IndustryBridge',type:p.kind,format:p.format,topic:p.tags[0],date:(p.opensAt||p.closes).toISOString().slice(0,10),teams:p.id==='smart'?40:(p.teamsIn??p.teams??0),
-    status:p.status==='soon'?'Published':p.status==='open'?'Live':p.status==='progress'?((p.endsAt-now)/864e5<=21?'Judging':'Live'):'Closed'}));
-  const old=HACKATHON_ARCHIVE.filter(a=>!cur.some(c=>c.title===a.title)).map(a=>({...a,status:'Closed'}));
-  return [...lib.drafts,...cur,...old].map(x=>({...x,mine:x.organiser===ORG_NAME(),subs:x.status==='Draft'||x.status==='Published'?0:Math.round(x.teams*(.55+hash(x.id)%40/100)),done:x.status==='Closed'?62+hash(x.id+'c')%33:x.status==='Draft'?0:20+hash(x.id+'c')%50,rating:(3.9+hash(x.id+'r')%11/10).toFixed(1)}));
-}
+/* ===== Organizer Library: the same real hackathons, with organiser filters ===== */
+const lib={q:'',status:'all',year:'all',type:'all',topic:'all',org:'all',sponsor:'all',prize:'all',sort:'new'};
 function renderLibrary(){
-  const el=$('#library');if(!el)return;
-  const all=libItems(),sponsors=[...new Set(all.map(x=>x.organiser))].sort();
-  if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<header class="phead"><div class="phead-main"><span class="eyebrow"><span>IB / Library</span></span><h1 class="page-title"><span class="soft">Program</span> library</h1><p class="page-sub">Every program on IndustryBridge, yours and everyone else’s. Manage what’s running, check results, or reuse a past program as a template.</p></div>
-      <div class="phead-aside"><a class="btn primary" href="#studio-plan">${I('plus','sm')}Create a program</a></div></header>
-    <div class="lib-bar">
-      <div class="seg" role="group" aria-label="Whose programs"><button type="button" data-lib-scope="all">All programs</button><button type="button" data-lib-scope="mine">My events</button></div>
-      <label class="search"><svg class="i"><use href="#i-search"/></svg><input id="lib-q" type="search" placeholder="Search title, sponsor, topic or tech" aria-label="Search the library"></label></div>
-    <div class="lib-bar" id="lib-filters"></div>
+  const el=$('#library');if(!el)return;const all=HACKATHON_ARCHIVE;
+  if(!el.dataset.ready){el.dataset.ready=1;el.innerHTML=`<header class="phead"><div class="phead-main"><span class="eyebrow"><span>IB / Library</span></span><h1 class="page-title"><span class="soft">Hackathon</span> library</h1><p class="page-sub">Every hackathon held in Malaysia from 2024 to 2026 that we could verify, with organisers, sponsors, prizes and winners from public sources. Use it to plan dates, find sponsors and reuse what worked.</p></div>
+      <div class="phead-aside"><a class="btn ghost" href="#sponsors">${I('bars','sm')}Sponsor insights</a><a class="btn primary" href="#studio-plan">${I('plus','sm')}Create a program</a></div></header>
+    <div class="lib-bar"><label class="search"><svg class="i"><use href="#i-search"/></svg><input id="lib-q" type="search" placeholder="Search title, organiser, sponsor, topic, city or winner" aria-label="Search the library"></label></div>
+    <div class="lib-bar" id="lib-filters"></div><p class="lib-count" id="lib-count"></p>
     <div class="lib-grid" id="lib-grid"></div>`}
-  const sel=(k,label,opts)=>`<select class="pill-select" data-lib="${k}" aria-label="${label}">${opts.map(([v,t])=>`<option value="${v}"${String(lib[k])===String(v)?' selected':''}>${t}</option>`).join('')}</select>`;
-  $('#lib-filters').innerHTML=sel('status','Status',[['all','Any status'],...['Draft','Published','Live','Judging','Closed'].map(s=>[s,s])])
-    +sel('type','Event type',[['all','Any type'],...[...new Set(all.map(x=>x.type))].map(t=>[t,t])])
-    +sel('when','Date range',[['all','Any date'],['upcoming','Upcoming'],['2026','2026'],['2025','2025'],['2024','2024']])
-    +sel('size','Participants',[['all','Any size'],['s','Under 20 teams'],['m','20–50 teams'],['l','50+ teams']])
-    +sel('sponsor','Sponsor',[['all','Any sponsor'],...sponsors.map(s=>[s,s])])
-    +sel('sort','Sort',[['recent','Newest first'],['teams','Most teams'],['done','Best completion'],['rating','Best rated']]);
-  $$('[data-lib-scope]').forEach(b=>b.classList.toggle('on',b.dataset.libScope===lib.scope));
-  const q=lib.q.trim().toLowerCase(),today=new Date().toISOString().slice(0,10);
-  const list=all.filter(x=>(lib.scope==='all'||x.mine)&&(lib.status==='all'||x.status===lib.status)&&(lib.type==='all'||x.type===lib.type)&&(lib.sponsor==='all'||x.organiser===lib.sponsor)
-      &&(lib.when==='all'||(lib.when==='upcoming'?x.date>=today:x.date.startsWith(lib.when)))&&(lib.size==='all'||(lib.size==='s'?x.teams<20:lib.size==='m'?x.teams>=20&&x.teams<=50:x.teams>50))
-      &&(!q||[x.title,x.organiser,x.topic,x.type,x.format,x.winner||'',...(x.tech||[])].join(' ').toLowerCase().includes(q)))
-    .sort((a,b)=>lib.sort==='teams'?b.teams-a.teams:lib.sort==='done'?b.done-a.done:lib.sort==='rating'?b.rating-a.rating:b.date.localeCompare(a.date));
-  const st={Draft:'',Published:'accent',Live:'ok',Judging:'warn',Closed:''};
-  $('#lib-grid').innerHTML=list.map(x=>{const d=new Date(x.date);return `<article class="lib-card${x.mine?' mine':''}">
-      <div class="lib-top"><span class="badge ${st[x.status]}">${x.status}</span>${x.mine?'<span class="mtag ink">My event</span>':''}<span class="lib-date">${d.getDate()} ${MON_S[d.getMonth()]} ${d.getFullYear()}</span></div>
-      <h3>${esc(x.title)}</h3><p class="lib-sub">${esc(x.organiser)} · ${x.type} · ${x.format}</p>
-      <div class="lib-stats"><div><b>${x.teams}</b><small>Teams</small></div><div><b>${x.subs}</b><small>Submissions</small></div><div><b>${x.done}%</b><small>Completed</small></div><div><b>${x.status==='Draft'?'–':x.rating}</b><small>Rating</small></div></div>
-      <div class="lib-acts">${x.mine?`<a class="btn ghost sm" href="#studio-design">${I('edit','sm')}Edit</a>`:''}<button class="btn ghost sm" type="button" data-lib-dup="${x.id}">${I('plus','sm')}Duplicate</button>${x.status==='Draft'||x.status==='Published'?'':x.mine?`<a class="btn ghost sm" href="#studio-manage">${I('file','sm')}Submissions</a>`:''}${x.status==='Draft'?'':`<button class="btn ghost sm" type="button" data-lib-stats="${x.id}">${I('bars','sm')}Analytics</button>`}<a class="btn primary sm" href="#studio-plan" data-lib-tpl="${x.id}">Use as template</a></div>
-    </article>`}).join('')||'<div class="empty">No programs match these filters.</div>';
+  const opt=a=>[...new Set(a)].sort();
+  const sel=(k,label,opts)=>`<select class="pill-select" data-lib="${k}" aria-label="${label}">${opts.map(([v,t])=>`<option value="${esc(v)}"${String(lib[k])===String(v)?' selected':''}>${esc(t)}</option>`).join('')}</select>`;
+  $('#lib-filters').innerHTML=sel('status','Status',[['all','Any status'],['Completed','Completed'],['Upcoming','Upcoming']])
+    +sel('year','Year',[['all','Any year'],['2026','2026'],['2025','2025'],['2024','2024']])
+    +sel('type','Event type',[['all','Any type'],...opt(all.map(a=>a.type)).map(t=>[t,t])])
+    +sel('topic','Topic',[['all','Any topic'],...opt(all.map(a=>a.topic)).map(t=>[t,t])])
+    +sel('org','Organiser',[['all','Any organiser'],...opt(all.map(a=>a.organiser)).map(t=>[t,t])])
+    +sel('sponsor','Sponsor',[['all','Any sponsor'],['none','No sponsor named'],...opt(all.flatMap(a=>a.sponsors)).map(t=>[t,t])])
+    +sel('prize','Prize',[['all','Prize: any'],['yes','Prize published'],['no','Prize not published']])
+    +sel('sort','Sort',[['new','Newest first'],['old','Oldest first'],['az','A to Z']]);
+  const q=lib.q.trim().toLowerCase();
+  const list=all.filter(a=>(lib.status==='all'||a.status===lib.status)&&(lib.year==='all'||a.year===+lib.year)&&(lib.type==='all'||a.type===lib.type)&&(lib.topic==='all'||a.topic===lib.topic)&&(lib.org==='all'||a.organiser===lib.org)
+      &&(lib.sponsor==='all'||(lib.sponsor==='none'?!a.sponsors.length:a.sponsors.includes(lib.sponsor)))&&(lib.prize==='all'||(lib.prize==='yes'?!!a.prize:!a.prize))&&archMatch(a,q))
+    .sort((a,b)=>lib.sort==='old'?a.sortKey.localeCompare(b.sortKey):lib.sort==='az'?a.title.localeCompare(b.title):b.sortKey.localeCompare(a.sortKey));
+  $('#lib-count').textContent=`${list.length} of ${all.length} hackathons · ${all.filter(a=>a.year===2024).length} in 2024, ${all.filter(a=>a.year===2025).length} in 2025, ${all.filter(a=>a.year===2026).length} in 2026`;
+  $('#lib-grid').innerHTML=list.map(a=>`<article class="lib-card">
+      <div class="lib-top"><span class="badge ${a.status==='Upcoming'?'accent':''}">${a.status}</span><span class="mtag">${a.type}</span><span class="mtag">${a.topic}</span><span class="lib-date">${arWhen(a)}</span></div>
+      <h3>${esc(a.title)}</h3><p class="lib-sub">${esc(a.organiser)}${a.city?' · '+esc(a.city):''}</p>
+      <dl class="lib-facts"><div><dt>Sponsors</dt><dd>${a.sponsors.length?a.sponsors.map(esc).join(', '):NP}</dd></div><div><dt>Participants</dt><dd>${a.participants?esc(a.participants):NP}</dd></div><div><dt>Prize</dt><dd>${a.prize?esc(a.prize):NP}</dd></div><div><dt>Winner</dt><dd>${a.winner?esc(a.winner):a.status==='Upcoming'?'Not held yet':NP}</dd></div></dl>
+      <div class="lib-acts"><a class="btn ghost sm" href="${esc(a.src)}" target="_blank" rel="noopener">${I('external','sm')}Source · ${esc(a.host)}</a>${a.sponsors.length?`<a class="btn ghost sm" href="#sponsors" data-lib-sp="${esc(a.sponsors[0])}">${I('bars','sm')}Sponsor record</a>`:''}<a class="btn primary sm" href="#studio-plan" data-lib-tpl="${a.id}">Use as template</a></div>
+    </article>`).join('')||'<div class="empty">No hackathons match these filters.</div>';
 }
 document.addEventListener('input',e=>{if(e.target.id==='lib-q'){lib.q=e.target.value;renderLibrary()}});
 document.addEventListener('change',e=>{const k=e.target.dataset?.lib;if(k){lib[k]=e.target.value;renderLibrary()}});
 document.addEventListener('click',e=>{
-  const s=e.target.closest('[data-lib-scope]');if(s){lib.scope=s.dataset.libScope;renderLibrary();return}
-  const du=e.target.closest('[data-lib-dup]');if(du){const x=libItems().find(i=>i.id===du.dataset.libDup);lib.drafts.unshift({id:'d-'+Date.now(),title:x.title.replace(/ (20\d\d)$/,'')+' (copy)',organiser:ORG_NAME(),type:x.type,format:x.format,topic:x.topic,date:new Date(Date.now()+60*864e5).toISOString().slice(0,10),teams:0,status:'Draft'});renderLibrary();toast(`Copied “${x.title}” into a new draft`);return}
-  const tp=e.target.closest('[data-lib-tpl]');if(tp){const x=libItems().find(i=>i.id===tp.dataset.libTpl);setTimeout(()=>toast(`Starting from “${x.title}”: tracks, rubric and timeline copied`),60);return}
-  const an=e.target.closest('[data-lib-stats]');if(an){const x=libItems().find(i=>i.id===an.dataset.libStats);
-    openModal(`<div><span class="eyebrow">Analytics</span><h2 id="modal-title">${esc(x.title)}</h2><p class="muted" style="font-size:13px;margin:2px 0 0">${esc(x.organiser)} · ${x.status}</p></div>
-      <div class="facts"><div><small>Teams</small><b>${x.teams}</b></div><div><small>Submissions</small><b>${x.subs}</b></div><div><small>Completion</small><b>${x.done}%</b></div><div><small>Rating</small><b>${x.rating} / 5</b></div><div><small>Students reached</small><b>${x.teams*3+hash(x.id)%40}</b></div><div><small>Universities</small><b>${4+hash(x.id+'u')%14}</b></div></div>
-      ${x.winner?`<div class="win">${I('trophy')}<span>Winner: ${esc(x.winner)}</span></div>`:''}
-      <div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button><button class="btn primary" type="button" data-toast="Report exported as PDF">Export report</button></div>`)}
+  const tp=e.target.closest('[data-lib-tpl]');if(tp){const a=HACKATHON_ARCHIVE.find(i=>i.id===tp.dataset.libTpl);setTimeout(()=>toast(`Starting from “${a.title}”: topic and format copied. Check dates and prizes before publishing.`),60);return}
+  const sp=e.target.closest('[data-lib-sp]');if(sp){const k=spSlug(sp.dataset.libSp);setTimeout(()=>openSponsor(k),80)}
 });
-
 function renderCards(){syncStatus();renderNextUp();renderCal();renderSpot();renderUp();renderArchive();renderLibrary();renderToolbar();renderSections();renderMyProgs();if(curEvent&&!$('#view-event').hidden)renderEvent()}
 let curEvent=null;
 const HOSTS={smart:'Innovation Office',green:'Campus Sustainability Network',fintech:'Penang FinLab',health:'KL Health Innovation Hub',mobility:'Melaka Smart City Unit',agri:'Johor Agri Cooperative',cyber:'CyberShield Bank Security',data:'Open Data Malaysia Lab',ev:'JB Energy Alliance',halal:'Halal Trade Network',retail:'Kedai Data Co.',campus:'UTeM Student Affairs'};
@@ -3514,7 +3567,7 @@ function renderMyHome(){
   $('#mph-saved').innerHTML=saved.length?`<div class="plist">${saved.map(rowHTML).join('')}</div>`
     :`<div class="empty">Nothing saved yet. Tap the bookmark on any program in <button class="link-btn" type="button" data-set-tab="mph:all">All programs</button> to keep it here.</div>`;
   // completed: every past hackathon you took part in (from HACKATHON_ARCHIVE), with certificate and photos
-  const done=HACKATHON_ARCHIVE.filter(x=>x.me).sort((x,y)=>y.date.localeCompare(x.date));
+  const done=myRecord().sort((x,y)=>y.date.localeCompare(x.date));
   $('#mph-completed').innerHTML=done.map(x=>`<article class="mrow">
     <div class="mrow-main"><div class="mrow-org"><span class="pcard-logo mini p-smart" aria-hidden="true">${I('trophy')}</span>${esc(x.organiser)}</div><h3>${esc(x.title)}</h3>
       <p class="mrow-meta">${x.type} · Finished ${fmtDate(new Date(x.date))} · ${x.teams} teams</p></div>
@@ -3953,209 +4006,190 @@ $('#rec').addEventListener('click',e=>{
 });
 $$('.step').forEach(s=>s.addEventListener('click',()=>{const n=+s.dataset.step;if(n>=3)go('studio-design');else{go('studio-plan');if(n===1)$('#b-objective').focus()}}));
 
-/* ===== 7. Organizer · Sponsor insights =====
-   Who backs which topics, when they say yes, and who to ask for a new program.
-   Every sponsor, event and amount here is invented demo data. Inboxes use the reserved .example domain,
-   and only team inboxes a sponsor lists for sponsorship requests are ever shown, never personal emails. */
-const SPONSORS={
-  tabungo:{ind:'Digital bank',themes:['Finance','Cybersecurity'],ask:10000,win:[9,10,11],motive:['Hiring','Brand'],wants:'Interns for its data and security teams',team:'Partnerships team',inbox:'partnerships@tabungo.example',checked:'Oct 2026'},
-  bentengo:{ind:'Security labs',themes:['Cybersecurity'],ask:8000,win:[0,1,2],motive:['Hiring','Product'],wants:'Students who will use and test its security tools',team:'Community team',inbox:'community@bentengo.example',checked:'Sep 2026'},
-  mesinara:{ind:'Manufacturer',themes:['Manufacturing','AI'],ask:10000,win:[9,10,11],motive:['Pilot','Hiring'],wants:'Ideas it can pilot on a real production line',team:'Innovation office',inbox:'innovation@mesinara.example',checked:'Oct 2026'},
-  awanova:{ind:'Cloud provider',themes:['AI','Data Science'],ask:15000,win:[9,10,11],motive:['Product','Brand'],wants:'Teams building on its cloud (half the amount comes as cloud credits)',team:'Startup programs',inbox:'startups@awanova.example',checked:'Nov 2026'},
-  suriva:{ind:'Solar energy',themes:['Climate'],ask:12000,win:[9,10,11],motive:['ESG','Brand'],wants:'Measured energy savings it can cite in its ESG report',team:'ESG team',inbox:'esg@suriva.example',checked:'Aug 2026'},
-  sihatura:{ind:'Health network',themes:['Health'],ask:6000,win:[5,6,7],motive:['CSR','Pilot'],wants:'Tools its clinics can test safely',team:'CSR team',inbox:'csr@sihatura.example',checked:'Jul 2026'},
-  gerakota:{ind:'Urban mobility',themes:['Mobility','Data Science'],ask:9000,win:[9,10,11],motive:['Pilot','Data'],wants:'Route and ridership ideas it can trial',team:'Partnerships team',inbox:'partners@gerakota.example',checked:'Oct 2026'},
-  padiverse:{ind:'Agri co-op',themes:['Agriculture'],ask:4000,win:[1,2,3],motive:['Pilot'],wants:'Low-cost tools its farmers will actually use',team:'Co-op office',inbox:'hello@padiverse.example',checked:'Mar 2026'},
-  datara:{ind:'Data institute',themes:['Data Science'],ask:5000,win:[3,4,5],motive:['Research'],wants:'Student research on open public data',team:'Outreach team',inbox:'outreach@datara.example',checked:'May 2026'},
-  kedaio:{ind:'Retail group',themes:['Retail','AI'],ask:5000,win:[6,7,8],motive:['Hiring'],wants:'Graduates for its analytics roles',team:'Campus hiring',inbox:'campus@kedaio.example',checked:'Aug 2026'},
-  lajuship:{ind:'Logistics',themes:['Mobility','Data Science'],ask:7000,win:[6,7,8],motive:['Hiring','Pilot'],wants:'Routing and warehouse data projects',team:'Talent team',inbox:'talent@lajuship.example',checked:'Sep 2026'}
-};
-// [sponsor, event, topic, 'YYYY-MM' confirmed, amount in RM, outcome report delivered]
-const SP_HIST=[
-  ['tabungo','FinHack','Finance','2024-11',10000,1],['tabungo','FinHack','Finance','2025-10',12000,1],['tabungo','Secure Campus CTF','Cybersecurity','2025-11',8000,0],['tabungo','FinTech for Inclusion','Finance','2026-10',12000,0],
-  ['bentengo','Secure Campus CTF','Cybersecurity','2024-02',6000,1],['bentengo','Secure Campus CTF','Cybersecurity','2025-02',8000,1],['bentengo','CyberShield Challenge','Cybersecurity','2026-02',8000,1],['bentengo','Campus Safety Hack','Cybersecurity','2026-03',5000,1],
-  ['mesinara','Factory 4.0 Sprint','Manufacturing','2024-10',8000,1],['mesinara','Factory 4.0 Sprint','Manufacturing','2025-10',10000,1],['mesinara','Vision AI Bootcamp','AI','2025-12',5000,0],['mesinara','Smart Factory Challenge','Manufacturing','2026-10',10000,1],
-  ['awanova','GenAI Builders Week','AI','2024-12',12000,1],['awanova','GenAI Builders Week','AI','2025-11',15000,1],['awanova','Vision AI Bootcamp','AI','2025-12',15000,1],['awanova','Data for Good Sprint','Data Science','2026-11',15000,0],
-  ['suriva','Green Grid Challenge','Climate','2024-11',10000,1],['suriva','Green Grid Challenge','Climate','2025-11',12000,1],['suriva','Green Campus Innovation','Climate','2026-10',12000,1],
-  ['sihatura','MedTech Mini Hack','Health','2024-07',5000,0],['sihatura','Health Tech Sprint','Health','2026-07',6000,1],
-  ['gerakota','Urban Moves Lab','Mobility','2024-12',8000,1],['gerakota','Urban Moves Lab','Mobility','2025-12',9000,1],['gerakota','Smart Mobility Lab','Mobility','2026-11',9000,0],
-  ['padiverse','Agri Data Day','Agriculture','2025-03',4000,0],['padiverse','AgriTech Futures','Agriculture','2026-03',4000,1],
-  ['datara','Open Data Jam','Data Science','2024-05',5000,1],['datara','Open Data Jam','Data Science','2025-05',5000,0],
-  ['kedaio','Shopfloor Analytics Cup','Retail','2025-08',4000,1],['kedaio','Retail AI Sprint','Retail','2026-08',5000,1],
-  ['lajuship','Supply Chain Data Cup','Data Science','2024-08',6000,1],['lajuship','Route Optimiser Hack','Mobility','2025-09',7000,1],['lajuship','Urban Moves Lab','Mobility','2025-12',5000,0]
-];
-const SP_TOPICS=['All','AI','Cybersecurity','Finance','Climate','Health','Mobility','Data Science','Manufacturing','Agriculture','Retail'];
-const TRACK_TOPICS={'Logistics + Sustainability':['Mobility','Climate'],'AI + Manufacturing':['Manufacturing','AI'],'Climate + Sustainability':['Climate'],'Finance + No-code':['Finance'],'Health + AI':['Health','AI'],'Cybersecurity + AI':['Cybersecurity','AI'],'Data Science + Public sector':['Data Science']};
-const SP_STAGES=[['intro','Intro sent'],['talks','In talks'],['committed','Committed'],['later','Not now']];
-const OUTREACH=[
-  {sp:'mesinara',ev:'Smart Factory Challenge',stage:'committed',ask:10000,when:'2 Oct',days:40},
-  {sp:'awanova',ev:'Smart Factory Challenge',stage:'talks',ask:15000,when:'4 Nov',days:7},
-  {sp:'lajuship',ev:'Smart Factory Challenge',stage:'intro',ask:7000,when:'3 Nov',days:8},
-  {sp:'datara',ev:'Smart Factory Challenge',stage:'later',ask:5000,when:'28 Oct',days:14}
-];
-const spState={topic:'All',view:{rank:'chart',months:'chart'}};
+/* ===== 7. Organizer · Sponsor insights (real data) =====
+   Everything on this page is computed from HACKATHON_ARCHIVE: real Malaysian hackathons from 2024 to 2026, each with a
+   public source. A "sponsor" is any company or body a source names as sponsor, funder or supporting partner.
+   Amounts each sponsor gave, budget windows and contacts are not public, so they are not shown or estimated.
+   The outreach board starts empty: organisers add sponsors and type the contact they were given themselves. */
 const SP_NOW=new Date();
 const spRM=n=>'RM'+n.toLocaleString('en-MY');
-const spK=n=>'RM'+(n/1000).toFixed(n%1000?1:0)+'k';
-const spYear=r=>+r[3].slice(0,4),spMonth=r=>+r[3].slice(5,7)-1;
-const spRows=(k,topic)=>SP_HIST.filter(r=>(!k||r[0]===k)&&(!topic||topic==='All'||r[2]===topic));
-const spTopicWord=t=>t==='AI'?'AI':t.toLowerCase();
-const spTier=n=>n>=10000?'Gold':n>=6000?'Silver':'Bronze';
 const spList=a=>a.length>1?a.slice(0,-1).join(', ')+' and '+a.at(-1):a[0]||'';
-// "Came back" = the sponsor backed any event again the following year. This year's sponsorships are too early to judge.
-const spEligible=r=>spYear(r)<SP_NOW.getFullYear();
-const spRenewed=r=>SP_HIST.some(x=>x[0]===r[0]&&spYear(x)===spYear(r)+1);
-function spRenewRate(rows){const e=rows.filter(spEligible);return e.length?e.filter(spRenewed).length/e.length:null}
-const spWin=k=>{const w=SPONSORS[k].win;return `${MON_S[w[0]]}–${MON_S[w.at(-1)]}`};
-const spWinOpen=k=>SPONSORS[k].win.includes(SP_NOW.getMonth());
-const spMedian=a=>{const v=[...a].sort((x,y)=>x-y),m=v.length>>1;return v.length?(v.length%2?v[m]:(v[m-1]+v[m])/2):0};
-function spMark(k,size=28){const o=ORGS[k];return `<span class="sp-mark" style="--org:${o.c};width:${size}px;height:${size}px" aria-hidden="true"><svg viewBox="0 0 24 24">${o.mark}</svg></span>`}
-
-/* Match score out of 100, each part explainable in one line:
-   topic fit 40 · budget fit 20 · timing 15 · track record 15 · comes back 10 */
-function spScore(k,topics,need){
-  const s=SPONSORS[k],rows=spRows(k),m=SP_NOW.getMonth();
-  const topic=s.themes[0]===topics[0]?40:s.themes.includes(topics[0])?32:topics[1]&&s.themes.includes(topics[1])?20:0;
+const spTopicWord=t=>t==='AI'||t==='GovTech'?t:t.toLowerCase();
+const SP_TOPICS=['All',...[...new Set(HACKATHON_ARCHIVE.map(a=>a.topic))].sort()];
+const spEvents=(name,topic)=>HACKATHON_ARCHIVE.filter(a=>(!name||a.sponsors.includes(name))&&(!topic||topic==='All'||a.topic===topic)&&a.sponsors.length);
+function spAll(topic){
+  const by={};spEvents(null,topic).forEach(a=>a.sponsors.forEach(n=>{(by[n]=by[n]||{n,ev:[]}).ev.push(a)}));
+  return Object.values(by).map(s=>{const all=spEvents(s.n),years=[...new Set(all.map(a=>a.year))].sort();
+    return {...s,all,years,topics:[...new Set(all.map(a=>a.topic))],back:years.length>1,last:all.map(a=>a).sort((a,b)=>b.sortKey.localeCompare(a.sortKey))[0]}})
+    .sort((a,b)=>b.ev.length-a.ev.length||b.all.length-a.all.length||a.n.localeCompare(b.n));
+}
+const spSlug=n=>n.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+const spByKey=k=>spAll('All').find(s=>spSlug(s.n)===k);
+function spMark(name,size=28){const ini=name.replace(/\(.*?\)/g,'').split(/\s+/).filter(w=>/^[A-Za-z0-9]/.test(w)).slice(0,2).map(w=>w[0]).join('').toUpperCase(),c=['#5c7a2c','#3f68c4','#b9556a','#ad7a3f','#2e7a7a','#6b4fa0'][hash(name)%6];
+  return `<span class="sp-mark sp-ini" style="--org:${c};width:${size}px;height:${size}px;font-size:${Math.round(size*.38)}px" aria-hidden="true">${ini}</span>`}
+const spSrc=a=>`<a href="${esc(a.src)}" target="_blank" rel="noopener">${esc(a.host||'source')} ${I('external','sm')}</a>`;
+// Months only count events whose month is published
+const spMonthOf=a=>a.month;
+/* Suggested sponsors for a program plan: topic fit 50 · track record 25 · timing 15 · came back 10, all from public events */
+function spScore(s,topics){
+  const topic=s.topics[0]===topics[0]?50:s.topics.includes(topics[0])?40:topics[1]&&s.topics.includes(topics[1])?25:0;
   if(!topic)return null;
-  const budget=Math.round(20*Math.min(1,s.ask/(need/2)));
-  const timing=s.win.includes(m)?15:s.win.includes((m+1)%12)?9:3;
-  // track record counts only sponsorships in this plan's topics, in the last two years
-  const recent=rows.filter(r=>topics.includes(r[2])&&(SP_NOW-new Date(spYear(r),spMonth(r),1))/864e5<=730).length;
-  const record=Math.min(15,recent*5);
-  const rate=spRenewRate(rows),loyal=rate==null?5:Math.round(rate*10);
-  return {k,topics,total:topic+budget+timing+record+loyal,ask:Math.min(s.ask,need),inTopic:rows.filter(r=>topics.includes(r[2])).length,
-    parts:[['Topic fit',topic,40],['Budget fit',budget,20],['Timing',timing,15],['Track record',record,15],['Comes back',loyal,10]]};
+  const inTopic=s.all.filter(a=>topics.includes(a.topic)).length,record=Math.min(25,inTopic*10);
+  const m=SP_NOW.getMonth(),months=s.all.map(spMonthOf).filter(x=>x!=null),timing=months.some(x=>x===m||x===(m+1)%12||x===(m+2)%12)?15:months.length?5:0;
+  const loyal=s.back?10:0;
+  return {s,topics,inTopic,total:topic+record+timing+loyal,parts:[['Topic fit',topic,50],['Track record',record,25],['Timing',timing,15],['Came back',loyal,10]]};
 }
-function spSuggest(track,need){
-  return Object.keys(SPONSORS).map(k=>spScore(k,TRACK_TOPICS[track]||['AI'],need)).filter(Boolean).sort((a,b)=>b.total-a.total).slice(0,4);
-}
+function spSuggest(track){return spAll('All').map(s=>spScore(s,TRACK_TOPICS[track]||['AI'])).filter(Boolean).sort((a,b)=>b.total-a.total).slice(0,4)}
+const TRACK_TOPICS={'Logistics + Sustainability':['Climate','Water & utilities'],'AI + Manufacturing':['AI','Software'],'Climate + Sustainability':['Climate','Water & utilities'],'Finance + No-code':['Fintech'],'Health + AI':['AI'],'Cybersecurity + AI':['Cybersecurity','AI'],'Data Science + Public sector':['GovTech','AI']};
 function spReason(x){
-  const s=SPONSORS[x.k],t=x.topics.find(t=>s.themes.includes(t))||x.topics[0];
-  return [x.inTopic?`Backed ${x.inTopic} ${spTopicWord(t)} event${x.inTopic>1?'s':''} since 2024`:`Backs ${spList(s.themes.map(spTopicWord))}`,
-    `usually gives ${spK(s.ask)}`,spWinOpen(x.k)?'budget window open now':`budgets set in ${spWin(x.k)}`].join(' · ');
+  const s=x.s,last=s.last;
+  return [x.inTopic?`Backed ${x.inTopic} ${spList(x.topics.filter(t=>s.all.some(a=>a.topic===t)).map(spTopicWord))} event${x.inTopic>1?'s':''} since 2024`:`Backs ${spList(s.topics.map(spTopicWord))}`,
+    `latest: ${last.title}`,s.back?`backed events in ${s.years.join(' and ')}`:''].filter(Boolean).join(' · ');
 }
 function spSuggestHTML(){
-  const track=$('#b-track').value,prize=$('#b-prize').value,need=+prize.replace(/\D/g,''),list=spSuggest(track,need);
-  let sum=0;const cover=[];for(const x of list){if(sum>=need)break;sum+=x.ask;cover.push(ORGS[x.k].n)}
-  const ok=sum>=need;
+  const track=$('#b-track').value,list=spSuggest(track);
   return `<div class="sp-sug" id="sp-sug">
-    <div class="sp-sug-head"><span class="rsec-ico">${I('coin')}</span><div><b>Suggested sponsors</b><small>Ranked for ${track} · ${prize} prize pool</small></div><button class="link-btn" type="button" data-sp-all="${(TRACK_TOPICS[track]||['All'])[0]}">All sponsors ${I('arrow','sm')}</button></div>
-    <p class="sp-cover">${I(ok?'check-circle':'info','sm')}<span>${ok?`Asking <b>${spList(cover)}</b> at ${cover.length>1?'their usual amounts':'its usual amount'} could cover the full ${prize}.`:`Your top matches usually give ${spK(sum)} together. Add a smaller tier or lower the prize.`}</span></p>
-    <div class="sp-list">${list.map(spSugRow).join('')}</div>
-    <p class="sp-fine">Match score: topic fit, budget fit, timing, track record, and how often they come back. Demo data.</p>
+    <div class="sp-sug-head"><span class="rsec-ico">${I('coin')}</span><div><b>Suggested sponsors</b><small>From real Malaysian hackathons, 2024–2026 · ranked for ${track}</small></div><button class="link-btn" type="button" data-sp-all="${(TRACK_TOPICS[track]||['All'])[0]}">All sponsors ${I('arrow','sm')}</button></div>
+    <div class="sp-list">${list.map(spSugRow).join('')||'<p class="sp-empty">No sponsor in the 2024–2026 records has backed this topic yet.</p>'}</div>
+    <p class="sp-fine">Match score: topic fit, track record, timing and whether they came back, all from the events they publicly backed. How much each sponsor gave isn't published, so it isn't part of the score.</p>
   </div>`;
 }
 function spSugRow(x){
-  const o=ORGS[x.k],s=SPONSORS[x.k],rec=OUTREACH.find(r=>r.sp===x.k&&r.ev===draft.title),sent=!!rec;
+  const k=spSlug(x.s.n),rec=OUTREACH.find(r=>r.sp===x.s.n&&r.ev===draft.title),sent=!!rec;
   return `<div class="sp-item">
-    <div class="sp-item-main">${spMark(x.k,36)}<div class="sp-item-txt"><b>${o.n} <small>${s.ind}</small></b><span>${spReason(x)}</span></div>
+    <div class="sp-item-main">${spMark(x.s.n,36)}<div class="sp-item-txt"><b>${esc(x.s.n)}</b><span>${esc(spReason(x))}</span></div>
       <div class="sp-score" title="Match score out of 100"><b>${x.total}</b><small>match</small></div></div>
-    <div class="sp-item-foot"><span class="mtag accent">Ask ${spK(x.ask)} · ${spTier(x.ask)}</span><span class="mtag">Wants: ${s.motive.join(', ')}</span>
-      <span class="sp-actions"><button class="link-btn" type="button" data-sp-why aria-expanded="false">Why this match</button><button class="link-btn" type="button" data-sp-open="${x.k}">Profile</button>
-      <button class="btn sm ${sent?'ghost':'primary'}" type="button" data-sp-intro="${x.k}"${sent?' disabled':''}>${sent?`${I('check','sm')}${SP_STAGES.find(st=>st[0]===rec.stage)[1]}`:'Request intro'}</button></span></div>
+    <div class="sp-item-foot"><span class="mtag accent">${x.s.all.length} event${x.s.all.length>1?'s':''} backed</span>${x.s.topics.map(t=>`<span class="mtag">${t}</span>`).join('')}
+      <span class="sp-actions"><button class="link-btn" type="button" data-sp-why aria-expanded="false">Why this match</button><button class="link-btn" type="button" data-sp-open="${k}">Profile</button>
+      <button class="btn sm ${sent?'ghost':'primary'}" type="button" data-sp-intro="${k}"${sent?' disabled':''}>${sent?`${I('check','sm')}${SP_STAGES.find(st=>st[0]===rec.stage)[1]}`:'Add to outreach'}</button></span></div>
     <div class="sp-why" hidden>${x.parts.map(([l,v,m])=>`<div><span>${l}</span><span class="sp-why-bar"><i style="width:${Math.round(v/m*100)}%"></i></span><b>${v}/${m}</b></div>`).join('')}</div>
   </div>`;
 }
 function spRefreshSuggest(){const el=$('#sp-sug');if(el)el.outerHTML=spSuggestHTML()}
+const SP_STAGES=[['todo','To contact'],['intro','Intro sent'],['talks','In talks'],['committed','Committed'],['later','Not now']];
+const OUTREACH=[];// filled in by the organiser
+const spState={topic:'All',view:{rank:'chart',months:'chart'}};
 
-/* Sponsor profile */
+/* Sponsor profile: every event they backed, with its source */
 function openSponsor(k){
-  const s=SPONSORS[k],o=ORGS[k],rows=spRows(k).sort((a,b)=>b[3].localeCompare(a[3])),rate=spRenewRate(rows);
-  openModal(`<div class="sp-prof-head">${spMark(k,46)}<div><div class="eyebrow">${s.ind}</div><h2 id="modal-title">${o.n}</h2></div></div>
-    <div class="facts"><div><small>Usually gives</small><b>${spK(s.ask)}</b></div><div><small>Budget window</small><b>${spWin(k)}${spWinOpen(k)?' · open now':''}</b></div><div><small>Sponsorships</small><b>${rows.length} since ${Math.min(...rows.map(spYear))}</b></div><div><small>Came back next year</small><b>${rate==null?'Too early':Math.round(rate*100)+'%'}</b></div></div>
-    <div class="sp-wants"><small>What they look for</small><p>${s.wants}</p><div>${s.motive.map(m=>`<span class="mtag">${m}</span>`).join('')}${s.themes.map(t=>`<span class="mtag accent">${t}</span>`).join('')}</div></div>
-    <div><small class="sp-lbl">History on IndustryBridge</small><ul class="sp-hist">${rows.map(r=>`<li><span>${MON_S[spMonth(r)]} ${spYear(r)}</span><b>${r[1]}</b><span class="mtag">${r[2]}</span><span class="num">${spK(r[4])}</span><span class="${r[5]?'ok':'muted'}">${r[5]?'Report sent':'No report'}</span></li>`).join('')}</ul></div>
-    <div class="sp-contact">${I('mail')}<div><b>${s.team}</b> · ${s.inbox}<small>Listed by ${o.n} for sponsorship requests, checked ${s.checked}. IndustryBridge never shows personal emails.</small></div></div>
-    <div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button><button class="btn primary" type="button" data-sp-intro="${k}">Request intro for ${esc(draft.title)} ${I('arrow','sm')}</button></div>`,true);
+  const s=spByKey(k);if(!s)return;const ev=[...s.all].sort((a,b)=>b.sortKey.localeCompare(a.sortKey));
+  openModal(`<div class="sp-prof-head">${spMark(s.n,46)}<div><div class="eyebrow">Sponsor · public record</div><h2 id="modal-title">${esc(s.n)}</h2></div></div>
+    <div class="facts"><div><small>Events backed</small><b>${s.all.length}</b></div><div><small>Years</small><b>${s.years.join(', ')}</b></div><div><small>Came back</small><b>${s.back?'Yes':'Not yet'}</b></div><div><small>Topics</small><b>${s.topics.join(', ')}</b></div></div>
+    <div><small class="sp-lbl">Events in 2024–2026</small><ul class="sp-hist">${ev.map(a=>`<li><span>${arWhen(a)}</span><b>${esc(a.title)}</b><span class="mtag">${a.topic}</span><span class="num">${a.prize?esc(a.prize):'Prize not published'}</span><span>${spSrc(a)}</span></li>`).join('')}</ul></div>
+    <p class="sp-fine">How much ${esc(s.n)} gave to each event, and who to contact, aren't public. Add the contact you were given when you put them on your outreach board.</p>
+    <div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button><button class="btn primary" type="button" data-sp-intro="${k}">Add to outreach for ${esc(draft.title)} ${I('arrow','sm')}</button></div>`,true);
 }
-
-/* Intro request: IndustryBridge forwards a drafted message to the sponsor's listed inbox */
+/* Add a sponsor to your outreach board. You type the contact; a draft message is ready to copy. */
 function openIntro(k){
-  const s=SPONSORS[k],o=ORGS[k],title=draft.title,track=$('#b-track').value,prize=$('#b-prize').value,need=+prize.replace(/\D/g,'')||s.ask;
-  const ask=Math.min(s.ask,need),weeks=parseInt($('#b-duration').value),aud=$('#b-audience').value.toLowerCase(),fmt=$('#b-format').value.toLowerCase();
-  const topics=TRACK_TOPICS[track]||['AI'],n=spRows(k).filter(r=>topics.includes(r[2])).length,t=topics.find(t=>s.themes.includes(t))||topics[0];
-  // the profile describes the sponsor ("its", "it can"); the email speaks to them ("your", "you can")
-  const want=(s.wants.charAt(0).toLowerCase()+s.wants.slice(1)).replace(/\bits\b/g,'your').replace(/\bit can\b/g,'you can');
+  const s=spByKey(k);if(!s)return;const title=draft.title,track=$('#b-track').value,weeks=parseInt($('#b-duration').value),aud=$('#b-audience').value.toLowerCase(),fmt=$('#b-format').value.toLowerCase();
+  const recent=[...s.all].sort((a,b)=>b.sortKey.localeCompare(a.sortKey)).slice(0,2).map(a=>a.title);
   const body=`Subject: Sponsorship invitation: ${title}
 
-Hi ${o.n} ${s.team.toLowerCase()},
+Hello ${s.n} team,
 
 I'm writing from the ${PEOPLE.organizer.name}. We're running ${title}, a ${weeks}-week ${fmt} challenge for ${aud}. ${TRACKS[track]?.tag||''}
 
-Why we thought of you: ${n?`${o.n} has backed ${n} ${spTopicWord(t)} program${n>1?'s':''} on IndustryBridge, and `:''}you're looking for ${want}. This program is set up to deliver that.
+Why we thought of you: you've backed student hackathons such as ${spList(recent)}, and this program is in the same space.
 
-Our ask: ${spRM(ask)} as a ${spTier(ask)} partner. That includes your logo on the program page and posters, a seat on the final judging panel, a 15-minute talk at kick-off, and access to finalists' profiles.
-
-After the final demo you'll receive an IndustryBridge outcome report with every submission, the scores, and the ideas ready to pilot.
+Our ask: [amount and partner tier]. That includes your logo on the program page and posters, a seat on the final judging panel, and access to finalists' profiles.
 
 Could we find 20 minutes next week to talk it through?
 
 Best regards,
 ${PEOPLE.organizer.name}`;
-  openModal(`<div><span class="eyebrow">Request an introduction</span><h2 id="modal-title">${o.n} · ${s.team}</h2></div>
-    <div class="sp-route">${spMark(k,34)}<p>IndustryBridge sends this to <b>${s.inbox}</b>, the inbox ${o.n} lists for sponsorship requests. Their reply comes straight to you, and you'll get a reminder if there's no answer in 5 days.</p></div>
-    <div class="facts"><div><small>Program</small><b>${esc(title)}</b></div><div><small>Suggested ask</small><b>${spRM(ask)} · ${spTier(ask)}</b></div><div><small>Their budget window</small><b>${spWin(k)}${spWinOpen(k)?' · open now':''}</b></div></div>
-    <div class="field"><label for="sp-msg">Message <span class="badge accent round">AI draft · edit freely</span></label><textarea id="sp-msg" class="textarea sp-msg" rows="12">${esc(body)}</textarea></div>
-    <label class="reg-plan"><input type="checkbox" id="sp-pack" checked><span><b>Attach a one-page sponsor pack</b><small>Made from your plan: goal, timeline, audience and partner benefits.</small></span></label>
-    <div class="modal-actions"><button class="btn ghost" type="button" id="sp-copy">${I('file','sm')}Copy text</button><button class="btn ghost" type="button" data-close>Cancel</button><button class="btn primary" type="button" id="sp-send" data-k="${k}" data-ask="${ask}">Send request ${I('arrow','sm')}</button></div>`,true);
+  openModal(`<div><span class="eyebrow">Add to outreach</span><h2 id="modal-title">${esc(s.n)}</h2></div>
+    <div class="field"><label for="sp-contact">Contact <span class="muted" style="font-weight:400">· the team inbox or person they gave you</span></label><input class="text-input" id="sp-contact" placeholder="e.g. sponsorship inbox from their website" autocomplete="off"></div>
+    <div class="field"><label for="sp-msg">Message <span class="badge accent round">Draft · edit freely</span></label><textarea id="sp-msg" class="textarea sp-msg" rows="12">${esc(body)}</textarea></div>
+    <div class="modal-actions"><button class="btn ghost" type="button" id="sp-copy">${I('file','sm')}Copy text</button><button class="btn ghost" type="button" data-close>Cancel</button><button class="btn primary" type="button" id="sp-send" data-k="${k}">Add to board ${I('arrow','sm')}</button></div>`,true);
 }
 
 /* Insights page */
-function spRankHTML(topic,rows){
-  const by={};rows.forEach(r=>{(by[r[0]]=by[r[0]]||{rm:0,n:0}).rm+=r[4];by[r[0]].n++});
-  const list=Object.entries(by).sort((a,b)=>b[1].rm-a[1].rm),top=list.slice(0,6),max=top[0]?.[1].rm||1,label=topic==='All'?'all topics':topic;
-  const head=`<div class="sp-chart-head"><div><h3>Top sponsors · ${label}</h3><p>Total sponsored on IndustryBridge since 2024</p></div><button class="sp-toggle" type="button" data-sp-toggle="rank">${spState.view.rank==='chart'?'Table':'Chart'}</button></div>`;
-  if(!list.length)return head+`<p class="sp-empty">No sponsorships in ${label} yet.</p>`;
-  if(spState.view.rank==='table')return head+`<table class="sp-mini"><thead><tr><th>Sponsor</th><th>Sponsorships</th><th>Total</th></tr></thead><tbody>${list.map(([k,v])=>`<tr><td>${ORGS[k].n}</td><td>${v.n}</td><td>${spRM(v.rm)}</td></tr>`).join('')}</tbody></table>`;
-  return head+`<div class="rb">${top.map(([k,v])=>`<div class="rb-row" tabindex="0" role="button" data-sp-open="${k}" data-tip="${ORGS[k].n}: ${spRM(v.rm)} across ${v.n} sponsorship${v.n>1?'s':''} in ${label}. Usually gives ${spK(SPONSORS[k].ask)}."><span class="rb-name">${spMark(k,24)}<b>${ORGS[k].n}</b></span><span class="rb-track"><span class="rb-bar" style="width:${Math.max(3,v.rm/max*100)}%"></span></span><span class="rb-val">${spK(v.rm)}<small>${v.n} event${v.n>1?'s':''}</small></span></div>`).join('')}</div>`
-    +(list.length>6?`<p class="sp-fine">+${list.length-6} more in the table below.</p>`:'');
+/* Brand colours for sponsors and organisers in the charts (colours only, no logos). Add a name to extend it.
+   Companies not listed get a neutral colour from SP_FALLBACK. Near-identical brand colours (several black brands)
+   are nudged apart slightly; labels and legends always name the company too. */
+const BRAND_COLORS={
+  'Anthropic':'#D97757','OpenAI':'#111111','Cursor':'#3a3a3a','Vercel':'#5c5c5c','ElevenLabs':'#7d7d7d',
+  'Google':'#4285F4','Google for Education':'#34A853','Google Developer Groups':'#1A2B5F','GDG':'#1A2B5F',
+  'AWS':'#FF9900','Microsoft':'#00A4EF','Maybank':'#FFC72C','Petronas':'#00A19C','CIMB':'#EC1C24','Grab':'#00B14F',
+  'Ant International':'#1677FF','Groq':'#F55036','Etiqa':'#F9A825','Ethereum Foundation':'#627EEA','GXBank':'#6E3CBC',
+  'Sea':'#EE4D2D','Shopee':'#EE4D2D','CelcomDigi':'#0047BB','ZOHO Corporation':'#E42527','TM One':'#F58220'
+};
+const SP_FALLBACK=['#5c7a2c','#8a9a5b','#4a6670','#9c7b54','#6b7f99','#7a6a8f','#a0a49a','#3f5a46'];
+const brandColor=n=>BRAND_COLORS[n]||SP_FALLBACK[hash(n)%SP_FALLBACK.length];
+const TOPIC_COLORS=['#5c7a2c','#3f68c4','#b9556a','#ad7a3f','#2e7a7a','#6b4fa0','#c2410c','#a3b33c','#4a6670','#d4a017','#1f2937','#e879a6'];
+const topicColor=t=>TOPIC_COLORS[[...new Set(HACKATHON_ARCHIVE.map(a=>a.topic))].sort().indexOf(t)%TOPIC_COLORS.length];
+/* Most active sponsors: bars in each company's colour */
+function spRankHTML(topic,list){
+  const top=list.slice(0,8),max=top[0]?.ev.length||1,label=topic==='All'?'all topics':topic;
+  const head=`<div class="sp-chart-head"><div><h3>Most active sponsors · ${label}</h3><p>Events backed, 2024–2026</p></div><button class="sp-toggle" type="button" data-sp-toggle="rank">${spState.view.rank==='chart'?'Table':'Chart'}</button></div>`;
+  if(!list.length)return head+`<p class="sp-empty">No named sponsors in ${label} yet.</p>`;
+  if(spState.view.rank==='table')return head+`<table class="sp-mini"><thead><tr><th>Sponsor</th><th>Events</th><th>Years</th></tr></thead><tbody>${list.map(s=>`<tr><td>${esc(s.n)}</td><td>${s.ev.length}</td><td>${s.years.join(', ')}</td></tr>`).join('')}</tbody></table>`;
+  return head+`<div class="rb">${top.map(s=>`<div class="rb-row" tabindex="0" role="button" data-sp-open="${spSlug(s.n)}" data-tip="${esc(s.n)}: ${s.ev.length} event${s.ev.length>1?'s':''} in ${label} (${s.years.join(', ')})"><span class="rb-name"><i class="sw" style="background:${brandColor(s.n)}"></i><b>${esc(s.n)}</b></span><span class="rb-track"><i class="rb-bar" style="width:${s.ev.length/max*100}%;background:${brandColor(s.n)}"></i></span><span class="rb-val">${s.ev.length}<small>${s.years.length>1?'came back':s.years[0]}</small></span></div>`).join('')}</div>`
+    +(list.length>8?`<p class="sp-fine">+${list.length-8} more in the table below.</p>`:'');
 }
-function spMonthsHTML(topic,rows){
-  const c=Array(12).fill(0);rows.forEach(r=>c[spMonth(r)]++);
-  const max=Math.max(1,...c),peak=c.indexOf(Math.max(...c)),now=SP_NOW.getMonth(),total=rows.length;
+/* Donut: share of all sponsor credits (one credit = one sponsor named on one event) */
+function spDonutHTML(topic,list){
+  const label=topic==='All'?'all topics':topic,total=list.reduce((a,s)=>a+s.ev.length,0);
+  const head=`<div class="sp-chart-head"><div><h3>Share of sponsor credits</h3><p>Each sponsor named on an event counts once · ${label}</p></div></div>`;
+  if(!total)return head+`<p class="sp-empty">No named sponsors in ${label} yet.</p>`;
+  const top=list.slice(0,6),rest=total-top.reduce((a,s)=>a+s.ev.length,0),seg=[...top.map(s=>[s.n,s.ev.length,brandColor(s.n)]),...(rest?[[`${list.length-top.length} others`,rest,'#d3d3cc']]:[])];
+  const R=60,C=2*Math.PI*R;let off=0;
+  const arcs=seg.map(([n,v,c])=>{const len=v/total*C,el=`<circle r="${R}" cx="80" cy="80" fill="none" stroke="${c}" stroke-width="26" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 80 80)"><title>${esc(n)}: ${v} (${Math.round(v/total*100)}%)</title></circle>`;off+=len;return el}).join('');
+  return head+`<div class="dn"><svg viewBox="0 0 160 160" role="img" aria-label="Share of sponsor credits">${arcs}<text x="80" y="76" text-anchor="middle" class="dn-n">${total}</text><text x="80" y="96" text-anchor="middle" class="dn-l">credits</text></svg>
+    <ul class="dn-leg">${seg.map(([n,v,c])=>`<li><i class="sw" style="background:${c}"></i><span>${esc(n)}</span><b>${Math.round(v/total*100)}%</b></li>`).join('')}</ul></div>`;
+}
+/* Events by month (bars) with the number of different sponsors involved that month (line) */
+function spMonthsHTML(topic){
+  const ev=HACKATHON_ARCHIVE.filter(a=>(topic==='All'||a.topic===topic)&&a.month!=null),c=Array(12).fill(0),sp=Array.from({length:12},()=>new Set());
+  ev.forEach(a=>{c[a.month]++;a.sponsors.forEach(n=>sp[a.month].add(n))});
+  const sc=sp.map(s=>s.size),label=topic==='All'?'all topics':topic,undated=HACKATHON_ARCHIVE.filter(a=>(topic==='All'||a.topic===topic)&&a.month==null).length;
+  const head=`<div class="sp-chart-head"><div><h3>When hackathons happen</h3><p>Events by month (bars) and sponsors involved (line) · ${label}</p></div><button class="sp-toggle" type="button" data-sp-toggle="months">${spState.view.months==='chart'?'Table':'Chart'}</button></div>`;
   let best=0,bi=0;for(let i=0;i<12;i++){const v=c[i]+c[(i+1)%12]+c[(i+2)%12];if(v>best){best=v;bi=i}}
-  const win=[bi,(bi+1)%12,(bi+2)%12],open=win.includes(now),label=topic==='All'?'all topics':topic;
-  const head=`<div class="sp-chart-head"><div><h3>When sponsors say yes</h3><p>Sponsorships confirmed by month · ${label}</p></div><button class="sp-toggle" type="button" data-sp-toggle="months">${spState.view.months==='chart'?'Table':'Chart'}</button></div>`;
-  const cap=total?`<p class="sp-cap"><b>${Math.round(best/total*100)}% of yeses</b> come in ${MON_S[win[0]]}–${MON_S[win[2]]}, when budgets are set. ${open?'That window is open now.':`Plan your asks for ${MON_S[win[0]]}.`}</p>`:'';
-  if(spState.view.months==='table')return head+`<table class="sp-mini"><thead><tr><th>Month</th><th>Sponsorships</th></tr></thead><tbody>${c.map((v,i)=>`<tr><td>${MON_L[i]}${i===now?' (now)':''}</td><td>${v}</td></tr>`).join('')}</tbody></table>`+cap;
-  return head+`<div class="mc">${c.map((v,i)=>`<div class="mc-col${v?'':' zero'}" tabindex="0" data-tip="${MON_L[i]}: ${v} sponsorship${v===1?'':'s'} confirmed"><span class="mc-bar" style="height:${v/max*100}%">${i===peak&&v?`<em>${v}</em>`:''}</span></div>`).join('')}</div>
-    <div class="mc-x">${MON_S.map((m,i)=>`<span class="${i===now?'now':''}">${m}</span>`).join('')}</div>`+cap;
+  const cap=ev.length?`<p class="sp-cap"><b>${best} of ${ev.length}</b> dated events fall in ${MON_S[bi]}–${MON_S[(bi+2)%12]}.${undated?` ${undated} more only list the year.`:''}</p>`:'';
+  if(spState.view.months==='table')return head+`<table class="sp-mini"><thead><tr><th>Month</th><th>Events</th><th>Sponsors</th></tr></thead><tbody>${c.map((v,i)=>`<tr><td>${MON_L[i]}</td><td>${v}</td><td>${sc[i]}</td></tr>`).join('')}</tbody></table>`+cap;
+  const W=480,H=180,pad=24,bw=(W-pad*2)/12,maxB=Math.max(1,...c),maxL=Math.max(1,...sc),y=v=>H-22-v/maxB*(H-50),yl=v=>H-22-v/maxL*(H-50);
+  const bars=c.map((v,i)=>`<g class="cb" tabindex="0" data-tip="${MON_L[i]}: ${v} event${v===1?'':'s'}, ${sc[i]} sponsor${sc[i]===1?'':'s'}"><rect x="${(pad+i*bw+bw*.18).toFixed(1)}" y="${y(v).toFixed(1)}" width="${(bw*.64).toFixed(1)}" height="${(H-22-y(v)).toFixed(1)}" rx="4" fill="var(--moss-deep)" opacity="${v?1:.15}"/>${v?`<text x="${(pad+i*bw+bw/2).toFixed(1)}" y="${(y(v)-5).toFixed(1)}" text-anchor="middle" class="cb-v">${v}</text>`:''}<text x="${(pad+i*bw+bw/2).toFixed(1)}" y="${H-6}" text-anchor="middle" class="cb-x">${MON_S[i]}</text></g>`).join('');
+  const pts=sc.map((v,i)=>[pad+i*bw+bw/2,yl(v)]);
+  const path=pts.map((p,i)=>`${i?'L':'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ');
+  return head+`<svg class="combo" viewBox="0 0 ${W} ${H}" role="img" aria-label="Events and sponsors by month">${bars}<path d="${path}" fill="none" stroke="#c2410c" stroke-width="2.2"/>${pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#fff" stroke="#c2410c" stroke-width="2"/>`).join('')}</svg>
+    <div class="combo-leg"><span><i class="sw" style="background:var(--moss-deep)"></i>Events</span><span><i class="sw ln"></i>Sponsors involved</span></div>`+cap;
+}
+/* Stacked columns: events per year, split by topic */
+function spStackHTML(){
+  const years=[2024,2025,2026],topics=[...new Set(HACKATHON_ARCHIVE.map(a=>a.topic))].sort();
+  const data=years.map(y=>topics.map(t=>HACKATHON_ARCHIVE.filter(a=>a.year===y&&a.topic===t).length)),tot=data.map(r=>r.reduce((a,b)=>a+b,0)),max=Math.max(...tot);
+  const head=`<div class="sp-chart-head"><div><h3>Hackathons per year by topic</h3><p>All ${HACKATHON_ARCHIVE.length} verified events, 2024–2026</p></div></div>`;
+  return head+`<div class="stk">${years.map((y,i)=>`<div class="stk-col"><div class="stk-bar" style="height:${tot[i]/max*100}%">${topics.map((t,j)=>data[i][j]?`<span tabindex="0" data-tip="${y} · ${t}: ${data[i][j]} event${data[i][j]>1?'s':''}" style="flex:${data[i][j]};background:${topicColor(t)}"></span>`:'').join('')}</div><b>${tot[i]}</b><small>${y}</small></div>`).join('')}</div>
+    <ul class="dn-leg cols">${topics.map(t=>`<li><i class="sw" style="background:${topicColor(t)}"></i><span>${t}</span></li>`).join('')}</ul>`;
 }
 function renderSponsors(){
   if(!$('#sp-topics'))return;
-  const topic=spState.topic,rows=spRows(null,topic),label=topic==='All'?'all topics':topic;
-  $('#sp-topics').innerHTML=SP_TOPICS.map(t=>`<button type="button" data-sp-topic="${t}" class="${t===topic?'on':''}" aria-pressed="${t===topic}">${t==='All'?'All topics':t}<small>${spRows(null,t).length}</small></button>`).join('');
-  const year=new Date(SP_NOW.getFullYear()-1,SP_NOW.getMonth()+1,1),raised=rows.filter(r=>new Date(spYear(r),spMonth(r),1)>=year).reduce((a,r)=>a+r[4],0);
-  const rate=spRenewRate(rows),sponsors=new Set(rows.map(r=>r[0])).size;
-  $('#sp-stats').innerHTML=`<div class="stat-c"><b>${sponsors}</b><span>Sponsors</span></div><div class="stat-c"><b>${spK(raised)}</b><span>Raised · last 12 months</span></div><div class="stat-c"><b>${rows.length?spK(spMedian(rows.map(r=>r[4]))):'—'}</b><span>Typical sponsorship</span></div><div class="stat-c"><b>${rate==null?'—':Math.round(rate*100)+'<small>%</small>'}</b><span>Came back next year</span></div>`;
-  $('#sp-note').textContent=`Demo data · ${rows.length} sponsorships in ${label} since 2024`;
-  $('#sp-rank').innerHTML=spRankHTML(topic,rows);
-  $('#sp-months').innerHTML=spMonthsHTML(topic,rows);
-  // across all topics: does sending an outcome report bring sponsors back?
-  const e=SP_HIST.filter(spEligible),w=e.filter(r=>r[5]),wo=e.filter(r=>!r[5]),pc=a=>Math.round(a.filter(spRenewed).length/a.length*100);
-  $('#sp-callout').innerHTML=`${I('file')}<div><b>Outcome reports bring sponsors back.</b> Sponsors who received an IndustryBridge outcome report backed another event the next year ${pc(w)}% of the time, compared with ${pc(wo)}% without one. <span class="muted">Across all topics, ${e.length} sponsorships from 2024–2025.</span></div>`;
-  const keys=Object.keys(SPONSORS).filter(k=>topic==='All'||spRows(k,topic).length||SPONSORS[k].themes.includes(topic))
-    .sort((a,b)=>spRows(b,topic).reduce((s,r)=>s+r[4],0)-spRows(a,topic).reduce((s,r)=>s+r[4],0)||ORGS[a].n.localeCompare(ORGS[b].n));
-  $('#sp-table-sub').textContent=`${keys.length} sponsor${keys.length===1?'':'s'} · ${label} · select one for history and contact`;
-  $('#sp-rows').innerHTML=keys.map(k=>{const s=SPONSORS[k],all=spRows(k),last=all.map(r=>r[3]).sort().at(-1),r8=spRenewRate(all);
-    return `<tr tabindex="0" data-sp-open="${k}"><td><div class="sp-who">${spMark(k,30)}<div><b>${ORGS[k].n}</b><small>${s.ind}</small></div></div></td>
-      <td>${s.themes.map(t=>`<span class="mtag${t===topic?' accent':''}">${t}</span>`).join('')}</td><td class="num">${spK(s.ask)}</td>
-      <td><span class="num">${all.length}</span> <span class="muted">· last ${MON_S[+last.slice(5)-1]} ${last.slice(0,4)}</span></td>
-      <td class="num">${r8==null?'—':Math.round(r8*100)+'%'}</td><td>${spWin(k)}${spWinOpen(k)?'<span class="sp-open">Open now</span>':''}</td><td class="sp-chev">${I('chev-right','sm')}</td></tr>`}).join('');
+  const topic=spState.topic,list=spAll(topic),label=topic==='All'?'all topics':topic,evs=HACKATHON_ARCHIVE.filter(a=>topic==='All'||a.topic===topic);
+  $('#sp-topics').innerHTML=SP_TOPICS.map(t=>`<button type="button" data-sp-topic="${t}" class="${t===topic?'on':''}" aria-pressed="${t===topic}">${t==='All'?'All topics':t}<small>${HACKATHON_ARCHIVE.filter(a=>t==='All'||a.topic===t).length}</small></button>`).join('');
+  const named=evs.filter(a=>a.sponsors.length).length,prized=evs.filter(a=>a.prize).length,back=list.filter(s=>s.back).length;
+  $('#sp-stats').innerHTML=`<div class="stat-c"><b>${evs.length}</b><span>Hackathons · 2024–2026</span></div><div class="stat-c"><b>${list.length}</b><span>Named sponsors</span></div><div class="stat-c"><b>${named}<small>/ ${evs.length}</small></b><span>Name a sponsor</span></div><div class="stat-c"><b>${back}</b><span>Came back another year</span></div>`;
+  $('#sp-note').innerHTML=`Real events from public sources · ${prized} of ${evs.length} published a prize · <a href="#archive">see all events</a>`;
+  $('#sp-rank').innerHTML=spRankHTML(topic,list);
+  $('#sp-months').innerHTML=spMonthsHTML(topic);
+  $('#sp-donut').innerHTML=spDonutHTML(topic,list);
+  $('#sp-stack').innerHTML=spStackHTML();
+  const repeat=spAll('All').filter(s=>s.back);
+  $('#sp-callout').innerHTML=`${I('refresh')}<div><b>${repeat.length} sponsor${repeat.length===1?'':'s'} backed hackathons in more than one year:</b> ${esc(spList(repeat.map(s=>`${s.n} (${s.years.join(', ')})`)))}. <span class="muted">Repeat backers are the warmest people to ask first.</span></div>`;
+  $('#sp-table-sub').textContent=`${list.length} sponsor${list.length===1?'':'s'} · ${label} · select one for every event and its source`;
+  $('#sp-rows').innerHTML=list.map(s=>`<tr tabindex="0" data-sp-open="${spSlug(s.n)}"><td><div class="sp-who">${spMark(s.n,30)}<div><b>${esc(s.n)}</b></div></div></td>
+      <td>${s.topics.map(t=>`<span class="mtag${t===topic?' accent':''}">${t}</span>`).join('')}</td>
+      <td><span class="num">${s.all.length}</span> <span class="muted">· last ${esc(s.last.title)}</span></td>
+      <td>${s.years.join(', ')}</td><td>${s.back?'<span class="sp-open">Yes</span>':'<span class="muted">Not yet</span>'}</td><td class="sp-chev">${I('chev-right','sm')}</td></tr>`).join('');
   renderOutreach();
 }
 function renderOutreach(){
   if(!$('#sp-board'))return;
-  const sum=st=>OUTREACH.filter(o=>o.stage===st),committed=sum('committed').reduce((a,o)=>a+o.ask,0);
-  $('#sp-out-sum').innerHTML=`<b>${spRM(committed)}</b> committed · ${sum('talks').length} in talks · ${sum('intro').length} waiting for a reply`;
+  const n=st=>OUTREACH.filter(o=>o.stage===st).length;
+  $('#sp-out-sum').innerHTML=OUTREACH.length?`${n('committed')} committed · ${n('talks')} in talks · ${n('intro')} waiting for a reply · ${n('todo')} to contact`:'Your board is empty. Add sponsors from Insights, a sponsor profile, or the suggestions in your program plan.';
   $('#sp-board').innerHTML=SP_STAGES.map(([st,label])=>{
     const items=OUTREACH.map((o,i)=>({...o,i})).filter(o=>o.stage===st);
-    return `<div class="sp-col"><h4>${label}<span>${items.length}</span></h4>${items.map(o=>{
-      const late=st==='intro'&&o.days>=5;
-      const note=st==='intro'?(o.days?(late?`No reply in ${o.days} days`:`Sent ${o.when}`):'Sent today'):st==='later'?`Ask again in ${MON_S[SPONSORS[o.sp].win[0]]}`:`Updated ${o.when}`;
-      return `<div class="sp-card">${spMark(o.sp,28)}<div class="sp-card-main"><b>${ORGS[o.sp].n}</b><small>${esc(o.ev)} · ${spK(o.ask)}</small><small class="${late?'late':'muted'}">${note}</small>
-        ${late?`<button class="link-btn" type="button" data-sp-nudge="${o.sp}">Send a nudge</button>`:''}${st==='committed'?`<button class="link-btn" type="button" data-sp-report>Plan the outcome report</button>`:''}</div>
-        <select class="sp-stage" data-sp-stage="${o.i}" aria-label="Stage for ${ORGS[o.sp].n}">${SP_STAGES.map(([v,l])=>`<option value="${v}"${v===st?' selected':''}>${l}</option>`).join('')}</select></div>`}).join('')||'<p class="sp-empty">Nothing here yet</p>'}</div>`}).join('');
+    return `<div class="sp-col"><h4>${label}<span>${items.length}</span></h4>${items.map(o=>`<div class="sp-card">${spMark(o.sp,28)}<div class="sp-card-main"><b>${esc(o.sp)}</b><small>${esc(o.ev)}</small><small class="muted">${o.contact?esc(o.contact):'No contact added'}</small></div>
+        <select class="sp-stage" data-sp-stage="${o.i}" aria-label="Stage for ${esc(o.sp)}">${SP_STAGES.map(([v,l])=>`<option value="${v}"${v===st?' selected':''}>${l}</option>`).join('')}</select></div>`).join('')||'<p class="sp-empty">Nothing here yet</p>'}</div>`}).join('');
 }
 
 /* Shared tooltip for the two charts (keyboard focus shows it too) */
@@ -4169,12 +4203,10 @@ window.addEventListener('scroll',()=>{spTip.hidden=true},{passive:true});
 $('#view-sponsors').addEventListener('click',e=>{
   const t=e.target.closest('[data-sp-topic]');if(t){spState.topic=t.dataset.spTopic;renderSponsors();return}
   const g=e.target.closest('[data-sp-toggle]');if(g){const c=g.dataset.spToggle;spState.view[c]=spState.view[c]==='chart'?'table':'chart';renderSponsors();return}
-  const n=e.target.closest('[data-sp-nudge]');if(n){const o=OUTREACH.find(x=>x.sp===n.dataset.spNudge&&x.stage==='intro');if(o){o.days=0;o.when='today'}renderOutreach();toast(`Nudge sent to ${ORGS[n.dataset.spNudge].n}`);return}
-  if(e.target.closest('[data-sp-report]')){toast('Outcome report scheduled for the day after the final demo');return}
   const op=e.target.closest('[data-sp-open]');if(op){spTip.hidden=true;openSponsor(op.dataset.spOpen)}
 });
 $('#view-sponsors').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-sp-open]')){e.preventDefault();openSponsor(e.target.dataset.spOpen)}});
-$('#view-sponsors').addEventListener('change',e=>{const sel=e.target.closest('[data-sp-stage]');if(!sel)return;const o=OUTREACH[+sel.dataset.spStage];o.stage=sel.value;o.when='today';o.days=0;renderOutreach();toast(`${ORGS[o.sp].n} moved to ${SP_STAGES.find(x=>x[0]===sel.value)[1]}`)});
+$('#view-sponsors').addEventListener('change',e=>{const sel=e.target.closest('[data-sp-stage]');if(!sel)return;const o=OUTREACH[+sel.dataset.spStage];o.stage=sel.value;renderOutreach();toast(`${o.sp} moved to ${SP_STAGES.find(x=>x[0]===sel.value)[1]}`)});
 $('#rec').addEventListener('click',e=>{
   const w=e.target.closest('[data-sp-why]');if(w){const box=w.closest('.sp-item').querySelector('.sp-why');box.hidden=!box.hidden;w.setAttribute('aria-expanded',!box.hidden);w.textContent=box.hidden?'Why this match':'Hide breakdown';return}
   const op=e.target.closest('[data-sp-open]');if(op){openSponsor(op.dataset.spOpen);return}
@@ -4183,8 +4215,8 @@ $('#rec').addEventListener('click',e=>{
 });
 $('#modal-body').addEventListener('click',e=>{
   const send=e.target.closest('#sp-send');
-  if(send){const k=send.dataset.k;OUTREACH.unshift({sp:k,ev:draft.title,stage:'intro',ask:+send.dataset.ask,when:'today',days:0});closeModal();spRefreshSuggest();renderOutreach();
-    toast(`Intro request sent to ${ORGS[k].n}${$('#sp-pack')?.checked===false?'':' with your sponsor pack'}. Their reply comes to your inbox.`);return}
+  if(send){const s=spByKey(send.dataset.k);OUTREACH.unshift({sp:s.n,ev:draft.title,stage:'todo',contact:$('#sp-contact').value.trim()});closeModal();spRefreshSuggest();renderOutreach();
+    toast(`${s.n} added to your outreach board`);return}
   if(e.target.closest('#sp-copy')){const t=$('#sp-msg');try{navigator.clipboard.writeText(t.value).catch(()=>{})}catch(err){}t.select();toast('Message copied');return}
   const it=e.target.closest('[data-sp-intro]');if(it&&$('#modal-body .sp-prof-head')){openIntro(it.dataset.spIntro)}
 });
