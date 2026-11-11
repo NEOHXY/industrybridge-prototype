@@ -3,7 +3,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700&family=Pixelify+Sans:wght@400;500;600;700&family=Silkscreen&display=swap">
 <style>
 /* Layout: centred 1180px column under a black top bar on a warm stone ground; each screen is a <section class="view"> shown by the URL hash.
    One light look on purpose, matching the landing page: stone neutrals, ink-black actions, moss-green highlights. */
@@ -1208,6 +1208,140 @@ body[data-view=hall] .hall-hint{left:50%;right:auto;bottom:18px;transform:transl
 .rb-say input{flex:1;height:34px;border-radius:999px;border:1px solid var(--line-2);padding:0 12px;background:#fff;min-width:0}
 @media (max-width:860px){.pc-grid,.rv-grid{grid-template-columns:1fr}.pc-list{grid-row:auto;max-height:300px}.rb-grid{grid-template-columns:1fr;grid-template-areas:"left" "acts" "right" "chat"}.rt-grid{grid-template-columns:1fr}.rv-slots{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){.an-horn{animation:none}.hall-announce{transition:none}}
+/* ===== Meetup Hall · pixel-art game UI (overrides the softer styles above) =====
+   Palette: ink #1b2215 · moss #2c3a24 · leaf #5c7a2c · lime #a6dd6a · parchment #f3ecd2 / #e6dbb6 · clay #c8673a
+   Frames are square with notched corners (hard 3px outline drawn with box-shadow), hard drop shadows, no blur. */
+:root{--px-font:"Pixelify Sans","Silkscreen",ui-monospace,monospace;--px-ink:#1b2215;--px-moss:#2c3a24;--px-leaf:#5c7a2c;--px-lime:#a6dd6a;--px-paper:#f3ecd2;--px-paper2:#e6dbb6;--px-clay:#c8673a}
+.pi{display:inline-block;height:14px;width:auto;flex:none;image-rendering:pixelated;vertical-align:-2px}
+.pi-slot{display:inline-flex}
+/* movement through transform only: no layout work while people walk */
+#hall-stage{container-type:size}
+#hall-stage .hp{left:0!important;top:0!important;transform:translate(calc(var(--x)*1cqw - 50%),calc(var(--y)*1cqh - 100%));transition:transform 2.4s linear;will-change:transform}
+#hall-stage .hp.you{transition:transform 1.1s ease}
+#hall-stage .hp-sp{filter:none}
+#hall-stage .hp::after{will-change:auto}
+#hall-stage .hp:hover .hp-sp,#hall-stage .hp:focus-visible .hp-sp{filter:brightness(1.12)}
+body[data-view=hall] .modal-back{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(14,18,10,.62)}
+.hall-portal .hp-glow,.hall-portal::before{will-change:opacity}
+.hall-portal .hp-glow{border-radius:0;box-shadow:0 0 0 3px rgba(166,221,106,.35);border-width:3px}
+.hall-portal .hp-label{border-radius:0;border:0;background:var(--px-moss);box-shadow:0 -3px 0 var(--px-ink),0 3px 0 var(--px-ink),-3px 0 0 var(--px-ink),3px 0 0 var(--px-ink),0 6px 0 rgba(0,0,0,.35);font-family:var(--px-font)}
+.hall-portal .hp-label b{font-weight:600;font-size:13px;color:var(--px-paper)}
+.hall-portal .hp-label small{font-family:var(--px-font);color:var(--px-lime)}
+.hall-portal .hp-label::before{text-shadow:none}
+/* the pixel frame shared by every hall control */
+body[data-view=hall] .hud-btn,body[data-view=hall] .hall-count,body[data-view=hall] .hall-say,.hud-room,.gbtn,.hall-announce,.hall-drawer [data-dp],#hall-stage .hp-tag{
+  border:0!important;border-radius:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  box-shadow:0 -3px 0 var(--px-ink),0 3px 0 var(--px-ink),-3px 0 0 var(--px-ink),3px 0 0 var(--px-ink),inset 0 -3px 0 rgba(0,0,0,.22),inset 0 3px 0 rgba(255,255,255,.14),0 7px 0 rgba(0,0,0,.28)!important}
+body[data-view=hall] .hud-btn{background:var(--px-moss);color:var(--px-paper);font:500 14px var(--px-font);height:38px;gap:8px}
+body[data-view=hall] .hud-btn:hover{background:#3b4e2f}
+body[data-view=hall] .hud-btn.on{background:var(--px-leaf);color:#fff}
+.hud-btn .pi{height:15px}
+.hud-n{border-radius:0;background:var(--px-clay);font:600 11px/18px var(--px-font);box-shadow:0 0 0 2px var(--px-ink)}
+body[data-view=hall] .hud .hall-count{background:var(--px-moss);padding:6px 12px}
+body[data-view=hall] .hud .hall-count b{font:600 15px var(--px-font);color:var(--px-lime);letter-spacing:.02em}
+body[data-view=hall] .hud .hall-count span{font:400 12px var(--px-font);color:var(--px-paper)}
+.gbtn{background:var(--px-paper);color:var(--px-ink);font:500 14px var(--px-font);height:58px;min-width:92px;gap:4px;transition:transform .06s}
+.gbtn b{font-weight:500}
+.gbtn .pi{height:16px}
+.gbtn:hover{filter:none;background:#fff8e2}
+.gbtn:active{transform:translateY(3px)}
+.gbtn.go{background:#8fcf55;color:var(--px-ink)}
+.gbtn.go:hover{background:#9edc62}
+.gbtn.out{background:#e7a07a;color:var(--px-ink)}
+.gbtn[disabled]{background:#cfc7ab;color:#7c7660}
+.hud-room{background:var(--px-moss);color:var(--px-paper);height:58px;font-family:var(--px-font)}
+.hud-room b{font-weight:500;font-size:14px}.hud-room small{color:var(--px-lime);font-size:12px}
+body[data-view=hall] .hall-say{background:var(--px-moss);padding:4px 4px 4px 0}
+body[data-view=hall] .hall-say .pi{color:var(--px-lime);margin-left:12px;height:14px}
+body[data-view=hall] .hall-say input{font:400 14px var(--px-font);color:var(--px-paper)}
+body[data-view=hall] .hall-say input::placeholder{color:#b9b39b}
+body[data-view=hall] .hall-say .btn,.modal.game .btn,.hall-drawer .btn{border-radius:0;font-family:var(--px-font);font-weight:500;box-shadow:0 -2px 0 var(--px-ink),0 2px 0 var(--px-ink),-2px 0 0 var(--px-ink),2px 0 0 var(--px-ink);border:0}
+body[data-view=hall] .hall-say .btn.primary,.modal.game .btn.primary,.hall-drawer .btn.primary{background:var(--px-leaf);color:#fff}
+.modal.game .btn.ghost,.hall-drawer .btn.ghost{background:var(--px-paper)}
+body[data-view=hall] .hall-hint{border-radius:0;font:400 12px var(--px-font);background:rgba(27,34,21,.78);backdrop-filter:none}
+/* names and titles */
+#hall-stage .hp-tag{background:rgba(27,34,21,.9);color:var(--px-paper);font:500 12px var(--px-font);padding:1px 6px;box-shadow:0 -2px 0 var(--px-ink),0 2px 0 var(--px-ink),-2px 0 0 var(--px-ink),2px 0 0 var(--px-ink)!important}
+#hall-stage .hp-tag i{border:0;border-radius:0;background:var(--px-leaf);color:#f3ecd2;font:400 10.5px var(--px-font);letter-spacing:0;padding:0 4px}
+#hall-stage .hp.you .hp-tag{background:var(--px-paper);color:var(--px-ink)}
+#hall-stage .hp.you .hp-tag i{background:var(--px-clay);color:#fff}
+.hp-bubble{border-radius:0!important;font-family:var(--px-font)!important;box-shadow:0 -2px 0 var(--px-ink),0 2px 0 var(--px-ink),-2px 0 0 var(--px-ink),2px 0 0 var(--px-ink)!important;border:0!important}
+/* drawer panels: parchment, wrap instead of scrolling sideways */
+.hall-drawer{overflow-x:hidden;top:72px;width:min(360px,calc(100% - 32px));padding:4px}
+.hall-drawer [data-dp]{background:var(--px-paper);padding:14px 14px 16px}
+.hall-drawer .panel-title{font:600 16px var(--px-font)}
+.hall-drawer .panel-title .pi{height:14px;margin-right:6px}
+.hall-drawer .icon-btn{border-radius:0}
+.hall-drawer .req{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px;align-items:start;padding:10px 0;border-bottom:2px dashed #d3c69c}
+.hall-drawer .req>div:not(.req-acts){min-width:0}
+.hall-drawer .req .req-acts,.hall-drawer .req>.badge{grid-column:1/-1;justify-self:start;display:flex;flex-wrap:wrap;gap:6px}
+.hall-drawer .req>.badge{grid-column:2}
+.hall-drawer .req small{overflow-wrap:anywhere}
+.hall-drawer .pick{border-radius:0;background:#fffaf0}
+.hall-drawer .score{border-radius:0;font-family:var(--px-font)}
+.hall-drawer .chips-sm span,.modal.game .chips-sm span,.modal.game .cf-chips span{border-radius:0}
+/* megaphone: compact one-line ticker, top centre */
+.hall-announce{top:16px;left:50%;transform:translate(-50%,-8px);width:auto;max-width:min(560px,calc(100% - 840px));min-width:320px;padding:6px 8px 6px 10px;gap:8px;background:var(--px-paper);color:var(--px-ink);font:400 13px var(--px-font)}
+.hall-announce.show{transform:translate(-50%,0)}
+.an-horn{display:inline-flex;animation:none;color:var(--px-clay)}
+.an-horn .pi{height:16px}
+.an-who{font-weight:600;flex:none}
+.an-msg{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.an-meta{flex:none;font-size:11.5px;color:#6b6450}
+.hall-announce button{border-radius:0;background:var(--px-leaf);color:#fff;font:500 12px var(--px-font);padding:4px 10px;box-shadow:0 0 0 2px var(--px-ink)}
+@media (max-width:1400px){.hall-announce{top:70px;max-width:calc(100% - 40px)}.hall-drawer{top:112px;max-height:calc(100% - 210px)}}
+/* game windows: square pixel frames */
+.modal.game{border:0;border-radius:0;background:var(--px-paper2);box-shadow:0 -4px 0 var(--px-ink),0 4px 0 var(--px-ink),-4px 0 0 var(--px-ink),4px 0 0 var(--px-ink),0 12px 0 rgba(0,0,0,.35)}
+.modal.game .modal-x{border-radius:0;border:0;background:var(--px-paper);box-shadow:0 0 0 2px var(--px-ink)}
+.gw-bar{border-radius:0;background:var(--px-moss);border-bottom:4px solid var(--px-ink)}
+.gw-bar>span{font:600 20px var(--px-font);letter-spacing:.02em;text-transform:none;color:var(--px-paper)}
+.gw-bar>span .pi{height:16px;color:var(--px-lime)}
+.gw-bar small{font:400 12px var(--px-font);color:var(--px-lime)}
+.gw-panel{border-radius:0;border:3px solid #b9ad84;background:var(--px-paper)}
+.modal.game .textarea,.modal.game .text-input,.modal.game .pill-select,.modal.game input{border-radius:0}
+.modal.game .pf-pick button{border-radius:0;font-family:var(--px-font)}
+.pc-thumb,.pc-info-art,.rt,.slot,.pc-info-art .pcard-logo{border-radius:0!important}
+.pc-thumb{border-width:3px}
+.pc-thumb.on{box-shadow:0 0 0 3px var(--px-lime),0 0 0 6px var(--px-ink)}
+.pc-hot,.pc-soon,.rt-st{border-radius:0;font-family:var(--px-font)}
+.pc-name b,.pc-info h3,.slot b{font-family:var(--px-font);font-weight:600;letter-spacing:0}
+.rt-name{font:600 16px var(--px-font);letter-spacing:0}
+.slot{border-width:3px}
+.slot-stamp{border-radius:0;font-family:var(--px-font)}
+.slot-kick{border-radius:0;font-family:var(--px-font);box-shadow:0 0 0 2px var(--px-ink);border:0}
+.slot-invite .pi,.slot-open .pi{height:22px}
+.slot-crown .pi{height:18px;color:#d9a21c}
+.slot-sp{filter:none}
+.rv-kv,.rv-side .room-ev b{font-family:var(--px-font)}
+.rb-ol button{border-radius:0}
+.rb-pager{font-family:var(--px-font)}
+/* ===== Loading screen into the hall ===== */
+.hall-loader{position:fixed;left:0;right:0;top:var(--tb,68px);bottom:0;z-index:60;background:#f7f7f4;display:grid;place-content:center;justify-items:center;gap:14px;font-family:var(--px-font);opacity:1;transition:opacity .35s}
+.hall-loader.out{opacity:0}
+.hl-sky{position:relative;width:min(560px,86vw);height:40px;overflow:hidden}
+.cloud{position:absolute;top:6px;height:18px;width:auto;image-rendering:pixelated;animation:hlCloud 7s linear infinite}
+.cloud.c2{top:20px;height:12px;animation-duration:10s;animation-delay:-5s}
+.hl-run{position:relative;width:min(560px,86vw);height:96px;overflow:hidden}
+.dino{position:absolute;left:12%;bottom:6px;height:74px;width:auto;image-rendering:pixelated;animation:hlHop 1.3s steps(1) infinite}
+.dino .dl.b{visibility:hidden}
+.hall-loader.go .dino .dl.a{animation:hlLegA .24s steps(1) infinite}
+.hall-loader.go .dino .dl.b{animation:hlLegB .24s steps(1) infinite}
+.hl-ground{position:absolute;left:0;right:0;bottom:4px;height:6px;background:linear-gradient(#59554a 0 2px,transparent 2px),repeating-linear-gradient(90deg,#8a8577 0 6px,transparent 6px 22px,#8a8577 22px 26px,transparent 26px 40px) 0 3px/40px 3px repeat-x;animation:hlGround .5s linear infinite}
+.cactus{position:absolute;bottom:8px;height:44px;width:auto;image-rendering:pixelated;animation:hlCactus 2.6s linear infinite}
+.cactus.c2{height:32px;animation-delay:-1.3s}
+.hl-label{margin:0;font-size:17px;font-weight:500;color:#3b3a33}
+.hl-dots::after{content:"";animation:hlDots 1s steps(4) infinite}
+.hl-bar{width:min(300px,70vw);height:14px;background:#e4e2d8;box-shadow:0 -3px 0 var(--px-ink),0 3px 0 var(--px-ink),-3px 0 0 var(--px-ink),3px 0 0 var(--px-ink)}
+.hl-bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#4f86e8 0 25%,#e2523f 25% 50%,#f2b51c 50% 75%,#3fa45a 75% 100%) 0 0/48px 100%}
+.hall-loader.go .hl-bar i{animation:hlBar 1.25s steps(12) forwards}
+@keyframes hlLegA{0%{visibility:visible}50%{visibility:hidden}}
+@keyframes hlLegB{0%{visibility:hidden}50%{visibility:visible}}
+@keyframes hlHop{0%,100%{transform:translateY(0)}43%{transform:translateY(-34px)}50%{transform:translateY(-38px)}57%{transform:translateY(-34px)}64%{transform:translateY(-14px)}}
+@keyframes hlGround{to{background-position:0 0,-40px 3px}}
+@keyframes hlCactus{from{transform:translateX(min(580px,90vw))}to{transform:translateX(-60px)}}
+@keyframes hlCloud{from{transform:translateX(min(580px,90vw))}to{transform:translateX(-80px)}}
+@keyframes hlBar{to{width:100%}}
+@keyframes hlDots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+@media (prefers-reduced-motion:reduce){.dino,.cactus,.cloud,.hl-ground,.hall-loader.go .dino .dl.a,.hall-loader.go .dino .dl.b{animation:none}}
 .hall-count{background:rgba(40,40,36,.72);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:7px 12px;font-size:14px;backdrop-filter:blur(4px)}
 .hall-say{background:rgba(40,40,36,.7);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:5px 5px 5px 0;align-items:center;backdrop-filter:blur(4px)}
 .hall-say input{background:transparent;border:0;color:#fff;height:32px}
@@ -1997,30 +2131,31 @@ body[data-view=hall] .hall-hint{left:50%;right:auto;bottom:18px;transform:transl
 <!-- ================= 8. MEETUP HALL (full-screen lobby) ================= -->
 <section class="view" id="view-hall" hidden>
   <h1 class="sr-only">Meetup Hall</h1>
+  <div class="hall-loader" id="hall-loader" hidden role="status" aria-label="Loading Meetup Hall"></div>
   <div class="hall-stage" id="hall-stage" role="application" aria-label="Meetup Hall. Click the floor to move, click a person to open their card.">
     <div id="hall-people"></div>
     <button class="hall-portal" type="button" id="hall-portal" aria-label="Room Board: pick a competition and open a room"><span class="hp-glow" aria-hidden="true"></span><span class="hp-label"><b>Room Board</b><small id="hall-portal-n"></small></span></button>
     <div class="hall-announce" id="hall-announce" aria-live="polite"></div>
     <div class="hud hud-tl">
-      <button class="hud-btn" type="button" data-hud-exit aria-label="Leave the hall"><svg class="i"><use href="#i-chev-left"/></svg></button>
+      <button class="hud-btn" type="button" data-hud-exit aria-label="Leave the hall"><span class="pi-slot" data-pi="chev-left"></span></button>
       <div class="hall-count" id="hall-count"></div>
     </div>
     <div class="hud hud-tr">
-      <button class="hud-btn wide" type="button" data-hud-drawer="card"><svg class="i"><use href="#i-user"/></svg>My card</button>
-      <button class="hud-btn wide" type="button" data-hud-drawer="picks"><svg class="i"><use href="#i-sparkle"/></svg>AI picks</button>
-      <button class="hud-btn wide" type="button" data-hud-drawer="reqs"><svg class="i"><use href="#i-bell"/></svg>Requests<i class="hud-n" id="hud-req-n" hidden></i></button>
+      <button class="hud-btn wide" type="button" data-hud-drawer="card"><span class="pi-slot" data-pi="user"></span>My card</button>
+      <button class="hud-btn wide" type="button" data-hud-drawer="picks"><span class="pi-slot" data-pi="sparkle"></span>AI picks</button>
+      <button class="hud-btn wide" type="button" data-hud-drawer="reqs"><span class="pi-slot" data-pi="bell"></span>Requests<i class="hud-n" id="hud-req-n" hidden></i></button>
     </div>
     <aside class="hall-drawer" aria-label="Hall panels">
-      <div class="card panel" data-dp="card"><div class="panel-title" style="justify-content:space-between"><span>Your hall card</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><svg class="i"><use href="#i-plus" transform="rotate(45 12 12)"/></svg></button></div><div id="hall-mine" style="display:grid;gap:12px"></div></div>
-      <div class="card panel" data-dp="picks"><div class="panel-title" style="justify-content:space-between"><span><svg class="i"><use href="#i-sparkle"/></svg>AI picks for your team</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><svg class="i"><use href="#i-plus" transform="rotate(45 12 12)"/></svg></button></div><p class="muted" style="font-size:12.5px" id="hall-pick-note"></p><div id="hall-picks"></div></div>
-      <div class="card panel" data-dp="reqs"><div class="panel-title" style="justify-content:space-between"><span>Requests</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><svg class="i"><use href="#i-plus" transform="rotate(45 12 12)"/></svg></button></div><div id="hall-reqs"></div></div>
+      <div class="card panel" data-dp="card"><div class="panel-title" style="justify-content:space-between"><span>Your hall card</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><span class="pi-slot" data-pi="close"></span></button></div><div id="hall-mine" style="display:grid;gap:12px"></div></div>
+      <div class="card panel" data-dp="picks"><div class="panel-title" style="justify-content:space-between"><span><span class="pi-slot" data-pi="sparkle"></span>AI picks for your team</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><span class="pi-slot" data-pi="close"></span></button></div><p class="muted" style="font-size:12.5px" id="hall-pick-note"></p><div id="hall-picks"></div></div>
+      <div class="card panel" data-dp="reqs"><div class="panel-title" style="justify-content:space-between"><span>Requests</span><button class="icon-btn" type="button" data-drawer-close aria-label="Close"><span class="pi-slot" data-pi="close"></span></button></div><div id="hall-reqs"></div></div>
     </aside>
-    <form class="hall-say" id="hall-say"><svg class="i" style="color:#fff;margin-left:12px"><use href="#i-chat"/></svg><input id="hall-say-text" maxlength="80" placeholder="Say hello…" aria-label="Say something in the hall"><button class="btn primary sm" type="submit" style="height:38px">Send</button></form>
+    <form class="hall-say" id="hall-say"><span class="pi-slot" data-pi="chat"></span><input id="hall-say-text" maxlength="80" placeholder="Say hello…" aria-label="Say something in the hall"><button class="btn primary sm" type="submit" style="height:38px">Send</button></form>
     <div class="hud hud-br">
       <button class="hud-room" type="button" id="hud-myroom" hidden></button>
-      <button class="gbtn" type="button" data-room-board><svg class="i"><use href="#i-list"/></svg><b>Room list</b></button>
-      <button class="gbtn" type="button" data-room-quick><svg class="i"><use href="#i-arrow"/></svg><b>Quick join</b></button>
-      <button class="gbtn go" type="button" data-pick-comp><svg class="i"><use href="#i-plus"/></svg><b>Create room</b></button>
+      <button class="gbtn" type="button" data-room-board><span class="pi-slot" data-pi="list"></span><b>Room list</b></button>
+      <button class="gbtn" type="button" data-room-quick><span class="pi-slot" data-pi="arrow"></span><b>Quick join</b></button>
+      <button class="gbtn go" type="button" data-pick-comp><span class="pi-slot" data-pi="plus"></span><b>Create room</b></button>
     </div>
     <span class="hall-hint">Click the floor to walk · click someone for their card · the glowing board opens rooms</span>
   </div>
@@ -2285,13 +2420,13 @@ function route(v=location.hash.slice(1)){
   if(STUDENT_VIEWS.includes(v)&&role!=='student')setRole('student');
   else if(ORG_VIEWS.includes(v)&&role!=='organizer')setRole('organizer');
   else if(v!=='signin'&&!role)setRole('student');
-  document.body.dataset.view=v;
+  const prevV=document.body.dataset.view;document.body.dataset.view=v;
   $$('.view').forEach(s=>s.hidden=s.id!=='view-'+v);
   $$('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===(v==='event'?'discover':v)));
   if(evp){curEvent=evp.id;setTab('event','home');renderEvent()}else document.title='IndustryBridge Prototype';
   // My programs opens on the list; buttons that name a workspace tab (data-set-tab="programs:…") open the workspace
   if(v==='programs'){showMP(mpPending?'ws':'home');mpPending=false}
-  if(v==="hall")setTB();
+  if(v==="hall"){setTB();if(prevV!=="hall")showHallLoader()}
   closeDD();window.scrollTo(0,0);
 }
 let mpPending=false;
@@ -3503,12 +3638,60 @@ const HALL=[
   {n:'Sage',sp:'s1_04',uni:'Mentor · UM',title:'Mentor in Disguise',bio:'Retired engineer. I join student teams as an advisor, not a builder.',skills:['Research','Writing','Business model'],need:['Data science','Frontend'],status:'team',team:'Byte Club',ev:['agri','data','health','fintech'],hist:[['Retail AI Sprint','Joined','Advised three teams'],['Campus Safety Hack','Joined','Judged the final']],links:['LinkedIn'],cv:true}
 ];
 const HALL_HI={Holmes:'Elementary. What’s your problem?',Astra:'Hi! Need someone for sensors?',Pip:'Hey! I can ship your frontend.',Miles:'Want a pitch that wins?',Zara:'Hi! I know the field data.',Pixel:'Yo, let’s make it look good.',Blaze:'Hey, anything safety-related?',Tick:'Hello. Right on time.',Sage:'Happy to advise, young one.',Luna:'Hi! Need a data person?',Maple:'Hello! I can design your screens.',Coco:'Hey, I pitch, you build?',Kaito:'Yo. Know any ML people?',Mochi:'Hi… first hackathon, be nice!',Willow:'Hi! Anything climate-related?',Finn:'Sup. We need a frontend dev.',Nova:'Hey! Got a real problem for me?',Bean:'Hi, let’s ship something.'};
+/* Pixel icons for the Meetup Hall, drawn on small grids ('#' = filled). Crisp at any size. */
+const PIX={
+  user:['...####...','..######..','..######..','..######..','...####...','..........','.########.','##########','##########','##########'],
+  users:['.##....##..','####..####.','####..####.','.##....##..','...........','####..####.','#####.#####','#####.#####','#####.#####'],
+  sparkle:['....#....','....#....','...###...','#########','.#######.','..#####..','..##.##..','.##...##.','.#.....#.'],
+  bell:['....##....','...####...','..######..','..######..','..######..','.########.','##########','..........','....##....'],
+  list:['##.#######','##.#######','..........','##.#######','##.#######','..........','##.#######','##.#######'],
+  grid:['####.####','####.####','####.####','####.####','.........','####.####','####.####','####.####','####.####'],
+  plus:['...##...','...##...','...##...','########','########','...##...','...##...','...##...'],
+  arrow:['......#...','......##..','#########.','##########','#########.','......##..','......#...'],
+  'chev-left':['....##','...##.','..##..','.##...','..##..','...##.','....##'],
+  'chev-right':['##....','.##...','..##..','...##.','..##..','.##...','##....'],
+  horn:['.........##','.......####','#.....#####','##.########','##.########','##.########','#.....#####','.......####','..##.....##','..##.......','..##.......'],
+  crown:['#....##....#','##..####..##','###.####.###','############','############','.##########.'],
+  check:['.........##','........##.','##.....##..','.##...##...','..##.##....','...###.....','....#......'],
+  calendar:['.##....##.','##########','##########','#........#','#.##.##..#','#........#','#.##.##..#','##########'],
+  pin:['..####..','.######.','###..###','###..###','.######.','..####..','...##...','...##...'],
+  route:['##........','##........','##########','........##','........##','##########','##........','##........'],
+  trophy:['##########','#.######.#','#.######.#','.#.####.#.','...####...','....##....','...####...','..######..'],
+  edit:['........##','.......###','......###.','.....###..','....###...','...###....','..###.....','.##.......','##........'],
+  search:['..####...','.#....#..','#......#.','#......#.','.#....#..','..####.#.','.......##','........#'],
+  file:['#####...','#...##..','#....##.','#.....#.','#.###.#.','#.....#.','#.###.#.','#######.'],
+  chat:['##########','#........#','#.##.##.##','#........#','##########','..##......','..#.......'],
+  close:['##....##','###..###','.######.','..####..','..####..','.######.','###..###','##....##']
+};
+function PI(n,cls=''){
+  const g=PIX[n]||PIX.plus,h=g.length,w=Math.max(...g.map(r=>r.length));let r='';
+  g.forEach((row,y)=>{let x=0;while(x<row.length){if(row[x]!=='#'){x++;continue}let e=x;while(row[e+1]==='#')e++;r+=`<rect x="${x}" y="${y}" width="${e-x+1}" height="1"/>`;x=e+1}});
+  return `<svg class="pi ${cls}" viewBox="0 0 ${w} ${h}" style="aspect-ratio:${w}/${h}" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`;
+}
+/* Loading screen before the hall: our own running pixel dino in four colours, with ground, cacti and clouds */
+const DINO_TOP=['..........########.','.........##.#######','.........##########','.........##########','.........#####.....','.........########..','#.......######.....','#......########....','##....##########...','###..##########.#..','##############.....','.############......','..##########.......','...########........'];
+const DINO_LEGS=[['....###..##........','....##....#........','....#.....##.......'],['....##...###.......','....#....##........','....##...#.........']];
+function dinoSVG(){
+  const col=(x,y)=>y<6?'#4f86e8':x<5&&y>=6?'#3fa45a':y>=9&&x>=15?'#f2b51c':'#e2523f';
+  const rects=(rows,y0,fill)=>rows.map((row,i)=>[...row].map((c,x)=>c==='#'?`<rect x="${x}" y="${y0+i}" width="1" height="1" fill="${fill||col(x,y0+i)}"/>`:'').join('')).join('');
+  return `<svg class="dino" viewBox="0 0 19 17" shape-rendering="crispEdges" aria-hidden="true">${rects(DINO_TOP,0)}<rect x="11" y="1" width="1" height="1" fill="#fff"/><g class="dl a">${rects(DINO_LEGS[0],14,'#f2b51c')}</g><g class="dl b">${rects(DINO_LEGS[1],14,'#f2b51c')}</g></svg>`;
+}
+const CACTUS=`<svg class="cactus" viewBox="0 0 7 12" shape-rendering="crispEdges" aria-hidden="true" fill="#3fa45a"><rect x="3" y="0" width="1" height="12"/><rect x="2" y="1" width="3" height="11"/><rect x="0" y="3" width="1" height="4"/><rect x="0" y="6" width="2" height="1"/><rect x="6" y="2" width="1" height="4"/><rect x="5" y="5" width="2" height="1"/></svg>`;
+const CLOUD=`<svg class="cloud" viewBox="0 0 12 5" shape-rendering="crispEdges" aria-hidden="true" fill="#c9cfd8"><rect x="4" y="0" width="4" height="1"/><rect x="2" y="1" width="8" height="1"/><rect x="1" y="2" width="10" height="2"/><rect x="0" y="4" width="12" height="1"/></svg>`;
+function showHallLoader(){
+  const L=$('#hall-loader');if(!L)return Promise.resolve();
+  if(!L.dataset.ready){L.innerHTML=`<div class="hl-sky">${CLOUD}${CLOUD.replace('class="cloud"','class="cloud c2"')}</div><div class="hl-run">${dinoSVG()}<div class="hl-ground"></div>${CACTUS}${CACTUS.replace('class="cactus"','class="cactus c2"')}</div><p class="hl-label">Loading Meetup Hall<span class="hl-dots"></span></p><div class="hl-bar"><i></i></div>`;L.dataset.ready=1}
+  L.hidden=false;L.classList.remove('out');void L.offsetWidth;L.classList.add('go');
+  // use the wait to decode the hall art so the first frames don't stutter
+  const imgs=[SPR.bg,...new Set(HALL.map(h=>SPR[h.sp])),SPR[myCard.sp]].filter(Boolean).map(src=>{const i=new Image();i.src=src;return i.decode?i.decode().catch(()=>{}):Promise.resolve()});
+  return Promise.all([Promise.all(imgs),new Promise(r=>setTimeout(r,1300))]).then(()=>{L.classList.add('out');setTimeout(()=>{L.hidden=true;L.classList.remove('go','out')},350)});
+}
 /* Meetup Hall: a full-screen lobby. Everyone is in, no registration needed.
    Buttons live inside the scene. Pick a competition (glowing Room Board or "Create room"), open a room,
    recruit with the megaphone (announced in the middle of the screen), kick, invite, register when full.
    Names in the lobby carry a title each person sets themselves (e.g. "Frontend", "Pitch master"). */
 const hall={ev:'all',pick:null,me:{x:52,y:80},pos:{},sent:{},myRoom:null,nextRoom:8,tick:0,page:0,drawer:null,
-  chat:[['Luna','Anyone good at UI for a fintech room?'],['Kaito','Room 4 has one seat left, bus sensors!'],['Mochi','First hackathon here, be nice 🙏']],
+  chat:[['Luna','Anyone good at UI for a fintech room?'],['Kaito','Room 4 has one seat left, bus sensors!'],['Mochi','First hackathon here, be nice!']],
   incoming:[{n:'Mochi',msg:'Can I join your room? It’s my first hackathon.',state:'pending'}],
   rooms:[
     {id:1,ev:'fintech',host:'Luna',members:['Luna','Bean'],desc:'Savings app for gig drivers. We have data and backend, need a UI designer!',need:['UI design']},
@@ -3546,11 +3729,12 @@ function hallTag(n){const t=titleOf(n);return t?`<i>${esc(t)}</i>`:''}
 function openModalX(html){openModal(html,true);$('.modal').classList.add('xwide','game')}
 function setModalHTML(html){$('#modal-body').innerHTML=html;hydrateAvatars($('#modal-body'))}
 function renderHall(){
+  $$('#view-hall [data-pi]').forEach(el=>{if(!el.firstChild)el.innerHTML=PI(el.dataset.pi)});
   const list=inHall(),open=hall.rooms.filter(r=>r.members.length<roomMax(r)).length,r=myRoom();
   $('#hall-count').innerHTML=`<b>Meetup Hall</b><span>${list.length+1+96} online · ${hall.rooms.length} rooms</span>`;
   $('#hall-portal-n').textContent=`${open} rooms with seats`;
-  $('#hall-people').innerHTML=list.map(h=>{const q=hall.pos[h.n];return `<button class="hp" type="button" data-hp="${h.n}" style="left:${q.x}%;top:${q.y}%;z-index:${10+Math.round(q.y)}" aria-label="${h.n}, ${esc(h.title)}. Open portfolio"><span class="hp-tag">${h.n}${hallTag(h.n)}</span>${sprImg(h.n)}</button>`}).join('')
-    +`<button class="hp you" type="button" id="hall-me" style="left:${hall.me.x}%;top:${hall.me.y}%;z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You${hallTag('me')}</span>${sprImg('me')}</button>`;
+  $('#hall-people').innerHTML=list.map(h=>{const q=hall.pos[h.n];return `<button class="hp" type="button" data-hp="${h.n}" style="--x:${q.x};--y:${q.y};z-index:${10+Math.round(q.y)}" aria-label="${h.n}, ${esc(h.title)}. Open portfolio"><span class="hp-tag">${h.n}${hallTag(h.n)}</span>${sprImg(h.n)}</button>`}).join('')
+    +`<button class="hp you" type="button" id="hall-me" style="--x:${hall.me.x};--y:${hall.me.y};z-index:${100+Math.round(hall.me.y)}" aria-label="You. Open your card"><span class="hp-tag">You${hallTag('me')}</span>${sprImg('me')}</button>`;
   // in-scene buttons that change with your state
   $('#hud-myroom').hidden=!r;
   if(r)$('#hud-myroom').dataset.roomOpen=r.id;
@@ -3563,7 +3747,7 @@ function renderHall(){
     +(myCard.done?`<div><small class="muted" style="font-size:12px">You bring</small><div class="chips-sm" style="margin-top:4px">${myCard.skills.map(x=>`<span>${x}</span>`).join('')}</div></div>
       <div><small class="muted" style="font-size:12px">You’re looking for</small><div class="chips-sm" style="margin-top:4px">${myCard.need.map(x=>`<span class="need">${x}</span>`).join('')}</div></div>`
     :`<p class="muted" style="font-size:13px;margin:0">Fill in your card so room hosts know what you’re good at.</p>`)
-    +`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" type="button" data-title-edit>${I('edit','sm')}Change title</button><button class="btn ${myCard.done?'ghost':'primary'} sm" type="button" id="card-start">${myCard.done?'Edit card':'Fill in my card'}</button></div>`;
+    +`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" type="button" data-title-edit>${PI('edit')}Change title</button><button class="btn ${myCard.done?'ghost':'primary'} sm" type="button" id="card-start">${myCard.done?'Edit card':'Fill in my card'}</button></div>`;
   if(!myCard.done){$('#hall-pick-note').textContent='Fill in your card so AI knows who your team needs.';$('#hall-picks').innerHTML=''}
   else{
     const ranked=list.filter(h=>!(r&&r.members.includes(h.n))).map(h=>({h,...matchOf(h)})).filter(x=>x.hit.length).sort((a,b)=>b.score-a.score).slice(0,3);
@@ -3587,24 +3771,24 @@ function openPickComp(id,keep){
   const thumb=q=>{const n=hall.rooms.filter(r=>r.ev===q.id).length;return `<button type="button" class="pc-thumb${q.id===p.id?' on':''}" data-pc="${q.id}" aria-pressed="${q.id===p.id}">
       <span class="pc-art" style="background:${(HERO_BG[q.poster]||HERO_BG['p-smart'])[1]}">${sceneSVG(q,'xMaxYMid')}${isHot(q)?'<i class="pc-hot">HOT</i>':q.status==='soon'?'<i class="pc-soon">SOON</i>':''}</span>
       <span class="pc-name"><b>${q.title}</b><small>${q.kind} · ${n} room${n===1?'':'s'}</small></span></button>`};
-  const html=`<div id="pick-comp" class="gw"><header class="gw-bar"><span>${I('trophy','sm')}Pick a competition</span><small>${evs.length} competitions you can open a room for</small></header>
+  const html=`<div id="pick-comp" class="gw"><header class="gw-bar"><span>${PI('trophy')}Pick a competition</span><small>${evs.length} competitions you can open a room for</small></header>
     <div class="pc-grid">
       <div class="pc-list gw-panel">${evs.map(thumb).join('')}</div>
       <section class="pc-info gw-panel" aria-live="polite">
         <div class="pc-info-art" style="background:${(HERO_BG[p.poster]||HERO_BG['p-smart'])[1]}">${sceneSVG(p,'xMaxYMid')}<span class="pcard-logo ${p.poster}" aria-hidden="true">${I(p.logo)}</span></div>
         <h3>${p.title}</h3>
         <dl class="cf-facts">
-          <div><dt>${I('calendar')}Time</dt><dd>${cfWhen(p)}</dd></div>
-          <div><dt>${I('pin')}Place</dt><dd>${p.format}</dd></div>
-          <div class="half"><dt>${I('trophy')}Prize</dt><dd>${p.prize}</dd></div>
-          <div class="half"><dt>${I('users')}Team</dt><dd>${p.team.replace('Teams of ','')}</dd></div>
-          <div class="wide"><dt>${I('route')}Tracks</dt><dd class="cf-chips">${(EV_TRACKS[p.id]||[]).map(t=>`<span>${t}</span>`).join('')}</dd></div>
+          <div><dt>${PI('calendar')}Time</dt><dd>${cfWhen(p)}</dd></div>
+          <div><dt>${PI('pin')}Place</dt><dd>${p.format}</dd></div>
+          <div class="half"><dt>${PI('trophy')}Prize</dt><dd>${p.prize}</dd></div>
+          <div class="half"><dt>${PI('users')}Team</dt><dd>${p.team.replace('Teams of ','')}</dd></div>
+          <div class="wide"><dt>${PI('route')}Tracks</dt><dd class="cf-chips">${(EV_TRACKS[p.id]||[]).map(t=>`<span>${t}</span>`).join('')}</dd></div>
         </dl>
       </section>
       <section class="pc-create gw-panel">
         <div class="field"><label for="pc-desc">What will your room build?</label><textarea class="textarea" id="pc-desc" maxlength="140" placeholder="e.g. A savings app for gig drivers. I do research and pitching.">${esc(draft.d)}</textarea><span class="err" id="pc-err" hidden>Write at least 10 characters so people know what the room is for.</span></div>
         <div class="pf-pick need sm" id="pc-need" aria-label="Looking for, up to 3">${SKILLS.map(x=>`<button type="button" data-rn="${x}" class="${draft.n.includes(x)?'on':''}">${x}</button>`).join('')}</div>
-        <div class="pc-acts"><button class="btn ghost" type="button" data-board-ev="${p.id}">Browse ${rooms.length} room${rooms.length===1?'':'s'}${seats?` · ${seats} open`:''}</button><button class="btn primary" type="button" id="pc-create">${I('plus','sm')}Create room</button></div>
+        <div class="pc-acts"><button class="btn ghost" type="button" data-board-ev="${p.id}">Browse ${rooms.length} room${rooms.length===1?'':'s'}${seats?` · ${seats} open`:''}</button><button class="btn primary" type="button" id="pc-create">${PI('plus')}Create room</button></div>
       </section>
     </div></div>`;
   if(keep)setModalHTML(html);else openModalX(html);
@@ -3621,13 +3805,13 @@ function openRoom(id,keep){
   const r=hall.rooms.find(x=>x.id===id);if(!r){closeModal();return}
   const max=roomMax(r),host=r.host==='me',mine=r.id===hall.myRoom,p=evOf(r),full=r.members.length>=max;
   const slot=m=>{const isHost=m===r.host;return `<div class="slot${isHost?' host':''}${m==='me'?' slot-me':''}">
-      ${isHost?`<span class="slot-crown" title="Host">${I('crown')}</span>`:`<span class="slot-stamp">READY</span>`}
+      ${isHost?`<span class="slot-crown" title="Host">${PI('crown')}</span>`:`<span class="slot-stamp">READY</span>`}
       ${host&&m!=='me'?`<button class="slot-kick" type="button" data-room-kick="${m}" aria-label="Kick ${m}">×</button>`:''}
       <span class="slot-art">${sprImg(m,'slot-sp')}</span>
       <b>${nameOf(m)}</b><small>${esc(titleOf(m)||'Member')}</small>
       ${m!=='me'?`<button class="link-btn" type="button" data-hp="${m}">View card</button>`:''}</div>`};
-  const empty=()=>`<div class="slot vacant">${mine&&host?`<button type="button" class="slot-invite" data-room-invite>${I('plus')}<b>Invite</b></button>`:`<span class="slot-open">${I('plus')}<b>Open</b></span>`}</div>`;
-  const html=`<div id="room-view" class="gw" data-room="${r.id}"><header class="gw-bar"><span>${I('users','sm')}Room #${String(r.id).padStart(3,'0')}</span><small>${p.title} · ${r.members.length}/${max} · ${full?'full':'recruiting'}</small></header>
+  const empty=()=>`<div class="slot vacant">${mine&&host?`<button type="button" class="slot-invite" data-room-invite>${PI('plus')}<b>Invite</b></button>`:`<span class="slot-open">${PI('plus')}<b>Open</b></span>`}</div>`;
+  const html=`<div id="room-view" class="gw" data-room="${r.id}"><header class="gw-bar"><span>${PI('users')}Room #${String(r.id).padStart(3,'0')}</span><small>${p.title} · ${r.members.length}/${max} · ${full?'full':'recruiting'}</small></header>
     <div class="rv-grid">
       <div class="rv-slots gw-panel" style="--cols:${Math.min(4,max)}">${r.members.map(slot).join('')}${Array.from({length:max-r.members.length},empty).join('')}</div>
       <aside class="rv-side gw-panel">
@@ -3638,9 +3822,9 @@ function openRoom(id,keep){
         <p class="room-desc">${esc(r.desc)}</p>
         ${r.need.length?`<div class="chips-sm">${r.need.map(x=>`<span class="need">${x}</span>`).join('')}</div>`:''}
         <div class="rv-acts">
-          ${mine&&host?`<button class="gbtn" type="button" data-room-invite ${full?'disabled':''}>${I('user')}<b>Invite</b></button><button class="gbtn" type="button" data-room-horn ${full?'disabled':''}><span aria-hidden="true">📢</span><b>Megaphone</b></button>`:''}
-          ${mine?`<button class="gbtn go" type="button" data-register="${r.ev}" ${full?'':'disabled'} title="${full?'':'Fill every seat to register'}">${I('check')}<b>Register team</b></button><button class="gbtn out" type="button" data-room-leave>${I('chev-left')}<b>${host?'Close room':'Leave'}</b></button>`
-            :`<button class="gbtn go" type="button" data-room-join="${r.id}" ${full||hall.sent['room'+r.id]?'disabled':''}>${I('arrow')}<b>${full?'Full':hall.sent['room'+r.id]?'Asked…':'Join room'}</b></button><button class="gbtn out" type="button" data-room-board>${I('list')}<b>All rooms</b></button>`}
+          ${mine&&host?`<button class="gbtn" type="button" data-room-invite ${full?'disabled':''}>${PI('user')}<b>Invite</b></button><button class="gbtn" type="button" data-room-horn ${full?'disabled':''}>${PI('horn')}<b>Megaphone</b></button>`:''}
+          ${mine?`<button class="gbtn go" type="button" data-register="${r.ev}" ${full?'':'disabled'} title="${full?'':'Fill every seat to register'}">${PI('check')}<b>Register team</b></button><button class="gbtn out" type="button" data-room-leave>${PI('chev-left')}<b>${host?'Close room':'Leave'}</b></button>`
+            :`<button class="gbtn go" type="button" data-room-join="${r.id}" ${full||hall.sent['room'+r.id]?'disabled':''}>${PI('arrow')}<b>${full?'Full':hall.sent['room'+r.id]?'Asked…':'Join room'}</b></button><button class="gbtn out" type="button" data-room-board>${PI('list')}<b>All rooms</b></button>`}
         </div>
       </aside>
     </div></div>`;
@@ -3650,7 +3834,7 @@ function openRoom(id,keep){
 function openInvite(){
   const r=myRoom();if(!r)return;
   const free=HALL.filter(h=>!roomOf(h.n)).map(h=>({h,s:h.skills.filter(x=>r.need.includes(x)).length})).sort((a,b)=>b.s-a.s);
-  setModalHTML(`<div id="invite-view" class="gw"><header class="gw-bar"><span>${I('user','sm')}Invite to room #${r.id}</span><small>${free.length} people without a room</small></header>
+  setModalHTML(`<div id="invite-view" class="gw"><header class="gw-bar"><span>${PI('user')}Invite to room #${r.id}</span><small>${free.length} people without a room</small></header>
     <div class="gw-panel inv-list">${free.map(({h,s})=>`<div class="req">${hallAv(h.n,38)}<div><b>${h.n} <span class="muted" style="font-weight:400">· ${esc(h.title)}</span></b><small>${h.skills.join(' · ')}${s?` · fits what you need`:''}</small></div>${hall.sent[h.n]==='pending'?'<span class="badge warn">Sent</span>':`<button class="btn primary sm" type="button" data-hall-ask="${h.n}">Invite</button>`}</div>`).join('')}</div>
     <div class="modal-actions"><button class="btn ghost" type="button" data-room-open="${r.id}">Back to room</button></div></div>`);
 }
@@ -3663,21 +3847,21 @@ function openRoomBoard(keep){
       <span class="rt-top"><b class="rt-name">${evTitle(r)}</b><span class="rt-no">#${String(r.id).padStart(3,'0')}</span></span>
       <span class="rt-desc">${esc(r.desc)}</span>
       <span class="rt-foot"><span class="room-faces">${r.members.map(m=>hallAv(m,24)).join('')}</span><span class="rt-st ${mine?'mine':full?'full':'open'}">${mine?'Your room':full?'Full':'Open'}</span><b class="rt-n">${r.members.length}/${max}</b></span></button>`};
-  const html=`<div id="room-board" class="gw"><header class="gw-bar"><span>${I('grid','sm')}Room list</span><small>${hall.rooms.length} rooms · ${HALL.length+97} online</small></header>
+  const html=`<div id="room-board" class="gw"><header class="gw-bar"><span>${PI('grid')}Room list</span><small>${hall.rooms.length} rooms · ${HALL.length+97} online</small></header>
     <div class="rb-grid">
       <div class="rb-left gw-panel">
         <div class="rb-filter"><label class="sr-only" for="rb-ev">Competition</label><select class="pill-select" id="rb-ev"><option value="all">All competitions</option>${evs.map(p=>`<option value="${p.id}"${p.id===f?' selected':''}>${p.title} · ${hall.rooms.filter(r=>r.ev===p.id).length}</option>`).join('')}</select>
-          <form class="rb-search" id="rb-search"><input id="rb-q" inputmode="numeric" placeholder="Room no." aria-label="Find room by number"><button class="btn ghost sm" type="submit">${I('search','sm')}Find</button></form></div>
+          <form class="rb-search" id="rb-search"><input id="rb-q" inputmode="numeric" placeholder="Room no." aria-label="Find room by number"><button class="btn ghost sm" type="submit">${PI('search')}Find</button></form></div>
         <div class="rt-grid">${rooms.map(tile).join('')||`<div class="empty">No rooms for this competition yet.</div>`}</div>
-        <div class="rb-pager"><button class="btn ghost sm" type="button" data-rb-page="-1" ${hall.page?'':'disabled'}>${I('chev-left','sm')}Prev</button><span>Page ${hall.page+1} / ${pages}</span><button class="btn ghost sm" type="button" data-rb-page="1" ${hall.page<pages-1?'':'disabled'}>Next${I('chev-right','sm')}</button></div>
+        <div class="rb-pager"><button class="btn ghost sm" type="button" data-rb-page="-1" ${hall.page?'':'disabled'}>${PI('chev-left')}Prev</button><span>Page ${hall.page+1} / ${pages}</span><button class="btn ghost sm" type="button" data-rb-page="1" ${hall.page<pages-1?'':'disabled'}>Next${PI('chev-right')}</button></div>
       </div>
       <aside class="rb-right">
-        <div class="gw-panel rb-me">${hallAv('me',56)}<div><b>Xin Yi Neoh</b><small>${esc(myCard.title)}</small><small>Lv ${lvlOf(xpMe)} · ${xpMe.toLocaleString('en-MY')} XP</small><button class="link-btn" type="button" data-title-edit style="padding:2px 0;font-size:12px">${I('edit','sm')}Change title</button></div></div>
+        <div class="gw-panel rb-me">${hallAv('me',56)}<div><b>Xin Yi Neoh</b><small>${esc(myCard.title)}</small><small>Lv ${lvlOf(xpMe)} · ${xpMe.toLocaleString('en-MY')} XP</small><button class="link-btn" type="button" data-title-edit style="padding:2px 0;font-size:12px">${PI('edit')}Change title</button></div></div>
         <div class="gw-panel rb-online"><b class="rb-h">Online now</b><div class="rb-ol">${HALL.map(h=>`<button type="button" data-hp="${h.n}">${hallAv(h.n,24)}<span>${h.n}</span><small>${esc(h.title)}</small></button>`).join('')}</div></div>
       </aside>
       <div class="rb-chat gw-panel"><div class="rb-log" id="rb-log">${hall.chat.map(([n,t])=>`<p><b>${esc(nameOf(n))}:</b> ${esc(t)}</p>`).join('')}</div>
         <form class="rb-say" id="rb-say"><input id="rb-say-t" maxlength="80" placeholder="Chat with the lobby…" aria-label="Lobby chat"><button class="btn ghost sm" type="submit">Send</button></form></div>
-      <div class="rb-acts"><button class="gbtn" type="button" data-pick-comp>${I('plus')}<b>Create room</b></button><button class="gbtn go" type="button" data-room-quick>${I('arrow')}<b>Quick join</b></button></div>
+      <div class="rb-acts"><button class="gbtn" type="button" data-pick-comp>${PI('plus')}<b>Create room</b></button><button class="gbtn go" type="button" data-room-quick>${PI('arrow')}<b>Quick join</b></button></div>
     </div></div>`;
   if(keep)setModalHTML(html);else openModalX(html);
   const lg=$('#rb-log');if(lg)lg.scrollTop=lg.scrollHeight;
@@ -3699,7 +3883,7 @@ function openTitleEdit(){
 /* Megaphone: your room is announced in the middle of the hall; someone who fits answers a moment later */
 function hallHorn(){
   const r=myRoom();if(!r)return;
-  closeModal();announce({n:'me',r});hallBubble('me','📢');
+  closeModal();announce({n:'me',r});hallBubble('me','Recruiting!');
   clearTimeout(hall.hornT);
   hall.hornT=setTimeout(()=>{
     if(!myRoom()||r.members.length>=roomMax(r))return;
@@ -3732,7 +3916,7 @@ function kickFromRoom(n){
 /* Big announcement in the middle of the hall; fades after a few seconds */
 function announce(item){
   const a=$('#hall-announce');if(!a||!item)return;const r=item.r,max=roomMax(r),me=item.n==='me';
-  a.innerHTML=`<span class="an-horn" aria-hidden="true">📢</span><div class="an-body"><small>${me?'You':esc(item.n)} · ${evTitle(r)} · room #${r.id} · ${r.members.length}/${max}</small><b>${esc(r.desc)}</b>${r.need.length?`<span class="an-need">Looking for ${r.need.join(', ')}</span>`:''}</div>${!me&&r.id!==hall.myRoom&&r.members.length<max?`<button type="button" data-room-open="${r.id}">View room</button>`:''}`;
+  a.innerHTML=`<span class="an-horn" aria-hidden="true">${PI('horn')}</span><span class="an-who">${me?'You':esc(item.n)}</span><span class="an-msg">${esc(r.desc)}</span><span class="an-meta">${evTitle(r)} · ${r.members.length}/${max}</span>${!me&&r.id!==hall.myRoom&&r.members.length<max?`<button type="button" data-room-open="${r.id}">Join</button>`:''}`;
   a.classList.remove('show');void a.offsetWidth;a.classList.add('show');
   clearTimeout(a._t);a._t=setTimeout(()=>a.classList.remove('show'),me?5000:4000);
 }
@@ -3758,18 +3942,18 @@ function portfolioHTML(h,isMe){
     <div><b style="font-size:13.5px">Hackathon record</b><div class="xp-list">${h.hist.length?h.hist.map(([e,r,pj])=>`<div class="xp-row">${I(r==='Winner'?'trophy':r==='Finalist'?'target':'check','sm')}<b>${esc(e)}<span class="proj">${esc(pj||'')}</span></b><span class="badge ${r==='Winner'?'ok':r==='Finalist'?'accent':''}">${r}</span><em>+${XP_FOR[r]} XP</em></div>`).join(''):`<div class="xp-row" style="color:var(--muted)">No hackathons yet. The first one earns +200 XP.</div>`}</div></div>
     <div class="pf-row"><div><b style="font-size:13.5px">Good at</b><div class="chips-sm" style="margin-top:6px">${h.skills.map(x=>`<span class="${!isMe&&myCard.need.includes(x)?'need':''}">${x}</span>`).join('')}</div></div>
     <div><b style="font-size:13.5px">Looking for teammates who do</b><div class="chips-sm" style="margin-top:6px">${h.need.map(x=>`<span>${x}</span>`).join('')}</div></div></div>
-    ${links.length||h.cv?`<div class="pf-links">${links.map(l=>`<span>${I(l==='GitHub'?'grid':l==='LinkedIn'?'linkedin':'external','sm')}${l}</span>`).join('')}${h.cv?`<span>${I('file','sm')}CV on file</span>`:''}</div>`:''}`;
+    ${links.length||h.cv?`<div class="pf-links">${links.map(l=>`<span>${I(l==='GitHub'?'grid':l==='LinkedIn'?'linkedin':'external','sm')}${l}</span>`).join('')}${h.cv?`<span>${PI('file')}CV on file</span>`:''}</div>`:''}`;
 }
 function openHallCard(n){
   if(n==='me'){openModal(portfolioHTML(myCard,true)+`<div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button><button class="btn primary" type="button" id="card-edit2">Edit my card</button></div>`,true);return}
   const h=HALL.find(x=>x.n===n),m=matchOf(h),st=hall.sent[n],mine=myRoom(),theirs=roomOf(n);
-  const cta=mine&&mine.members.includes(n)?`<button class="btn primary" type="button" disabled>${I('check','sm')}In your room</button>`
+  const cta=mine&&mine.members.includes(n)?`<button class="btn primary" type="button" disabled>${PI('check')}In your room</button>`
     :st==='pending'?`<button class="btn primary" type="button" disabled>Invite sent</button>`
-    :mine&&mine.host==='me'&&!theirs&&mine.members.length<roomMax(mine)?`<button class="btn primary" type="button" data-hall-ask="${n}" autofocus>Invite to room #${mine.id} ${I('arrow','sm')}</button>`
-    :theirs&&!mine?`<button class="btn primary" type="button" data-room-open="${theirs.id}" autofocus>See ${n}’s room ${I('arrow','sm')}</button>`
+    :mine&&mine.host==='me'&&!theirs&&mine.members.length<roomMax(mine)?`<button class="btn primary" type="button" data-hall-ask="${n}" autofocus>Invite to room #${mine.id} ${PI('arrow')}</button>`
+    :theirs&&!mine?`<button class="btn primary" type="button" data-room-open="${theirs.id}" autofocus>See ${n}’s room ${PI('arrow')}</button>`
     :!mine?`<button class="btn primary" type="button" data-pick-comp>Open a room to invite ${n}</button>`
     :`<button class="btn primary" type="button" disabled>${theirs?`Already in room #${theirs.id}`:'Your room is full'}</button>`;
-  openModal(portfolioHTML(h,false)+(myCard.done&&m.hit.length?`<div class="match-line">${I('sparkle')}<span><b>${m.score}% match.</b> Brings ${m.hit.join(' and ')}, which you’re looking for${m.back.length?`, and needs your ${m.back.join(' and ')}`:''}.</span></div>`:'')
+  openModal(portfolioHTML(h,false)+(myCard.done&&m.hit.length?`<div class="match-line">${PI('sparkle')}<span><b>${m.score}% match.</b> Brings ${m.hit.join(' and ')}, which you’re looking for${m.back.length?`, and needs your ${m.back.join(' and ')}`:''}.</span></div>`:'')
     +`<div class="modal-actions"><button class="btn ghost" type="button" data-close>Close</button>${cta}</div>`,true);
 }
 function hallAsk(n){
@@ -3786,7 +3970,7 @@ function openCardForm(){
   pf=JSON.parse(JSON.stringify(myCard));
   const pick=(key,max)=>SKILLS.map(x=>`<button type="button" data-pf="${key}" data-v="${x}" class="${pf[key].includes(x)?'on':''}">${x}</button>`).join('');
   openModal(`<div style="display:flex;gap:14px;align-items:center"><span id="pf-av">${hallAv('me',60)}</span><div><h2 id="modal-title">Your hall card</h2><p class="muted" style="font-size:13px">Teammates see this when they click you. You fill it in once.</p></div></div>
-    <button class="btn outline sm" type="button" id="pf-ai" style="justify-self:start">${I('sparkle','sm')}Draft it from my IndustryBridge activity</button>
+    <button class="btn outline sm" type="button" id="pf-ai" style="justify-self:start">${PI('sparkle')}Draft it from my IndustryBridge activity</button>
     <div class="field"><span class="field-label">Your character <span class="muted" style="font-weight:400">· pick any you like</span></span><div class="av-pick" id="pf-sp">${Object.keys(SPR).filter(k=>k!=='bg').map(k=>`<button type="button" data-spk="${k}" class="${k===pf.sp?'on':''}" aria-label="Character ${k}"><img src="${SPR[k]}" alt=""></button>`).join('')}</div></div>
     <div class="pf-row"><div class="field"><label for="pf-title">Title <span class="muted" style="font-weight:400">· shown next to your name</span></label><input class="text-input" id="pf-title" maxlength="20" placeholder="e.g. Frontend, UI designer, Pitch master" value="${esc(pf.title)}"></div>
     <div class="field"><label for="pf-uni">University</label><input class="text-input" id="pf-uni" placeholder="e.g. UTM" value="${esc(pf.uni)}"></div></div>
@@ -3797,9 +3981,9 @@ function openCardForm(){
       <div class="pf-row" style="margin-top:6px;grid-template-columns:1fr auto auto"><input class="text-input" id="pf-hname" placeholder="Add a hackathon you joined elsewhere"><select class="field-select" id="pf-hres" style="width:auto"><option>Joined</option><option>Finalist</option><option>Winner</option></select><button class="btn ghost" type="button" id="pf-hadd">Add</button></div></div>
     <div class="pf-row"><div class="field"><label for="pf-gh">GitHub <span class="muted" style="font-weight:400">· optional</span></label><input class="text-input" id="pf-gh" placeholder="github.com/you" value="${esc(pf.gh)}"></div>
     <div class="field"><label for="pf-li">LinkedIn <span class="muted" style="font-weight:400">· optional</span></label><input class="text-input" id="pf-li" placeholder="linkedin.com/in/you" value="${esc(pf.li)}"></div></div>
-    <div class="field"><span class="field-label">CV <span class="muted" style="font-weight:400">· upload once, shared with organisers of events you join</span></span><div class="sf-actions"><label class="btn ghost sm" for="pf-cv" style="cursor:pointer">${I('file','sm')}<span id="pf-cv-l">${pf.cv?'Replace CV':'Upload CV'}</span></label><input id="pf-cv" type="file" accept=".pdf,.doc,.docx" hidden><span class="muted" style="font-size:12.5px" id="pf-cv-s">${pf.cv?'CV on file':'No CV yet'}</span></div></div>
+    <div class="field"><span class="field-label">CV <span class="muted" style="font-weight:400">· upload once, shared with organisers of events you join</span></span><div class="sf-actions"><label class="btn ghost sm" for="pf-cv" style="cursor:pointer">${PI('file')}<span id="pf-cv-l">${pf.cv?'Replace CV':'Upload CV'}</span></label><input id="pf-cv" type="file" accept=".pdf,.doc,.docx" hidden><span class="muted" style="font-size:12.5px" id="pf-cv-s">${pf.cv?'CV on file':'No CV yet'}</span></div></div>
     <p class="pf-err" id="pf-err"></p>
-    <div class="modal-actions"><button class="btn ghost" type="button" data-close>Cancel</button><button class="btn primary" type="button" id="pf-save">Save card ${I('arrow','sm')}</button></div>`,true);
+    <div class="modal-actions"><button class="btn ghost" type="button" data-close>Cancel</button><button class="btn primary" type="button" id="pf-save">Save card ${PI('arrow')}</button></div>`,true);
   renderPfHist();
 }
 function renderPfHist(){$('#pf-hist').innerHTML=pf.hist.map(([e,r,pj],i)=>`<div class="xp-row">${I(r==='Winner'?'trophy':r==='Finalist'?'target':'check','sm')}<b>${esc(e)}<span class="proj">${i<2?'Verified on IndustryBridge':'Added by you'}</span></b><span class="badge ${r==='Winner'?'ok':r==='Finalist'?'accent':''}">${r}</span><em>+${XP_FOR[r]} XP</em></div>`).join('')}
@@ -3811,7 +3995,7 @@ function savePf(){
   toast(first?'Card saved. Room hosts can now see what you’re good at.':'Card updated · AI picks refreshed');
 }
 function walkMe(x,y){
-  const me=$('#hall-me');if(!me)return;me.classList.toggle('left',x<hall.me.x);me.classList.add('walk');clearTimeout(me._w);me._w=setTimeout(()=>me.classList.remove('walk'),1100);hall.me={x,y};me.style.left=x+'%';me.style.top=y+'%';me.style.zIndex=100+Math.round(y);
+  const me=$('#hall-me');if(!me)return;me.classList.toggle('left',x<hall.me.x);me.classList.add('walk');clearTimeout(me._w);me._w=setTimeout(()=>me.classList.remove('walk'),1100);hall.me={x,y};me.style.setProperty('--x',x);me.style.setProperty('--y',y);me.style.zIndex=100+Math.round(y);
 }
 $('#hall-stage').addEventListener('click',e=>{
   if(e.target.closest('.hall-say,.hud,.hall-drawer,#hall-announce'))return;
@@ -3862,7 +4046,7 @@ $('#modal-body').addEventListener('click',e=>{
 $('#modal-body').addEventListener('submit',e=>{
   if(e.target.id==='rb-search'){e.preventDefault();const n=+$('#rb-q').value.replace(/\D/g,'');const r=hall.rooms.find(x=>x.id===n);if(r)openRoom(n,true);else toast(n?`No room #${n}`:'Type a room number')}
   if(e.target.id==='rb-say'){e.preventDefault();const t=$('#rb-say-t').value.trim();if(!t)return;hall.chat.push(['me',t]);
-    const who=HALL[hash(t)%HALL.length].n;setTimeout(()=>{hall.chat.push([who,HALL_HI[who]||'Hi! 👋']);if($('#room-board'))openRoomBoard(true)},1200);openRoomBoard(true);$('#rb-say-t')?.focus()}
+    const who=HALL[hash(t)%HALL.length].n;setTimeout(()=>{hall.chat.push([who,HALL_HI[who]||'Hi there!']);if($('#room-board'))openRoomBoard(true)},1200);openRoomBoard(true);$('#rb-say-t')?.focus()}
 });
 $('#modal-body').addEventListener('click',e=>{
   const a=e.target.closest('[data-hall-ask]');if(a){hallAsk(a.dataset.hallAsk);return}
@@ -3892,11 +4076,11 @@ $('#hall-say').addEventListener('submit',e=>{
 });
 // People wander every few seconds; paused while hovered, when the hall is hidden, or for reduced motion
 setInterval(()=>{
-  if($('#view-hall').hidden||document.hidden||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if($('#view-hall').hidden||document.hidden||!$('#modal').hidden||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   $$('#hall-people .hp:not(.you)').forEach(el=>{
     if(el.matches(':hover')||Math.random()<.45)return;
     const q=hall.pos[el.dataset.hp],nx=clampN(q.x+(Math.random()-.5)*18,7,93),ny=clampN(q.y+(Math.random()-.5)*14,48,90);
-    el.classList.toggle('left',nx<q.x);el.classList.add('walk');clearTimeout(el._w);el._w=setTimeout(()=>el.classList.remove('walk'),2400);q.x=nx;q.y=ny;el.style.left=nx+'%';el.style.top=ny+'%';el.style.zIndex=10+Math.round(ny);
+    el.classList.toggle('left',nx<q.x);el.classList.add('walk');clearTimeout(el._w);el._w=setTimeout(()=>el.classList.remove('walk'),2400);q.x=nx;q.y=ny;el.style.setProperty('--x',nx);el.style.setProperty('--y',ny);el.style.zIndex=10+Math.round(ny);
   });
 },2600);
 /* LinkedIn confirmation */
