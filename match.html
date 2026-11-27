@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bridge Match · IndustryBridge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: work column (steps) + narrow agent log column; stacks on phones. */
+:root{
+  --bg:#f4f5f3;--surface:#fff;--ink:#121210;--muted:#5d6159;--line:#d9dcd5;--soft:#ecece7;
+  --lime:#5c7a2c;--limebg:#e8efd9;--exp:#4a3fb8;--expbg:#ecebfa;--ptn:#0f7a6c;--ptnbg:#e3f3f0;--open:#b06a00;--openbg:#fbf0dd;--red:#b4321f;--redbg:#fbe7e3;
+  --f-d:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;--f-b:"Inter",ui-sans-serif,system-ui,"Segoe UI",sans-serif;--f-m:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{--bg:#141513;--surface:#1d1f1c;--ink:#ecede8;--muted:#a3a79e;--line:#33362f;--soft:#2a2c28;
+  --lime:#a9c76a;--limebg:#26301a;--exp:#aaa2ff;--expbg:#25233f;--ptn:#5fd1bf;--ptnbg:#16302c;--open:#f0b350;--openbg:#33270f;--red:#ff8b78;--redbg:#3a1d18;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-b)}
+a{color:inherit}
+.top{background:#121210;color:#f4f5f3;padding:14px max(16px,env(safe-area-inset-left)) 14px max(16px,env(safe-area-inset-right))}
+.top .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font:700 1.05rem var(--f-d);letter-spacing:-.01em;text-decoration:none}
+.brand b{color:#c3d697}
+.top nav{margin-left:auto;display:flex;gap:16px;font-size:.88rem}
+.top nav a{color:#c9cbc3;text-decoration:none}.top nav a:hover{color:#fff}
+.hero{max-width:1180px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left)) 6px max(16px,env(safe-area-inset-right))}
+.eyebrow{font:600 .72rem var(--f-m);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(1.7rem,4vw,2.4rem)/1.15 var(--f-d);margin:.3rem 0 .4rem;letter-spacing:-.015em;text-wrap:balance}
+.hero p{margin:0;max-width:70ch;color:var(--muted)}
+.tracks-key{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pill{font:600 .74rem var(--f-b);padding:3px 10px;border-radius:999px;background:var(--soft);color:var(--muted)}
+.pill.r{background:var(--expbg);color:var(--exp)}.pill.p{background:var(--ptnbg);color:var(--ptn)}.pill.o{background:var(--openbg);color:var(--open)}
+.pill.g{background:var(--limebg);color:var(--lime)}.pill.x{background:var(--redbg);color:var(--red)}
+.layout{max-width:1180px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-left)) 60px max(16px,env(safe-area-inset-right));display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 18px 16px;margin-bottom:14px}
+.step.locked{opacity:.55}
+.step>header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:700 .85rem var(--f-d);border:2px solid var(--ink);flex:none}
+.step.done .num{background:var(--lime);border-color:var(--lime);color:#fff}
+.step h2{font:600 1.12rem var(--f-d);margin:0}
+.step header .who{margin-left:auto}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+label{display:block;font-weight:500;font-size:.88rem;margin-bottom:10px}
+input,select,textarea{display:block;width:100%;margin-top:4px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.grid label{margin:0}
+.btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+button{font:600 .92rem var(--f-b);border-radius:8px;padding:10px 16px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);cursor:pointer}
+button.ghost{background:transparent;color:var(--ink)}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--exp);outline-offset:2px}
+.note{font-size:.84rem;color:var(--muted)}
+.err{color:var(--red);font-size:.86rem}
+.brief{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px}
+.brief dl{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:6px 10px;margin:0;font-size:.9rem}
+.brief dt{color:var(--muted)}.brief dd{margin:0}
+.kw{display:flex;flex-wrap:wrap;gap:5px}
+.kw span{font:500 .76rem var(--f-m);background:var(--soft);padding:2px 7px;border-radius:5px}
+.router{background:var(--bg);border-radius:10px;padding:12px}
+.tr{display:grid;grid-template-columns:auto minmax(0,1fr) 2.4rem;gap:8px;align-items:center;margin:6px 0;font-size:.9rem}
+.tr label{margin:0;display:flex;gap:6px;align-items:center;font-weight:600}
+.tr input{width:auto;margin:0}
+.bar{height:7px;border-radius:4px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;border-radius:4px}
+.tr b{text-align:right;font-variant-numeric:tabular-nums}
+.cards{display:grid;gap:10px;margin-top:10px}
+.card{display:grid;grid-template-columns:86px minmax(0,1fr);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.card .sc{color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px;gap:2px}
+.card .sc b{font:700 1.9rem/1 var(--f-d)}
+.card .sc small{font:600 .62rem var(--f-m);letter-spacing:.08em;opacity:.85}
+.card .bd{padding:11px 14px;min-width:0}
+.card h3{font:600 1rem var(--f-d);margin:0}
+.card .org{color:var(--muted);font-size:.84rem}
+.card .ev{font-size:.88rem;margin:.35rem 0}
+.fits{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.fit{font:600 .64rem var(--f-m);letter-spacing:.06em;color:var(--muted);min-width:84px}
+.fit .bar{height:5px;margin-top:3px}
+.card .act{margin-left:auto}
+.card .act button{padding:6px 12px;font-size:.82rem}
+.card.on{border-color:var(--lime);box-shadow:0 0 0 1px var(--lime)}
+.group-h{display:flex;align-items:center;gap:8px;margin:14px 0 0;font:600 .95rem var(--f-d)}
+.mail{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:10px;font-size:.88rem;background:var(--bg)}
+.mail .h{font:500 .76rem var(--f-m);color:var(--muted);border-bottom:1px dashed var(--line);padding-bottom:6px;margin-bottom:6px;overflow-wrap:anywhere}
+.mail p{white-space:pre-wrap;margin:0}
+.tbl{overflow-x:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:640px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{font:600 .8rem var(--f-d);background:var(--bg)}
+tr.best td{background:var(--limebg)}
+td.n{font:700 1.05rem var(--f-d);font-variant-numeric:tabular-nums}
+.done-banner{background:var(--limebg);color:var(--ink);border-radius:10px;padding:12px 14px;margin-top:12px}
+aside{position:sticky;top:12px}
+.log{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+.log h2{font:600 1rem var(--f-d);margin:0 0 2px}
+.log ol{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:7px;max-height:62vh;overflow:auto}
+.log li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;font-size:.84rem;align-items:start}
+.log .id{font:600 .7rem var(--f-m);padding:1px 5px;border-radius:4px;background:var(--soft);color:var(--muted);margin-top:2px}
+.log li.run .id{background:var(--openbg);color:var(--open)}
+.log li.ok .id{background:var(--limebg);color:var(--lime)}
+.log li.bad .id{background:var(--redbg);color:var(--red)}
+.log small{color:var(--muted);display:block}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-top-color:var(--ink);border-radius:50%;animation:s 0.8s linear infinite;vertical-align:-2px}
+@keyframes s{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}aside{position:static}.brief{grid-template-columns:minmax(0,1fr)}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="brand" href="index.html">Industry<b>Bridge</b> · Bridge Match</a>
+  <nav><a href="index.html">Hackathons</a><a href="#how" onclick="document.getElementById('log').scrollIntoView();return false">Agent log</a></nav>
+</div></div>
+
+<div class="hero">
+  <div class="eyebrow">Challenge Owner workspace · demo</div>
+  <h1>Post a problem. Our agents find who can solve it.</h1>
+  <p>Gemini agents write the brief, search 99 UTeM experts and Malaysian solution companies, explain every match, draft the invitations, and compare the replies. You approve every step.</p>
+  <div class="tracks-key"><span class="pill r">Research Match · professors</span><span class="pill p">Partner Match · companies</span><span class="pill o">Open Challenge · student hackathon</span></div>
+</div>
+
+<div class="layout">
+<main>
+  <!-- 1 -->
+  <section class="step" id="s1">
+    <header><span class="num">1</span><h2>Post a problem</h2><span class="pill who">Challenge Owner</span></header>
+    <label for="title">Title<input id="title" value="Catch cracked and misaligned chip packages on our line"></label>
+    <label for="problem">Describe the problem in your own words
+      <textarea id="problem" rows="4">Our back-end assembly line in Batu Berendam packs about 40,000 units a day. Operators miss double-mounted units, misaligned packages and hairline cracks during visual inspection, and customers return about 0.3% of lots. We want an AI camera check at the end of the line that flags bad units in real time.</textarea></label>
+    <div class="grid">
+      <label for="budget">Budget<select id="budget"><option>Under RM 20k</option><option>RM 20k - 50k</option><option selected>RM 50k - 150k</option><option>RM 150k - 500k</option><option>Over RM 500k</option></select></label>
+      <label for="state">Location<input id="state" value="Melaka"></label>
+      <label for="deadline">Needed by<input id="deadline" type="date" value="2027-06-30"></label>
+      <label for="conf">Confidentiality<select id="conf"><option>Public</option><option selected>Invited only</option><option>NDA first</option></select></label>
+    </div>
+    <div class="btns"><button id="b1">Write the brief</button><span class="note">Example problem filled in. Edit it or write your own.</span></div>
+  </section>
+
+  <!-- 2 -->
+  <section class="step locked" id="s2">
+    <header><span class="num">2</span><h2>AI brief and track choice</h2><span class="pill who">A1 Scoper · A2 Router</span></header>
+    <div id="briefOut"><p class="hint">The Scoper turns your words into a structured brief with search keywords. The Router scores which tracks fit. You pick the tracks.</p></div>
+  </section>
+
+  <!-- 3 -->
+  <section class="step locked" id="s3">
+    <header><span class="num">3</span><h2>Shortlist</h2><span class="pill who">Scouts · S1 Matchmaker</span></header>
+    <div id="shortOut"><p class="hint">Ranked experts and companies, each with a match score and the evidence behind it. Tap Invite on the ones you want.</p></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="step locked" id="s4">
+    <header><span class="num">4</span><h2>Invitations</h2><span class="pill who">S3 Guardian · S2 Messenger</span></header>
+    <div id="mailOut"><p class="hint">Guardian checks the rules, then Messenger writes one personal email per person that mentions their own work.</p></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="step locked" id="s5">
+    <header><span class="num">5</span><h2>Replies and comparison</h2><span class="pill who">S4 Proposal Analyst</span></header>
+    <div id="propOut"><p class="hint">Interested solvers send a short proposal. The Proposal Analyst puts them side by side and suggests questions for your meeting.</p></div>
+  </section>
+</main>
+
+<aside id="log">
+  <div class="log">
+    <h2>Agent runs</h2>
+    <div class="note" id="aiState">Gemini via the IndustryBridge team relay</div>
+    <ol id="runs"><li><span class="id">A0</span><span>Conductor is waiting for a problem.<small>Every agent run shows up here.</small></span></li></ol>
+  </div>
+</aside>
+</div>
+
+<script>
+/* ---------- Gemini: same connection as the main IndustryBridge page (personal key in this browser, else team relay) */
+const RELAY='https://industrybridge-gemini.celine-chbl.workers.dev';
+const kGet=k=>{try{return localStorage.getItem('ib-gemini-'+k)||''}catch(e){return ''}};
+const via=()=>{const key=kGet('key');return key?{base:'https://generativelanguage.googleapis.com/v1beta',h:{'x-goog-api-key':key}}:{base:RELAY+'/v1beta',h:{}}};
+let MODELS=null;
+async function models(){
+  if(MODELS)return MODELS;
+  const v=via();
+  try{
+    const r=await fetch(`${v.base}/models${kGet('key')?'?pageSize=200':''}`,{headers:v.h});const j=await r.json();
+    const ver=n=>parseFloat((n.match(/gemini-(\d+(?:\.\d+)?)/)||[0,0])[1]);
+    MODELS=(j.models||[]).filter(m=>(m.supportedGenerationMethods||[]).includes('generateContent')).map(m=>m.name.replace(/^models\//,''))
+      .filter(n=>/gemini/.test(n)&&!/(image|banana|tts|audio|live|embedding|vision)/.test(n))
+      .sort((a,b)=>(/flash/.test(b)&&!/lite/.test(b))-(/flash/.test(a)&&!/lite/.test(a))||(/preview|exp/.test(a))-(/preview|exp/.test(b))||ver(b)-ver(a));
+  }catch(e){MODELS=[]}
+  if(kGet('good-text'))MODELS=[kGet('good-text'),...MODELS.filter(m=>m!==kGet('good-text'))];
+  if(!MODELS.length)MODELS=['gemini-flash-latest'];
+  return MODELS;
+}
+async function gem(prompt,{json=true,search=false,timeout=60000}={}){
+  // Newest Flash gets 25 s; if Google is busy, a Lite model (fast, rarely overloaded) gets the full time.
+  const all=await models(),v=via(),list=[...new Set([all[0],all.find(n=>/lite/.test(n)),all[1]].filter(Boolean))];let last;
+  const body={contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:.4}};
+  if(json&&!search)body.generationConfig.responseMimeType='application/json';
+  if(search)body.tools=[{google_search:{}}];
+  for(const m of list){
+    const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),m===list[0]&&list.length>1?Math.min(timeout,25000):timeout);
+    try{
+      const r=await fetch(`${v.base}/models/${encodeURIComponent(m)}:generateContent`,{method:'POST',signal:ctl.signal,headers:{'content-type':'application/json',...v.h},body:JSON.stringify(body)});
+      const j=await r.json().catch(()=>({}));
+      if(r.ok){if(MODELS[0]!==m){MODELS=[m,...MODELS.filter(x=>x!==m)];try{localStorage.setItem('ib-gemini-good-text',m)}catch(e){}}const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();return json?parseJ(txt):txt}
+      last=new Error(j.error?.message||'HTTP '+r.status);if(r.status===400||r.status===401||r.status===403)throw last;
+    }catch(e){last=e.name==='AbortError'?new Error(m+' took too long'):e;if(e===last&&/HTTP 40[013]/.test(e.message))throw e}
+    finally{clearTimeout(t)}
+  }
+  throw last||new Error('Gemini is not available');
+}
+function parseJ(t){t=t.replace(/^```(?:json)?\s*|```\s*$/g,'');try{return JSON.parse(t)}catch(e){const a=t.search(/[\[{]/),b=Math.max(t.lastIndexOf(']'),t.lastIndexOf('}'));if(a>=0&&b>a)return JSON.parse(t.slice(a,b+1));throw new Error('Gemini returned an unexpected answer')}}
+
+/* ---------- helpers */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const clamp=(n,m)=>Math.max(0,Math.min(m,Math.round(Number(n)||0)));
+function log(id,text,state='run',sub=''){const li=document.createElement('li');li.className=state;li.innerHTML=`<span class="id">${esc(id)}</span><span>${state==='run'?'<span class="spin"></span> ':''}${esc(text)}${sub?`<small>${esc(sub)}</small>`:''}</span>`;$('runs').prepend(li);return{done:(t,s='ok',sb='')=>{li.className=s;li.innerHTML=`<span class="id">${esc(id)}</span><span>${esc(t||text)}${sb?`<small>${esc(sb)}</small>`:''}</span>`}}}
+function unlock(n){const s=$('s'+n);s.classList.remove('locked');s.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'})}
+function busy(btn,on,label){btn.disabled=on;if(on){btn.dataset.l=btn.textContent;btn.innerHTML='<span class="spin"></span> '+label}else btn.textContent=btn.dataset.l||btn.textContent}
+const S={brief:null,tracks:[],cands:[],invited:new Set(),proposals:[],challenge:null};
+
+/* ---------- 1 → 2: Scoper + Router */
+$('b1').onclick=async()=>{
+  const c={title:$('title').value.trim(),problem:$('problem').value.trim(),budget:$('budget').value,state:$('state').value.trim(),deadline:$('deadline').value,conf:$('conf').value};
+  if(!c.problem){$('problem').focus();return}
+  S.challenge=c;busy($('b1'),true,'Writing the brief…');
+  const run=log('A1','Scoper is reading the problem');
+  let b,sample=false;
+  try{
+    b=await gem(['You are the Scoper and Router agents of IndustryBridge (Malaysia). Turn this industry problem into a brief.',
+      'Title: '+c.title,'Problem: '+c.problem,'Budget: '+c.budget+'. Location: '+c.state+'. Needed by: '+c.deadline,
+      'Return JSON {"summary":"2 sentences, under 45 words, no company name","domain":"2-4 words","keywords":["10-14 technical search terms incl. synonyms and academic method names"],',
+      '"skills":["4-6"],"deliverables":["3 short"],"readiness":"Idea|Research needed|Prototype needed|Ready product needed",',
+      '"research":0-100,"partner":0-100,"open":0-100,"reason":"one sentence under 30 words on the best track"}',
+      'Research = new methods, testing, R&D. Partner = working product soon. Open = many ideas, early prototypes, talent, small budget.',
+      'A problem that needs a new AI/ML model trained and validated on the company's own data counts as Research (60+), even when they want a working system in the end; Partner is high when an off-the-shelf product already exists.'].join('\n'));
+  }catch(e){sample=true;b=SAMPLE_BRIEF}
+  S.brief=b;run.done(sample?'Scoper used the sample brief':'Scoper wrote the brief',sample?'bad':'ok',sample?'Gemini unavailable right now':b.domain);
+  log('A2','Router scored the tracks','ok',`Research ${b.research} · Partner ${b.partner} · Open ${b.open}`);
+  busy($('b1'),false);$('s1').classList.add('done');renderBrief(sample);unlock(2);
+};
+function renderBrief(sample){
+  const b=S.brief,kw=[].concat(b.keywords||[]),tr=[['Research','research','var(--exp)'],['Partner','partner','var(--ptn)'],['Open','open','var(--open)']];
+  $('briefOut').innerHTML=`${sample?'<p class="err">Gemini is busy, so this is a prepared sample brief. Try again in a minute for a live one.</p>':''}
+  <div class="brief"><div><p style="margin-top:0">${esc(b.summary)}</p><dl>
+    <dt>Domain</dt><dd>${esc(b.domain)}</dd><dt>Readiness</dt><dd>${esc(b.readiness)}</dd>
+    <dt>Skills</dt><dd>${esc([].concat(b.skills||[]).join(', '))}</dd><dt>Deliverables</dt><dd>${esc([].concat(b.deliverables||[]).join('; '))}</dd>
+    <dt>Search terms</dt><dd class="kw">${kw.map(k=>`<span>${esc(k)}</span>`).join('')}</dd></dl></div>
+  <div class="router"><div class="eyebrow">Router · pick your tracks</div>
+    ${tr.map(([n,k,col])=>`<div class="tr"><label><input type="checkbox" id="t-${k}" ${b[k]>=60?'checked':''}>${n}</label><div class="bar"><i style="width:${clamp(b[k],100)}%;background:${col}"></i></div><b>${clamp(b[k],100)}</b></div>`).join('')}
+    <p class="note" style="margin:.4rem 0 0">${esc(b.reason)}</p></div></div>
+  <div class="btns"><button id="b2">Find solvers</button><span class="note">Nothing is sent yet. You will choose who to invite.</span></div>`;
+  $('b2').onclick=scout;
+}
+
+/* ---------- 2 → 3: scouts + Matchmaker */
+let EXPERTS=null;
+async function scout(){
+  S.tracks=['research','partner','open'].filter(k=>$('t-'+k).checked);
+  if(!S.tracks.length){alert('Pick at least one track.');return}
+  busy($('b2'),true,'Agents are searching…');$('s2').classList.add('done');S.cands=[];S.invited.clear();
+  const jobs=[];
+  if(S.tracks.includes('research'))jobs.push(scoutResearch());
+  if(S.tracks.includes('partner'))jobs.push(scoutPartners());
+  await Promise.all(jobs);
+  busy($('b2'),false);renderShort();unlock(3);
+}
+async function scoutResearch(){
+  const r1=log('R1','Directory Scout is loading the UTeM Expert Index');
+  try{EXPERTS=EXPERTS||await (await fetch('match-experts.json')).json()}catch(e){r1.done('Expert Index could not load','bad',e.message);return}
+  r1.done(`Directory Scout loaded ${EXPERTS.length} experts`,'ok','UTeM Expert Directory public list');
+  log('R2','Paper Scout attached recent papers','ok','from OpenAlex');
+  log('R3','Grant Scout attached grants and industry work','ok');
+  const kws=[].concat(S.brief.keywords||[]).map(k=>k.toLowerCase()).filter(Boolean);
+  const words=[...new Set(kws.flatMap(k=>k.split(/\s+/)).filter(w=>w.length>3))];
+  EXPERTS.forEach(e=>{
+    const doc=(e.fl+' '+e.p.map(p=>p[1]).join(' ')+' '+e.g.map(g=>g[1]).join(' ')).toLowerCase();
+    const phrase=kws.filter(k=>doc.includes(k)).length,word=words.filter(w=>doc.includes(w)).length;
+    e._pre=phrase*2+word+e.g.filter(g=>/industr/i.test(g[2])).length*3;
+  });
+  const top=[...EXPERTS].sort((a,b)=>b._pre-a._pre).slice(0,12);
+  const run=log('S1','Matchmaker is re-ranking the top 12',undefined,'Gemini reads each full dossier');
+  let ranked;
+  try{
+    const res=await gem(['You are the Matchmaker agent of IndustryBridge. Score how well each UTeM expert fits this industry challenge.',
+      'CHALLENGE: '+S.challenge.title+'. '+S.brief.summary+' Keywords: '+kws.join('; '),
+      'Parts: topic 0-40 (papers, grants, fields vs the problem), industry 0-20 (industry grants, main researcher), recent 0-15 (work since 2023),',
+      'impact 0-10 (h-index within field), capacity 0-10 (students supervised), location 0-5 (UTeM is in Melaka). Be strict: unrelated work gets topic under 10.',
+      'evidence: one sentence under 35 words naming the specific paper or grant. Return JSON {"experts":[{"id","topic","industry","recent","impact","capacity","location","evidence"}]} for every expert.',
+      'EXPERTS:',top.map(e=>`${e.id} | ${e.n} | ${e.t}, ${e.f} | h-index ${e.h}, citations ${e.c}${e.s?', students supervised '+e.s:''} | fields: ${e.fl} | papers: ${e.p.slice(0,3).map(p=>p[0]+' '+p[1].slice(0,90)).join(' / ')} | grants: ${e.g.map(g=>g[0]+' '+g[2]+' RM'+g[3]+' '+g[4]+': '+g[1]).join(' / ')||'none listed'}`).join('\n')].join('\n'),{timeout:100000});
+    const arr=Array.isArray(res)?res:(res.experts||Object.values(res).find(Array.isArray)||[]);
+    ranked=arr.map(x=>{const xid=String(x.id||x.expert_id||x.ID||'').trim();const e=top.find(t=>t.id===xid);if(!e)return null;
+      const f={topic:clamp(x.topic,40),industry:clamp(x.industry,20),recent:clamp(x.recent,15),impact:clamp(x.impact,10),capacity:clamp(x.capacity,10),location:clamp(x.location,5)};
+      return{type:'Expert',id:e.id,name:e.n,org:`${e.t} · ${e.f}, UTeM`,score:Object.values(f).reduce((a,b)=>a+b,0),fit:f,evidence:x.evidence}}).filter(Boolean);
+    if(!ranked.length)throw new Error('no usable scores in the reply');
+    run.done('Matchmaker ranked the experts','ok','top '+Math.min(6,ranked.length)+' kept');
+  }catch(e){
+    const mx=Math.max(1,...top.map(t=>t._pre));
+    ranked=top.map(e=>({type:'Expert',id:e.id,name:e.n,org:`${e.t} · ${e.f}, UTeM`,score:Math.round(40+55*e._pre/mx),fit:{topic:Math.round(40*e._pre/mx),industry:e.g.filter(g=>/industr/i.test(g[2])).length?14:4,impact:Math.min(10,Math.round(e.h/3))},evidence:'Keyword match on fields: '+e.fl.split(';').slice(0,2).join(', ')}));
+    run.done('Matchmaker used keyword ranking','bad','Gemini unavailable: '+e.message);
+  }
+  S.cands.push(...ranked.sort((a,b)=>b.score-a.score).slice(0,6));
+}
+async function scoutPartners(){
+  const run=log('P1','Vendor Scout is searching for Malaysian companies',undefined,'Gemini + Google Search');
+  const ask=['You are the Vendor Scout and Portfolio Analyst agents of IndustryBridge.',
+    `Find 5 REAL solution companies based in Malaysia (prefer ${S.challenge.state} and nearby) that could deliver: ${S.challenge.title}. ${S.brief.summary}`,
+    'Only list companies you can find a website for. Read what they have delivered before.',
+    'Reply with ONLY a JSON list: [{"company":"","website":"","state":"","past_projects":"1-2 specific delivered projects, under 25 words","topic":0-40,"delivery":0-25,"proof":0-15,"location":0-10,"evidence":"one sentence under 30 words"}]'].join('\n');
+  let list,src='Google Search';
+  try{list=parseJ(await gem(ask,{json:false,search:true,timeout:90000}))}
+  catch(e){try{list=await gem(ask);src='Gemini knowledge, verify'}catch(e2){run.done('Vendor Scout could not reach Gemini','bad',e2.message);return}}
+  if(!Array.isArray(list))list=list.companies||[];
+  log('P2','Portfolio Analyst read past projects','ok',list.length+' companies');
+  run.done('Vendor Scout found companies','ok',src);
+  S.cands.push(...list.filter(p=>p&&p.company).map(p=>{const f={topic:clamp(p.topic,40),industry:clamp(p.delivery,25),impact:clamp(p.proof,15),location:clamp(p.location,10)};
+    return{type:'Partner',id:p.company,name:p.company,org:[p.state,p.website].filter(Boolean).join(' · ')+(src.includes('verify')?' · verify':''),score:Object.values(f).reduce((a,b)=>a+b,0)+5,fit:f,evidence:p.evidence+(p.past_projects?' Past work: '+p.past_projects:'')}}).sort((a,b)=>b.score-a.score).slice(0,5));
+}
+function card(c){
+  const col=c.type==='Expert'?'var(--exp)':'var(--ptn)',on=S.invited.has(c.id);
+  const fits=[['TOPIC',c.fit.topic,40],['INDUSTRY',c.fit.industry,c.type==='Expert'?20:25],['IMPACT',c.fit.impact,c.type==='Expert'?10:15]];
+  return `<article class="card ${on?'on':''}"><div class="sc" style="background:${col}"><small>${c.type==='Expert'?'RESEARCH':'PARTNER'}</small><b>${c.score}</b><small>MATCH</small></div>
+  <div class="bd"><h3>${esc(c.name)}</h3><div class="org">${esc(c.org)}</div><p class="ev">${esc(c.evidence)}</p>
+  <div class="fits">${fits.map(([l,v,m])=>`<div class="fit">${l}<div class="bar"><i style="width:${Math.min(100,100*(v||0)/m)}%;background:${col}"></i></div></div>`).join('')}
+  <span class="act"><button class="${on?'':'ghost'}" data-inv="${esc(c.id)}">${on?'Invited ✓':'Invite'}</button></span></div></div></article>`;
+}
+function renderShort(){
+  const ex=S.cands.filter(c=>c.type==='Expert'),pt=S.cands.filter(c=>c.type==='Partner');
+  $('shortOut').innerHTML=(ex.length?`<div class="group-h"><span class="pill r">Research Match</span>${ex.length} experts</div><div class="cards">${ex.map(card).join('')}</div>`:'')+
+    (pt.length?`<div class="group-h"><span class="pill p">Partner Match</span>${pt.length} companies</div><div class="cards">${pt.map(card).join('')}</div>`:'')+
+    (S.tracks.includes('open')?`<div class="group-h"><span class="pill o">Open Challenge</span></div><p class="hint">The same brief can become a student hackathon. <a href="index.html">Plan it in IndustryBridge →</a></p>`:'')+
+    (!S.cands.length?'<p class="err">No matches came back. Try again in a minute.</p>':'')+
+    `<div class="btns"><button id="b3" ${S.invited.size?'':'disabled'}>Send ${S.invited.size||''} invitation${S.invited.size===1?'':'s'}</button><span class="note">Approval gate: nothing goes out until you tap this.</span></div>`;
+  $('shortOut').querySelectorAll('[data-inv]').forEach(b=>b.onclick=()=>{const id=b.dataset.inv;S.invited.has(id)?S.invited.delete(id):S.invited.add(id);renderShort()});
+  $('b3')&&($('b3').onclick=invite);
+}
+
+/* ---------- 3 → 4: Guardian + Messenger */
+async function invite(){
+  const list=S.cands.filter(c=>S.invited.has(c.id));busy($('b3'),true,'Writing emails…');$('s3').classList.add('done');
+  log('S3','Guardian checked opt-outs and weekly limits','ok',list.length+' passed');
+  const run=log('S2','Messenger is writing personal emails');
+  const hide=S.challenge.conf!=='Public';let mails;
+  try{
+    const r=await gem(['You are the Messenger agent of IndustryBridge. Write a short personal invitation email for each person about one industry challenge.',
+      'Plain text, under 110 words, warm and specific, no hype. Greet each person by name (a company: "Hello <company> team"). Mention their specific work from "why". Do not invent facts. No link or signature.',
+      hide?`Do NOT name the company; say "a ${S.challenge.state} manufacturer" or similar.`:'',
+      `CHALLENGE: ${S.brief.summary} Budget ${S.challenge.budget}. Needed by ${S.challenge.deadline}.`,
+      'Return JSON {"emails":[{"id","subject","body"}]}','PEOPLE:',list.map(c=>`${c.id} | ${c.type} | ${c.name} | why: ${c.evidence}`).join('\n')].join('\n'));
+    mails=r.emails||[];run.done('Messenger wrote '+mails.length+' emails');
+  }catch(e){mails=list.map(c=>({id:c.id,subject:'An industry challenge that matches your work',body:`Dear ${c.name},\n\n${S.brief.summary}\n\nYour work fits this well: ${c.evidence}`}));run.done('Messenger used a plain template','bad',e.message)}
+  busy($('b3'),false);
+  $('mailOut').innerHTML=`<p class="note">Demo page: emails are shown, not sent. In the AppSheet app the Invite bot sends them through Gmail to the team demo inbox.</p>`+
+    mails.map(m=>{const c=list.find(x=>x.id===m.id)||{};return `<div class="mail"><div class="h">To: ${esc(c.name||m.id)} · Subject: ${esc(m.subject)}</div><p>${esc(m.body)}\n\nView the challenge and reply in one click: [link]\nStop all invitations: [link]</p></div>`}).join('')+
+    `<div class="btns"><button id="b4">Show replies</button><span class="note">For the demo, Gemini writes realistic replies from the invited solvers.</span></div>`;
+  $('b4').onclick=replies;unlock(4);
+}
+
+/* ---------- 4 → 5: replies + Proposal Analyst */
+async function replies(){
+  const list=S.cands.filter(c=>S.invited.has(c.id)).slice(0,4);busy($('b4'),true,'Waiting for replies…');$('s4').classList.add('done');
+  const run=log('IN','Collecting replies','run','simulated for the demo');
+  try{
+    const r=await gem(['Simulate realistic short proposals that these invited solvers might send for the challenge below. One may decline.',
+      `CHALLENGE: ${S.challenge.title}. ${S.brief.summary} Budget ${S.challenge.budget}.`,
+      'Experts may bring FYP or Master students. Return JSON {"proposals":[{"id","answer":"Interested|Declined","approach":"2-3 sentences","weeks":int,"cost_rm":int,"team":"","students":""}]}',
+      list.map(c=>`${c.id} | ${c.type} | ${c.name} | ${c.evidence}`).join('\n')].join('\n'));
+    const arr=Array.isArray(r)?r:(r.proposals||Object.values(r).find(Array.isArray)||[]);
+    // match each reply to its solver by id, then by name, then by order
+    const all=arr.map((p,i)=>{const c=list.find(x=>x.id===p.id)||list.find(x=>String(p.id||p.name||'').toLowerCase().includes(x.name.toLowerCase().slice(0,12)))||list[i];return c?{...p,id:c.id,c}:null}).filter(Boolean);
+    S.proposals=all.filter(p=>!/declin/i.test(p.answer||''));
+    run.done(`${S.proposals.length} proposals received`,'ok',`${all.length-S.proposals.length} declined`);
+    if(!S.proposals.length)throw new Error('no proposals came back');
+  }catch(e){
+    // Offline fallback so a live demo never stops here
+    const mid={'Under RM 20k':15000,'RM 20k - 50k':40000,'RM 50k - 150k':95000,'RM 150k - 500k':280000,'Over RM 500k':600000}[S.challenge.budget]||90000;
+    S.proposals=list.slice(0,3).map((c,i)=>({id:c.id,c,answer:'Interested',weeks:c.type==='Expert'?28-i*4:14+i*2,cost_rm:Math.round(mid*(0.8+0.15*i)/1000)*1000,
+      approach:c.type==='Expert'?'Collect and label line images, train and test a defect model on site data, then hand over a validated prototype with a report.':'Install an inline camera station with our inspection software, tune it on your defects, then support it on the line.',
+      team:c.type==='Expert'?'1 PI, 1 research assistant':'Project manager, 2 engineers',students:c.type==='Expert'?'2 FYP students':''}));
+    run.done('Replies loaded from the demo set','bad','Gemini busy: '+e.message);
+  }
+  const run2=log('S4','Proposal Analyst is comparing');
+  let a;
+  try{
+    a=await gem(['You are the Proposal Analyst agent of IndustryBridge. Compare these proposals for one industry challenge.',
+      `CHALLENGE: ${S.challenge.title}. ${S.brief.summary} Budget ${S.challenge.budget}, needed by ${S.challenge.deadline}.`,
+      'For each: score 0-100 (approach fit, realistic timeline, cost vs budget, team, track record), strengths under 18 words, gaps under 18 words, questions: two questions for the meeting.',
+      'Return JSON {"rows":[{"id","score","strengths","gaps","questions"}],"summary":"2 sentences under 45 words, name the solvers, never their ids","recommended":"id"}',
+      S.proposals.map(p=>`${p.id} | ${p.c.type} | ${p.c.name} | match ${p.c.score} | ${p.approach} | ${p.weeks} weeks | RM ${p.cost_rm} | team ${p.team} | students ${p.students||'-'}`).join('\n')].join('\n'));
+    run2.done('Proposal Analyst finished','ok','recommends '+(S.proposals.find(p=>p.id===a.recommended)?.c.name||a.recommended));
+  }catch(e){
+    const rows=S.proposals.map(p=>({id:p.id,score:Math.round(p.c.score*0.8+(p.students?8:4)),strengths:p.c.evidence.split(' ').slice(0,16).join(' ')+'…',gaps:'No pilot plan or data-access needs stated yet.',questions:'What line data do you need? What accuracy can you commit to in the pilot?'}));
+    const best=[...rows].sort((x,y)=>y.score-x.score)[0];
+    a={rows,summary:'Gemini is busy, so these are rule-based scores from the match score and team. Run Compare again later for a full analysis.',recommended:best?.id||''};
+    run2.done('Proposal Analyst used rule-based scores','bad',e.message);
+  }
+  busy($('b4'),false);
+  const ar=a.rows||Object.values(a).find(Array.isArray)||[];
+  const rows=S.proposals.map((p,i)=>{const x=ar.find(r=>r.id===p.id)||ar[i]||{};return{...p,score:x.score,strengths:x.strengths,gaps:x.gaps,questions:x.questions,_rec:x.id===a.recommended}}).sort((x,y)=>(y.score||0)-(x.score||0));
+  $('propOut').innerHTML=`<p style="margin-top:0">${esc(a.summary)}</p><div class="tbl"><table><thead><tr><th>Score</th><th>Solver</th><th>Plan</th><th>Strengths</th><th>Gaps</th><th>Ask in the meeting</th><th></th></tr></thead><tbody>
+    ${rows.map(p=>`<tr class="${p.id===a.recommended||p._rec?'best':''}"><td class="n">${p.score??'–'}</td><td><b>${esc(p.c.name)}</b><br><span class="note">${p.c.type}${p.students?' · '+esc(p.students):''}</span></td>
+    <td>${esc(p.approach)}<br><span class="note">${esc(p.weeks)} weeks · RM ${Number(p.cost_rm||0).toLocaleString('en-MY')}</span></td><td>${esc(p.strengths)}</td><td>${esc(p.gaps)}</td><td>${esc(p.questions)}</td>
+    <td><button class="ghost" data-sel="${esc(p.id)}">Select</button></td></tr>`).join('')}</tbody></table></div><div id="final"></div>`;
+  $('propOut').querySelectorAll('[data-sel]').forEach(b=>b.onclick=()=>{const p=rows.find(r=>r.id===b.dataset.sel);$('s5').classList.add('done');
+    log('A0','Conductor opened the project workspace','ok',p.c.name);
+    $('final').innerHTML=`<div class="done-banner"><b>Engaged with ${esc(p.c.name)}.</b> A project workspace is created with milestones${p.c.type==='Expert'?', the university liaison office is copied for the industry-grant agreement, and the expert can add '+esc(p.students||'students')+' to the project':''}. Both sides rate each other at the end, and the ratings make the next match better.</div>`});
+  unlock(5);
+}
+
+const SAMPLE_BRIEF={summary:'A semiconductor assembly line needs an automated visual check that flags double-mounted, misaligned and cracked packages in real time. Current manual inspection misses defects and causes customer returns.',
+  domain:'Machine vision inspection',keywords:['defect detection','anomaly detection','computer vision','object detection','deep learning','image classification','semiconductor packaging','automated optical inspection','crack detection','misalignment detection','explainable AI','edge AI'],
+  skills:['Computer vision','Deep learning','Industrial cameras','Edge deployment','Data labelling'],deliverables:['Trained defect model','Inline camera prototype','Accuracy report'],readiness:'Prototype needed',research:85,partner:72,open:35,
+  reason:'Needs a new, tested vision model for specific defect types, which fits university R&D, with a vendor for line integration.'};
+</script>
+</body>
+</html>
