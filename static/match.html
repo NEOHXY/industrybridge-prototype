@@ -231,9 +231,9 @@ $('b1').onclick=async()=>{
       'Title: '+c.title,'Problem: '+c.problem,'Budget: '+c.budget+'. Location: '+c.state+'. Needed by: '+c.deadline,
       'Return JSON {"summary":"2 sentences, under 45 words, no company name","domain":"2-4 words","keywords":["10-14 technical search terms incl. synonyms and academic method names"],',
       '"skills":["4-6"],"deliverables":["3 short"],"readiness":"Idea|Research needed|Prototype needed|Ready product needed",',
-      '"research":0-100,"partner":0-100,"open":0-100,"reason":"one sentence under 30 words on the best track"}',
+      '"research":0-100,"partner":0-100,"open":0-100,"reason":"one sentence under 30 words on the best track","success_kpi":"2-3 measurable targets","data_needed":"data or access the solver needs, under 25 words","funding_hint":"1-2 schemes from ONLY this list with a short reason, or Company-funded: PPRN (MOHE Public-Private Research Network) | CREST R&D grant (E&E industry-university R&D) | MRANTI MATCH (commercialisation matching) | University industry grant (Geran Industri)"}',
       'Research = new methods, testing, R&D. Partner = working product soon. Open = many ideas, early prototypes, talent, small budget.',
-      'A problem that needs a new AI/ML model trained and validated on the company's own data counts as Research (60+), even when they want a working system in the end; Partner is high when an off-the-shelf product already exists.'].join('\n'));
+      'A problem that needs a new AI/ML model trained and validated on the company’s own data counts as Research (60+), even when they want a working system in the end; Partner is high when an off-the-shelf product already exists.'].join('\n'));
   }catch(e){sample=true;b=SAMPLE_BRIEF}
   S.brief=b;run.done(sample?'Scoper used the sample brief':'Scoper wrote the brief',sample?'bad':'ok',sample?'Gemini unavailable right now':b.domain);
   log('A2','Router scored the tracks','ok',`Research ${b.research} · Partner ${b.partner} · Open ${b.open}`);
@@ -244,7 +244,7 @@ function renderBrief(sample){
   $('briefOut').innerHTML=`${sample?'<p class="err">Gemini is busy, so this is a prepared sample brief. Try again in a minute for a live one.</p>':''}
   <div class="brief"><div><p style="margin-top:0">${esc(b.summary)}</p><dl>
     <dt>Domain</dt><dd>${esc(b.domain)}</dd><dt>Readiness</dt><dd>${esc(b.readiness)}</dd>
-    <dt>Skills</dt><dd>${esc([].concat(b.skills||[]).join(', '))}</dd><dt>Deliverables</dt><dd>${esc([].concat(b.deliverables||[]).join('; '))}</dd>
+    <dt>Skills</dt><dd>${esc([].concat(b.skills||[]).join(', '))}</dd><dt>Deliverables</dt><dd>${esc([].concat(b.deliverables||[]).join('; '))}</dd>${b.success_kpi?`<dt>Success KPI</dt><dd>${esc([].concat(b.success_kpi).join('; '))}</dd>`:''}${b.data_needed?`<dt>Data needed</dt><dd>${esc(b.data_needed)}</dd>`:''}${b.funding_hint?`<dt>Funding</dt><dd>${esc(b.funding_hint)}</dd>`:''}
     <dt>Search terms</dt><dd class="kw">${kw.map(k=>`<span>${esc(k)}</span>`).join('')}</dd></dl></div>
   <div class="router"><div class="eyebrow">Router · pick your tracks</div>
     ${tr.map(([n,k,col])=>`<div class="tr"><label><input type="checkbox" id="t-${k}" ${b[k]>=60?'checked':''}>${n}</label><div class="bar"><i style="width:${clamp(b[k],100)}%;background:${col}"></i></div><b>${clamp(b[k],100)}</b></div>`).join('')}
@@ -272,11 +272,17 @@ async function scoutResearch(){
   log('R2','Paper Scout attached recent papers','ok','from OpenAlex');
   log('R3','Grant Scout attached grants and industry work','ok');
   const kws=[].concat(S.brief.keywords||[]).map(k=>k.toLowerCase()).filter(Boolean);
+  const STOP=['syste','based','using','model','drive','devel','desig','study','appro','impro','towar','malay','indus','appli','advan'];
+  const stems=t=>{const o={};String(t||'').toLowerCase().split(/[^a-z]+/).forEach(w=>{if(w.length>=5&&!STOP.includes(w.slice(0,5)))o[w.slice(0,5)]=1});return o};
+  const overlap=(a,b)=>Object.keys(a).filter(k=>b[k]).length;
+  const briefStems=stems([S.challenge.title,kws.join(' '),S.brief.summary].join(' '));
   const words=[...new Set(kws.flatMap(k=>k.split(/\s+/)).filter(w=>w.length>3))];
   EXPERTS.forEach(e=>{
     const doc=(e.fl+' '+e.p.map(p=>p[1]).join(' ')+' '+e.g.map(g=>g[1]).join(' ')).toLowerCase();
     const phrase=kws.filter(k=>doc.includes(k)).length,word=words.filter(w=>doc.includes(w)).length;
-    e._pre=phrase*2+word+e.g.filter(g=>/industr/i.test(g[2])).length*3;
+    // only grants about THIS problem count (2+ shared word stems), so one well-documented expert can't win everything
+    e._rel=e.g.filter(g=>overlap(stems(g[1]),briefStems)>=2);
+    e._pre=phrase*2+word+e._rel.filter(g=>/industr/i.test(g[2])).length*3;
   });
   const top=[...EXPERTS].sort((a,b)=>b._pre-a._pre).slice(0,12);
   const run=log('S1','Matchmaker is re-ranking the top 12',undefined,'Gemini reads each full dossier');
@@ -287,10 +293,10 @@ async function scoutResearch(){
       'Parts: topic 0-40 (papers, grants, fields vs the problem), industry 0-20 (industry grants, main researcher), recent 0-15 (work since 2023),',
       'impact 0-10 (h-index within field), capacity 0-10 (students supervised), location 0-5 (UTeM is in Melaka). Be strict: unrelated work gets topic under 10.',
       'evidence: one sentence under 35 words naming the specific paper or grant. Return JSON {"experts":[{"id","topic","industry","recent","impact","capacity","location","evidence"}]} for every expert.',
-      'EXPERTS:',top.map(e=>`${e.id} | ${e.n} | ${e.t}, ${e.f} | h-index ${e.h}, citations ${e.c}${e.s?', students supervised '+e.s:''} | fields: ${e.fl} | papers: ${e.p.slice(0,3).map(p=>p[0]+' '+p[1].slice(0,90)).join(' / ')} | grants: ${e.g.map(g=>g[0]+' '+g[2]+' RM'+g[3]+' '+g[4]+': '+g[1]).join(' / ')||'none listed'}`).join('\n')].join('\n'),{timeout:100000});
+      'EXPERTS:',top.map(e=>`${e.id} | ${e.n} | ${e.t}, ${e.f} | h-index ${e.h}, citations ${e.c}${e.s?', students supervised '+e.s:''} | fields: ${e.fl} | papers: ${e.p.slice(0,3).map(p=>p[0]+' '+p[1].slice(0,90)).join(' / ')} | grants related to this problem: ${e._rel.map(g=>g[0]+' '+g[2]+' RM'+g[3]+' '+g[4]+': '+g[1]).join(' / ')||'none listed'}`).join('\n')].join('\n'),{timeout:100000});
     const arr=Array.isArray(res)?res:(res.experts||Object.values(res).find(Array.isArray)||[]);
     ranked=arr.map(x=>{const xid=String(x.id||x.expert_id||x.ID||'').trim();const e=top.find(t=>t.id===xid);if(!e)return null;
-      const f={topic:clamp(x.topic,40),industry:clamp(x.industry,20),recent:clamp(x.recent,15),impact:clamp(x.impact,10),capacity:clamp(x.capacity,10),location:clamp(x.location,5)};
+      const f={topic:clamp(x.topic,40),industry:clamp(x.industry,e._rel.some(g=>/industr/i.test(g[2]))?20:5),recent:clamp(x.recent,15),impact:clamp(x.impact,10),capacity:e.s?clamp(x.capacity,10):5,location:clamp(x.location,5)};
       return{type:'Expert',id:e.id,name:e.n,org:`${e.t} · ${e.f}, UTeM`,score:Object.values(f).reduce((a,b)=>a+b,0),fit:f,evidence:x.evidence}}).filter(Boolean);
     if(!ranked.length)throw new Error('no usable scores in the reply');
     run.done('Matchmaker ranked the experts','ok','top '+Math.min(6,ranked.length)+' kept');
@@ -384,8 +390,8 @@ async function replies(){
   try{
     a=await gem(['You are the Proposal Analyst agent of IndustryBridge. Compare these proposals for one industry challenge.',
       `CHALLENGE: ${S.challenge.title}. ${S.brief.summary} Budget ${S.challenge.budget}, needed by ${S.challenge.deadline}.`,
-      'For each: score 0-100 (approach fit, realistic timeline, cost vs budget, team, track record), strengths under 18 words, gaps under 18 words, questions: two questions for the meeting.',
-      'Return JSON {"rows":[{"id","score","strengths","gaps","questions"}],"summary":"2 sentences under 45 words, name the solvers, never their ids","recommended":"id"}',
+      'For each: score 0-100 (approach fit, realistic timeline, cost vs budget, team, track record), strengths under 18 words, gaps under 18 words, questions: two questions for the meeting. track_note: under 25 words on result type (research prototype / commercial product), IP owner, time to value and main risk, so different tracks compare fairly.',
+      'Return JSON {"rows":[{"id","score","strengths","gaps","questions","track_note"}],"summary":"2 sentences under 45 words, name the solvers, never their ids","recommended":"id"}',
       S.proposals.map(p=>`${p.id} | ${p.c.type} | ${p.c.name} | match ${p.c.score} | ${p.approach} | ${p.weeks} weeks | RM ${p.cost_rm} | team ${p.team} | students ${p.students||'-'}`).join('\n')].join('\n'));
     run2.done('Proposal Analyst finished','ok','recommends '+(S.proposals.find(p=>p.id===a.recommended)?.c.name||a.recommended));
   }catch(e){
@@ -396,10 +402,10 @@ async function replies(){
   }
   busy($('b4'),false);
   const ar=a.rows||Object.values(a).find(Array.isArray)||[];
-  const rows=S.proposals.map((p,i)=>{const x=ar.find(r=>r.id===p.id)||ar[i]||{};return{...p,score:x.score,strengths:x.strengths,gaps:x.gaps,questions:x.questions,_rec:x.id===a.recommended}}).sort((x,y)=>(y.score||0)-(x.score||0));
-  $('propOut').innerHTML=`<p style="margin-top:0">${esc(a.summary)}</p><div class="tbl"><table><thead><tr><th>Score</th><th>Solver</th><th>Plan</th><th>Strengths</th><th>Gaps</th><th>Ask in the meeting</th><th></th></tr></thead><tbody>
+  const rows=S.proposals.map((p,i)=>{const x=ar.find(r=>r.id===p.id)||ar[i]||{};return{...p,score:x.score,strengths:x.strengths,gaps:x.gaps,questions:x.questions,track_note:x.track_note,_rec:x.id===a.recommended}}).sort((x,y)=>(y.score||0)-(x.score||0));
+  $('propOut').innerHTML=`<p style="margin-top:0">${esc(a.summary)}</p><div class="tbl"><table><thead><tr><th>Score</th><th>Solver</th><th>Plan</th><th>Strengths</th><th>Gaps</th><th>Cross-track note</th><th>Ask in the meeting</th><th></th></tr></thead><tbody>
     ${rows.map(p=>`<tr class="${p.id===a.recommended||p._rec?'best':''}"><td class="n">${p.score??'–'}</td><td><b>${esc(p.c.name)}</b><br><span class="note">${p.c.type}${p.students?' · '+esc(p.students):''}</span></td>
-    <td>${esc(p.approach)}<br><span class="note">${esc(p.weeks)} weeks · RM ${Number(p.cost_rm||0).toLocaleString('en-MY')}</span></td><td>${esc(p.strengths)}</td><td>${esc(p.gaps)}</td><td>${esc(p.questions)}</td>
+    <td>${esc(p.approach)}<br><span class="note">${esc(p.weeks)} weeks · RM ${Number(p.cost_rm||0).toLocaleString('en-MY')}</span></td><td>${esc(p.strengths)}</td><td>${esc(p.gaps)}</td><td>${esc(p.track_note||'')}</td><td>${esc(p.questions)}</td>
     <td><button class="ghost" data-sel="${esc(p.id)}">Select</button></td></tr>`).join('')}</tbody></table></div><div id="final"></div>`;
   $('propOut').querySelectorAll('[data-sel]').forEach(b=>b.onclick=()=>{const p=rows.find(r=>r.id===b.dataset.sel);$('s5').classList.add('done');
     log('A0','Conductor opened the project workspace','ok',p.c.name);
