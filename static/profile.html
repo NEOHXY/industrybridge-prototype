@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Expert profile · IndustryBridge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="bridge-pages.css">
+<style>
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:14px}
+.stat{background:var(--bg);border-radius:10px;padding:10px 12px}.stat b{display:block;font:700 1.5rem/1.1 var(--f-d);font-variant-numeric:tabular-nums}.stat span{font-size:.8rem;color:var(--muted)}
+.yr{font:600 .74rem var(--f-m);color:var(--muted);margin-right:6px}
+.g-ind{border-left:3px solid var(--lime);padding-left:8px}
+.switch{display:flex;gap:10px;align-items:center;font-weight:500}
+.switch input{width:44px;height:24px;margin:0;accent-color:var(--lime)}
+</style>
+</head>
+<body>
+<div class="top"><div class="in"><a class="brand" href="index.html">Industry<b>Bridge</b></a><span class="tag">Expert Index</span></div></div>
+<main class="wrap" id="app" aria-live="polite"><div class="skel" style="width:60%;height:30px"></div><div class="skel"></div><div class="skel" style="width:80%"></div></main>
+<script src="bridge-pages.js"></script>
+<script>
+const {call,param,$,esc,num,rm,split,ls}=IB;
+let Q={}; if(param('e'))Q.e=param('e'); else if(param('p'))Q.p=param('p'); else if(!IB.live)Q.e='EXP008';
+const keyName=()=>'ib-edit-'+(Q.e||Q.p);
+let D=null,editing=false;
+
+async function load(){
+  try{D=await call('profile',Q);render()}
+  catch(e){$('app').innerHTML=`<h1>Profile not found</h1><p class="muted">${esc(e.message)}</p>`}
+}
+function badge(){
+  const p=D.profile;
+  return (p.claimed?'<span class="pill g">Claimed ✓</span>':'<span class="pill">Unclaimed</span>')+(D.kind==='Expert'&&p.open_to_industry?'<span class="pill r">Open to industry work</span>':'');
+}
+function src(){const p=D.profile;return `<p class="src">Source: ${esc(p.source||(D.kind==='Expert'?'UTeM Expert Directory':'Company website'))}${p.last_crawled?' · last checked '+esc(String(p.last_crawled).slice(0,10)):''}</p>`}
+function render(){
+  const p=D.profile,exp=D.kind==='Expert',k=ls.get(keyName());
+  if(D.hidden&&!k){$('app').innerHTML=`<h1>This profile is hidden</h1><p class="muted">The owner chose to hide it from IndustryBridge matches.</p>`;return}
+  document.title=(exp?p.name:p.company)+' · IndustryBridge';
+  const grants=(D.grants||[]).slice().sort((a,b)=>num(b.year)-num(a.year)), ind=grants.filter(g=>/industr/i.test(g.type));
+  $('app').innerHTML=`<div class="eyebrow">${exp?'Research Match · expert profile':'Partner Match · company profile'}</div>
+  <h1>${esc(exp?p.name:p.company)}</h1>
+  <p class="muted" style="margin-top:0">${exp?esc([p.title,p.faculty_full||p.faculty,p.university].filter(Boolean).join(' · ')):esc([p.state,p.size,p.website].filter(Boolean).join(' · '))}</p>
+  <div class="pills">${badge()}${D.hidden?'<span class="pill x">Hidden</span>':''}</div>
+  ${exp?`<div class="stats"><div class="stat"><b>${esc(p.h_index||'–')}</b><span>h-index</span></div><div class="stat"><b>${num(p.citations).toLocaleString('en-MY')||'–'}</b><span>citations</span></div><div class="stat"><b>${esc(p.students_supervised||'–')}</b><span>students supervised</span></div><div class="stat"><b>${ind.length}</b><span>industry grants</span></div></div>`:''}
+  ${claimBox()}
+  ${exp?`<section class="box"><h2>Research fields</h2><div class="pills">${split(p.fields).map(f=>`<span class="pill r">${esc(f)}</span>`).join('')}</div>${src()}</section>
+  ${grants.length?`<section class="box"><h2>Grants</h2><ul class="list">${grants.map(g=>`<li class="${/industr/i.test(g.type)?'g-ind':''}"><span class="yr">${esc(g.year)}</span>${esc(g.title)}<br><span class="note">${esc(g.type)}${g.amount_rm?' · '+rm(g.amount_rm):''}${g.role?' · '+esc(g.role):''}</span></li>`).join('')}</ul><p class="note">Industry grants are marked in green; the Matchmaker counts a grant only when it is about the challenge.</p>${src()}</section>`:''}
+  ${(D.papers||[]).length?`<section class="box"><h2>Recent papers</h2><ul class="list">${D.papers.slice().sort((a,b)=>num(b.year)-num(a.year)).map(x=>`<li><span class="yr">${esc(x.year)}</span>${x.doi?`<a href="${esc(/^http/.test(x.doi)?x.doi:'https://doi.org/'+x.doi)}" rel="noopener" target="_blank">${esc(x.title)}</a>`:esc(x.title)}${x.venue?`<br><span class="note">${esc(x.venue)}</span>`:''}</li>`).join('')}</ul><p class="src">Source: OpenAlex</p></section>`:''}`
+  :`<section class="box"><h2>Services</h2><p style="margin-top:0">${esc(p.services)}</p>${p.past_projects?`<h3 style="margin-top:12px">Past projects</h3><p>${esc(p.past_projects)}</p>`:''}
+  ${(D.projects||[]).length?`<ul class="list">${D.projects.map(x=>`<li><span class="yr">${esc(x.year)}</span>${esc(x.title)}<br><span class="note">${esc([x.client,x.industry,x.tech].filter(Boolean).join(' · '))}</span></li>`).join('')}</ul>`:''}${src()}</section>`}
+  <div class="foot">IndustryBridge builds profiles only from public sources. ${p.claimed?'':'Is this you? Claim it to correct details and choose whether companies can invite you.'}</div>`;
+  wire();
+}
+function claimBox(){
+  const p=D.profile,exp=D.kind==='Expert',k=ls.get(keyName());
+  if(k&&editing) return `<section class="box tint-r pop"><h2>Edit your profile</h2>
+    ${exp?`<label class="switch"><input type="checkbox" id="oti" ${p.open_to_industry?'checked':''}> Open to industry work (companies can invite me)</label>
+    <label for="fl" style="margin-top:12px">Research fields <span class="note">(separate with ;)</span><textarea id="fl" rows="3">${esc(p.fields)}</textarea></label>`
+    :`<label for="sv">Services<textarea id="sv" rows="3">${esc(p.services)}</textarea></label>`}
+    <label class="switch"><input type="checkbox" id="hide" ${D.hidden?'checked':''}> Hide my profile from IndustryBridge</label>
+    <div class="btns"><button class="lime" id="save">Save</button><button class="ghost" id="cancel">Cancel</button></div><p class="err" id="err"></p></section>`;
+  if(k) return `<section class="box"><div class="btns" style="margin:0"><button class="ghost" id="edit">Edit my profile</button><span class="note">You claimed this profile in this browser.</span></div></section>`;
+  if(p.claimed) return '';
+  return `<section class="box tint-r"><h2>Is this you? Claim this profile</h2><p class="note" style="margin-top:0">Use your official work email (ending in @${esc(p.domain||'your institution')}). Then you can fix details, mark yourself open to industry work, or hide the profile.</p>
+    <form id="cf" class="btns" style="align-items:flex-end"><label for="em" style="flex:1 1 240px;margin:0">Work email<input id="em" type="email" autocomplete="email" placeholder="name@${esc(p.domain||'university.edu.my')}" required></label><button id="claim" type="submit">Claim</button></form><p class="err" id="err"></p></section>`;
+}
+function wire(){
+  const on=(id,fn)=>{const el=$(id);if(el)el.onclick=fn};
+  const cf=$('cf');
+  if(cf)cf.onsubmit=async e=>{e.preventDefault();const b=$('claim');b.disabled=true;b.innerHTML='<span class="spin"></span> Checking…';
+    try{const r=await call('claim',{...Q,email:$('em').value},true);ls.set(keyName(),r.editKey);D.profile.claimed=true;editing=true;render()}
+    catch(x){b.disabled=false;b.textContent='Claim';$('err').textContent=x.message}};
+  on('edit',()=>{editing=true;render()});
+  on('cancel',()=>{editing=false;render()});
+  on('save',async()=>{const b=$('save');b.disabled=true;b.innerHTML='<span class="spin"></span> Saving…';
+    const body={...Q,key:ls.get(keyName()),hide:$('hide').checked};
+    if(D.kind==='Expert'){body.open_to_industry=$('oti').checked;body.fields=$('fl').value.trim()}else body.services=$('sv').value.trim();
+    try{await call('saveProfile',body,true);editing=false;await load()}catch(x){b.disabled=false;b.textContent='Save';$('err').textContent=x.message}});
+}
+IB.demoBar();
+load();
+</script>
+</body>
+</html>

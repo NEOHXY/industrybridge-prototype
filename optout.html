@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stop invitations · IndustryBridge</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="bridge-pages.css">
+</head>
+<body>
+<div class="top"><div class="in"><a class="brand" href="index.html">Industry<b>Bridge</b></a><span class="tag">Your data · PDPA</span></div></div>
+<main class="wrap" id="app" aria-live="polite" style="max-width:620px">
+  <div class="skel" style="width:60%;height:30px"></div><div class="skel"></div>
+</main>
+<script src="bridge-pages.js"></script>
+<script>
+const {call,param,$,esc}=IB;
+const P={inv:param('inv')||'',k:param('k')||''};
+if(!IB.live&&!P.inv){P.inv='CH001-E1';P.k='demo'}
+let D=null;
+
+async function start(){
+  try{D=await call('bid',P)}catch(e){D=null}
+  if(!D||!D.cand){$('app').innerHTML=`<div class="eyebrow">Stop invitations</div><h1>This link is not valid</h1><p>Please use the "Stop invitations" link at the bottom of your invitation email.</p>`;return}
+  if(D.optedOut)return done(null,true);
+  const topic=D.challenge.domain||'this topic';
+  $('app').innerHTML=`<div class="eyebrow">Stop invitations</div><h1>Stop invitations from IndustryBridge?</h1>
+  <p class="muted">For <b>${esc(D.cand.solver_name)}</b>. It takes effect immediately: our Guardian agent checks this list before every email.</p>
+  <form class="box" id="f"><fieldset style="border:0;padding:0;margin:0"><legend class="note" style="margin-bottom:8px">What do you want to stop?</legend>
+  <label class="check"><input type="radio" name="scope" value="All" checked> <span><b>All invitations</b><br><span class="note">Your public profile is also hidden from new matches.</span></span></label>
+  <label class="check"><input type="radio" name="scope" value="Topic"> <span><b>Only this topic</b> · ${esc(topic)}<br><span class="note">You still hear about challenges in other areas.</span></span></label></fieldset>
+  <label for="reason">Reason <span class="note">(optional)</span><select id="reason"><option value="">Choose a reason</option><option>Too many emails</option><option>Not my area</option><option>No capacity this year</option><option>I did not expect these emails</option><option>Other</option></select></label>
+  <div class="btns"><button id="go" type="submit">Stop invitations</button><a class="btn ghost" href="challenge.html?${new URLSearchParams(P)}">Back to the challenge</a></div><p class="err" id="err"></p></form>
+  <p class="note">IndustryBridge only uses public information (university expert directories, OpenAlex, company websites). You can also ask us to delete your data.</p>`;
+  $('f').onsubmit=async e=>{e.preventDefault();const b=$('go');b.disabled=true;b.innerHTML='<span class="spin"></span> Saving…';
+    const scope=document.querySelector('[name=scope]:checked').value;
+    try{const r=await call('optout',{...P,scope,reason:$('reason').value},true);done(r.optout_id,false,scope,topic)}catch(x){b.disabled=false;b.textContent='Stop invitations';$('err').textContent=x.message}};
+}
+function done(oid,already,scope,topic){
+  $('app').innerHTML=`<div class="eyebrow">Stop invitations</div><h1>Done.</h1>
+  <div class="banner ok pop"><h2>You will not receive further invitations${scope==='Topic'?' about '+esc(topic):''}.</h2><p>${already?'Your opt-out is already on record.':'This takes effect immediately.'}</p>
+  ${oid?`<div class="btns"><button class="ghost" id="undo">Undo</button><span class="note" id="left"></span></div>`:''}</div>`;
+  if(!oid)return;
+  const until=Date.now()+10*60e3,tick=()=>{const s=Math.max(0,Math.round((until-Date.now())/1000));if(!$('left'))return;if(!s){$('undo').remove();$('left').textContent='';return}
+    $('left').textContent=`Undo available for ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;setTimeout(tick,1000)};tick();
+  $('undo').onclick=async()=>{$('undo').disabled=true;try{await call('undoOptout',{...P,optout_id:oid},true);start()}catch(e){$('left').textContent=e.message;$('undo').disabled=false}};
+}
+IB.demoBar();
+start();
+</script>
+</body>
+</html>

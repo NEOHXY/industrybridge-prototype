@@ -1967,6 +1967,84 @@ body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .
 @keyframes lpbob{50%{transform:translate(-50%,5px)}}
 @media (max-width:760px){#view-signin .lp{height:240vh}#view-signin .role-card ul{display:none}}
 @media (prefers-reduced-motion:reduce){.lp-cue{animation:none}}
+
+/* ===== Bridge Match + roles (Client · Solvers · Bridge Admin · AI Agent Team) ===== */
+.role-card.admin{background:radial-gradient(120% 80% at 30% 105%,#55554c,transparent 60%),linear-gradient(165deg,#2d2d29,#0f0f0d 82%)}
+.role-card.solver{background:radial-gradient(120% 80% at 30% 105%,#7b8fc4,transparent 60%),linear-gradient(165deg,#47557e,#1f2638 82%)}
+.solver-pick{display:grid;gap:8px;margin-top:auto}
+.solver-pick .btn{justify-content:space-between}
+#view-signin .role-grid{max-width:1140px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.signin-agents{max-width:1140px;margin:16px auto 0;text-align:center;font-size:13px;color:var(--muted)}
+.dd-roles{display:grid;padding:2px 0}
+.dd-roles .dd-item.on{background:var(--accent-soft)}
+.bm-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start;margin-top:18px}
+.bm-agents{position:sticky;top:calc(var(--tb,68px) + 16px)}
+.bm-ag{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+.bm-ag .id,.bm-log .id{font:600 10px/1 var(--font-mono);padding:4px 6px;border-radius:5px;background:var(--raise);color:var(--muted)}
+.bm-ag small{display:block;color:var(--muted);font-size:11.5px;line-height:1.35}
+.bm-ag .bm-st{font:600 9.5px var(--font-mono);letter-spacing:.1em;color:var(--dim)}
+.bm-ag.work .id{background:var(--warn-soft);color:var(--warn)}.bm-ag.work .bm-st{color:var(--warn)}
+.bm-ag.ok .id{background:var(--ok-soft);color:var(--ok)}.bm-ag.ok .bm-st{color:var(--ok)}
+.bm-live{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-weight:600;font-size:13px;cursor:pointer}
+.bm-live small{flex-basis:100%;font-weight:400;color:var(--muted);font-size:11.5px}
+.bm-log{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:9px;font-size:12.5px}
+.bm-log li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:start}
+.bm-log small{display:block;color:var(--muted)}
+.bm-sec{margin-top:16px}
+.bm-sec-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.bm-brief{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:22px}
+.bm-dl{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px 14px;margin:14px 0 0;font-size:13.5px}
+.bm-dl dt{color:var(--muted)}.bm-dl dd{margin:0}
+.bm-kw{display:flex;flex-wrap:wrap;gap:6px}.bm-kw span{font:500 11px var(--font-mono);background:var(--raise);padding:3px 8px;border-radius:5px}
+.bm-router{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:14px}
+.bm-tr{display:grid;grid-template-columns:96px minmax(0,1fr) 30px;gap:10px;align-items:center;margin:10px 0;font-size:13px}
+.bm-tr label{display:flex;gap:6px;align-items:center;font-weight:600}
+.bm-tr b{text-align:right;font-variant-numeric:tabular-nums}
+.bm-gh{display:flex;align-items:center;gap:10px;font-size:14px;margin:16px 0 10px}
+.bm-card{display:grid;grid-template-columns:96px minmax(0,1fr);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.bm-card+.bm-card{margin-top:10px}
+.bm-card .sc{background:var(--ink);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:12px 4px}
+.bm-card.partner .sc{background:var(--moss-deep)}
+.bm-card .sc b{font:600 30px/1 var(--font-display);letter-spacing:-.03em}
+.bm-card .sc small{font:600 9px var(--font-mono);letter-spacing:.12em;opacity:.8}
+.bm-card .bd{padding:12px 16px;min-width:0}
+.bm-card h4{font-size:15px}
+.bm-card .org{color:var(--muted);font-size:12.5px}
+.bm-card .bm-ev{font-size:13px;margin:6px 0 8px;color:var(--body-2)}
+.bm-fits{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.bm-fit{font:600 9.5px var(--font-mono);letter-spacing:.1em;color:var(--muted);min-width:84px}
+.bm-fit .bar{height:5px;margin-top:4px}
+.bm-fits .act{margin-left:auto}
+.bm-card.on{border-color:var(--accent-hi);box-shadow:0 0 0 1px var(--accent-hi)}
+.bm-mail{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:10px;background:var(--bg-2);font-size:13px}
+.bm-mail .h{font:500 11px var(--font-mono);color:var(--muted);border-bottom:1px dashed var(--line-2);padding-bottom:7px;margin-bottom:7px;overflow-wrap:anywhere}
+.bm-mail p{white-space:pre-wrap}
+.bm-chs{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:14px}
+.bm-ch{display:grid;grid-template-columns:120px minmax(0,1fr);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);text-align:left;padding:0;width:100%;box-shadow:var(--shadow)}
+.bm-ch:hover{border-color:var(--fg)}
+.bm-ch .l{background:var(--ink);color:#fff;padding:14px;display:flex;flex-direction:column;gap:6px;font:600 10px var(--font-mono);letter-spacing:.1em}
+.bm-ch .l .t{display:grid;grid-template-columns:1fr auto;gap:3px 6px;color:#bdbdb5;margin-top:6px;font-weight:500}
+.bm-ch .l .t b{color:#fff}
+.bm-ch .l .t .bar{grid-column:1/-1;height:4px;background:#33332f}.bm-ch .l .t .bar i{background:var(--moss-pale)}
+.bm-ch .r{padding:14px 16px;min-width:0}
+.bm-ch .dom{font:600 10px var(--font-mono);letter-spacing:.12em;color:var(--moss-deep);text-transform:uppercase}
+.bm-ch h3{font-size:17px;margin:4px 0}
+.bm-dots{display:flex;margin-top:14px;position:relative}
+.bm-dots::before{content:"";position:absolute;left:6px;right:6px;top:5px;height:2px;background:var(--line)}
+.bm-dots span{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font:600 8.5px var(--font-mono);letter-spacing:.08em;color:var(--muted);position:relative}
+.bm-dots span:first-child{align-items:flex-start}.bm-dots span:last-child{align-items:flex-end}
+.bm-dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--line-2);background:var(--surface)}
+.bm-dots span.on i{background:var(--moss-deep);border-color:var(--moss-deep)}
+.bm-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.bm-note{font-size:12.5px;color:var(--muted)}
+.bm-grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}
+.bm-confirm{background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:12px;padding:14px 16px;margin-top:16px}
+.bm-done{background:var(--ok-soft);border:1px solid var(--ok-line);border-radius:12px;padding:14px 16px;margin-top:16px}
+.bm-guide{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:10px;padding:10px 14px;margin-top:18px;font-size:13.5px}
+.bm-guide .k{font:600 10px var(--font-mono);letter-spacing:.14em;color:var(--moss-deep);text-transform:uppercase;white-space:nowrap}
+.bm-table td{vertical-align:top}
+.bm-table tr.best td{background:var(--ok-soft)}
+@media (max-width:1000px){.bm-grid{grid-template-columns:minmax(0,1fr)}.bm-agents{position:static}.bm-brief{grid-template-columns:minmax(0,1fr)}.bm-grid4{grid-template-columns:repeat(2,minmax(0,1fr))}.bm-chs{grid-template-columns:minmax(0,1fr)}}
 </style>
 
 <!-- Icon sprite: reuse with <svg class="i"><use href="#i-NAME"/></svg> -->
@@ -2034,17 +2112,21 @@ body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .
   <div class="wrap topbar-in">
     <div class="brand-wrap"><a class="brand" href="#discover"><svg class="i"><use href="#i-bridge"/></svg>IndustryBridge</a><span class="role-pill student" id="role-pill">Student</span></div>
     <nav class="mainnav" aria-label="Main">
-      <a href="#discover" data-nav="discover">Discover</a>
+      <a href="#discover" data-nav="discover" data-role="student client admin">Discover</a>
+      <a href="#bridge" data-nav="bridge" data-role="client" hidden>Bridge Match</a>
+      <a href="#bridge-inbox" data-nav="bridge-inbox" data-role="expert partner" hidden>Invitations</a>
       <div class="nav-dd" data-role="student"><a href="#programs" data-nav="programs" aria-haspopup="true">My programs<svg class="i sm nav-chev" aria-hidden="true"><use href="#i-chev-down"/></svg></a>
         <div class="nav-menu" role="menu" aria-label="Browse programs"><button type="button" role="menuitem" data-nav-cat="Hackathon">Hackathons</button><button type="button" role="menuitem" data-nav-cat="Challenge">Challenges</button><button type="button" role="menuitem" data-nav-cat="Workshop">Workshops</button></div></div>
       <a href="#archive" data-nav="archive" data-role="student">Archive</a>
       <a href="#planner" data-nav="planner" data-role="student">Planner</a>
       <a href="#leaderboard" data-nav="leaderboard" data-role="student">Leaderboard</a>
       <a href="#hall" data-nav="hall" data-role="student">Meetup Hall</a>
-      <a href="#studio-plan" data-nav="studio-plan" data-role="organizer" hidden>Program plan</a>
-      <a href="#studio-design" data-nav="studio-design" data-role="organizer" hidden>Design &amp; publish</a>
-      <a href="#studio-manage" data-nav="studio-manage" data-role="organizer" hidden>Manage programs</a>
-      <a href="#sponsors" data-nav="sponsors" data-role="organizer" hidden>Sponsors</a>
+      <a href="#bridge-opps" data-nav="bridge-opps" data-role="student">Industry projects</a>
+      <a href="#studio-plan" data-nav="studio-plan" data-role="client" hidden>Program plan</a>
+      <a href="#studio-design" data-nav="studio-design" data-role="client" hidden>Design &amp; publish</a>
+      <a href="#studio-manage" data-nav="studio-manage" data-role="client admin" hidden>Manage programs</a>
+      <a href="#sponsors" data-nav="sponsors" data-role="admin" hidden>Sponsors</a>
+      <a href="#bridge-admin" data-nav="bridge-admin" data-role="admin" hidden>Bridge admin</a>
     </nav>
     <div class="top-actions">
       <button class="icon-btn" title="Join Discord community" data-toast="Discord community opens in a new tab" aria-label="Discord community"><svg class="i"><use href="#i-game"/></svg></button>
@@ -2060,7 +2142,7 @@ body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .
   <button class="dd-item" id="my-char">My character<small>Unique to your account</small></button>
   <button class="dd-item" id="all-chars">Character gallery<small>No two accounts look the same</small></button>
   <button class="dd-item" id="ai-settings">Gemini AI<small id="ai-settings-sub">Not connected</small></button>
-  <button class="dd-item" id="switch-role">Switch to organizer view<small>Plan, publish and manage programs</small></button>
+  <div class="dd-roles" id="role-switch" role="group" aria-label="Switch role"></div>
   <p style="font-size:11px;color:var(--dim);padding:2px 12px 8px;margin:0">⚠️ Demo only — role switching is for prototype review</p>
   <a class="dd-item" href="#signin" id="sign-out">Sign out</a>
 </div>
@@ -2073,33 +2155,43 @@ body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .
       <div class="lp-copy" id="lp-copy">
         <div class="kicker">AI-powered challenge management</div>
         <h1 class="page-title hero-title"><span class="soft">A New Bridge</span><br>between Industry and Campus</h1>
-        <p class="page-sub">Companies bring real problems. Student teams solve them. Gemini runs everything in between.</p>
+        <p class="page-sub">Clients bring real problems. Solvers (researchers, students and solution partners) answer them. A team of Gemini agents runs everything in between.</p>
       </div>
       <canvas id="lp-canvas" aria-label="A campus and a factory on two cliffs, joined by an arch bridge with students walking across"></canvas>
       <div class="lp-cue" id="lp-cue">Scroll to sign in<svg class="i sm"><use href="#i-chev-down"/></svg></div>
       <div class="lp-cards" id="lp-cards">
     <div class="role-grid">
-      <div class="role-card" data-signin="student">
-        <span class="role-ico"><svg class="i"><use href="#i-user"/></svg></span>
-        <div><div class="eyebrow">For students and candidates</div><h2>Sign in as a student</h2></div>
-        <ul>
-          <li><svg class="i"><use href="#i-check"/></svg>Join programs and learn with your team</li>
-          <li><svg class="i"><use href="#i-check"/></svg>Plan modules, tasks and deadlines</li>
-          <li><svg class="i"><use href="#i-check"/></svg>Earn XP for verified work</li>
-        </ul>
-        <button class="btn light block lg">Continue as student <svg class="i sm"><use href="#i-arrow"/></svg></button>
-      </div>
-      <div class="role-card org" data-signin="organizer">
+      <div class="role-card org" data-signin="client">
         <span class="role-ico"><svg class="i"><use href="#i-users"/></svg></span>
-        <div><div class="eyebrow">For institutions and organizers</div><h2>Sign in as an organizer</h2></div>
+        <div><div class="eyebrow">For companies and agencies</div><h2>Sign in as a client</h2></div>
         <ul>
-          <li><svg class="i"><use href="#i-check"/></svg>Draft a complete challenge with AI</li>
-          <li><svg class="i"><use href="#i-check"/></svg>Design and publish the program page</li>
-          <li><svg class="i"><use href="#i-check"/></svg>Review submissions and track outcomes</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Post a problem in plain words</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Get matched experts and partners, with evidence</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Compare proposals and pick one</li>
         </ul>
-        <button class="btn light block lg">Continue as organizer <svg class="i sm"><use href="#i-arrow"/></svg></button>
+        <button class="btn light block lg">Continue as client <svg class="i sm"><use href="#i-arrow"/></svg></button>
+      </div>
+      <div class="role-card solver">
+        <span class="role-ico"><svg class="i"><use href="#i-user"/></svg></span>
+        <div><div class="eyebrow">For people who solve problems</div><h2>Sign in as a solver</h2></div>
+        <div class="solver-pick">
+          <button class="btn light block lg" type="button" data-signin="expert">Research Expert <small style="font-weight:500;opacity:.6">UTeM researcher</small></button>
+          <button class="btn light block lg" type="button" data-signin="student">Student Talent <small style="font-weight:500;opacity:.6">programs, FYP spots</small></button>
+          <button class="btn light block lg" type="button" data-signin="partner">Solution Partner <small style="font-weight:500;opacity:.6">company</small></button>
+        </div>
+      </div>
+      <div class="role-card admin" data-signin="admin">
+        <span class="role-ico"><svg class="i"><use href="#i-sparkle"/></svg></span>
+        <div><div class="eyebrow">For the IndustryBridge team</div><h2>Sign in as Bridge Admin</h2></div>
+        <ul>
+          <li><svg class="i"><use href="#i-check"/></svg>Watch the challenge funnel</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Set the Guardian rules</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Run programs and sponsors</li>
+        </ul>
+        <button class="btn light block lg">Continue as admin <svg class="i sm"><use href="#i-arrow"/></svg></button>
       </div>
     </div>
+    <p class="signin-agents">The <b>AI Agent Team</b> (Scoper, Router, Matchmaker, Guardian, Messenger, Proposal Analyst) is not a login: it works between every role.</p>
     <p class="signin-note">Prototype: no password needed. Switch roles any time from your profile menu.</p>
       </div>
     </div>
@@ -2738,6 +2830,55 @@ body[data-view=hall] .hall-portal:focus-visible .hp-label,body[data-view=hall] .
     <span class="hall-hint">Click the floor to walk · click someone for their card · the glowing board opens rooms</span>
   </div>
 </section>
+<!-- ================= BRIDGE MATCH (Client · Solvers · Bridge Admin) ================= -->
+<section class="view" id="view-bridge" hidden>
+  <div class="wrap">
+    <header class="phead"><div class="phead-main">
+      <span class="eyebrow"><span>Bridge Match / Client</span></span>
+      <h1 class="page-title"><span class="soft">Post a problem.</span> Our agents find who can solve it.</h1>
+      <p class="page-sub">The AI Agent Team writes the brief, searches 99 UTeM experts and Malaysian solution companies, explains every match, drafts the invitations and compares the replies. You approve every step.</p>
+    </div><div class="phead-aside"><span class="badge accent">Demo · emails are not sent</span></div></header>
+    <div class="tabs bm-tabs" role="tablist"></div>
+    <div class="bm-guide-slot"></div>
+    <div class="bm-grid"><div class="bm-root"></div><aside class="card panel bm-agents" aria-label="AI Agent Team"></aside></div>
+  </div>
+</section>
+<section class="view" id="view-bridge-inbox" hidden>
+  <div class="wrap">
+    <header class="phead"><div class="phead-main">
+      <span class="eyebrow"><span>Bridge Match / Solver</span></span>
+      <h1 class="page-title"><span class="soft">Your</span> invitations</h1>
+      <p class="page-sub">Personal invitations from clients, written by the Messenger agent. You only get ones that match your work, at most one a week.</p>
+    </div><div class="phead-aside"><span class="badge accent">Reply in 2 minutes</span></div></header>
+    <div class="tabs bm-tabs" role="tablist"></div>
+    <div class="bm-guide-slot"></div>
+    <div class="bm-grid"><div class="bm-root"></div><aside class="card panel bm-agents" aria-label="AI Agent Team"></aside></div>
+  </div>
+</section>
+<section class="view" id="view-bridge-opps" hidden>
+  <div class="wrap">
+    <header class="phead"><div class="phead-main">
+      <span class="eyebrow"><span>Bridge Match / Student Talent</span></span>
+      <h1 class="page-title"><span class="soft">Real</span> industry projects</h1>
+      <p class="page-sub">FYP spots on an expert’s proposal, and challenges the Router sent to the Open track for student teams.</p>
+    </div><div class="phead-aside"><span class="badge accent">From live challenges</span></div></header>
+    
+    <div class="bm-guide-slot"></div>
+    <div class="bm-grid"><div class="bm-root"></div><aside class="card panel bm-agents" aria-label="AI Agent Team"></aside></div>
+  </div>
+</section>
+<section class="view" id="view-bridge-admin" hidden>
+  <div class="wrap">
+    <header class="phead"><div class="phead-main">
+      <span class="eyebrow"><span>Bridge Match / Bridge Admin</span></span>
+      <h1 class="page-title"><span class="soft">Platform</span> overview</h1>
+      <p class="page-sub">The challenge funnel, the Guardian rules and every agent run. Clients and solvers deal with each other directly; the admin keeps the platform fair.</p>
+    </div><div class="phead-aside"><span class="badge accent">Admin only</span></div></header>
+    <div class="tabs bm-tabs" role="tablist"></div>
+    <div class="bm-guide-slot"></div>
+    <div class="bm-grid"><div class="bm-root"></div><aside class="card panel bm-agents" aria-label="AI Agent Team"></aside></div>
+  </div>
+</section>
 </main>
 
 <div class="modal-back" id="modal" hidden>
@@ -2834,35 +2975,47 @@ function hydrateAvatars(root=document){$$('.js-av',root).forEach(el=>{el.innerHT
 function refreshAvatars(){hydrateAvatars();renderPlanner();renderModules();renderThread();renderBoard();renderPlan();renderManage();renderManageExtras();if(role)setRole(role);else renderCards()}
 
 /* ===== Roles & routing (hash = screen). Students and organizers get different navigation ===== */
-const VIEWS=['signin','discover','event','programs','archive','planner','leaderboard','hall','studio-plan','studio-design','studio-manage','sponsors'];
-const STUDENT_VIEWS=['programs','archive','planner','leaderboard','hall'],ORG_VIEWS=['studio-plan','studio-design','studio-manage','sponsors'];
+const VIEWS=['signin','discover','event','programs','archive','planner','leaderboard','hall','studio-plan','studio-design','studio-manage','sponsors','bridge','bridge-inbox','bridge-opps','bridge-admin'];
+/* Roles: Client (was organizer) · Solvers: Research Expert, Student Talent, Solution Partner · Bridge Admin. The AI Agent Team is not a login. */
 const PEOPLE={
-  student:{name:'Xin Yi Neoh',ini:'XN',sub:'Student · Team AI Forge',other:'organizer'},
-  organizer:{name:'Innovation Office',ini:'IO',sub:'Organizer · Smart Factory Challenge',other:'student'}
+  client:{name:'Aisyah Rahman',label:'Client',sub:'Client · Melaka Semicon Assembly (demo)'},
+  expert:{name:'Dr. Choo Yun Huoy',label:'Research Expert',sub:'Solver · Research Expert, FAIX UTeM'},
+  student:{name:'Xin Yi Neoh',label:'Student Talent',sub:'Solver · Student Talent, Team AI Forge'},
+  partner:{name:'Nusantara Vision',label:'Solution Partner',sub:'Solver · Solution Partner (demo company)'},
+  admin:{name:'Bridge Admin',label:'Bridge Admin',sub:'IndustryBridge team'}
 };
+const ROLE_TAGS={client:['client','organizer'],admin:['admin','organizer'],student:['student'],expert:['expert'],partner:['partner']};
+const VIEW_ROLES={discover:['student','client','admin'],event:['student','client','admin'],programs:['student'],archive:['student'],planner:['student'],leaderboard:['student'],hall:['student'],
+  'studio-plan':['client','admin'],'studio-design':['client','admin'],'studio-manage':['client','admin'],sponsors:['admin','client'],
+  bridge:['client'],'bridge-inbox':['expert','partner'],'bridge-opps':['student'],'bridge-admin':['admin']};
+const HOME={client:'bridge',student:'discover',expert:'bridge-inbox',partner:'bridge-inbox',admin:'bridge-admin'};
+function isOrg(){return role==='client'||role==='admin'}
 let role=null;
 try{role=localStorage.getItem('ib-role')}catch(e){}
+if(role==='organizer')role='client';
 if(!PEOPLE[role])role=null;
 function setRole(r){
+  if(r==='organizer')r='client';
   role=r;try{r?localStorage.setItem('ib-role',r):localStorage.removeItem('ib-role')}catch(e){}
   if(!r)return;
-  const p=PEOPLE[r],org=r==='organizer';
+  const p=PEOPLE[r],org=isOrg();
   $('#me-btn').innerHTML=avatar(p.name,34,true);$('#acct-av').innerHTML=avatar(p.name,40,true);$('#acct-name').textContent=p.name;$('#acct-sub').textContent=p.sub;
   $('#me-btn').classList.toggle('org',org);$('#acct-av').classList.toggle('org',org);
-  $('#switch-role').innerHTML=org?'Switch to student view<small>Join programs and learn with your team</small>':'Switch to organizer view<small>Plan, publish and manage programs</small>';
-  $('#role-pill').textContent=org?'Organizer':'Student';$('a[data-nav="discover"]').textContent=org?'Library':'Discover';$('#role-pill').className='role-pill '+r;
-  $$('[data-role]').forEach(el=>el.hidden=el.dataset.role!==r);
+  $('#role-switch').innerHTML=Object.entries(PEOPLE).map(([k,v])=>`<button class="dd-item${k===r?' on':''}" type="button" data-switch-role="${k}" ${k===r?'aria-current="true"':''}>${k===r?'Signed in as ':'Switch to '}${v.label}<small>${esc(v.sub)}</small></button>`).join('');
+  $('#role-pill').textContent=p.label;$('a[data-nav="discover"]').textContent=org?'Library':'Discover';$('#role-pill').className='role-pill '+(org?'organizer':'student');
+  const tags=ROLE_TAGS[r];
+  $$('[data-role]').forEach(el=>el.hidden=!el.dataset.role.split(' ').some(t=>tags.includes(t)));
   renderCards();
 }
 function go(v){route(v);try{if(location.hash.slice(1)!==v)location.hash=v}catch(e){}}
 function route(v=location.hash.slice(1)){
-  if(!v)v=role?'discover':'signin';
+  if(!v)v=role?HOME[role]:'signin';
   let evp=null;
   if(v.startsWith('p-')){evp=ALL.find(p=>p.id===v.slice(2));v=evp?'event':'discover'}
   if(!VIEWS.includes(v)||(v==='event'&&!evp))v='discover';
-  if(STUDENT_VIEWS.includes(v)&&role!=='student')setRole('student');
-  else if(ORG_VIEWS.includes(v)&&role!=='organizer')setRole('organizer');
-  else if(v!=='signin'&&!role)setRole('student');
+  if(v!=='signin'&&!role)setRole('student');
+  // a page this role can't use opens the role's home page instead of switching role
+  if(v!=='signin'&&VIEW_ROLES[v]&&!VIEW_ROLES[v].includes(role)){v=HOME[role];evp=null;try{history.replaceState(null,'','#'+v)}catch(e){}}
   const prevV=document.body.dataset.view;document.body.dataset.view=v;
   $$('.view').forEach(s=>s.hidden=s.id!=='view-'+v);
   $$('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===(v==='event'?'discover':v)));
@@ -2870,6 +3023,7 @@ function route(v=location.hash.slice(1)){
   // My programs opens on the list; buttons that name a workspace tab (data-set-tab="programs:…") open the workspace
   if(v==='programs'){showMP(mpPending?'ws':'home');mpPending=false}
   if(v==="hall"){setTB();if(prevV!=="hall")showHallLoader()}
+  if(v.startsWith('bridge')){setTB();BM.render(v)}
   closeDD();window.scrollTo(0,0);
 }
 let mpPending=false;
@@ -2877,7 +3031,7 @@ function setTB(){document.documentElement.style.setProperty("--tb",($(".topbar")
 addEventListener("resize",()=>{if(document.body.dataset.view==="hall")setTB()});
 function showMP(mode){$("#mp-home").hidden=mode!=="home";$("#mp-ws").hidden=mode!=="ws";if(mode==="home")renderMyHome()}
 window.addEventListener('hashchange',()=>route());
-$('#view-signin').addEventListener('click',e=>{const c=e.target.closest('[data-signin]');if(!c)return;setRole(c.dataset.signin);go('discover');toast(`Signed in as ${PEOPLE[role].name}`)});
+$('#view-signin').addEventListener('click',e=>{const c=e.target.closest('[data-signin]');if(!c)return;setRole(c.dataset.signin);go(HOME[role]);toast(`Signed in as ${PEOPLE[role].label}`)});
 
 /* Account menu */
 const meBtn=$('#me-btn'),acct=$('#acct-menu');
@@ -2891,10 +3045,11 @@ meBtn.addEventListener('click',e=>{
   acct.style.left=Math.max(16,Math.min(r.right-acct.offsetWidth,innerWidth-acct.offsetWidth-16))+'px';
 });
 document.addEventListener('click',e=>{if(!acct.hidden&&!acct.contains(e.target))closeDD()});
-$('#switch-role').addEventListener('click',()=>{
-  const r=PEOPLE[role].other;setRole(r);closeDD();
-  go('discover');
-  toast(`Now viewing as ${PEOPLE[r].name} (${r})`);
+$('#role-switch').addEventListener('click',e=>{
+  const b=e.target.closest('[data-switch-role]');if(!b)return;
+  const r=b.dataset.switchRole;setRole(r);closeDD();BM.reset();
+  go(HOME[r]);
+  toast(`Now viewing as ${PEOPLE[r].label}`);
 });
 $('#sign-out').addEventListener('click',()=>{setRole(null);closeDD()});
 
@@ -3020,7 +3175,73 @@ const HACKATHON_ARCHIVE=[
   {date:'2026-06-11',title:'Hackathon X: Fintech Forward 2026',organiser:'Universiti Malaysia Pahang Al-Sultan Abdullah (host)',sponsors:[],type:'Hackathon',city:'Pekan (UMPSA)',topic:'Fintech',participants:'10 finalist teams',prize:'',winner:'XM3 (Multimedia University)',src:'https://www.mmu.edu.my/2026/06/fci-students-emerge-champions-at-national-hackathon-x-fintech-forward-2026/'},
   {date:'2026-08-08',title:'ChainHack 2026 · NeuralLedger 5.0',organiser:'CCACC',sponsors:['Singapore Blockchain Association','Ultra Web3 Festival'],type:'Hackathon',city:'Kuala Lumpur (Old Klang Road)',topic:'Web3',participants:'79+ participants',prize:'US$4,000 in credits',winner:'',src:'https://www.hackquest.io/hackathons/ChainHack'},
   {date:'2026-08-13',title:'AI CAN DO IT · Tencent Cloud x UTM AI Hackathon 2026',organiser:'Tencent Cloud and Universiti Teknologi Malaysia',sponsors:['Tencent Cloud','AmBank','JCorp','Silverlake','Arkie AI'],type:'Hackathon',city:'Kuala Lumpur (UTM KL)',topic:'AI',participants:'UTM students',prize:'Place at the Tencent Cloud Hackathon Global Finals',winner:'Sleep_Well (AI Agent track), Untitled (Game track)',src:'https://finance.yahoo.com/technology/ai/articles/tencent-cloud-utm-connect-malaysias-054300788.html'},
-  {date:'2026-11-14',title:'Sime Darby Property University Hackathon 2026',organiser:'Sime Darby Property with Kolaxus',sponsors:['Sime Darby Property'],type:'Hackathon',city:'Nationwide',topic:'Sustainability',participants:'1,000+ students expected',prize:'RM14,000 prize pool, RM6,000 to the champion',winner:'',src:'https://www.thestar.com.my/business/business-news/2026/09/20/sime-darby-property-launches-nationwide-university-hackathon'}
+  {date:'2026-11-14',title:'Sime Darby Property University Hackathon 2026',organiser:'Sime Darby Property with Kolaxus',sponsors:['Sime Darby Property'],type:'Hackathon',city:'Nationwide',topic:'Sustainability',participants:'1,000+ students expected',prize:'RM14,000 prize pool, RM6,000 to the champion',winner:'',src:'https://www.thestar.com.my/business/business-news/2026/09/20/sime-darby-property-launches-nationwide-university-hackathon'},
+  // Added 11 Nov 2026 from a second research pass (event pages, Devfolio/HackQuest/Luma, university and agency news).
+  // Same rules as above: only what the source states; '' where it isn't published. Sponsors exclude student clubs and co-hosting universities.
+  {date:"2024-03-30",title:"UTMxHACKATHON 2024 (UTMxHackathon'24)",organiser:"Persatuan Mahasiswa Sains Komputer (PERSAKA) UTM and Faculty of Computing, Universiti Teknologi Malaysia",sponsors:[],type:"Hackathon",city:"Johor Bahru, Johor",topic:"Education",participants:"",prize:"",winner:"",src:"https://news.utm.my/2024/04/utmxhackthon-24-inspiring-tomorrows-innovators/"},
+  {date:"2024-05-20",title:"Safety Tech Hackathon 2024",organiser:"Sime Darby Plantation",sponsors:["Microsoft"],type:"Hackathon",city:"",topic:"Agriculture",participants:"",prize:"",winner:"",src:"https://apu.edu.my/node/742"},
+  {date:"2024-06-09",title:"Taylor's University Imagine Hack 2024",organiser:"Taylor's University",sponsors:[],type:"Hackathon",city:"Subang Jaya, Selangor",topic:"Software",participants:"",prize:"",winner:"",src:"https://deriv.com/ae/derivtech/feed/taylors-university-imagine-hack-event"},
+  {date:"2024-06-11",title:"Microsoft ASEAN AI for Accessibility Hackathon 2024 (UTM Faculty of Computing final)",organiser:"Faculty of Computing, Universiti Teknologi Malaysia (UTM) and Microsoft Malaysia",sponsors:[],type:"Hackathon",city:"Johor Bahru, Johor",topic:"AI",participants:"",prize:"",winner:"",src:"https://news.utm.my/2024/06/microsoft-asean-ai-for-accessibility-hackathon-2024/"},
+  {date:"2024-07-07",title:"E3S2 Hackathon 2024",organiser:"Electrical and Electronics Engineering Student Society (E3S2), Universiti Teknologi PETRONAS",sponsors:[],type:"Hackathon",city:"Seri Iskandar, Perak",topic:"Software",participants:"",prize:"Up to RM3,000",winner:"",src:"https://industry.um.edu.my/news/e3s2-hackathon-by-universiti-teknologi-petronas-utp"},
+  {date:"2024-07-07",title:"HackINSAN 2024",organiser:"Kolej PERMATA Insan students",sponsors:["IP ServerOne"],type:"Hackathon",city:"Nilai, Negeri Sembilan",topic:"Education",participants:"",prize:"",winner:"",src:"https://mrem.bernama.com/viewsm.php?idm=48988"},
+  {date:"2024-08-18",title:"Devmatch 2024",organiser:"Asia Pacific University Blockchain & Cryptocurrency Club (APUBCC)",sponsors:["Polygon", "MasChain", "Aptos", "Devcon", "Scroll", "Blockchain For Good"],type:"Challenge",city:"Kuala Lumpur",topic:"Web3",participants:"",prize:"USD 14,200",winner:"",src:"https://devmatch.devfolio.co"},
+  {date:"2024-08-25",title:"Monash Blockchain x Solana Hackfest (Monash Hackfest 2024)",organiser:"Monash Blockchain Club (MUM Blockchain Club) and Solana Superteam Malaysia",sponsors:["Superteam Malaysia", "Solana", "Polygon"],type:"Hackathon",city:"Subang Jaya, Selangor",topic:"Web3",participants:"",prize:"USD 4,700",winner:"",src:"https://monash-hackfest.devfolio.co/"},
+  {date:"2024-09-15",title:"Grand Robotics Engineering and Technology (GREAT) Challenge Hackathon 2024",organiser:"School of Engineering, Asia Pacific University of Technology & Innovation (APU)",sponsors:["MRANTI", "SCUTTLE Robotics LLC", "Intel Corporation", "Viam"],type:"Hackathon",city:"",topic:"AI",participants:"",prize:"",winner:"",src:"https://apu.edu.my/node/1458"},
+  {date:"2024-10-06",title:"The GREAT Challenge Hackathon @UTHM (2024)",organiser:"Universiti Tun Hussein Onn Malaysia (UTHM)",sponsors:["MRANTI"],type:"Hackathon",city:"Johor",topic:"Manufacturing",participants:"",prize:"",winner:"",src:"https://fast.uthm.edu.my/?p=15821"},
+  {date:"2024-10-06",title:"NASA Space Apps Sarawak 2024",organiser:"Sarawak Ministry of Education, Innovation and Talent Development (MEITD)",sponsors:["US Embassy", "Junior Chamber International (JCI) Lutong", "TEGAS", "SDEC", "Realfun", "SOL Digital", "Sarawak Multimedia Authority", "MEO Studio", "Maxis", "SAINS", "SOCOE"],type:"Challenge",city:"Sibu, Sarawak",topic:"Space",participants:"",prize:"",winner:"",src:"https://premierdept.sarawak.gov.my/web/subpage/news_view/7944"},
+  {date:"2024-10-16",title:"Experian Malaysia AI Hackathon 2.0",organiser:"Experian Global Delivery Centre - Malaysia",sponsors:[],type:"Hackathon",city:"Cyberjaya, Selangor",topic:"AI",participants:"",prize:"",winner:"",src:"https://www.mmu.edu.my/fist/experian-malaysia-ai-hackathon-2-0/"},
+  {date:"2024-10-17",title:"ZTE NextGen 5G Hackathon 2024",organiser:"Multimedia University (MMU) and ZTE",sponsors:[],type:"Hackathon",city:"Cyberjaya, Selangor",topic:"Cloud & networking",participants:"",prize:"",winner:"",src:"https://www.mmu.edu.my/2024/10/zte-nextgen-5g-hackathon-ignites-innovation-in-5g-solutions/"},
+  {date:"2024-10-24",title:"AI Tinkerers KL October Hackathon 2024",organiser:"AI Tinkerers - Kuala Lumpur",sponsors:["YTL AI", "SUPA", "ANTLER"],type:"Hackathon",city:"Kuala Lumpur",topic:"AI",participants:"",prize:"",winner:"",src:"https://kuala-lumpur.aitinkerers.org/p/ai-tinkerers-kl-4-kicking-off-our-october-hackathon"},
+  {date:"2024-11",title:"Deriv AI Hackathon 2024 (Deriv's first AI Hackathon)",organiser:"Deriv and JomHack Labs",sponsors:[],type:"Hackathon",city:"Cyberjaya, Selangor",topic:"AI",participants:"",prize:"RM40,000",winner:"",src:"https://deriv.com/ae/derivtech/feed/deriv-first-ai-hackathon-innovation-meets-impact"},
+  {date:"2024-11-03",title:"SMD IC Design Make-A-Thon 2024",organiser:"SMD Semiconductor",sponsors:["MEITD Sarawak", "Sarawak Research and Development Council (SRDC)", "Chumbaka"],type:"Challenge",city:"Kuching, Sarawak",topic:"Semiconductors",participants:"",prize:"",winner:"",src:"https://smdsemiconductor.com/make-a-thon-out-to-nurture-sarawaks-future-stem-talents"},
+  {date:"2024-12",title:"Joget NextGenHack 2024",organiser:"Joget, Inc. and Asia Pacific University of Technology and Innovation (APU/APIIT)",sponsors:[],type:"Hackathon",city:"",topic:"Sustainability",participants:"",prize:"",winner:"",src:"https://joget.com/from-classroom-to-industry-joget-nextgenhack-2024-sparks-real-world-innovations-for-tomorrows-leaders/"},
+  {date:"2024-12-05",title:"REKATHON 2024",organiser:"Universiti Malaysia Sarawak (UNIMAS)",sponsors:["Sarawak Transformation and Innovation Unit of the Department of the Premier of Sarawak", "Sarawak Skills"],type:"Challenge",city:"Sarawak",topic:"No-code",participants:"",prize:"",winner:"",src:"https://tahodc.unimas.my/images/2024/Rekathon/REKATHON24_Booklet_1510.pdf"},
+  {date:"2024-12-07",title:"Setel Hackathon 2024",organiser:"Setel",sponsors:[],type:"Hackathon",city:"Kuala Lumpur",topic:"AI",participants:"",prize:"",winner:"",src:"https://setel.com/hackathon-2024"},
+  {date:"2025",title:"Deriv AI Hackathon 2025 (second edition)",organiser:"JomHack and Deriv",sponsors:[],type:"Hackathon",city:"Cyberjaya, Selangor (Deriv headquarters)",topic:"AI",participants:"",prize:"RM40,000",winner:"",src:"https://deriv.com/ae/ar/derivtech/feed/artificial-intelligence-hackathon-returns"},
+  {date:"2025-03-08",title:"ETH Uprising Hackathon",organiser:"APU Hackthletes and APUBCC",sponsors:["Scroll", "VANAR", "The Graph"],type:"Hackathon",city:"Kuala Lumpur (Asia Pacific University)",topic:"Web3",participants:"",prize:"USD 2,000",winner:"",src:"https://eth-uprising-hackathon.devfolio.co/"},
+  {date:"2025-05-09",title:"MadHackers 2025 – Hack the Future",organiser:"UTAR Actuarial Science Society and UTAR Mathematics Society",sponsors:["Great Eastern Malaysia"],type:"Hackathon",city:"Kuala Lumpur (Menara Great Eastern Malaysia)",topic:"Data science",participants:"",prize:"",winner:"",src:"https://news.utar.edu.my/awards/2025/May/22/02/02.html"},
+  {date:"2025-05-28",title:"UMPSA Hackathon X: Pekan Smart City 2025",organiser:"Universiti Malaysia Pahang Al-Sultan Abdullah (UMPSA) and Persatuan Mahasiswa Teknologi Komputer (PETAKOM UMPSA)",sponsors:["IP ServerOne", "RunCloud"],type:"Hackathon",city:"Pekan, Pahang (UMPSA)",topic:"Smart cities",participants:"",prize:"",winner:"",src:"https://new.apu.edu.my/node/2586"},
+  {date:"2025-06-03",title:"The Ultimate Internet of Things Innovation (AIoT) Hackathon 2025: “Anything is Possible!”",organiser:"Universiti Teknologi Malaysia (UTM) Center for Community and Industry Network (CCIN) and STEM-RBTK Club, Faculty of Electrical Engineering (FKE), UTM and Kolej Tuanku Canselor (KTC)",sponsors:["Ministry of Finance Malaysia (MOF)", "TalentCorp", "AT&S Austria Technologie & Systemtechnik (Malaysia)"],type:"Hackathon",city:"Johor Bahru, Johor",topic:"AI",participants:"",prize:"RM4,800 cash shared by Top 10 teams (plus Raspberry Pi 5 sets)",winner:"",src:"https://news.utm.my/?p=863971"},
+  {date:"2025-06-15",title:"Loophole Hackathon",organiser:"",sponsors:[],type:"Hackathon",city:"Bandar Sunway, Petaling Jaya, Selangor",topic:"Software",participants:"",prize:"",winner:"",src:"https://luma.com/umx3eadl"},
+  {date:"2025-07-05",title:"APU Sustainability Hackathon 2025",organiser:"APU School of Computing (SoC) and APU School of Marketing & Management (SoMM) and APU School of Mathematics, Actuarial and Quantitative Studies (SoMAQS)",sponsors:["Ensign InfoSecurity"],type:"Hackathon",city:"Kuala Lumpur (APU campus)",topic:"Sustainability",participants:"",prize:"",winner:"",src:"https://apu.edu.my/node/2618"},
+  {date:"2025-07-21",title:"IOTA Hackathon Malaysia 2025",organiser:"IOTA Ecosystem DLT Foundation and Growth Charger",sponsors:[],type:"Hackathon",city:"Kuala Lumpur",topic:"Web3",participants:"",prize:"USD 10,000",winner:"",src:"https://blog.iota.org/iota-hackathon-malaysia-2025/"},
+  {date:"2025-08",title:"FINVERSE Hackathon (ASBhive)",organiser:"ASBhive (Innovation and Entrepreneurship Center, Asia School of Business)",sponsors:[],type:"Hackathon",city:"Kuala Lumpur (Sasana Kijang, Bank Negara Malaysia)",topic:"Fintech",participants:"",prize:"",winner:"",src:"https://asb.edu.my/?p=113703"},
+  {date:"2025-08-10",title:"DEVMatch Hackathon 2025",organiser:"APU Blockchain & Crypto Club (APU BCC)",sponsors:["Sui", "Ecosystem Support Program", "Blockchain For Good", "The Graph", "Oasis", "ChatAndBuild", "ETHIndia"],type:"Hackathon",city:"Online",topic:"Web3",participants:"",prize:"USD 14,100",winner:"",src:"https://devmatch-hackathon.devfolio.co/"},
+  {date:"2025-08-10",title:"AAIMS25 AI Code Fest - Healthcare Reimagined (ASEAN AI Buildathon)",organiser:"AI Tinkerers - Kuala Lumpur",sponsors:["National AI Office (NAIO)", "Ministry of Health (MOH)", "Global AI Village (GAIV)", "The Hive", "Asia School of Business (ASB)"],type:"Challenge",city:"Kuala Lumpur (Asia School of Business)",topic:"AI",participants:"",prize:"",winner:"",src:"https://kuala-lumpur.aitinkerers.org/hackathons/h_2YdqIPR1yZs"},
+  {date:"2025-09-26",title:"Future-Ready Hackathon 2025",organiser:"PIKOM (The National Tech Association of Malaysia)",sponsors:[],type:"Hackathon",city:"Online (Grand Finals at Youth Employment Initiative 2025)",topic:"Software",participants:"",prize:"Cash prizes worth up to RM5,000",winner:"",src:"https://mycareer.nottingham.edu.my/students/news/detail/128/hackathon-and-youth-employment"},
+  {date:"2025-09-28",title:"InnoJam: Cyberjaya Smart City Gen AI Challenge (InnoJam 2025)",organiser:"Cyberview Sdn Bhd",sponsors:["TM R&D"],type:"Challenge",city:"Cyberjaya, Selangor (Rekascape)",topic:"AI",participants:"",prize:"RM21,000",winner:"",src:"https://www.cyberview.com.my/innojam2025/"},
+  {date:"2025-11-05",title:"Hack4Coverage: A Citizen Science Hackathon using GNET-Track",organiser:"Universiti Kebangsaan Malaysia (UKM) and Sunway University",sponsors:["IEEE Malaysia Communications & Vehicular Technology Joint Chapter", "Centre of Research PAKET"],type:"Hackathon",city:"Bangi, Selangor (Universiti Kebangsaan Malaysia)",topic:"Cloud & networking",participants:"",prize:"",winner:"",src:"https://sunwayuniversity.edu.my/news/2025/congratulations-nadiva-nuriftitah-third-place-winner-of-hack4coverage-citizen-science"},
+  {date:"2025-11-16",title:"MarineHack 2025",organiser:"PinC Technology and Universiti Malaysia Sabah (UMS)",sponsors:[],type:"Hackathon",city:"Labuan (UMS Labuan International Campus)",topic:"Ocean",participants:"",prize:"",winner:"",src:"https://www.bernama.com/en/news.php?id=2425381"},
+  {date:"2025-11-20",title:"Sabah Hackathon IPT Edition 2025",organiser:"Sabah Creative Economy and Innovation Centre (SCENIC) and State Ministry of Science, Technology and Innovation (Sabah) and Cradle Fund Sdn Bhd",sponsors:[],type:"Hackathon",city:"Kota Kinabalu, Sabah (Hilton Hotel)",topic:"Software",participants:"",prize:"",winner:"",src:"https://newswav.com/article/hackathon-promotes-innovation-spirit-in-115-A2511_lBENVr"},
+  {date:"2025-12-03",title:"NextUp Hackathon 2025",organiser:"iSpark and Centre for Business Incubation & Entrepreneurial Ventures (CBIEV)",sponsors:["GATETIC"],type:"Hackathon",city:"Kuala Lumpur (TAR UMT KL Main Campus)",topic:"Software",participants:"",prize:"",winner:"",src:"https://johor.tarc.edu.my/events/achievements/hackathon2025"},
+  {date:"2026-01-10",title:"UNIMAS PartyRock Challenge 2025",organiser:"UNIMAS (PERTEKMA and Faculty of Computer Science and Information Technology)",sponsors:["Press Metal", "MDEC", "Yayasan Perkasa Siswa", "Sarawak Economic Development Corporation (SEDC Sarawak)", "SACOFA", "AWS"],type:"Challenge",city:"Kota Samarahan, Sarawak (UNIMAS)",topic:"AI",participants:"",prize:"",winner:"",src:"https://gazette.unimas.my/?p=11340"},
+  {date:"2026-01-10",title:"GODAMLah! 2.0 Smart ID Hackathon",organiser:"Kolaxus and NexG Berhad",sponsors:["USM Cybersecurity Research Centre (CYRES)"],type:"Hackathon",city:"Cyberjaya, Selangor (Cyberview)",topic:"Cybersecurity",participants:"",prize:"RM1,500 / RM1,000 / RM500 per track (3 tracks)",winner:"",src:"https://apu.edu.my/node/2928"},
+  {date:"2026-02",title:"Chin Hin AI Hackathon 2026: From +AI to AI+",organiser:"Chin Hin Group Bhd",sponsors:[],type:"Hackathon",city:"Malaysia",topic:"AI",participants:"",prize:"",winner:"",src:"https://focusmalaysia.my/chin-hin-group-concludes-ai-hackathon-2026-which-paves-the-way-from-ai-to-ai/"},
+  {date:"2026-02-09",title:"AI+Web3 Mini-Hackathon @KualaLumpur (AI³ Growth Journey 9th Stop)",organiser:"OpenBuild and HackathonWeekly and CCACC",sponsors:[],type:"Hackathon",city:"Kuala Lumpur (CCACC Innovation Hub)",topic:"AI",participants:"",prize:"",winner:"",src:"https://luma.com/0gkcmnm7"},
+  {date:"2026-03-08",title:"Build with AI: Gemini Hackathon with Google DeepMind",organiser:"GDG Cloud KL",sponsors:["Google DeepMind"],type:"Hackathon",city:"Kuala Lumpur (Xsolla Curine Academy, Bangsar)",topic:"AI",participants:"",prize:"USD 25,000 in Google Cloud credits",winner:"",src:"https://gdg.community.dev/events/details/google-gdg-cloud-kl-presents-build-with-ai-gemini-hackathon-with-google-deepmind/"},
+  {date:"2026-04-12",title:"NottsHack 26",organiser:"University of Nottingham Malaysia Computer Science Society",sponsors:["CCAC Innovation Hub", "Blockchain For Good", "DCAI", "DASH", "Base", "HackQuest"],type:"Hackathon",city:"Semenyih, Selangor (University of Nottingham Malaysia)",topic:"Web3",participants:"",prize:"USD 4,300",winner:"",src:"https://www.hackquest.io/hackathons/NottsHack-26"},
+  {date:"2026-04-18",title:"Replit X Network School Hackathon",organiser:"Network School",sponsors:["Replit"],type:"Hackathon",city:"Forest City, Gelang Patah, Johor",topic:"AI",participants:"",prize:"",winner:"",src:"https://luma.com/1o8w4zlk"},
+  {date:"2026-04-25",title:"APU Sustainability Hackathon 2026",organiser:"APU School of Computing (SoC) and APU School of Marketing & Management (SoMM) and APU School of Mathematics, Actuarial and Quantitative Studies (SoMAQS)",sponsors:["Cyberview"],type:"Hackathon",city:"Kuala Lumpur (Asia Pacific University)",topic:"Sustainability",participants:"",prize:"RM2,200",winner:"",src:"https://apu.edu.my/news/apu-sustainability-hackathon-2026-empowers-students-innovate-greener-future"},
+  {date:"2026-05-06",title:"ICYOUTH 2026 Hackathon Challenge",organiser:"Universiti Putra Malaysia (UPM)",sponsors:[],type:"Hackathon",city:"Putrajaya",topic:"AI",participants:"",prize:"",winner:"",src:"https://www.mmu.edu.my/?p=51505"},
+  {date:"2026-05-09",title:"Solana Mini Colosseum Hackathon",organiser:"Superteam Malaysia",sponsors:[],type:"Hackathon",city:"Forest City, Johor (Network School)",topic:"Web3",participants:"",prize:"USD 1,000",winner:"",src:"https://luma.com/p17ajmvg"},
+  {date:"2026-05-23",title:"UM National Deep Tech Challenge 2026",organiser:"UM Centre of Innovation and Enterprise (UMCIE) and Student Entrepreneurship Centre (PKP)",sponsors:["Cradle Fund"],type:"Challenge",city:"Kuala Lumpur (Universiti Malaya)",topic:"AI",participants:"",prize:"",winner:"",src:"https://um.edu.my/news/um-national-deep-tech-challenge-2026"},
+  {date:"2026-05-24",title:"Lovable Vibeathon KL (ft. OpenClaw KL)",organiser:"Lovable",sponsors:["OpenClaw KL", "Doctor Anywhere", "AWS"],type:"Challenge",city:"Kuala Lumpur (AWS Malaysia Office)",topic:"Health",participants:"",prize:"RM1,500 per track winner (3 tracks)",winner:"",src:"https://luma.com/giop8lkh"},
+  {date:"2026-06-06",title:"MASA Hackathon 2026: R-Ignite",organiser:"Malaysian Actuarial Student Association (MASA)",sponsors:[],type:"Hackathon",city:"Malaysia",topic:"Data science",participants:"",prize:"RM3,000 / RM2,000 / RM1,000 (champion / 1st / 2nd runner-up)",winner:"",src:"https://masahackathon2026.vercel.app"},
+  {date:"2026-06-18",title:"MariaDB Hackathon Malaysia 2026",organiser:"Crest Infosolutions",sponsors:["MariaDB Foundation", "APU", "UPTM"],type:"Hackathon",city:"Malaysia",topic:"AI",participants:"",prize:"",winner:"",src:"https://crestsolution.com/resources/events-and-albums/MariaDB-Hackathon-Malaysia-2026/"},
+  {date:"2026-06-20",title:"Solana KL Mini Hack",organiser:"Superteam Malaysia",sponsors:[],type:"Hackathon",city:"Kuala Lumpur (AWS office)",topic:"Web3",participants:"",prize:"USD 1,000 (in USDG)",winner:"",src:"https://luma.com/an4mvrgf"},
+  {date:"2026-07-17",title:"Superteam MY x TxODDS World Cup Hackathon (KL edition)",organiser:"Superteam Malaysia",sponsors:["TxODDS"],type:"Hackathon",city:"Kuala Lumpur (AWS Malaysia, Mid Valley City)",topic:"Web3",participants:"",prize:"About USD 5,000 Malaysia local pool (global pool USD 50,000)",winner:"",src:"https://luma.com/7yvedc2g"},
+  {date:"2026-07-18",title:"Monash AI Challenge Cup 2026",organiser:"School of Information Technology, Monash University Malaysia",sponsors:[],type:"Challenge",city:"Bandar Sunway, Selangor (Monash University Malaysia)",topic:"AI",participants:"",prize:"RM5,000 / RM3,000 / RM1,000 (top three) plus two RM500 awards and Monash scholarships",winner:"",src:"https://www.monash.edu.my/it/monash-ai-challenge-cup-maicc/event-details"},
+  {date:"2026-07-18",title:"SMD IC Design Make-A-Thon 2026",organiser:"SMD Semiconductor",sponsors:["MEITD Sarawak", "Chumbaka"],type:"Challenge",city:"Kuching, Sarawak (Swinburne University of Technology Sarawak Campus)",topic:"Semiconductors",participants:"",prize:"",winner:"",src:"https://www.swinburne.edu.my/?p=65514"},
+  {date:"2026-07-25",title:"Qwen Brainrot Hackathon",organiser:"",sponsors:[],type:"Hackathon",city:"Kuala Lumpur",topic:"AI",participants:"",prize:"Over USD 900",winner:"",src:"https://luma.com/2ptnvpgc"},
+  {date:"2026-08-09",title:"Supervity Autopilot Asia Hackathon",organiser:"Supervity AI",sponsors:["OJH Academy Talent Hub"],type:"Hackathon",city:"Kuala Lumpur (Asia Pacific University)",topic:"AI",participants:"",prize:"USD 5,000",winner:"",src:"https://luma.com/e9vlr7ge"},
+  {date:"2026-08-15",title:"Creators Lab Hackathon 2026 Malaysia",organiser:"UNIFI and ProxifAI",sponsors:[],type:"Hackathon",city:"Kuala Lumpur (Muzium Telekom)",topic:"AI",participants:"",prize:"",winner:"",src:"https://happeningnext.com/event/creators-lab-hackathon-2026-malaysia-eid3a0dw0iu4c"},
+  {date:"2026-09-04",title:"SG-Sarawak Friendship AI Business Design Hackathon 2026",organiser:"Angkatan Zaman Mansang (Azam) Sarawak and ANCHR AI Labs Singapore and Ibrandium Resources",sponsors:["Affin Bank", "Singapore Global Network", "Women in Clode", "Kimi AI"],type:"Hackathon",city:"Kuching, Sarawak",topic:"AI",participants:"",prize:"",winner:"",src:"https://www.theborneopost.com/2026/08/03/cross-border-ai-hackathon-returns-to-kuching-next-month/"},
+  {date:"2026-09-06",title:"MUBA Hack 2026 (MUBA Blockchain Hackathon)",organiser:"",sponsors:["Sui", "Thetanuts Finance", "Gonka Router", "GCC", "StarGlobal Recruitment Agency"],type:"Hackathon",city:"Online",topic:"Web3",participants:"",prize:"USD 7,000",winner:"",src:"https://muba-hackathon.devfolio.co/"},
+  {date:"2026-09-06",title:"AI Video Hackathon KL 2026",organiser:"",sponsors:["Topview"],type:"Hackathon",city:"Kuala Lumpur (AWS Office)",topic:"AI",participants:"",prize:"RM3,500",winner:"",src:"https://aivideohackathonkl.com"},
+  {date:"2026-09-07",title:"i-Biohackathon 2026",organiser:"Institute of Systems Biology (INBIOSIS), Universiti Kebangsaan Malaysia",sponsors:["GK Aqua"],type:"Hackathon",city:"Bangi, Selangor (UKM)",topic:"Agriculture",participants:"",prize:"RM4,000",winner:"",src:"https://www.ukm.my/inbiosis/en/i-biohackathon-competition/"},
+  {date:"2026-09-20",title:"HackMY IoT 2026",organiser:"IEMMSS and La French Tech Malaysia",sponsors:["MyEvolution", "MyIoTA"],type:"Hackathon",city:"Bandar Sunway, Selangor (Monash University Malaysia)",topic:"Agriculture",participants:"",prize:"",winner:"",src:"https://www.monash.edu.my/pages/latest/articles/2026/students-tackle-real-world-challenges-at-hackmy-iot-2026"},
+  {date:"2026-09-22",title:"ASEAN GeoAI Fusion 2026",organiser:"Malaysian Communications and Multimedia Commission (MCMC)",sponsors:[],type:"Challenge",city:"Kuala Lumpur",topic:"AI",participants:"",prize:"USD 5,000 grand prize (total pool not published)",winner:"",src:"https://www.bernama.com/en/general/news.php?id=2610513"},
+  {date:"2026-09-28",title:"Sime Darby Young Innovators Challenge (SDYIC) 2026",organiser:"Yayasan Sime Darby (YSD)",sponsors:["Chumbaka", "Ministry of Education", "MD MyDigitalMaker"],type:"Challenge",city:"Malaysia",topic:"AI",participants:"",prize:"",winner:"",src:"https://yayasansimedarby.com/ysd-opens-nationwide-registration-ai-driven-young-innovators-challenge-focusing-social-impact"},
 ].map(a=>{
   const [y,m,d]=a.date.split('-'),year=+y,month=m?+m-1:null,day=d?+d:null;
   const when=day?new Date(year,month,day):month!=null?new Date(year,month,1):new Date(year,0,1);
@@ -3174,19 +3395,19 @@ function sceneSVG(p,align='xMidYMid'){
 }
 const artHTML=p=>`<div class="p-art" aria-hidden="true"><svg viewBox="0 0 240 140" preserveAspectRatio="xMaxYMax meet" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ART[ARTMAP[p.id]||'idea']}</svg></div>`;
 function posterHTML(p){return `<div class="poster ${p.poster} scene" style="--sc-ac:${SC_AC[SC_KEY[p.id]||'idea']}">${sceneSVG(p)}${artHTML(p)}<div class="p-title">${p.lines.join('<br>')}</div><div class="p-sub">${p.sub}</div><div class="p-prize">${p.prize}<small>${p.prizeLabel||(p.id==='smart'||p.id==='fintech'?'CASH PRIZES':'PRIZE POOL')}</small></div><div class="p-apply">${p.applyLabel||'APPLY BY'}<b>${p.apply}</b></div></div>`}
-const mineP=p=>role==='organizer'&&p.id==='smart';
+const mineP=p=>isOrg()&&p.id==='smart';
 function tagFor(p){
   if(mineP(p))return['enrolled','Your program'];
-  if(isWS(p)){if(p.status==='live')return['live','Live now'];if(p.status==='past')return['closed','Ended'];if(p.rsvp&&role!=='organizer')return['enrolled','Seat saved'];return['','Upcoming']}
-  if(p.enrolled&&role!=='organizer'&&p.status!=='past')return['enrolled','Enrolled'];
-  if(p.status==='soon')return['',p.notify&&role!=='organizer'?'Reminder set':`Opens ${shortDate(p.opensAt)}`];
+  if(isWS(p)){if(p.status==='live')return['live','Live now'];if(p.status==='past')return['closed','Ended'];if(p.rsvp&&!isOrg())return['enrolled','Seat saved'];return['','Upcoming']}
+  if(p.enrolled&&!isOrg()&&p.status!=='past')return['enrolled','Enrolled'];
+  if(p.status==='soon')return['',p.notify&&!isOrg()?'Reminder set':`Opens ${shortDate(p.opensAt)}`];
   if(isHot(p))return['live',`Hot · ${p.teamsIn} teams`];
   return p.status==='open'?['','Open']:p.status==='progress'?['closed','In progress']:['closed','Ended'];
 }
 function goFor(p,cls='pcard-go'){
   const arrow=cls==='pcard-go'?I('arrow'):I('arrow','sm');
   if(mineP(p))return `<a class="${cls}" href="#studio-manage">Manage ${arrow}</a>`;
-  if(!isWS(p)&&p.enrolled&&role!=='organizer'&&p.status!=='past')return `<a class="${cls}" href="#programs" data-set-tab="programs:learning">Open workspace ${arrow}</a>`;
+  if(!isWS(p)&&p.enrolled&&!isOrg()&&p.status!=='past')return `<a class="${cls}" href="#programs" data-set-tab="programs:learning">Open workspace ${arrow}</a>`;
   const label=p.status==='past'?(isWS(p)?'Recording':'View results'):'Explore';
   return `<button class="${cls}" type="button" data-view-program="${p.id}">${label} ${arrow}</button>`;
 }
@@ -3264,7 +3485,7 @@ function rowHTML(p){
 /* --- 1. Next up countdown --- */
 function nextTarget(){
   const share=id=>`<button class="btn ghost icon" type="button" data-share="${id}" aria-label="Share">${I('share')}</button>`;
-  if(role==='organizer'){
+  if(isOrg()){
     const s=programs.find(p=>p.id==='smart');
     if(s.endsAt>new Date())return{at:s.endsAt,label:'Your next milestone',title:`${s.title} final demo`,
       meta:`${fmtDate(s.endsAt)}, ${fmtTime(s.endsAt)} MYT · ${s.format}`,
@@ -3335,15 +3556,15 @@ function renderCal(){
 const ADV_MAX=8,UP_MAX=6,UP_MS=5000,HOT_MIN=40;
 const isHot=p=>p.status==='open'&&(p.teamsIn||0)>=HOT_MIN;
 function advItems(){
-  const skip=role==='organizer'?null:disc.nextId;
-  const open=ALL.filter(p=>p.status==='open'&&p.id!==skip&&!(p.enrolled&&role!=='organizer'));
+  const skip=isOrg()?null:disc.nextId;
+  const open=ALL.filter(p=>p.status==='open'&&p.id!==skip&&!(p.enrolled&&!isOrg()));
   const hot=open.filter(isHot).sort((a,b)=>b.teamsIn-a.teamsIn);
   const soon=ALL.filter(p=>p.status==='soon').sort((a,b)=>a.opensAt-b.opensAt);
   const rest=open.filter(p=>!isHot(p)).sort((a,b)=>a.closes-b.closes);
   return[...hot.slice(0,3),...soon.slice(0,2),...rest].slice(0,ADV_MAX);
 }
 function advCTA(p){
-  if(role==='organizer')return '';
+  if(isOrg())return '';
   if(p.status==='soon')return `<button class="btn ${p.notify?'ghost':'primary'}" type="button" data-register="${p.id}">${p.notify?`${I('check','sm')} Reminder set`:`Remind me ${I('bell','sm')}`}</button>`;
   if(isWS(p))return `<button class="btn ${p.rsvp?'ghost':'primary'}" type="button" data-register="${p.id}">${p.rsvp?`${I('check','sm')} Seat saved`:`Save my seat ${I('arrow','sm')}`}</button>`;
   if(p.enrolled)return `<a class="btn primary" href="#programs" data-set-tab="programs:learning">Open workspace ${I('arrow','sm')}</a>`;
@@ -3352,7 +3573,7 @@ function advCTA(p){
 /* Carousel card buttons: the main action from advCTA plus a Details button */
 function advActions(p){
   const det=`<button class="btn ghost" type="button" data-view-program="${p.id}">Details</button>`;
-  if(role==='organizer')return `<button class="btn ghost" type="button" data-view-program="${p.id}">View as students see it ${I('arrow','sm')}</button>`;
+  if(isOrg())return `<button class="btn ghost" type="button" data-view-program="${p.id}">View as students see it ${I('arrow','sm')}</button>`;
   return advCTA(p)+det;
 }
 function advFacts(p){
@@ -3393,7 +3614,7 @@ function cfCard(p,i){
 const HF_TYPES=[['all','All'],['Hackathon','Hackathons'],['Challenge','Challenges'],['Workshop','Workshops & talks']];
 function cfItems(){
   const f=disc.hf;
-  return ALL.filter(p=>(p.status==='open'||p.status==='soon'||p.status==='live')&&!(p.enrolled&&role!=='organizer'))
+  return ALL.filter(p=>(p.status==='open'||p.status==='soon'||p.status==='live')&&!(p.enrolled&&!isOrg()))
     .filter(p=>(f.type==='all'||p.kind===f.type)&&(f.mode==='all'||p.format.startsWith(f.mode))&&(f.topic==='all'||p.tags[0]===f.topic)&&(!f.open||p.open))
     .sort((a,b)=>isHot(b)-isHot(a)||(a.status==='soon')-(b.status==='soon')||a.closes-b.closes);
 }
@@ -3462,7 +3683,7 @@ function renderUp(){
       ${items.map((p,i)=>`<article class="adv-slide" data-view-program="${p.id}" aria-roledescription="slide" aria-label="${i+1} of ${items.length}: ${p.title}">
         <div class="adv-media">${posterHTML(p)}</div>
         <div class="adv-body">
-          <div><div class="adv-flags">${isHot(p)?`<span class="adv-flag hot">Hot · ${p.teamsIn} teams in</span>`:p.status==='soon'?`<span class="adv-flag soon">Coming soon</span>`:''}<span class="adv-kind">${p.kind}${role==='organizer'?' · Student view':''}</span></div><h3>${p.title}</h3></div>
+          <div><div class="adv-flags">${isHot(p)?`<span class="adv-flag hot">Hot · ${p.teamsIn} teams in</span>`:p.status==='soon'?`<span class="adv-flag soon">Coming soon</span>`:''}<span class="adv-kind">${p.kind}${isOrg()?' · Student view':''}</span></div><h3>${p.title}</h3></div>
           <div class="adv-facts">${advFacts(p)}</div>
           <div class="adv-actions">${advCTA(p)}<span class="adv-more">See details ${I('arrow','sm')}</span></div>
         </div>
@@ -3529,7 +3750,7 @@ function renderToolbar(){
   $('#mf-count').hidden=!n;$('#mf-count').textContent=n;
 }
 const SECTIONS=[
-  ['open','Open now',()=>role==='organizer'?'Students can register now':'Closing soonest first',(a,b)=>(b.status==='live')-(a.status==='live')||a.closes-b.closes],
+  ['open','Open now',()=>isOrg()?'Students can register now':'Closing soonest first',(a,b)=>(b.status==='live')-(a.status==='live')||a.closes-b.closes],
   ['soon','Opening soon',()=>'Get a reminder when registration opens',(a,b)=>a.opensAt-b.opensAt],
   ['progress','In progress',()=>'Registration closed · teams are building',(a,b)=>a.endsAt-b.endsAt],
   ['past','Past',()=>'Results are in',(a,b)=>b.endsAt-a.endsAt]];
@@ -3683,12 +3904,12 @@ function eventStatus(p){
 }
 function eventXP(p){
   if(isWS(p))return[['Attend the live session',50,p.rsvp&&p.status==='past'],['Ask a question in the session',20,false]];
-  const reg=p.enrolled&&role!=='organizer';
+  const reg=p.enrolled&&!isOrg();
   return[['Register your team',200,reg],['Submit a working prototype',300,false],['Reach the finals',500,false],['Win',1000,false]];
 }
 function renderEvent(){
   const p=ALL.find(x=>x.id===curEvent);if(!p)return;
-  const ws=isWS(p),org=role==='organizer',xp=eventXP(p),host=ws?p.host:HOSTS[p.id]||'IndustryBridge',teams=p.id==='smart'?40:(p.teamsIn??p.teams??0);
+  const ws=isWS(p),org=isOrg(),xp=eventXP(p),host=ws?p.host:HOSTS[p.id]||'IndustryBridge',teams=p.id==='smart'?40:(p.teamsIn??p.teams??0);
   const dates=ws?`${fmtDate(p.starts)}, ${fmtTime(p.starts)} – ${fmtTime(p.endsAt)}`:`${shortDate(p.opensAt||new Date(p.closes.getTime()-28*864e5))} – ${fmtDate(p.endsAt)}`;
   const hb=HERO_BG[p.poster]||HERO_BG['p-smart'];
   $('#ev-hero').innerHTML=`<div class="ev-hero scene-hero" style="background:${hb[1]}">${sceneSVG(p,'xMaxYMid')}
@@ -3881,13 +4102,13 @@ function openProgramModal(id){
   const note=t=>`<p class="muted" style="flex:1;font-size:12.5px;align-self:center">${t}</p>`;
   if(isWS(p)){
     facts=[['Date',fmtDate(p.starts)],['Time',`${fmtTime(p.starts)} – ${fmtTime(p.endsAt)}`],['Host',p.host],['Format',p.format]];
-    actions=role==='organizer'?note('Students save seats from this page.')+close
+    actions=isOrg()?note('Students save seats from this page.')+close
       :p.status==='past'?note('This workshop has ended.')+close+`<button class="btn primary" type="button" data-toast="Recording opens in a new tab">Watch recording</button>`
       :p.status==='live'?close+`<button class="btn primary" type="button" data-toast="Joining the live session">Join now ${I('arrow','sm')}</button>`
       :close+`<button class="btn primary" type="button" data-register="${p.id}" autofocus>${p.rsvp?'Release my seat':'Save my seat'}</button>`;
   }else if(p.status==='soon'){
     facts=[['Registration opens',fmtDate(p.opensAt)],['Registration closes',fmtDate(p.closes)],['Team size',p.team],['Format',p.format]];
-    actions=role==='organizer'?note('Students can set a reminder from this page.')+close
+    actions=isOrg()?note('Students can set a reminder from this page.')+close
       :close+`<button class="btn primary" type="button" data-register="${p.id}" autofocus>${p.notify?'Remove reminder':'Remind me when it opens'}</button>`;
   }else if(p.status==='past'){
     facts=[['Prize awarded',p.prize],['Teams',p.teams],['Ended',fmtDate(p.endsAt)],['Format',p.format]];
@@ -3895,7 +4116,7 @@ function openProgramModal(id){
     actions=close+`<button class="btn primary" type="button" data-toast="Showcase opens in a new tab">View showcase ${I('arrow','sm')}</button>`;
   }else{
     facts=[['Cash prizes',p.prize],['Registration deadline',p.deadline],['Team size',p.team],['Format',p.format]];
-    actions=role==='organizer'?note('Students register their teams from this page.')+`<button class="btn primary" type="button" data-close autofocus>Close</button>`
+    actions=isOrg()?note('Students register their teams from this page.')+`<button class="btn primary" type="button" data-close autofocus>Close</button>`
       :p.enrolled?close+`<a class="btn primary" href="#programs" data-set-tab="programs:learning" data-close>Open workspace ${I('arrow','sm')}</a>`
       :p.open?close+`<button class="btn primary" type="button" data-register="${p.id}" autofocus>Register team ${I('arrow','sm')}</button>`
       :note(`Registration closed on ${p.deadline}. Final demo on ${shortDate(p.endsAt)}.`)+`<button class="btn ghost" type="button" data-close autofocus>Close</button><button class="btn primary" type="button" disabled>Registration closed</button>`;
@@ -5274,6 +5495,382 @@ document.addEventListener('click',e=>{
 document.getElementById('modal-body').addEventListener('click',e=>{if(e.target.id==='confirm-li'){closeModal();toast('LinkedIn connected · achievements ready to share')}},true);
 
 /* ===== Boot ===== */
+/* ===== Bridge Match: a Client posts a problem → the AI Agent Team briefs, matches and invites → Solvers reply → the Client selects. Bridge Admin oversees. ===== */
+const BM=(()=>{
+const KEY='ib-bridge-v1';
+const AGENTS=[['A0','Conductor','Moves each challenge to the next step'],['A1','Scoper','Turns the problem into a brief'],['A2','Router','Scores Research, Partner and Open'],
+  ['S1','Matchmaker','Ranks experts and companies, with evidence'],['S3','Guardian','Opt-outs, 1 invite a week, consent'],['S2','Messenger','Writes each personal invitation'],['S4','Proposal Analyst','Compares replies, recommends one']];
+const PARTNERS=[
+  {id:'PDEMO',name:'Nusantara Vision Sdn Bhd (demo company)',state:'Melaka',web:'',past:'Inline camera inspection cells for electronics assembly lines in Melaka and Johor',score:86,fit:[36,22,13],demo:true},
+  {id:'PTNV1',name:'ViTrox Technologies',state:'Penang',web:'vitrox.com',past:'Wafer, die-sorting and tray vision handlers; 3D AOI and AXI inspection systems',score:84,fit:[37,24,15]},
+  {id:'PTNV5',name:'Pentamaster Corporation',state:'Penang',web:'pentamaster.com.my',past:'Automated test and handling equipment for semiconductor and electro-optical makers',score:76,fit:[31,22,14]},
+  {id:'PTNV3',name:'TT Vision Technologies Sdn Bhd',state:'Penang',web:'',past:'Machine vision inspection solutions for semiconductor manufacturing',score:74,fit:[33,18,11]},
+  {id:'PTNV2',name:'Ideal Vision Integration Sdn Bhd',state:'Penang',web:'',past:'AOI systems for wire bond, wafer and IC package inspection',score:72,fit:[32,18,10]}];
+const BUDGETS=['Under RM 20k','RM 20k - 50k','RM 50k - 150k','RM 150k - 500k','Over RM 500k'];
+const MID={'Under RM 20k':15000,'RM 20k - 50k':40000,'RM 50k - 150k':95000,'RM 150k - 500k':280000,'Over RM 500k':600000};
+const STEPS=['Brief','Scout','Invite','Replies','Select','Engage'];
+const STEP_OF={Briefed:1,Shortlisted:2,Invited:3,Receiving:4,Comparing:4,Selecting:5,Engaged:6};
+const CHIP={title:'Catch cracked and misaligned chip packages on our line',
+  problem:'Our back-end assembly line in Batu Berendam packs about 40,000 units a day. Operators miss double-mounted units, misaligned packages and hairline cracks during visual inspection, and customers return about 0.3% of lots. We want an AI camera check at the end of the line that flags bad units in real time.',
+  budget:'RM 50k - 150k',state:'Melaka',deadline:'2027-06-30',conf:'Invited only'};
+const BRIEF_CHIP={summary:'A semiconductor assembly line needs an automated visual check that flags double-mounted, misaligned and cracked packages in real time. Manual inspection misses defects and causes customer returns.',
+  domain:'Manufacturing computer vision',keywords:['defect detection','object detection','computer vision','deep learning','image classification','semiconductor packaging','automated optical inspection','crack detection','misalignment','double unit mounting','explainable ai','edge ai'],
+  skills:['Computer vision','Deep learning','Industrial cameras','Edge deployment','Data labelling'],deliverables:['Trained defect model','Inline camera prototype','Accuracy report'],readiness:'Prototype needed',
+  research:78,partner:62,open:30,reason:'A new defect model must be trained and tested on this line’s own images, which is university R&D; a vendor can help with line integration.',
+  success_kpi:'Catch at least 98% of cracked or misaligned units; false alarms under 1%; returns below 0.1% of lots',
+  data_needed:'5,000+ labelled line images per defect type, 2 weeks of camera access, current reject logs',
+  funding_hint:'CREST R&D grant (E&E industry-university R&D); PPRN if you co-fund with UTeM'};
+const BRIEF_COMP={summary:'A food cold-chain company wants to predict cold-room compressor failures days ahead, so it can repair them before stock spoils.',
+  domain:'Predictive maintenance',keywords:['predictive maintenance','fault detection','anomaly detection','time series','vibration analysis','machine learning','iot sensors','remaining useful life','refrigeration','condition monitoring'],
+  skills:['Time-series ML','IoT sensors','Signal processing','Dashboards'],deliverables:['Failure prediction model','Sensor kit plan','Alert dashboard'],readiness:'Research needed',
+  research:85,partner:40,open:30,reason:'Needs a failure model built from the company’s own sensor history, which is applied research.',
+  success_kpi:'Warn 72 hours before 80% of failures; under 2 false alarms a month',data_needed:'12 months of temperature, power and vibration logs from 12 cold rooms',
+  funding_hint:'University industry grant (Geran Industri); MRANTI MATCH for commercialisation later'};
+const short=n=>String(n||'').replace(/^((Profesor|Prof\.) Madya |Profesor |Ts\. |Dr\. |Ir\. )+/,'').replace(' (demo company)','');
+const rm=n=>'RM'+Number(n||0).toLocaleString('en-MY');
+const today=()=>new Date().toISOString().slice(0,10);
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const cl=(n,m)=>Math.max(0,Math.min(m,Math.round(Number(n)||0)));
+let EX=null;
+async function experts(){if(EX&&EX.length)return EX;try{EX=await(await fetch('match-experts.json')).json()}catch(e){EX=[]}return EX}
+
+function seed(){return{challenges:[{id:'CH002',seed:true,title:'Predict when our cold-room compressors will fail',org:'Durian Fresh Foods Sdn Bhd (demo)',state:'Johor',budget:'RM 50k - 150k',deadline:'2027-03-31',conf:'Invited only',
+  problem:'We run 12 cold rooms in Alor Gajah for frozen durian. When a compressor fails at night we lose stock. We log temperature and power every minute but nobody reads it.',
+  status:'Briefed',brief:BRIEF_COMP,tracks:['research'],cands:null,invited:[],emails:[],replies:[],analysis:null,selected:null,created:'2026-11-20'}],runs:[],apps:[],optout:[],sent:[],live:false}}
+let D;try{D=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!D||!D.challenges)D=seed();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}};
+const ui={tab:{bridge:'post','bridge-inbox':'inbox','bridge-admin':'overview'},sel:null,reply:null,confirm:false,agent:{},view:null};
+const ch=id=>D.challenges.find(c=>c.id===id);
+const mine=()=>role==='expert'?'EXP008':role==='partner'?'PDEMO':null;
+
+/* ---------- Matchmaker (runs in the page, so it never fails on stage) */
+const STOP=['syste','based','using','model','drive','devel','desig','study','appro','impro','towar','malay','indus','appli','advan','learn'];
+const stems=t=>{const o={};String(t||'').toLowerCase().split(/[^a-z]+/).forEach(w=>{if(w.length>=5&&!STOP.includes(w.slice(0,5)))o[w.slice(0,5)]=1});return o};
+const overlap=(a,b)=>Object.keys(a).filter(k=>b[k]).length;
+function matchExperts(c,list){
+  const kws=c.brief.keywords.map(k=>String(k).toLowerCase()),bs=stems([c.title,kws.join(' '),c.brief.summary].join(' '));
+  const words=[...new Set(kws.flatMap(k=>k.split(/\s+/)).filter(w=>w.length>3))];
+  const top=list.map(e=>{
+    const doc=(e.fl+' '+e.p.map(p=>p[1]).join(' ')+' '+e.g.map(g=>g[1]).join(' ')).toLowerCase();
+    const rel=e.g.filter(g=>overlap(stems(g[1]),bs)>=2);   // a grant counts only if it shares 2+ word stems with the problem
+    return{e,rel,raw:kws.filter(k=>doc.includes(k)).length*2+words.filter(w=>doc.includes(w)).length+rel.length*3+rel.filter(g=>/industr/i.test(g[2])).length*3};
+  }).sort((a,b)=>b.raw-a.raw).slice(0,12);
+  const mx=Math.max(1,...top.map(x=>x.raw));
+  return top.map(({e,rel,raw})=>{
+    const recent=e.p.filter(p=>p[0]>=2023).length+e.g.filter(g=>g[0]>=2023).length;
+    const f={topic:Math.max(6,Math.round(40*raw/mx)),industry:rel.some(g=>/industr/i.test(g[2]))?20:(rel.length?10:4),recent:Math.min(15,4+recent*3),
+      impact:Math.min(10,Math.round(e.h/2.2)),capacity:e.s?Math.min(10,Math.round(e.s/2.6)):5,location:5};   // unknown capacity scores a neutral 5
+    const bp=e.p.map(p=>({p,n:overlap(stems(p[1]),bs)})).sort((a,b)=>b.n-a.n)[0];
+    const ev=rel.length?`${rel[0][0]} ${rel[0][2]} grant as ${rel[0][4].toLowerCase()} (${rm(rel[0][3])}): “${rel[0][1]}”.`
+      :(bp&&bp.n?`${bp.p[0]} paper: “${bp.p[1]}”.`:'Fields: '+e.fl.split(';').slice(0,2).join(', ')+'.');
+    return{type:'Expert',id:e.id,name:e.n,org:`${e.t} · ${e.f}, UTeM`,score:Object.values(f).reduce((a,b)=>a+b,0),fit:[f.topic,f.industry,f.impact],max:[40,20,10],evidence:ev};
+  }).sort((a,b)=>b.score-a.score).slice(0,6);
+}
+const isVision=c=>/vision|inspection|camera|defect|crack/i.test(c.title+' '+c.brief.domain+' '+c.brief.keywords.join(' '));
+const matchPartners=c=>isVision(c)?PARTNERS.map(p=>({type:'Partner',id:p.id,name:p.name,org:[p.state,p.web,p.demo?'demo company':'verified public info'].filter(Boolean).join(' · '),
+  score:p.score,fit:p.fit,max:[40,25,15],evidence:'Past work: '+p.past+'.'})):[];
+
+/* ---------- live Gemini is optional: prepared answers keep the demo safe, Gemini runs when the switch is on */
+async function live(prompt){return Promise.race([gemJSON(prompt),wait(15000).then(()=>{throw new Error('Gemini took too long')})])}
+
+/* ---------- AI Agent Team panel */
+function logRun(id,text,sub=''){D.runs.unshift({id,text,sub,at:new Date().toLocaleTimeString('en-MY',{hour:'2-digit',minute:'2-digit'})});D.runs=D.runs.slice(0,60);save();paint()}
+function setAgent(id,s){ui.agent[id]=s;paint()}
+async function agent(id,ms){setAgent(id,'work');await wait(ms);setAgent(id,'ok')}
+function agentsHTML(){
+  return `<h2 class="panel-title">${I('sparkle','sm')}AI Agent Team</h2><p class="bm-note" style="margin-top:4px">Not a login. The agents work between every role.</p>
+  ${AGENTS.map(([id,n,d])=>{const s=ui.agent[id];return `<div class="bm-ag ${s||''}"><span class="id">${id}</span><span>${esc(n)}<small>${esc(d)}</small></span><span class="bm-st">${s==='work'?'WORKING':s==='ok'?'DONE':'IDLE'}</span></div>`}).join('')}
+  <label class="bm-live"><input type="checkbox" data-bm="live" ${D.live?'checked':''}> Live Gemini <small>Off: prepared answers, safe on stage</small></label>
+  <h3 style="font-size:14px;margin-top:16px">Agent runs</h3><ol class="bm-log">${D.runs.length?D.runs.slice(0,10).map(r=>`<li><span class="id">${esc(r.id)}</span><span>${esc(r.text)}<small>${esc(r.at)}${r.sub?' · '+esc(r.sub):''}</small></span></li>`).join('')
+    :'<li><span class="id">A0</span><span>Waiting for a problem.<small>Every agent run shows up here.</small></span></li>'}</ol>`;
+}
+function paint(){document.querySelectorAll('.bm-agents').forEach(a=>a.innerHTML=agentsHTML())}
+
+/* ---------- what to do next in the demo story */
+function guide(){
+  const c=D.challenges.find(x=>!x.seed),R=role;let t='';
+  if(!c)t=R==='client'?'Post the factory problem and tap <b>Write the brief</b>.':'Sign in as <b>Client</b> and post a problem first.';
+  else if(c.status==='Briefed')t=R==='client'?`Check the brief of <b>${c.id}</b>, then tap <b>Find solvers</b>.`:'Switch to <b>Client</b> to find solvers.';
+  else if(c.status==='Shortlisted')t=R==='client'?'Tap <b>Invite</b> on Dr. Choo, one more expert and Nusantara Vision, then send.':'Switch to <b>Client</b> to send invitations.';
+  else if(c.status==='Invited'||(c.status==='Receiving'&&c.replies.length<2))t=(R==='expert'||R==='partner')?`Open the invitation and reply as ${esc(PEOPLE[R].name)}.`:'Replies are pending: switch to <b>Research Expert</b>, then <b>Solution Partner</b>, and reply.';
+  else if(c.status==='Receiving')t=R==='client'?`Open <b>${c.id}</b> and tap <b>Compare proposals</b>.`:R==='student'?'Dr. Choo offered FYP spots: apply below.':'Switch to <b>Client</b> to compare the proposals.';
+  else if(c.status==='Selecting')t=R==='client'?'Read the comparison and <b>Select</b> the best proposal.':'Switch to <b>Client</b> to select a proposal.';
+  else t=R==='admin'?'The whole run is logged here.':'Done. Show <b>Student Talent</b> (Industry projects) or <b>Bridge Admin</b>.';
+  return `<div class="bm-guide"><span class="k">Demo next</span><span>${t}</span><button class="btn ghost sm" type="button" data-bm="reset" style="margin-left:auto">Reset demo</button></div>`;
+}
+
+/* ---------- shared pieces */
+function chCard(c){
+  const st=STEP_OF[c.status]||0,b=c.brief;
+  return `<button class="bm-ch" type="button" data-bm="open" data-id="${c.id}"><div class="l"><span style="color:var(--moss-pale)">CHALLENGE</span><span>${esc(c.status.toUpperCase())}</span>
+    <div class="t">${[['RESEARCH',b.research],['PARTNER',b.partner],['OPEN',b.open]].map(([n,v])=>`<span>${n}</span><b>${v}</b><div class="bar"><i style="width:${cl(v,100)}%"></i></div>`).join('')}</div></div>
+    <div class="r"><div class="dom">${esc(b.domain)}</div><h3>${esc(c.title)}</h3><div class="bm-note">${esc(c.state)} · ${esc(c.budget)} · ${(c.cands||[]).length} matches · ${c.replies.length} proposals</div>
+    <div class="bm-dots">${STEPS.map((s,i)=>`<span class="${st>i?'on':''}"><i></i>${s.toUpperCase()}</span>`).join('')}</div></div></button>`;
+}
+function sCard(x,c){
+  const sent=c.emails.length>0,on=c.invited.includes(x.id);let act='';
+  if(!sent)act=`<button class="btn ${on?'primary':'ghost'} sm" type="button" data-bm="inv" data-id="${esc(x.id)}" aria-pressed="${on}">${on?'Invited ✓':'Invite'}</button>`;
+  else if(c.emails.some(m=>m.id===x.id)){act=c.replies.some(r=>r.id===x.id)?'<span class="badge ok">Replied</span>':(c.declined||[]).includes(x.id)?'<span class="badge bad">Declined</span>':D.optout.includes(x.id)?'<span class="badge bad">Opted out</span>':'<span class="badge">Waiting</span>'}
+  else if((c.blocked||[]).some(b=>b[0]===x.id))act='<span class="badge warn">Held by Guardian</span>';
+  return `<article class="bm-card ${x.type==='Partner'?'partner':''} ${on&&!sent?'on':''}"><div class="sc"><small>${x.type==='Expert'?'RESEARCH':'PARTNER'}</small><b>${x.score}</b><small>MATCH / 100</small></div>
+  <div class="bd"><h4>${esc(x.name)}</h4><div class="org">${esc(x.org)}</div><p class="bm-ev">${esc(x.evidence)}</p>
+  <div class="bm-fits">${['TOPIC','INDUSTRY','IMPACT'].map((l,i)=>`<div class="bm-fit">${l}<div class="bar"><i style="width:${Math.min(100,100*(x.fit[i]||0)/x.max[i])}%"></i></div></div>`).join('')}<span class="act">${act}</span></div></div></article>`;
+}
+function briefHTML(c,edit){
+  const b=c.brief;
+  return `<div class="bm-brief"><div><p>${esc(b.summary)}</p><dl class="bm-dl"><dt>Readiness</dt><dd>${esc(b.readiness)}</dd><dt>Success KPI</dt><dd>${esc(b.success_kpi)}</dd><dt>Data needed</dt><dd>${esc(b.data_needed)}</dd>
+    <dt>Funding hint</dt><dd>${esc(b.funding_hint)}</dd><dt>Deliverables</dt><dd>${esc([].concat(b.deliverables).join('; '))}</dd><dt>Search terms</dt><dd class="bm-kw">${[].concat(b.keywords).map(k=>`<span>${esc(k)}</span>`).join('')}</dd></dl></div>
+  <div class="bm-router"><span class="eyebrow">A2 Router · ${edit?'pick tracks':'tracks'}</span>
+    ${[['Research','research'],['Partner','partner'],['Open','open']].map(([n,k])=>`<div class="bm-tr"><label><input type="checkbox" ${c.tracks.includes(k)?'checked':''} ${edit?`data-bm="track" data-k="${k}"`:'disabled'}>${n}</label><div class="bar"><i style="width:${cl(b[k],100)}%"></i></div><b>${cl(b[k],100)}</b></div>`).join('')}
+    <p class="bm-note">${esc(b.reason)}</p>${c.tracks.includes('open')?'<p class="bm-note" style="margin-top:6px">Open track: student teams see this in Industry projects.</p>':''}</div></div>`;
+}
+const sec=(title,who,body)=>`<section class="card panel bm-sec"><div class="bm-sec-h"><h2 class="panel-title">${title}</h2>${who?`<span class="badge">${who}</span>`:''}</div>${body}</section>`;
+
+/* ---------- Client */
+function postForm(){
+  return `<form class="card panel" id="bm-post"><h2 class="panel-title">${I('sparkle','sm')}Describe your problem</h2><p class="bm-note" style="margin-top:4px">Write it the way you would tell a colleague. The Scoper and Router agents turn it into a project brief.</p>
+  <div class="field" style="margin-top:16px"><label for="bm-title">Title</label><input class="text-input" id="bm-title" value="${esc(CHIP.title)}"></div>
+  <div class="field" style="margin-top:12px"><label for="bm-problem">The problem in your own words</label><textarea class="textarea" id="bm-problem">${esc(CHIP.problem)}</textarea></div>
+  <div class="bm-grid4"><div class="field"><label for="bm-budget">Budget</label><select class="field-select" id="bm-budget">${BUDGETS.map(b=>`<option ${b===CHIP.budget?'selected':''}>${b}</option>`).join('')}</select></div>
+    <div class="field"><label for="bm-state">Location</label><input class="text-input" id="bm-state" value="${CHIP.state}"></div>
+    <div class="field"><label for="bm-deadline">Needed by</label><input class="text-input" type="date" id="bm-deadline" value="${CHIP.deadline}"></div>
+    <div class="field"><label for="bm-conf">Confidentiality</label><select class="field-select" id="bm-conf"><option>Public</option><option selected>Invited only</option><option>NDA first</option></select></div></div>
+  <div class="bm-actions"><button class="btn primary lg" type="submit" id="bm-go">${I('sparkle')}Write the brief</button><span class="bm-note">Example from the demo story. Edit it or write your own.</span></div></form>`;
+}
+function detail(c){
+  if(!c)return '<div class="empty">Challenge not found.</div>';
+  const ex=(c.cands||[]).filter(x=>x.type==='Expert'),pt=(c.cands||[]).filter(x=>x.type==='Partner'),sent=c.emails.length>0,st=STEP_OF[c.status]||0;
+  let h=`<button class="btn ghost sm" type="button" data-bm="back">← My challenges</button>
+  <section class="card panel bm-sec"><span class="eyebrow">${c.id} · ${esc(c.org)}</span><h2 style="font-size:26px;letter-spacing:-.03em;margin-top:10px">${esc(c.title)}</h2>
+    <p class="bm-note" style="margin-top:6px">${esc(c.state)} · ${esc(c.budget)} · needed by ${esc(c.deadline)} · ${esc(c.conf)} · <span class="badge accent">${esc(c.status)}</span></p>
+    <div class="bm-dots" style="max-width:560px">${STEPS.map((s,i)=>`<span class="${st>i?'on':''}"><i></i>${s.toUpperCase()}</span>`).join('')}</div></section>`;
+  h+=sec('AI brief','A1 Scoper · A2 Router',briefHTML(c,c.status==='Briefed')+(c.status==='Briefed'?`<div class="bm-actions"><button class="btn primary" type="button" data-bm="scout">${I('search','sm')}Find solvers</button><span class="bm-note">Nothing is sent yet. You choose who to invite.</span></div>`:''));
+  if(c.cands){
+    let b='<p class="bm-note">Ranked with evidence. A grant counts only if it matches this problem; unknown capacity scores a neutral 5.</p>';
+    if(ex.length)b+=`<h3 class="bm-gh"><span class="badge accent">Research Match</span>${ex.length} UTeM experts</h3>${ex.map(x=>sCard(x,c)).join('')}`;
+    if(pt.length)b+=`<h3 class="bm-gh"><span class="badge ok">Partner Match</span>${pt.length} Malaysian companies</h3>${pt.map(x=>sCard(x,c)).join('')}`;
+    if(!sent)b+=ui.confirm?`<div class="bm-confirm"><b>Send ${c.invited.length} invitation${c.invited.length===1?'':'s'}?</b> The Guardian checks the rules first, then the Messenger writes one personal email each.<div class="bm-actions"><button class="btn primary" type="button" data-bm="send">Yes, send</button><button class="btn ghost" type="button" data-bm="nosend">Cancel</button></div></div>`
+      :`<div class="bm-actions"><button class="btn primary" type="button" data-bm="ask" ${c.invited.length?'':'disabled'}>Send ${c.invited.length||''} invitation${c.invited.length===1?'':'s'}</button><span class="bm-note">Approval gate: nothing goes out until you confirm.</span></div>`;
+    h+=sec('Shortlist','S1 Matchmaker',b);
+  }
+  if(sent)h+=sec('Invitations','S3 Guardian · S2 Messenger',`<p class="bm-note">${c.emails.length} sent${(c.blocked||[]).length?`, ${c.blocked.length} held back (${c.blocked.map(x=>x[1]).join(', ')})`:''}. Demo: emails are shown here, not sent.</p>
+    <details style="margin-top:8px"><summary>Show the emails</summary>${c.emails.map(m=>`<div class="bm-mail"><div class="h">To: ${esc(m.name)} · Subject: ${esc(m.subject)}</div><p>${esc(m.body)}</p></div>`).join('')}</details>`);
+  if(sent){
+    let b='';
+    if(!c.replies.length)b='<p class="bm-note">No replies yet. In the demo, switch to Research Expert or Solution Partner and reply.</p>';
+    else if(!c.analysis)b=`<div class="table-scroll"><table class="lb-table bm-table"><thead><tr><th>Solver</th><th>Plan</th><th>Time and cost</th><th>Team</th></tr></thead><tbody>${c.replies.map(r=>`<tr><td><b>${esc(r.name)}</b><br><span class="bm-note">${r.type}</span></td><td>${esc(r.approach)}</td><td>${r.weeks} weeks<br>${rm(r.cost)}</td><td>${esc(r.team)}${r.students?'<br>'+esc(r.students):''}</td></tr>`).join('')}</tbody></table></div>
+      <div class="bm-actions"><button class="btn primary" type="button" data-bm="compare">${I('sparkle','sm')}Compare proposals</button><span class="bm-note">${c.replies.length} of ${c.emails.length} replied.</span></div>`;
+    else{
+      const a=c.analysis,rows=c.replies.map(r=>({r,x:(a.rows||[]).find(y=>y.id===r.id)||{}})).sort((p,q)=>(q.x.score||0)-(p.x.score||0));
+      b=`<p>${esc(a.summary)}</p><div class="table-scroll" style="margin-top:12px"><table class="lb-table bm-table"><thead><tr><th>Score</th><th>Solver</th><th>Plan</th><th>Strengths</th><th>Gaps</th><th>Cross-track note</th><th>Ask in the meeting</th><th></th></tr></thead><tbody>
+      ${rows.map(({r,x})=>`<tr class="${r.id===a.recommended?'best':''}"><td><b style="font-size:20px">${x.score??'–'}</b></td><td><b>${esc(r.name)}</b><br><span class="bm-note">${r.type}${r.students?' · '+esc(r.students):''}</span>${r.id===a.recommended?'<br><span class="badge ok">Recommended</span>':''}</td>
+        <td>${esc(r.approach)}<br><span class="bm-note">${r.weeks} weeks · ${rm(r.cost)}</span></td><td>${esc(x.strengths)}</td><td>${esc(x.gaps)}</td><td>${esc(x.track_note)}</td><td>${esc(x.questions)}</td>
+        <td>${c.selected?(c.selected===r.id?'<span class="badge ok">Selected</span>':''):`<button class="btn ${r.id===a.recommended?'primary':'ghost'} sm" type="button" data-bm="select" data-id="${esc(r.id)}">Select</button>`}</td></tr>`).join('')}</tbody></table></div>`;
+      if(c.selected){const r=c.replies.find(x=>x.id===c.selected),ap=D.apps.some(x=>x.ch===c.id);
+        b+=`<div class="bm-done"><b>Engaged with ${esc(r.name)}.</b> A project workspace opens with milestones from the brief’s KPIs.${r.students?` ${esc(r.students)} join the team${ap?' (Xin Yi Neoh has applied)':''}.`:''} Both sides rate each other at the end, and the ratings make the next match better.</div>`}
+    }
+    h+=sec('Replies and comparison','S4 Proposal Analyst',b);
+  }
+  return h;
+}
+function clientView(){
+  const t=ui.tab.bridge;
+  if(t==='post')return postForm();
+  if(t==='list')return ui.sel?detail(ch(ui.sel)):`<div class="bm-chs">${D.challenges.map(chCard).join('')}</div>`;
+  const rows=D.challenges.flatMap(c=>c.replies.map(r=>({c,r,x:(c.analysis?.rows||[]).find(y=>y.id===r.id)})));
+  return rows.length?`<div class="card table-scroll"><table class="lb-table bm-table"><thead><tr><th>Challenge</th><th>Solver</th><th>Plan</th><th>Time and cost</th><th>AI score</th><th>Status</th></tr></thead><tbody>${rows.map(({c,r,x})=>`<tr><td><button class="btn ghost sm" type="button" data-bm="open" data-id="${c.id}">${c.id}</button></td><td><b>${esc(r.name)}</b><br><span class="bm-note">${r.type}</span></td><td>${esc(r.approach)}</td><td>${r.weeks} weeks<br>${rm(r.cost)}</td><td><b>${x?x.score:'–'}</b></td><td>${c.selected===r.id?'<span class="badge ok">Selected</span>':c.analysis&&c.analysis.recommended===r.id?'<span class="badge ok">Recommended</span>':'<span class="badge">Received</span>'}</td></tr>`).join('')}</tbody></table></div>`
+    :'<div class="card empty">No proposals yet. Send invitations from a challenge first.</div>';
+}
+
+/* ---------- Solvers: Research Expert and Solution Partner */
+function inboxView(){
+  const id=mine(),t=ui.tab['bridge-inbox'];
+  if(t==='profile')return profileView();
+  if(ui.reply)return replyView(ch(ui.reply));
+  const list=D.challenges.filter(c=>c.emails.some(m=>m.id===id));
+  return (D.optout.includes(id)?`<div class="bm-confirm" style="margin-top:0">You stopped all invitations, so the Guardian will not send you more. <button class="btn ghost sm" type="button" data-bm="optin">Turn invitations back on</button></div>`:'')+
+  (list.length?list.map(c=>{const m=c.emails.find(x=>x.id===id),r=c.replies.find(x=>x.id===id),dec=(c.declined||[]).includes(id);
+    return `<section class="card panel bm-sec"><div class="bm-sec-h"><h2 class="panel-title">${esc(m.subject)}</h2><span class="badge ${r?'ok':dec?'bad':'warn'}">${r?'Replied':dec?'Declined':'New'}</span></div>
+    <div class="bm-mail"><div class="h">From: IndustryBridge Bridge Match · ${esc(c.created)}</div><p>${esc(m.body)}</p></div>
+    <div class="bm-actions"><button class="btn primary" type="button" data-bm="reply" data-id="${c.id}">${r?'See my reply':'View the challenge and reply'}</button></div></section>`}).join('')
+  :`<div class="card empty">No invitations yet.<br><span class="bm-note">In the demo, the Client invites ${role==='partner'?'Nusantara Vision':'Dr. Choo'} first.</span></div>`);
+}
+function replyView(c){
+  if(!c)return '';
+  const id=mine(),r=c.replies.find(x=>x.id===id),P=role==='partner',hide=c.conf!=='Public';
+  const d=r||(P?{approach:'Install an inline camera cell at the end of the line with our inspection software, tune it on your three defect types, then support it for 12 months.',weeks:14,cost:128000,team:'Project manager, 2 vision engineers',students:''}
+    :{approach:'Re-use our object-detection pipeline from the 2026 industry project on double mounting and package cracks: collect and label your line images, train and validate an explainable model, then hand over an inline prototype.',weeks:26,cost:85000,team:'1 PI, 1 research assistant',students:'2 FYP students (FAIX)'});
+  return `<button class="btn ghost sm" type="button" data-bm="inbox">← Invitations</button>
+  <section class="card panel bm-sec"><span class="eyebrow">${c.id} · ${hide?'A '+esc(c.state)+' manufacturer (name shared after you reply)':esc(c.org)}</span><h2 style="font-size:24px;letter-spacing:-.03em;margin-top:10px">${esc(c.title)}</h2>
+    <p class="bm-note" style="margin-top:6px">${esc(c.state)} · ${esc(c.budget)} · needed by ${esc(c.deadline)}</p><p style="margin-top:12px">${esc(c.brief.summary)}</p>
+    <dl class="bm-dl"><dt>Success KPI</dt><dd>${esc(c.brief.success_kpi)}</dd><dt>Data available</dt><dd>${esc(c.brief.data_needed)}</dd><dt>Deliverables</dt><dd>${esc([].concat(c.brief.deliverables).join('; '))}</dd></dl></section>
+  <form class="card panel bm-sec" id="bm-reply" data-id="${c.id}"><div class="bm-sec-h"><h2 class="panel-title">${r?'Your reply':'Reply in 2 minutes, no login'}</h2><span class="badge">${P?'Solution Partner':'Research Expert'}</span></div>
+    ${r?'<div class="bm-done" style="margin:8px 0 4px"><b>Reply sent.</b> The client sees it next to the other proposals. You can still edit and send again.</div>':'<p class="bm-note">Demo: this reply is typed by the presenter, not sent by the real person.</p>'}
+    <div class="field" style="margin-top:12px"><label for="bm-approach">Your approach</label><textarea class="textarea" id="bm-approach">${esc(d.approach)}</textarea></div>
+    <div class="bm-grid4"><div class="field"><label for="bm-weeks">Weeks</label><input class="text-input" type="number" min="1" id="bm-weeks" value="${d.weeks}"></div>
+      <div class="field"><label for="bm-cost">Cost (RM)</label><input class="text-input" type="number" min="0" step="1000" id="bm-cost" value="${d.cost}"></div>
+      <div class="field"><label for="bm-team">Team</label><input class="text-input" id="bm-team" value="${esc(d.team)}"></div>
+      ${P?'':`<div class="field"><label for="bm-students">Students</label><input class="text-input" id="bm-students" value="${esc(d.students)}"></div>`}</div>
+    <div class="bm-actions"><button class="btn primary" type="submit">${r?'Update reply':'Send reply'}</button>${r?'':`<button class="btn ghost" type="button" data-bm="decline" data-id="${c.id}">Not interested</button>`}<button class="btn ghost" type="button" data-bm="optout">Stop all invitations</button></div></form>`;
+}
+function profileView(){
+  if(role==='partner'){const p=PARTNERS[0];
+    return `<section class="card panel"><span class="eyebrow">Solution Partner · demo company</span><h2 style="font-size:24px;margin-top:10px">Nusantara Vision Sdn Bhd</h2><p class="bm-note" style="margin-top:6px">${esc(p.state)} · <span class="badge ok">Profile claimed</span></p>
+      <p style="margin-top:14px">${esc(p.past)}.</p><p class="bm-note" style="margin-top:14px">How Partner Match works: the Vendor Scout finds Malaysian companies with Google Search. When the search quota runs out it picks only from a verified list (SEMI directory, Bursa listings), and never invents company names.</p></section>`}
+  const e=(EX||[]).find(x=>x.id==='EXP008');if(!e)return '<div class="card empty">Loading the Expert Index…</div>';
+  return `<section class="card panel"><span class="eyebrow">Research Expert · UTeM public directory</span><h2 style="font-size:24px;margin-top:10px">${esc(e.n)}</h2><p class="bm-note" style="margin-top:6px">${esc(e.t)} · ${esc(e.f)}, UTeM · <span class="badge ok">Profile claimed</span></p>
+    <div class="statrow"><div class="stat-c"><b>${e.h}</b><span>h-index</span></div><div class="stat-c"><b>${e.c}</b><span>Citations</span></div><div class="stat-c"><b>${e.s}</b><span>Students supervised</span></div><div class="stat-c"><b>${e.g.length}</b><span>Grants</span></div></div>
+    <p class="bm-note" style="margin-top:14px">${esc(e.fl)}</p></section>
+  ${sec('Grants','',`<div class="table-scroll"><table class="lb-table"><thead><tr><th>Year</th><th>Project</th><th>Type</th><th>Amount</th><th>Role</th></tr></thead><tbody>${e.g.map(g=>`<tr><td>${g[0]}</td><td>${esc(g[1])}</td><td>${esc(g[2])}</td><td>${rm(g[3])}</td><td>${esc(g[4])}</td></tr>`).join('')}</tbody></table></div>`)}
+  ${sec('Recent papers','OpenAlex',e.p.map(p=>`<p style="margin-top:6px">${p[0]} · ${esc(p[1])}</p>`).join(''))}`;
+}
+
+/* ---------- Solver: Student Talent */
+function spots(){const o=[];D.challenges.forEach(c=>{c.replies.filter(r=>r.students&&r.type==='Expert').forEach(r=>o.push({c,kind:'fyp',with:r.name,text:`Join ${short(r.name)}’s team on a real industry project: ${r.students}.`}));
+  if(c.tracks.includes('open'))o.push({c,kind:'open',with:'Open Challenge',text:'Open Challenge: student teams can pitch ideas and early prototypes.'})});return o}
+function oppsView(){const list=spots();
+  return list.length?list.map(o=>{const ap=D.apps.find(a=>a.ch===o.c.id);
+    return `<section class="card panel bm-sec"><div class="bm-sec-h"><h2 class="panel-title">${esc(o.c.title)}</h2><span class="badge ${o.kind==='fyp'?'accent':'warn'}">${o.kind==='fyp'?'FYP spot':'Open Challenge'}</span></div>
+    <p>${esc(o.text)}</p><p class="bm-note" style="margin-top:6px">${esc(o.c.brief.domain)} · skills: ${esc([].concat(o.c.brief.skills).join(', '))}</p>
+    <div class="bm-actions">${ap?'<span class="badge ok">Applied · waiting for the expert</span>':`<button class="btn primary" type="button" data-bm="apply" data-id="${o.c.id}" data-with="${esc(o.with)}">${o.kind==='fyp'?'Apply to join':'Join with my team'}</button>`}</div></section>`}).join('')
+  :'<div class="card empty">No industry projects yet.<br><span class="bm-note">They appear when an expert’s proposal includes FYP students, or when a challenge goes to the Open track.</span></div>';
+}
+
+/* ---------- Bridge Admin */
+function adminView(){
+  const t=ui.tab['bridge-admin'],cs=D.challenges,inv=cs.reduce((n,c)=>n+c.emails.length,0),rep=cs.reduce((n,c)=>n+c.replies.length,0);
+  const nm=id=>((EX||[]).find(e=>e.id===id)||{}).n||(PARTNERS.find(p=>p.id===id)||{}).name||id;
+  if(t==='runs')return D.runs.length?`<div class="card table-scroll"><table class="lb-table"><thead><tr><th>Time</th><th>Agent</th><th>What happened</th><th>Detail</th></tr></thead><tbody>${D.runs.map(r=>`<tr><td>${esc(r.at)}</td><td>${esc(r.id)} ${esc((AGENTS.find(a=>a[0]===r.id)||[,''])[1])}</td><td>${esc(r.text)}</td><td>${esc(r.sub)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="card empty">No agent runs yet.</div>';
+  if(t==='guardian')return sec('Rules in force','S3 Guardian',`<ul style="padding-left:18px;margin:0;line-height:1.9"><li>Never invite someone who opted out.</li><li>At most one invitation per person per week.</li><li>Only use a work email from a public profile or a claimed account.</li><li>Confidential challenges hide the client’s name until the solver replies.</li><li>Demo mode: every email goes to the team demo inbox, never to the real person.</li></ul>`)
+    +sec('Opt-outs','',D.optout.length?D.optout.map(id=>`<span class="badge bad">${esc(short(nm(id)))}</span> `).join(''):'<p class="bm-note">Nobody has opted out.</p>')
+    +sec('Invitations this week','',D.sent.length?`<div class="table-scroll"><table class="lb-table"><thead><tr><th>Solver</th><th>Challenge</th></tr></thead><tbody>${D.sent.map(s=>`<tr><td>${esc(nm(s.id))}</td><td>${esc(s.ch)}</td></tr>`).join('')}</tbody></table></div>`:'<p class="bm-note">None yet.</p>');
+  if(t==='all')return `<div class="card table-scroll"><table class="lb-table"><thead><tr><th>ID</th><th>Title</th><th>Client</th><th>Status</th><th>Matches</th><th>Invites</th><th>Proposals</th></tr></thead><tbody>${cs.map(c=>`<tr><td>${c.id}</td><td>${esc(c.title)}</td><td>${esc(c.org)}</td><td><span class="badge accent">${esc(c.status)}</span></td><td>${(c.cands||[]).length}</td><td>${c.emails.length}</td><td>${c.replies.length}</td></tr>`).join('')}</tbody></table></div>`;
+  const fun=[['Posted',cs.length],['Shortlisted',cs.filter(c=>c.cands).length],['Invited',cs.filter(c=>c.emails.length).length],['Proposals in',cs.filter(c=>c.replies.length).length],['Engaged',cs.filter(c=>c.selected).length]];
+  return `<div class="statrow" style="margin-top:0"><div class="stat-c"><b>${(EX||[]).length||99}</b><span>UTeM experts indexed</span></div><div class="stat-c"><b>${PARTNERS.length-1}</b><span>Verified companies</span></div><div class="stat-c"><b>${inv}</b><span>Invitations sent</span></div><div class="stat-c"><b>${inv?Math.round(100*rep/inv):0}<small>%</small></b><span>Reply rate</span></div></div>
+  <p class="statnote">Router benchmark: 10/10 on 10 labelled problems (a small set)</p>
+  ${sec('Challenge funnel','',fun.map(([n,v])=>`<div class="bm-tr" style="grid-template-columns:110px minmax(0,1fr) 30px"><span>${n}</span><div class="bar"><i style="width:${cs.length?100*v/cs.length:0}%"></i></div><b>${v}</b></div>`).join(''))}`;
+}
+
+/* ---------- render */
+const TABS={bridge:[['post','Post a problem'],['list','My challenges'],['props','Proposals']],'bridge-inbox':[['inbox','Invitations'],['profile','My profile']],'bridge-admin':[['overview','Overview'],['all','All challenges'],['guardian','Guardian rules'],['runs','Agent runs']]};
+async function render(v){
+  v=v||ui.view;if(!v)return;ui.view=v;
+  const root=document.querySelector(`#view-${v} .bm-root`);if(!root)return;
+  const tabs=document.querySelector(`#view-${v} .bm-tabs`);
+  if(tabs&&TABS[v])tabs.innerHTML=TABS[v].map(([k,l])=>`<button type="button" role="tab" class="${ui.tab[v]===k?'on':''}" aria-selected="${ui.tab[v]===k}" data-bm="tab" data-v="${v}" data-k="${k}">${l}</button>`).join('');
+  document.querySelectorAll(`#view-${v} .bm-guide-slot`).forEach(g=>g.innerHTML=guide());
+  root.innerHTML=v==='bridge'?clientView():v==='bridge-inbox'?inboxView():v==='bridge-opps'?oppsView():adminView();
+  paint();
+  if(!EX){await experts();render(v)}
+}
+
+/* ---------- actions */
+const A={};
+A.tab=d=>{ui.tab[d.v]=d.k;ui.sel=null;ui.reply=null;ui.confirm=false;render()};
+A.open=d=>{ui.tab.bridge='list';ui.sel=d.id;ui.confirm=false;render();scrollTo(0,0)};
+A.back=()=>{ui.sel=null;render()};
+A.inbox=()=>{ui.reply=null;render()};
+A.reply=d=>{ui.reply=d.id;render();scrollTo(0,0)};
+A.live=(d,el)=>{D.live=el.checked;save();logRun('A0',D.live?'Live Gemini on':'Prepared AI answers on',D.live?'falls back to prepared answers if Gemini is busy':'safe for the stage')};
+A.reset=()=>{if(!confirm('Reset the Bridge Match demo to the start?'))return;D=seed();save();Object.assign(ui,{sel:null,reply:null,confirm:false,agent:{}});ui.tab={bridge:'post','bridge-inbox':'inbox','bridge-admin':'overview'};render();toast('Bridge Match demo reset')};
+A.track=d=>{const c=ch(ui.sel);c.tracks=c.tracks.includes(d.k)?c.tracks.filter(x=>x!==d.k):[...c.tracks,d.k];save();render()};
+A.inv=d=>{const c=ch(ui.sel);c.invited=c.invited.includes(d.id)?c.invited.filter(x=>x!==d.id):[...c.invited,d.id];save();render()};
+A.ask=()=>{ui.confirm=true;render()};
+A.nosend=()=>{ui.confirm=false;render()};
+A.scout=async(d,b)=>{
+  const c=ch(ui.sel);if(!c.tracks.length){toast('Pick at least one track');return}
+  b.disabled=true;b.innerHTML=I('search','sm')+' Matchmaker is searching…';
+  let cands=[];
+  if(c.tracks.includes('research')){const list=await experts();await agent('S1',1400);cands=matchExperts(c,list);
+    logRun('S1',`Matchmaker ranked ${list.length} UTeM experts`,cands[0]?`top: ${short(cands[0].name)} (${cands[0].score})`:'')}
+  if(c.tracks.includes('partner')){await agent('S1',900);const p=matchPartners(c);cands=cands.concat(p);
+    logRun('S1',p.length?`Matchmaker ranked ${p.length} Malaysian companies`:'No verified companies fit this problem','verified list · Google Search when quota allows')}
+  c.cands=cands;c.status='Shortlisted';logRun('A0',`Conductor: ${c.id} is Shortlisted`);save();render();
+};
+A.send=async(d,b)=>{
+  const c=ch(ui.sel);ui.confirm=false;b.disabled=true;b.textContent='Guardian is checking…';
+  await agent('S3',1100);
+  const ok=[],blocked=[];
+  c.invited.forEach(id=>{if(D.optout.includes(id))blocked.push([id,'opted out']);else if(D.sent.some(s=>s.id===id&&s.ch!==c.id&&Date.now()-s.t<6048e5))blocked.push([id,'already invited this week']);else ok.push(id)});
+  logRun('S3','Guardian checked opt-outs and the weekly limit',`${ok.length} passed${blocked.length?', '+blocked.length+' held back':''}`);
+  b.textContent='Messenger is writing…';await agent('S2',1300);
+  const hide=c.conf!=='Public',who=hide?'A '+c.state+' manufacturer':c.org;
+  c.emails=ok.map(id=>{const x=c.cands.find(k=>k.id===id);
+    return{id,name:x.name,type:x.type,subject:`${who} needs help: ${c.brief.domain.toLowerCase()}`,
+      body:`${x.type==='Partner'?`Hello ${short(x.name)} team,`:`Dear ${x.name.replace(/^((Profesor|Prof\.) Madya |Ts\. )+/,'')},`}\n\n${who} has a problem that matches your work. ${c.brief.summary}\n\nWhy we thought of you: ${x.evidence}\n\nBudget band ${c.budget}, needed by ${c.deadline}. If it interests you, the reply takes about 2 minutes and needs no login.\n\n[View the challenge and reply]   [Stop all invitations]`}});
+  ok.forEach(id=>D.sent.push({id,ch:c.id,t:Date.now()}));
+  c.blocked=blocked;c.status='Invited';
+  logRun('S2',`Messenger wrote ${c.emails.length} personal emails`,'demo: shown, not sent');logRun('A0',`Conductor: ${c.id} is Invited`);save();render();
+};
+A.decline=d=>{const c=ch(d.id),id=mine();c.declined=[...new Set([...(c.declined||[]),id])];logRun('A0',`A solver declined ${c.id}`);save();render()};
+A.optout=()=>{const id=mine();if(!D.optout.includes(id))D.optout.push(id);logRun('S3','Guardian recorded an opt-out','no more invitations to this person');save();render()};
+A.optin=()=>{D.optout=D.optout.filter(x=>x!==mine());save();render()};
+A.compare=async(d,b)=>{
+  const c=ch(ui.sel);b.disabled=true;b.textContent='Proposal Analyst is comparing…';c.status='Comparing';setAgent('S4','work');
+  let a=null,isLive=false;
+  if(D.live){try{const g=await live(['You are the Proposal Analyst agent of IndustryBridge. Compare these proposals for one industry challenge.',`CHALLENGE: ${c.title}. ${c.brief.summary} Budget ${c.budget}, needed by ${c.deadline}.`,
+    'For each: score 0-100, strengths under 18 words, gaps under 18 words, questions: two questions for the meeting, track_note under 25 words on result type, IP owner, time to value and main risk.',
+    'Return JSON {"rows":[{"id","score","strengths","gaps","questions","track_note"}],"summary":"2 sentences under 45 words naming the solvers","recommended":"id"}',
+    c.replies.map(p=>`${p.id} | ${p.type} | ${p.name} | ${p.approach} | ${p.weeks} weeks | RM ${p.cost} | team ${p.team} | students ${p.students||'-'}`).join('\n')].join('\n'));
+    if(g&&g.rows&&g.rows.length&&c.replies.some(r=>r.id===g.recommended)){a=g;isLive=true}}catch(e){}}
+  if(!a){await wait(1800);a=analyse(c)}
+  setAgent('S4','ok');c.analysis=a;c.status='Selecting';
+  const best=c.replies.find(r=>r.id===a.recommended);
+  logRun('S4',`Proposal Analyst compared ${c.replies.length} proposals`,(isLive?'live Gemini · ':'')+'recommends '+(best?short(best.name):'–'));save();render();
+};
+function analyse(c){
+  const mid=MID[c.budget]||95000,left=Math.max(4,(new Date(c.deadline)-new Date())/6048e5);
+  const rows=c.replies.map(r=>{const m=(c.cands||[]).find(x=>x.id===r.id)||{score:70},ex=r.type==='Expert';
+    const score=Math.min(97,Math.round(m.score*.55)+(r.cost<=mid*1.1?15:r.cost<=mid*1.5?8:3)+(r.weeks<=left?15:6)+(r.students?8:3)+(r.team?5:0));
+    return{id:r.id,score,
+      strengths:ex?'Already built a detector for these exact defects (industry grant); brings FYP students.':'Fast to install; proven camera cells on similar lines.',
+      gaps:ex?'Longer timeline; needs your line images before a model can be trained.':(r.cost>mid*1.1?'Above your budget band; ':'')+'a generic model may miss hairline cracks.',
+      questions:ex?'Can a pilot model be ready in 10 weeks? Who owns the trained model?':'What crack size can you detect today? What does yearly support cost?',
+      track_note:ex?'Research prototype · UTeM owns IP, licence to you · value in ~6 months · risk: accuracy on your data':'Commercial product · vendor owns software, you own data · value in ~3 months · risk: limited tuning'}}).sort((a,b)=>b.score-a.score);
+  const best=c.replies.find(r=>r.id===rows[0].id),other=rows[1]&&c.replies.find(r=>r.id===rows[1].id);
+  return{rows,recommended:rows[0].id,summary:`${short(best.name)} fits best: the plan targets your exact defects and stays inside the budget band.`+(other?` ${short(other.name)} is faster to deploy, a good choice if speed matters more than accuracy on hairline cracks.`:'')};
+}
+A.select=d=>{const c=ch(ui.sel);c.selected=d.id;c.status='Engaged';logRun('A0','Conductor opened the project workspace',short(c.replies.find(x=>x.id===d.id).name));save();render();toast('Project workspace created')};
+A.apply=d=>{if(!D.apps.some(a=>a.ch===d.id))D.apps.push({ch:d.id,with:d.with,at:today()});logRun('A0',`Student Talent applied to join ${d.id}`,PEOPLE.student.name);save();render();toast('Application sent')};
+
+function guessBrief(c){
+  const t=(c.title+' '+c.problem).toLowerCase();
+  if(/crack|misalign|inspection|chip|package|defect/.test(t))return BRIEF_CHIP;
+  if(/compressor|predict|failure|maintenance|vibration|breakdown/.test(t))return BRIEF_COMP;
+  const f={};t.split(/[^a-z]+/).filter(w=>w.length>5&&!STOP.includes(w.slice(0,5))).forEach(w=>f[w]=(f[w]||0)+1);
+  return{summary:c.problem.split(/(?<=\.)\s/).slice(0,2).join(' '),domain:'Industry problem',keywords:Object.keys(f).sort((a,b)=>f[b]-f[a]).slice(0,10),skills:['To confirm with the client'],deliverables:['Scoping report','Prototype','Hand-over plan'],
+    readiness:'Research needed',research:65,partner:50,open:45,reason:'Prepared answer (Live Gemini is off): a mixed problem, so Research is suggested first.',success_kpi:'Agree 2-3 measurable targets in the first meeting',data_needed:'Process data and site access for the solver',funding_hint:'University industry grant (Geran Industri)'};
+}
+async function post(f){
+  const c={title:f.querySelector('#bm-title').value.trim(),problem:f.querySelector('#bm-problem').value.trim(),budget:f.querySelector('#bm-budget').value,state:f.querySelector('#bm-state').value.trim()||'Melaka',deadline:f.querySelector('#bm-deadline').value,conf:f.querySelector('#bm-conf').value};
+  if(!c.title||!c.problem){toast('Add a title and the problem first');return}
+  const b=f.querySelector('#bm-go');b.disabled=true;b.textContent='Agents are writing the brief…';
+  let n=1;while(ch('CH'+String(n).padStart(3,'0')))n++;const id='CH'+String(n).padStart(3,'0');
+  let brief=null,isLive=false;setAgent('A1','work');
+  if(D.live){try{const g=await live(['You are the Scoper and Router agents of IndustryBridge (Malaysia). Turn this industry problem into a brief.','Title: '+c.title,'Problem: '+c.problem,'Budget: '+c.budget+'. Location: '+c.state,
+    'Return JSON {"summary":"2 sentences under 45 words, no company name","domain":"2-4 words","keywords":["10-12 technical search terms"],"skills":["4-5"],"deliverables":["3 short"],"readiness":"Idea|Research needed|Prototype needed|Ready product needed","research":0-100,"partner":0-100,"open":0-100,"reason":"one sentence","success_kpi":"2-3 measurable targets","data_needed":"under 25 words","funding_hint":"1-2 of: PPRN | CREST R&D grant | MRANTI MATCH | University industry grant, with a short reason"}'].join('\n'));
+    if(g&&g.summary&&Array.isArray(g.keywords)){brief=g;isLive=true}}catch(e){}}
+  if(!brief){await wait(1600);brief=guessBrief(c)}
+  setAgent('A1','ok');logRun('A1','Scoper wrote the brief',(isLive?'live Gemini · ':'')+brief.domain);
+  await agent('A2',900);logRun('A2','Router scored the tracks',`Research ${brief.research} · Partner ${brief.partner} · Open ${brief.open}`);
+  D.challenges.unshift({id,...c,org:'Melaka Semicon Assembly Sdn Bhd (demo)',status:'Briefed',brief,tracks:['research','partner','open'].filter(k=>brief[k]>=60),cands:null,invited:[],emails:[],replies:[],analysis:null,selected:null,created:today()});
+  logRun('A0',`Conductor opened ${id}`,'status: Briefed');save();
+  ui.tab.bridge='list';ui.sel=id;render();scrollTo(0,0);
+}
+function sendReply(f){
+  const c=ch(f.dataset.id),id=mine(),P=role==='partner';
+  const r={id,type:P?'Partner':'Expert',name:P?PARTNERS[0].name:((EX||[]).find(e=>e.id===id)||{n:'Profesor Madya Ts. Dr. Choo Yun Huoy'}).n,answer:'Interested',
+    approach:f.querySelector('#bm-approach').value.trim(),weeks:+f.querySelector('#bm-weeks').value||0,cost:+f.querySelector('#bm-cost').value||0,team:f.querySelector('#bm-team').value.trim(),students:f.querySelector('#bm-students')?.value.trim()||'',at:today()};
+  c.replies=c.replies.filter(x=>x.id!==id).concat(r);if(['Invited','Shortlisted'].includes(c.status))c.status='Receiving';
+  logRun('A0',`Reply from ${short(r.name)} on ${c.id}`,`${r.weeks} weeks · ${rm(r.cost)}`);save();render();toast('Reply sent to the client');
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-bm]');if(!b||!b.closest('.view'))return;if(b.type==='checkbox'&&b.dataset.bm!=='live'&&b.dataset.bm!=='track')return;
+  if(b.dataset.bm==='live'){A.live(b.dataset,b);return}const fn=A[b.dataset.bm];if(fn){if(b.tagName!=='INPUT')e.preventDefault();fn(b.dataset,b)}});
+document.addEventListener('submit',e=>{if(e.target.id==='bm-post'){e.preventDefault();post(e.target)}else if(e.target.id==='bm-reply'){e.preventDefault();sendReply(e.target)}});
+return{render,reset:()=>{ui.sel=null;ui.reply=null;ui.confirm=false}};
+})();
+
 hydrateAvatars();renderCards();renderPlanner();renderModules();renderAssignState();renderThread();renderBoard();renderPlan();renderManage();renderManageExtras();renderSponsors();renderHall();if(role)setRole(role);route();
 
 /* Front page: static render + looping walking-students layer; role cards rise with scroll */

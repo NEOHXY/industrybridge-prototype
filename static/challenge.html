@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Industry challenge · IndustryBridge</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="bridge-pages.css">
+<style>
+.mkt{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;font:600 .82rem var(--f-m);margin-top:8px}
+.mkt .track{position:relative;height:10px;border-radius:6px;background:var(--line)}
+.mkt .band{position:absolute;top:0;bottom:0;border-radius:6px;background:var(--limebg);border:1px solid var(--lime)}
+.mkt .pin{position:absolute;top:-5px;width:4px;height:20px;border-radius:2px;background:var(--ink);transform:translateX(-50%);transition:left .3s}
+.vs{font:600 .8rem var(--f-b);padding:3px 10px;border-radius:999px;display:inline-block;margin-top:8px}
+.vs.in{background:var(--limebg);color:var(--lime)}.vs.lo{background:var(--expbg);color:var(--exp)}.vs.hi{background:var(--openbg);color:var(--open)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:5px}
+.seg label{margin:0;border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;gap:8px;align-items:center;cursor:pointer;font-weight:500}
+.seg input{width:auto;margin:0}
+.seg label:has(input:checked){border-color:var(--lime);background:var(--limebg)}
+.counter{border:2px solid var(--open);border-radius:12px;padding:16px;margin-top:14px;background:var(--surface)}
+.counter .price{font:700 1.8rem var(--f-d);font-variant-numeric:tabular-nums}
+.was{text-decoration:line-through;color:var(--muted);font-size:.95rem;margin-left:8px}
+</style>
+</head>
+<body>
+<div class="top"><div class="in"><a class="brand" href="index.html">Industry<b>Bridge</b></a><span class="tag">Bid Room · sealed bid</span></div></div>
+<main class="wrap" id="app" aria-live="polite">
+  <div class="eyebrow">Loading the challenge</div>
+  <div class="skel" style="width:70%;height:30px"></div><div class="skel"></div><div class="skel" style="width:85%"></div>
+</main>
+
+<script src="bridge-pages.js"></script>
+<script>
+const {call,param,$,esc,num,rm,split,ls}=IB;
+const P={inv:param('inv')||'',k:param('k')||''};
+if(param('ch'))P.ch=param('ch');
+let D=null, view='open', poll=null, lastSig='';
+
+const COL=t=>t==='Partner'?'var(--ptn)':'var(--exp)';
+const TRACK=t=>t==='Partner'?'<span class="pill p">Partner Match</span>':'<span class="pill r">Research Match</span>';
+const IP_OPTIONS=['Company owns all IP','Company owns; solver keeps background IP','Shared (joint IP)','Solver owns; company gets a licence'];
+const ndaKey=()=>'ib-nda-'+P.inv;
+const sigOf=d=>JSON.stringify([d.decision,d.counterOpen,d.proposal&&d.proposal.counter_price,d.proposal&&d.proposal.counter_status,d.optedOut,d.milestones&&d.milestones.text]);
+
+async function load(){
+  try{
+    D=await call('bid',P);
+    lastSig=sigOf(D);
+    const pr=D.proposal;
+    view = D.optedOut?'optedout'
+      : D.state==='locked'?'locked'
+      : D.decision?D.decision
+      : D.counterOpen?'countered'
+      : pr?'submitted'
+      : D.cand&&D.cand.response==='Declined'?'declined'
+      : D.challenge.confidentiality==='NDA first'&&!ls.get(ndaKey())?'nda'
+      : 'open';
+    render();
+  }catch(e){
+    $('app').innerHTML=`<div class="banner bad"><h2>We couldn't open this challenge</h2><p>${esc(e.message)}</p><div class="btns"><button onclick="location.reload()">Try again</button></div></div>`;
+  }
+}
+
+/* ---------------- building blocks ---------------- */
+const market=()=>{const c=D.challenge;return num(c.market_low)&&num(c.market_high)?[num(c.market_low),num(c.market_high)]:null};
+function vsLabel(v){const m=market();if(!m||!v)return '';const t=v<m[0]?['lo','Below market']:v>m[1]?['hi','Above market']:['in','Within market'];return `<span class="vs ${t[0]}">${t[1]}</span>`}
+function vsStored(s){if(!s)return '';const k=/below/i.test(s)?'lo':/above/i.test(s)?'hi':'in';return `<span class="vs ${k}">${esc(s)}</span>`}
+function mktBar(v){
+  const m=market();if(!m)return '';
+  const lo=m[0]*0.5,hi=m[1]*1.5,pct=x=>Math.max(0,Math.min(100,100*(x-lo)/(hi-lo)));
+  return `<div class="mkt" aria-hidden="true"><span>${rm(lo)}</span><div class="track"><div class="band" style="left:${pct(m[0])}%;width:${pct(m[1])-pct(m[0])}%"></div>${v?`<div class="pin" id="pin" style="left:${pct(v)}%"></div>`:'<div class="pin" id="pin" style="left:-10%;opacity:0"></div>'}</div><span>${rm(hi)}</span></div>`;
+}
+function header(){
+  const c=D.challenge, cd=D.cand||{};
+  return `<div class="eyebrow">${D.cand?'You are invited to bid':'Industry challenge'} · ${esc(c.challenge_id||'')}</div>
+  <h1>${esc(c.title)}</h1>
+  <div class="pills">${D.cand?TRACK(cd.solver_type):''}${c.owner?`<span class="pill">${esc(c.owner)}</span>`:''}${c.budget_band?`<span class="pill">Budget ${esc(c.budget_band)}</span>`:''}${c.bid_deadline?`<span class="pill o">Bids close ${esc(String(c.bid_deadline).slice(0,10))}</span>`:''}${c.deadline?`<span class="pill">Needed by ${esc(String(c.deadline).slice(0,10))}</span>`:''}</div>`;
+}
+function whyYou(){
+  const cd=D.cand; if(!cd) return '';
+  const exp=cd.solver_type!=='Partner';
+  const parts=(exp?[['Topic',cd.fit_topic,40],['Industry',cd.fit_industry,20],['Recent work',cd.fit_recent,15],['Impact',cd.fit_impact,10],['Capacity',cd.fit_capacity,10]]
+                  :[['Topic',cd.fit_topic,40],['Delivery',cd.fit_industry,25],['Proof',cd.fit_impact,15]]).filter(x=>x[1]!==''&&x[1]!=null);
+  return `<section class="box ${exp?'tint-r':'tint-p'}"><h2>Why you</h2>
+  <div class="why"><div class="score" style="background:${COL(cd.solver_type)}"><small>MATCH</small><b>${esc(num(cd.score))}</b><small>/ 100</small></div>
+  <div><p style="margin-top:0"><b>${esc(cd.solver_name)}</b><br><span class="note">${esc(cd.org)}</span></p><p>${esc(cd.evidence)}</p></div></div>
+  <div class="bars">${parts.map(([l,v,m])=>`<div class="fit">${l}<span>${num(v)}/${m}</span><div class="bar"><i style="width:${Math.min(100,100*num(v)/m)}%;background:${COL(cd.solver_type)}"></i></div></div>`).join('')}</div>
+  <p class="note" style="margin-top:10px">Scored by the IndustryBridge Matchmaker agent from your public papers, grants and projects. A person at the company chose to invite you.</p></section>`;
+}
+function brief(){
+  const c=D.challenge, li=v=>split(v).map(x=>`<li>${esc(x)}</li>`).join(''), m=market();
+  return `<section class="box"><h2>The challenge</h2><p style="margin-top:0">${esc(c.brief_summary)}</p>
+  <dl class="kv" style="margin-top:12px">
+  ${c.deliverables?`<dt>Deliverables</dt><dd><ul style="margin:0;padding-left:1.1rem">${li(c.deliverables)}</ul></dd>`:''}
+  ${c.success_kpi?`<dt>Success KPI</dt><dd>${esc(split(c.success_kpi).join('; '))}</dd>`:''}
+  ${c.data_needed?`<dt>Data and access</dt><dd>${esc(c.data_needed)}</dd>`:''}
+  ${c.skills?`<dt>Skills</dt><dd>${esc(split(c.skills).join(', '))}</dd>`:''}
+  ${c.funding_hint?`<dt>Funding</dt><dd>${esc(c.funding_hint)}</dd>`:''}
+  ${c.location_state?`<dt>Location</dt><dd>${esc(c.location_state)}</dd>`:''}
+  </dl>
+  ${m?`<h3 style="margin-top:16px">Market price</h3><p style="margin:.2rem 0 0"><b>${rm(m[0])} – ${rm(m[1])}</b></p>${mktBar()}${c.market_note?`<p class="note">${esc(c.market_note)} · estimated by the IndustryBridge agent</p>`:''}`:''}
+  </section>`;
+}
+function qnaBox(){
+  const q=D.qna||[];
+  return `<section class="box" id="qa"><h2>Questions to the company</h2>
+  ${q.length?`<ul class="list">${q.map(x=>`<li><b>Q.</b> ${esc(x.question)}<br>${x.answer?`<b>A.</b> ${esc(x.answer)}`:'<span class="note">Waiting for an answer</span>'}</li>`).join('')}</ul>`:'<p class="note" style="margin-top:0">Ask anything before you bid. The company answers in its IndustryBridge app.</p>'}
+  <label for="qtext" style="margin-top:12px">Your question<textarea id="qtext" rows="2" maxlength="500" placeholder="e.g. Can we visit the line before the pilot?"></textarea></label>
+  <div class="btns" style="margin-top:0"><button class="ghost" id="qsend">Send question</button><span class="note" id="qmsg"></span></div></section>`;
+}
+function footer(){
+  const q=new URLSearchParams({inv:P.inv,k:P.k}).toString(), cd=D.cand;
+  return `<div class="foot">Sealed bid: other solvers never see your price, and you never see theirs. You are receiving this because IndustryBridge matched your public ${cd&&cd.solver_type==='Partner'?'company projects':'papers and grants'} to this challenge and the company chose to invite you.
+  ${cd&&cd.solver_type!=='Partner'&&cd.solver_id?`<a href="profile.html?e=${encodeURIComponent(cd.solver_id)}">See or claim your profile</a> · `:''}<a href="optout.html?${q}">Stop invitations</a></div>`;
+}
+function bidSummary(title){
+  const p=D.proposal; if(!p) return '';
+  return `<section class="box"><h2>${title||'Your bid'}${num(p.bid_round)>1?` <span class="note" style="font-weight:400">· round ${esc(p.bid_round)}</span>`:''}</h2><p style="margin-top:0">${esc(p.approach)}</p>
+  <dl class="kv"><dt>Price</dt><dd><b>${rm(p.cost_rm)}</b> ${vsStored(p.vs_market)||vsLabel(num(p.cost_rm))}</dd><dt>Timeline</dt><dd>${esc(p.weeks)} weeks</dd>
+  <dt>Payment</dt><dd>${esc(p.payment_terms||'–')}</dd><dt>IP</dt><dd>${esc(p.ip_terms||'–')}</dd><dt>Support</dt><dd>${num(p.support_months)?esc(p.support_months)+' months after handover':'None'}</dd>
+  <dt>Team</dt><dd>${esc(p.team)}</dd>${p.students?`<dt>Students</dt><dd>${esc(p.students)}</dd>`:''}<dt>Sent</dt><dd>${esc(p.submitted_at)}</dd></dl></section>`;
+}
+
+/* ---------------- views ---------------- */
+function render(){
+  clearInterval(poll);
+  $('app').innerHTML=(VIEWS[view]||VIEWS.open)();
+  document.title=(D.challenge&&D.challenge.title?D.challenge.title+' · ':'')+'IndustryBridge';
+  wire();
+  if(D.cand&&!['optedout','declined','bid'].includes(view)) poll=setInterval(check,5000);
+}
+const VIEWS={
+  locked:()=>`<div class="eyebrow">Industry challenge</div><h1>${esc(D.challenge.title)}</h1>
+    <div class="banner off"><h2>This challenge is invite-only</h2><p>${esc(String(D.challenge.brief_summary||'').split('. ')[0])}.</p><p class="note">Open the link from your invitation email to see the full brief and bid.</p></div>`,
+  nda:()=>`${header()}<section class="box"><h2>Confidentiality first</h2><p>${esc(String(D.challenge.brief_summary||'').split('. ')[0])}.</p>
+    <p>The company asks you to keep the brief, data and any discussion confidential. You may decline at any time.</p>
+    <label class="check"><input type="checkbox" id="ndaok"> I agree to keep this challenge confidential.</label>
+    <div class="btns"><button id="ndaAccept" disabled>Accept and view the brief</button></div></section>${footer()}`,
+  open:()=>`${header()}${whyYou()}${brief()}
+    <section class="box"><h2>Your reply</h2><p class="note" style="margin-top:0">One click. Interested opens a short bid form (about 2 minutes).</p>
+    ${D.deadlinePassed?'<p class="err">The bid deadline has passed.</p>':''}
+    <div class="btns"><button class="lime" id="yes" ${D.deadlinePassed?'disabled':''}>I'm interested</button><button class="ghost" id="no">Not for me</button><button class="link" id="ask">Ask a question first</button></div><p class="err" id="err"></p></section>
+    ${qnaBox()}${footer()}`,
+  bid:()=>{
+    const exp=D.cand.solver_type!=='Partner', p=D.proposal||{}, rev=D._revising, m=market();
+    const ip=p.ip_terms||'', pay=p.payment_terms||'One payment', price=rev&&num(p.counter_price)?num(p.counter_price):p.cost_rm;
+    return `${header()}<section class="box pop"><h2>${rev?'Revise your bid':D.proposal?'Edit your bid':'Your bid'}</h2><p class="note" style="margin-top:0">Sealed bid. The company's Proposal Analyst compares price, timeline and terms side by side; a person decides.</p>
+    <form id="pf" novalidate>
+    <label for="approach">Approach <span class="count" id="ac">0/300</span><textarea id="approach" rows="4" maxlength="300" required placeholder="How you would solve it, in 2–3 sentences">${esc(p.approach||'')}</textarea></label>
+    <div class="row2"><label for="cost">Price (RM)<input id="cost" type="number" min="0" step="1000" inputmode="numeric" required value="${esc(price||'')}"></label>
+    <label for="weeks">Weeks<input id="weeks" type="number" min="1" max="104" inputmode="numeric" required value="${esc(p.weeks||'')}"></label>
+    <label for="support">Support after handover (months)<input id="support" type="number" min="0" max="36" inputmode="numeric" value="${esc(p.support_months===''||p.support_months==null?3:p.support_months)}"></label></div>
+    <div id="vsBox">${m?mktBar(num(price))+'<div id="vsTxt">'+vsLabel(num(price))+'</div><p class="note" style="margin:.3rem 0 0">Market price '+rm(m[0])+' – '+rm(m[1])+'.</p>':''}</div>
+    <div style="margin-top:14px"><span style="font-weight:500;font-size:.9rem">Payment</span><div class="seg" role="radiogroup" aria-label="Payment">
+      <label><input type="radio" name="pay" value="One payment" ${!/milestone/i.test(pay)?'checked':''}> One payment</label>
+      <label><input type="radio" name="pay" value="By milestone" ${/milestone/i.test(pay)?'checked':''}> By milestone</label></div></div>
+    <label for="ip" style="margin-top:14px">Who owns the IP<select id="ip" required><option value="">Choose</option>${IP_OPTIONS.map(o=>`<option ${o===ip?'selected':''}>${o}</option>`).join('')}${ip&&!IP_OPTIONS.includes(ip)?`<option selected>${esc(ip)}</option>`:''}</select></label>
+    <label for="team">Team<input id="team" required placeholder="${exp?'1 PI, 1 research assistant':'PM, 2 engineers'}" value="${esc(p.team||'')}"></label>
+    ${exp?`<h3 style="margin-top:6px">Students on the project <span class="note" style="font-weight:400">(optional)</span></h3><p class="note" style="margin-top:2px">FYP and Master students get real industry work; the company sees them in your bid.</p><div id="stus"></div><button type="button" class="ghost" id="addStu" style="min-height:36px;padding:6px 12px">+ Add a student</button>`:''}
+    <div class="btns"><button class="lime" type="submit" id="send">${rev?'Send revised bid':D.proposal?'Update bid':'Send bid'}</button><button type="button" class="ghost" id="back">Back</button></div><p class="err" id="err"></p></form></section>
+    ${rev?counterBox(true):''}${footer()}`;},
+  declined:()=>`${header()}<div class="banner off pop"><h2>Thanks for letting us know</h2><p>The company will not contact you about this challenge. Your reply helps the Matchmaker send you better matches.</p>
+    ${D._askReason?`<label for="why" style="margin-top:10px">Why not? <span class="note">(optional, shared with the company)</span><select id="why"><option value="">Choose a reason</option><option>Not my area</option><option>No capacity right now</option><option>Budget too low</option><option>Timeline too short</option><option>Other</option></select></label><button class="ghost" id="whySend">Send reason</button>`:''}
+    <div class="btns"><button class="ghost" id="undo">I changed my mind</button></div></div>${footer()}`,
+  submitted:()=>{const p=D.proposal,acc=/accepted/i.test(p.counter_status||'');
+    return `${header()}<div class="banner wait pop"><h2><span class="spin"></span> ${acc?'Counter-offer accepted':'Bid sent'} · waiting for the company's decision</h2>
+    <p>The company sees your bid in its IndustryBridge Bid Room now. This page updates by itself when it counters or decides.</p></div>
+    ${bidSummary()}
+    <section class="box"><h2>Before the deadline</h2><p style="margin-top:0">${D.challenge.bid_deadline?'You can change your bid until '+esc(String(D.challenge.bid_deadline).slice(0,10))+'.':'You can change your bid until the company decides.'}</p>
+    <div class="btns"><button class="ghost" id="edit" ${D.deadlinePassed?'disabled':''}>Edit my bid</button>${D.cand.solver_type!=='Partner'&&D.cand.solver_id?`<a class="btn ghost" href="profile.html?e=${encodeURIComponent(D.cand.solver_id)}">Claim your profile</a>`:''}</div></section>
+    ${qnaBox()}${footer()}`;},
+  countered:()=>`${header()}${counterBox(false)}${bidSummary('Your current bid')}${qnaBox()}${footer()}`,
+  selected:()=>{
+    const m=D.milestones||{}, ms=split(m.text), p=D.proposal||{};
+    return `${header()}<div class="banner ok pop"><div class="eyebrow" style="color:var(--lime)">Decision</div><h2 style="font-size:1.5rem">🎉 You've been selected</h2>
+    <p>${esc(D.challenge.owner||'The company')} chose your bid${p.cost_rm?' at <b>'+rm(p.cost_rm)+'</b>':''}. The project has started; the company will contact you to book a kick-off meeting.</p>
+    ${ms.length?`<h3 style="margin-top:12px">Project milestones</h3><ol class="steps">${ms.map(x=>`<li><span>${esc(x)}</span></li>`).join('')}</ol>`:'<p class="note">Milestones appear here as soon as the company confirms them.</p>'}
+    ${m.start?`<p class="note">Start ${esc(m.start)}${m.end?' · end '+esc(m.end):''}</p>`:''}</div>
+    ${bidSummary('Agreed bid')}<section class="box"><h2>Next steps</h2><ol class="steps"><li><span>Kick-off meeting with the company (data access, success KPI, NDA if needed)</span></li><li><span>${D.cand.solver_type!=='Partner'?'Agreement through your university research office; add your students to the project':'Sign the work order and plan the line visit'}</span></li><li><span>Both sides rate each other at the end; ratings make the next match better</span></li></ol></section>${footer()}`;},
+  not_selected:()=>`${header()}<div class="banner off pop"><h2>The company chose another bid</h2><p>Thank you for bidding. Your bid and match stay on record, and the Matchmaker will keep you in mind for similar challenges.</p>
+    <div class="btns">${D.cand.solver_type!=='Partner'&&D.cand.solver_id?`<a class="btn ghost" href="profile.html?e=${encodeURIComponent(D.cand.solver_id)}">Keep your profile up to date</a>`:''}</div></div>${bidSummary()}${footer()}`,
+  withdrawn:()=>`${header()}<div class="banner off pop"><h2>You withdrew your bid</h2><p>The company has been told. If you change your mind before the deadline, you can bid again.</p>
+    <div class="btns"><button class="ghost" id="rebid" ${D.deadlinePassed?'disabled':''}>Bid again</button></div></div>${footer()}`,
+  optedout:()=>`<div class="eyebrow">Industry challenge</div><h1>${esc(D.challenge.title)}</h1><div class="banner off"><h2>You have stopped invitations</h2><p>IndustryBridge will not send you invitations. This link no longer accepts bids.</p></div>`,
+};
+function counterBox(inForm){
+  const p=D.proposal||{}, cp=num(p.counter_price);
+  return `<section class="counter pop"><div class="eyebrow" style="color:var(--open)">Counter-offer from the company</div>
+    ${cp?`<div class="price">${rm(cp)}${num(p.cost_rm)&&num(p.cost_rm)!==cp?`<span class="was">${rm(p.cost_rm)}</span>`:''}</div>${vsLabel(cp)}`:''}
+    ${p.counter_terms?`<p><b>Terms:</b> ${esc(p.counter_terms)}</p>`:''}${p.counter_note?`<p>“${esc(p.counter_note)}”</p>`:''}
+    ${inForm?'<p class="note">Change the numbers above and send a revised bid.</p>':`<div class="btns"><button class="lime" id="cAccept">Accept</button><button class="ghost" id="cRevise">Revise my bid</button><button class="ghost" id="cWithdraw">Withdraw</button></div><p class="err" id="err"></p>`}</section>`;
+}
+
+/* ---------------- events ---------------- */
+function busy(b,on,t){if(!b)return;b.disabled=on;if(on){b.dataset.l=b.innerHTML;b.innerHTML='<span class="spin"></span> '+t}else if(b.dataset.l)b.innerHTML=b.dataset.l}
+function err(m){const e=$('err');if(e)e.textContent=m||''}
+function wire(){
+  const on=(id,fn)=>{const el=$(id);if(el)el.onclick=fn};
+  on('ndaAccept',()=>{ls.set(ndaKey(),new Date().toISOString());view='open';render()});
+  const nk=$('ndaok');if(nk)nk.onchange=()=>{$('ndaAccept').disabled=!nk.checked};
+  on('yes',async()=>{busy($('yes'),true,'Opening…');try{await call('respond',{...P,answer:'Interested'},true);D.cand.response='Interested';view='bid';render()}catch(e){busy($('yes'),false);err(e.message)}});
+  on('no',async()=>{busy($('no'),true,'Saving…');try{await call('respond',{...P,answer:'Declined'},true);D.cand.response='Declined';D._askReason=true;view='declined';render()}catch(e){busy($('no'),false);err(e.message)}});
+  on('ask',()=>{$('qtext').focus();$('qa').scrollIntoView({behavior:IB.reduced()?'auto':'smooth'})});
+  on('undo',async()=>{try{await call('respond',{...P,answer:'Interested'},true)}catch(e){}D.cand.response='Interested';view='open';render()});
+  on('whySend',async()=>{const r=$('why').value;if(!r)return;busy($('whySend'),true,'Sending…');try{await call('respond',{...P,answer:'Declined',reason:r},true);$('whySend').outerHTML='<p class="note">Thanks, reason sent.</p>';$('why').disabled=true}catch(e){busy($('whySend'),false)}});
+  on('back',()=>{D._revising=false;load()});
+  on('edit',()=>{view='bid';render()});
+  on('rebid',()=>{D.proposal=null;view='bid';render()});
+  on('cRevise',()=>{D._revising=true;view='bid';render()});
+  const counter=async(btn,answer,msg)=>{if(answer==='Withdraw'&&!confirmInline(btn))return;busy(btn,true,msg);try{await call('respondCounter',{...P,answer},true);await load()}catch(e){busy(btn,false);err(e.message)}};
+  on('cAccept',()=>counter($('cAccept'),'Accept','Accepting…'));
+  on('cWithdraw',()=>counter($('cWithdraw'),'Withdraw','Withdrawing…'));
+  on('qsend',async()=>{const q=$('qtext').value.trim();if(!q){$('qtext').focus();return}busy($('qsend'),true,'Sending…');
+    try{await call('askQuestion',{...P,question:q},true);D.qna=(D.qna||[]).concat({question:q,answer:''});const keep=view;render();view=keep;$('qmsg').textContent='Sent. The company sees it in its app.'}catch(e){busy($('qsend'),false);$('qmsg').textContent=e.message}});
+  const f=$('pf');
+  if(f){
+    const a=$('approach'),upd=()=>{$('ac').textContent=a.value.length+'/300'};a.oninput=upd;upd();
+    const m=market(),lo=m?m[0]*0.5:0,hi=m?m[1]*1.5:1;
+    $('cost').oninput=()=>{if(!m)return;const v=num($('cost').value),pin=$('pin');if(pin){pin.style.opacity=v?1:0;pin.style.left=Math.max(0,Math.min(100,100*(v-lo)/(hi-lo)))+'%'}$('vsTxt').innerHTML=vsLabel(v)};
+    const add=(s={})=>{const div=document.createElement('div');div.className='stu';
+      div.innerHTML=`<label>Name<input data-n value="${esc(s.name||'')}" placeholder="Student name"></label><label>Role<select data-r>${['FYP','Master','Research Assistant'].map(r=>`<option ${s.role===r?'selected':''}>${r}</option>`).join('')}</select></label><button type="button" class="ghost" aria-label="Remove student">×</button>`;
+      div.querySelector('button').onclick=()=>div.remove();$('stus').appendChild(div);if(!s.name)div.querySelector('input').focus()};
+    if($('addStu')){$('addStu').onclick=()=>add();String(D.proposal&&D.proposal.students||'').split(';').filter(Boolean).forEach(x=>{const mm=x.trim().match(/^(.*)\((.*)\)$/);add(mm?{name:mm[1].trim(),role:mm[2]}:{name:x.trim()})})}
+    f.onsubmit=async ev=>{
+      ev.preventDefault();err('');
+      const need={approach:'your approach',cost:'your price',weeks:'the number of weeks',ip:'who owns the IP',team:'your team'};
+      const miss=Object.keys(need).find(id=>!String($(id).value).trim()||((id==='cost'||id==='weeks')&&num($(id).value)<=0));
+      if(miss){$(miss).focus();err('Please fill in '+need[miss]+'.');return}
+      const students=[...document.querySelectorAll('.stu')].map(s=>({name:s.querySelector('[data-n]').value.trim(),role:s.querySelector('[data-r]').value})).filter(s=>s.name);
+      const body={...P,approach:a.value.trim(),cost_rm:num($('cost').value),weeks:num($('weeks').value),support_months:num($('support').value),
+        payment_terms:document.querySelector('[name=pay]:checked').value,ip_terms:$('ip').value,team:$('team').value.trim(),students};
+      busy($('send'),true,'Sending…');
+      try{if(D._revising)await call('respondCounter',{...body,answer:'Revise'},true);else await call('submitBid',body,true);D._revising=false;await load()}
+      catch(e){busy($('send'),false);err(e.message)}
+    };
+  }
+}
+function confirmInline(btn){if(btn.dataset.sure)return true;btn.dataset.sure=1;btn.textContent='Tap again to withdraw';setTimeout(()=>{if(btn.isConnected){delete btn.dataset.sure;btn.textContent='Withdraw'}},4000);return false}
+async function check(){
+  if(view==='bid')return;
+  try{const d=await call('bid',P);if(sigOf(d)!==lastSig){await load();try{navigator.vibrate&&navigator.vibrate(120)}catch(e){}}}catch(e){}
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&D&&D.cand)check()});
+
+/* demo helpers: play the client's side without AppSheet */
+if(!IB.live){
+  if(!P.inv){P.inv='CH001-E1';P.k='demo';history.replaceState(null,'','?'+new URLSearchParams(P))}
+  const bar=IB.demoBar(`<button class="ghost" data-dec="counter">Client counters</button><button class="ghost" data-dec="selected">Client selects</button><button class="ghost" data-dec="not">Picks other</button><a href="?inv=${P.inv==='CH001-P1'?'CH001-E1':'CH001-P1'}&k=demo">${P.inv==='CH001-P1'?'Expert':'Company'} link</a>`);
+  bar.querySelectorAll('[data-dec]').forEach(b=>b.onclick=()=>{const d=IB.Demo.db(),ch=d.challenges[0],pr=d.proposals.filter(x=>x.cand_id===P.inv).pop();
+    if(!pr){alert('Send a bid first.');return}
+    if(b.dataset.dec==='counter'){Object.assign(pr,{counter_price:Math.round(num(pr.cost_rm)*0.88/1000)*1000,counter_terms:'By milestone; 6 months support',counter_note:'Strong proposal. Can you meet this price if we pay by milestone?',counter_status:'Pending'});ch.status='Negotiating'}
+    else if(b.dataset.dec==='selected'){pr.status='Selected';pr.decided_at=IB.Demo.now();ch.selected_proposal=pr.proposal_id;ch.status='Engaged';ch.milestones='Week 1–2: collect and label 5,000 line images; Week 3–8: train and validate the defect model on site data; Week 9–12: inline camera pilot at the end-of-line station; Week 14: accuracy report and handover'}
+    else{pr.status='Not selected';pr.decided_at=IB.Demo.now();ch.selected_proposal='P-other';ch.status='Engaged'}
+    IB.Demo.save(d)});
+}
+load();
+</script>
+</body>
+</html>

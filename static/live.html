@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Live Agent View · IndustryBridge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="bridge-pages.css">
+<style>
+/* Always dark: this screen sits next to AppSheet during the demo. */
+:root{--bg:#0f100e;--surface:#181a16;--ink:#eef0ea;--muted:#9a9f94;--line:#2c2f29;--soft:#23261f;--exp:#a79fff;--ptn:#5fd1bf;--lime:#b5d36f;--open:#f0b350;color-scheme:dark}
+body{min-height:100vh;display:flex;flex-direction:column}
+.top{background:#000}
+.stage{flex:1;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);gap:0;max-width:1400px;width:100%;margin:0 auto}
+.hd{grid-column:1/-1;display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;padding:18px 20px 6px}
+.hd h1{font-size:clamp(1.25rem,2.6vw,1.9rem);margin:.2rem 0 0;max-width:40ch}
+.hd .meta{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{font:600 .74rem var(--f-m);letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:var(--soft);color:var(--muted);display:inline-flex;gap:6px;align-items:center}
+.chip.run{background:#3a2b0d;color:var(--open)}.chip.ok{background:#26301a;color:var(--lime)}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.chip.run .dot{animation:blink 1s infinite}@keyframes blink{50%{opacity:.2}}
+.timer{font:700 1.4rem var(--f-d);font-variant-numeric:tabular-nums;min-width:4ch;text-align:right}
+.netwrap{position:relative;padding:6px 10px 10px 20px}
+svg{width:100%;height:auto;max-height:64vh;display:block;margin:0 auto}
+.n{fill:#3b3f37;transition:fill .3s,r .3s}
+.n.p{fill:#2a4a44}
+.n.hot{fill:var(--open)}
+.n.pick{fill:var(--exp)}.n.p.pick{fill:var(--ptn)}
+.edge{stroke:var(--exp);stroke-width:1.6;opacity:.75;stroke-dasharray:600;stroke-dashoffset:600;animation:draw 1s ease forwards}
+.edge.p{stroke:var(--ptn)}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ring{fill:none;stroke:var(--open);stroke-width:2;opacity:0}
+.ring.go{animation:ring 1.1s ease-out}
+@keyframes ring{from{opacity:.9;r:6}to{opacity:0;r:34}}
+.core{fill:#121310;stroke:var(--lime);stroke-width:2}
+.core-t{fill:var(--ink);font:600 13px var(--f-d);text-anchor:middle}
+.lbl{position:absolute;pointer-events:none;background:rgba(15,16,14,.92);border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:.76rem;max-width:260px;transform:translate(-50%,-115%);transition:opacity .25s;opacity:0}
+.lbl b{display:block;font:600 .8rem var(--f-d)}.lbl span{color:var(--muted)}
+.counters{display:flex;gap:16px;flex-wrap:wrap;padding:0 20px 10px}
+.counters div{font:500 .78rem var(--f-m);color:var(--muted)}.counters b{display:block;font:700 1.35rem var(--f-d);color:var(--ink);font-variant-numeric:tabular-nums}
+.side{padding:6px 20px 20px 10px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+.panel h2{font-size:.95rem;display:flex;align-items:center;gap:8px}
+.panel h2 .note{margin-left:auto;font:500 .74rem var(--f-m)}
+.short{display:grid;gap:8px;margin-top:8px}
+.sc{display:grid;grid-template-columns:58px minmax(0,1fr);border-radius:10px;overflow:hidden;background:var(--soft);animation:fly .7s cubic-bezier(.2,1.2,.3,1)}
+.sc .s{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#111;font:700 1.45rem/1 var(--f-d)}
+.sc .s small{font:600 .55rem var(--f-m);letter-spacing:.08em;opacity:.8}
+.sc .b{padding:8px 10px;min-width:0}
+.sc .b h3{font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc .b p{margin:2px 0 0;font-size:.76rem;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sc.old{opacity:.55;animation:none}
+@keyframes fly{from{transform:translateX(-60px) scale(.9);opacity:0}}
+.runs{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px;max-height:34vh;overflow:auto}
+.runs li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;font-size:.8rem;animation:fly .5s ease}
+.runs .id{font:600 .66rem var(--f-m);padding:2px 6px;border-radius:4px;background:#26301a;color:var(--lime);white-space:nowrap;align-self:start}
+.runs .id.f{background:#3a2b0d;color:var(--open)}
+.runs small{display:block;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ready{background:#26301a;border-radius:12px;padding:12px 14px;display:none}
+.ready.on{display:block;animation:fly .6s ease}
+.ready b{font:700 1.1rem var(--f-d);color:var(--lime)}
+.stages{grid-column:1/-1;display:flex;gap:4px;padding:2px 20px 8px;flex-wrap:wrap}
+.stg{font:600 .68rem var(--f-m);letter-spacing:.05em;text-transform:uppercase;padding:5px 10px;border-radius:6px;background:var(--soft);color:var(--muted);transition:background .3s,color .3s}
+.stg.done{color:var(--lime)}.stg.now{background:var(--lime);color:#111}
+.sc .tags{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.sc .tags span{font:600 .62rem var(--f-m);letter-spacing:.05em;padding:1px 6px;border-radius:4px;background:#0f100e;color:var(--muted)}
+.sc .tags .inv{color:var(--open)}.sc .tags .bid{color:var(--lime)}
+.sc.win{outline:2px solid var(--lime);background:#1f2a14}
+.brief{font-size:.84rem}.brief .kw{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}.brief .kw span{font:500 .7rem var(--f-m);background:var(--soft);padding:2px 6px;border-radius:4px}
+.trk{display:grid;grid-template-columns:5.5rem minmax(0,1fr) 2rem;gap:8px;align-items:center;font-size:.78rem;margin-top:6px}
+.trk .bar{height:6px;margin:0}
+.ms{margin:6px 0 0;padding-left:1.1rem;font-size:.82rem}
+.ctl{display:flex;gap:8px;flex-wrap:wrap}
+.ctl button{min-height:34px;padding:6px 12px;font-size:.8rem;background:transparent;color:var(--ink);border-color:var(--line)}
+@media (max-width:900px){.stage{grid-template-columns:minmax(0,1fr)}.side{padding:6px 16px 20px}.netwrap{padding:0 8px}}
+@media (prefers-reduced-motion:reduce){.sc,.runs li,.ready.on{animation:none}.edge{animation:none;stroke-dashoffset:0}.ring.go{animation:none}}
+</style>
+</head>
+<body>
+<div class="top"><div class="in" style="max-width:1400px"><a class="brand" href="index.html">Industry<b>Bridge</b> · Live Agent View</a><span class="tag">Reading the same Google Sheet as AppSheet</span></div></div>
+<div class="stage">
+  <div class="hd"><div><div class="eyebrow" id="cid">Challenge</div><h1 id="title">Connecting…</h1></div>
+    <div class="meta"><span class="chip" id="state"><span class="dot"></span><span>Waiting</span></span><span class="timer" id="timer" aria-label="seconds since agents started">0s</span></div></div>
+  <div class="stages" id="stages" aria-label="Challenge stage"></div>
+  <div>
+    <div class="netwrap" id="netwrap"><svg id="net" viewBox="0 0 700 600" role="img" aria-label="Network of experts and companies the agents are reading"></svg><div class="lbl" id="lbl"></div></div>
+    <div class="counters"><div><b id="cEx">0</b>experts indexed</div><div><b id="cRead">0</b>profiles read</div><div><b id="cPap">0</b>papers &amp; grants</div><div><b id="cPt">0</b>companies</div><div><b id="cBid">0</b>sealed bids</div><div><b id="cCtr">0</b>counter-offers</div></div>
+  </div>
+  <div class="side">
+    <div class="panel" id="win" hidden></div>
+    <div class="panel brief" id="brief" hidden></div>
+    <div class="ready" id="ready" role="status"><b>Shortlist ready</b><div class="note" id="readyT"></div></div>
+    <div class="panel"><h2>Shortlist <span class="note" id="sN"></span></h2><div class="short" id="short"><p class="note">Candidates appear here one by one with their match score.</p></div></div>
+    <div class="panel"><h2>Agent runs <span class="note">live</span></h2><ul class="runs" id="runs"></ul></div>
+    <div class="ctl"><button id="replay">Replay shortlist</button><button id="fs">Full screen</button></div>
+  </div>
+</div>
+<script src="bridge-pages.js"></script>
+<script>
+const {call,param,$,esc,num,reduced}=IB;
+const C=param('ch')||'CH001';
+const W=700,H=600,CX=300,CY=300,NS='http://www.w3.org/2000/svg';
+let SEL=null;
+const STAGES=[['Briefed',/brief/i],['Scouting',/scout|search|finding|matching|running/i],['Shortlisted',/shortlist/i],['Invited',/invit/i],['Bidding',/receiv|negotiat|bid/i],['Engaged',/select|engag|project|won/i]];
+let POOL={experts:[],partners:[]},nodes={},seenRuns=new Set(),candSig='',working=false,t0=0,read=0,pap=0,ptc=0,scanT=null,timerT=null,queue=[],firstLoad=true;
+
+const el=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+function layout(){
+  const svg=$('net');svg.innerHTML='';
+  const ex=POOL.experts,g=el('g',{});svg.appendChild(g);
+  ex.forEach((e,i)=>{const r=26+250*Math.sqrt((i+1)/ex.length),a=i*2.39996;const x=CX+r*Math.cos(a),y=CY+r*Math.sin(a)*0.92;
+    const c=el('circle',{cx:x,cy:y,r:4.2,class:'n'});g.appendChild(c);nodes[e.id]={x,y,c,d:e,type:'Expert'};nodes['n:'+e.n]=nodes[e.id]});
+  POOL.partners.forEach((p,i)=>addPartner(p,i));
+  svg.appendChild(el('g',{id:'edges'}));
+  svg.appendChild(el('circle',{cx:CX,cy:CY,r:30,class:'core'}));
+  const t=el('text',{x:CX,y:CY+5,class:'core-t'});t.textContent=C;svg.appendChild(t);
+  $('cEx').textContent=ex.length;
+}
+function addPartner(p,i){
+  if(nodes['n:'+p.n])return nodes['n:'+p.n];
+  i=i??Object.values(nodes).filter(n=>n.type==='Partner').length;
+  const a=-1.2+i*0.32,x=620+40*Math.cos(a*2),y=CY+250*Math.sin(a)*0.9;
+  const c=el('circle',{cx:x,cy:y,r:5.5,class:'n p'});$('net').insertBefore(c,$('net').firstChild.nextSibling);
+  return nodes['n:'+p.n]=nodes[p.id||p.n]={x,y,c,d:p,type:'Partner'};
+}
+function label(n,title,sub){
+  const box=$('netwrap').getBoundingClientRect(),s=box.width/W;const l=$('lbl');
+  l.innerHTML=`<b>${esc(title)}</b><span>${esc(sub)}</span>`;l.style.left=(20+n.x*s)+'px';l.style.top=(6+n.y*s)+'px';l.style.opacity=1;
+  clearTimeout(l._t);l._t=setTimeout(()=>l.style.opacity=0,1300);
+}
+function scan(on){
+  clearInterval(scanT);if(!on||reduced())return;
+  const ex=POOL.experts;let k=0;
+  scanT=setInterval(()=>{
+    if(!ex.length)return;
+    const e=ex[Math.floor(Math.random()*ex.length)],n=nodes[e.id];if(!n)return;
+    n.c.classList.add('hot');setTimeout(()=>n.c.classList.remove('hot'),700);
+    read=Math.min(ex.length,read+1);pap+=2+Math.floor(Math.random()*4);
+    if(Math.random()<.18&&POOL.partners.length)ptc=Math.min(POOL.partners.length+8,ptc+1);
+    $('cRead').textContent=read;$('cPap').textContent=pap;$('cPt').textContent=ptc;
+    if(++k%6===0)label(n,e.n,e.p?'Paper: '+e.p:(e.fl||'').split(';')[0]);
+  },160);
+}
+function setState(kind,text){const s=$('state');s.className='chip '+(kind||'');s.lastElementChild.textContent=text}
+function startTimer(){t0=Date.now();clearInterval(timerT);timerT=setInterval(()=>$('timer').textContent=Math.round((Date.now()-t0)/1000)+'s',250)}
+function stopTimer(){clearInterval(timerT)}
+
+function addRun(r,animate){
+  const li=document.createElement('li');const f=/fallback|fail/i.test(r.status);
+  li.innerHTML=`<span class="id ${f?'f':''}">${esc((r.agent.match(/^[A-Z]\d+/)||[r.agent.split(' ')[0]])[0])}</span><span>${esc(r.agent)}<small>${esc(f?'Backup path used':r.note)}</small></span>`;
+  if(!animate)li.style.animation='none';
+  $('runs').prepend(li);
+}
+function cardHTML(c,old){
+  const exp=c.solver_type!=='Partner';
+  return `<div class="sc ${old?'old':''} ${SEL&&SEL.cand_id===c.cand_id?'win':''}" data-cand="${esc(c.cand_id)}"><div class="s" style="background:${exp?'var(--exp)':'var(--ptn)'}"><span data-score="${num(c.score)}">${old?num(c.score):0}</span><small>MATCH</small></div><div class="b"><h3>${esc(c.solver_name)}</h3><p>${esc(c.evidence||c.org)}</p>${c.invited||c.bid?`<div class="tags">${c.invited?'<span class="inv">✉ Invited</span>':''}${c.bid?'<span class="bid">Bid in</span>':''}</div>`:''}</div></div>`;
+}
+function countUp(span){const to=num(span.dataset.score);if(reduced()){span.textContent=to;return}let v=0;const st=Math.max(1,Math.round(to/18));const t=setInterval(()=>{v=Math.min(to,v+st);span.textContent=v;if(v>=to)clearInterval(t)},35)}
+function sortCands(cs){return cs.slice().sort((a,b)=>(a.solver_type===b.solver_type?0:a.solver_type==='Expert'?-1:1)||num(b.score)-num(a.score))}
+function showOld(cs){
+  $('short').innerHTML=cs.length?sortCands(cs).map(c=>cardHTML(c,true)).join(''):'<p class="note">No shortlist yet. Press Find solvers in AppSheet.</p>';
+  $('sN').textContent=cs.length?cs.length+' from the last run':'';
+}
+function animateIn(cs){
+  queue.forEach(clearTimeout);queue=[];
+  $('short').innerHTML='';$('edges')&&($('edges').innerHTML='');
+  Object.values(nodes).forEach(n=>n.c.classList.remove('pick'));
+  const list=sortCands(cs);$('sN').textContent='';
+  list.forEach((c,i)=>queue.push(setTimeout(()=>{
+    const n=nodes[c.solver_id]||nodes['n:'+c.solver_name]||(c.solver_type==='Partner'?addPartner({id:c.solver_id,n:c.solver_name}):null);
+    if(n){n.c.classList.add('pick');n.c.setAttribute('r',c.solver_type==='Partner'?8:7);
+      $('edges').appendChild(el('line',{x1:n.x,y1:n.y,x2:CX,y2:CY,class:'edge'+(c.solver_type==='Partner'?' p':'')}));
+      const ring=el('circle',{cx:n.x,cy:n.y,r:6,class:'ring'});$('net').appendChild(ring);requestAnimationFrame(()=>ring.classList.add('go'));setTimeout(()=>ring.remove(),1200);
+      label(n,c.solver_name,'Match '+num(c.score)+' · '+(c.evidence||'').slice(0,80))}
+    const wrap=document.createElement('div');wrap.innerHTML=cardHTML(c,false);const card=wrap.firstElementChild;$('short').appendChild(card);countUp(card.querySelector('[data-score]'));
+    $('sN').textContent=(i+1)+' of '+list.length;
+  },reduced()?0:700*i+300)));
+  return list.length*700+600;
+}
+function finish(cs){
+  working=false;scan(false);stopTimer();
+  const secs=t0?Math.round((Date.now()-t0)/1000):0;
+  setState('ok','Shortlist ready');
+  $('ready').classList.add('on');
+  const ex=cs.filter(c=>c.solver_type!=='Partner').length,pt=cs.length-ex;
+  const pl=(n,w)=>n+' '+w+(n===1?'':'s');
+  $('readyT').textContent=`${pl(ex,'expert')} and ${pt} ${pt===1?'company':'companies'}${secs?' in '+secs+' seconds':''}. Every match comes with a reason. The client now chooses who to invite.`;
+}
+
+function stages(st){
+  let idx=STAGES.findIndex(x=>x[1].test(st||''));
+  $('stages').innerHTML=STAGES.map(([n],i)=>`<span class="stg ${i<idx?'done':i===idx?'now':''}">${i<idx?'✓ ':''}${n}</span>`).join('');
+}
+function extras(L){
+  const ch=L.challenge;stages(ch.status);
+  $('cBid').textContent=(L.bids&&L.bids.count)||0;$('cCtr').textContent=(L.bids&&L.bids.countered)||0;
+  const b=$('brief');
+  if(/brief/i.test(ch.status)||!L.cands.length){
+    const kw=String(ch.keywords||'').split(/\s*;\s*/).filter(Boolean).slice(0,10);
+    const tr=[['Research',ch.track_research,'var(--exp)'],['Partner',ch.track_partner,'var(--ptn)'],['Students',ch.track_open,'var(--open)']].filter(x=>x[1]!==''&&x[1]!=null);
+    b.hidden=false;b.innerHTML=`<h2>AI brief</h2><p style="margin:0">${esc(ch.brief_summary||'')}</p>${kw.length?`<div class="kw">${kw.map(k=>`<span>${esc(k)}</span>`).join('')}</div>`:''}
+      ${tr.map(([n,v,c])=>`<div class="trk"><span>${n}</span><div class="bar"><i style="width:${Math.min(100,num(v))}%;background:${c}"></i></div><b>${num(v)}</b></div>`).join('')}
+      ${num(ch.market_low)?`<p style="margin:.6rem 0 0"><b>Market price</b> RM ${num(ch.market_low).toLocaleString('en-MY')} – ${num(ch.market_high).toLocaleString('en-MY')}</p>`:''}`;
+  } else b.hidden=true;
+  SEL=L.selected||null;const w=$('win');
+  if(SEL){const ms=String(SEL.milestones&&SEL.milestones.text||'').split(/\s*[;\n]\s*/).filter(Boolean);
+    w.hidden=false;w.innerHTML=`<h2>★ Selected · ${esc(SEL.solver_name)}</h2>${ms.length?`<ol class="ms">${ms.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:'<p class="note" style="margin:0">Project started. Milestones on the way.</p>'}`;
+    document.querySelectorAll('.sc').forEach(x=>x.classList.toggle('win',x.dataset.cand===SEL.cand_id))}
+  else w.hidden=true;
+  // refresh ✉ / bid tags on cards already shown
+  L.cands.forEach(c=>{const card=document.querySelector(`.sc[data-cand="${CSS.escape(c.cand_id)}"] .b`);if(!card)return;
+    const t=c.invited||c.bid?`${c.invited?'<span class="inv">✉ Invited</span>':''}${c.bid?'<span class="bid">Bid in</span>':''}`:'';
+    let tg=card.querySelector('.tags');if(!t){tg&&tg.remove();return}if(!tg){tg=document.createElement('div');tg.className='tags';card.appendChild(tg)}tg.innerHTML=t});
+}
+async function tick(){
+  let L;try{L=await call('live',{ch:C})}catch(e){setState('', 'Offline · retrying');return}
+  const ch=L.challenge;$('title').textContent=ch.title;setTimeout(()=>extras(L),0);$('cid').textContent=ch.challenge_id+' · '+(ch.owner||'');
+  const newRuns=L.runs.filter(r=>!seenRuns.has(r.run_id));
+  newRuns.forEach(r=>{seenRuns.add(r.run_id);addRun(r,!firstLoad)});
+  const sig=L.cands.map(c=>c.cand_id+':'+c.score).sort().join('|');
+  const searching=/search|scout|finding|matching|running|working/i.test(ch.status);
+  if(firstLoad){
+    firstLoad=false;candSig=sig;
+    if(searching){working=true;startTimer();scan(true);setState('run','Agents working')}
+    else{showOld(L.cands);setState(L.cands.length?'ok':'',L.cands.length?ch.status||'Shortlisted':'Waiting for Find solvers');if(param('replay')==='1')replay(L.cands)}
+    return;
+  }
+  const scoutRun=newRuns.some(r=>/scoper|router|scout|matchmaker|R1|P1|S1/i.test(r.agent));
+  if(!working&&(scoutRun||searching)){working=true;$('ready').classList.remove('on');startTimer();scan(true);setState('run','Agents working');read=pap=ptc=0;
+    $('short').innerHTML='<p class="note"><span class="spin"></span> Reading papers, grants and company projects…</p>'}
+  if(sig!==candSig&&L.cands.length){
+    candSig=sig;
+    if(!working){startTimer()}
+    scan(false);setState('run','Matchmaker ranking');
+    const wait=animateIn(L.cands);setTimeout(()=>finish(L.cands),wait);
+  }
+}
+function replay(cs){
+  const go=list=>{$('ready').classList.remove('on');startTimer();setState('run','Agents working');read=pap=ptc=0;scan(true);
+    $('short').innerHTML='<p class="note"><span class="spin"></span> Reading papers, grants and company projects…</p>';
+    setTimeout(()=>{scan(false);setState('run','Matchmaker ranking');const w=animateIn(list);setTimeout(()=>finish(list),w)},reduced()?0:6000)};
+  if(cs)go(cs);else call('live',{ch:C}).then(L=>go(L.cands)).catch(()=>{});
+}
+$('replay').onclick=()=>replay();
+$('fs').onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()};
+addEventListener('resize',()=>$('lbl').style.opacity=0);
+
+(async()=>{
+  try{POOL=await call('pool')}catch(e){}
+  layout();await tick();setInterval(tick,2500);
+})();
+IB.demoBar('<span class="muted">· use Replay</span>');
+</script>
+</body>
+</html>
